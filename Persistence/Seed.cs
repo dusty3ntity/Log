@@ -100,6 +100,7 @@ namespace Persistence
                     },
                     LearningList = new LearningList
                     {
+                        CreationDate = DateTime.Now,
                         Size = 5,
                         CompletedItemsCount = 0,
                         LearningItems = new List<LearningItem>
