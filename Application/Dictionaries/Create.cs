@@ -44,6 +44,7 @@ namespace Application.Dictionaries
                 {
                     Id = request.Id,
                     Name = request.Name,
+                    IsMain = false,
                     KnownLanguage = knownLanguage,
                     LanguageToLearn = languageToLearn,
                     PreferredLearningListSize = request.PreferredLearningListSize
