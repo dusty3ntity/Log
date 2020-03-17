@@ -7,6 +7,7 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public bool IsMain { get; set; }
 
         public virtual Language KnownLanguage { get; set; }
         public virtual Language LanguageToLearn { get; set; }

@@ -80,6 +80,7 @@ namespace Persistence
                 var dictionary = new Dictionary
                 {
                     Name = "dict1",
+                    IsMain = true,
                     KnownLanguage = new Language
                     {
                         Name = "Russian",
