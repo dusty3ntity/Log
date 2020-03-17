@@ -80,6 +80,7 @@ namespace Persistence
                 var dictionary = new Dictionary
                 {
                     Name = "dict1",
+                    IsMain = true,
                     KnownLanguage = new Language
                     {
                         Name = "Russian",
@@ -100,6 +101,7 @@ namespace Persistence
                     },
                     LearningList = new LearningList
                     {
+                        CreationDate = DateTime.Now,
                         Size = 5,
                         CompletedItemsCount = 0,
                         LearningItems = new List<LearningItem>

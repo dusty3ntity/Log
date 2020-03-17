@@ -6,6 +6,7 @@ namespace Domain
     public class LearningList
     {
         public Guid Id { get; set; }
+        public DateTime CreationDate { get; set; }
         public int Size { get; set; }
         public int CompletedItemsCount { get; set; }
 
