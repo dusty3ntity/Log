@@ -1,3 +1,6 @@
+using Application.Dictionaries;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +28,9 @@ namespace API
                 options.UseLazyLoadingProxies();
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddMediatR(typeof(Details));
+            services.AddAutoMapper(typeof(Details));
 
             services.AddControllers();
         }
