@@ -17,7 +17,7 @@ namespace Domain
         public int LearnedItemsCount { get; set; }
         public int PreferredLearningListSize { get; set; }
 
-        public virtual ICollection<Item> Items { get; set; }
-        public virtual LearningList LearningList { get; set; }
+        public ICollection<Item> Items { get; set; }
+        public LearningList LearningList { get; set; }
     }
 }

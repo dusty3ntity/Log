@@ -10,6 +10,6 @@ namespace Domain
         public int Size { get; set; }
         public int CompletedItemsCount { get; set; }
 
-        public virtual ICollection<LearningItem> LearningItems { get; set; }
+        public ICollection<LearningItem> LearningItems { get; set; }
     }
 }
