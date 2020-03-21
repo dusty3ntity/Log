@@ -46,5 +46,19 @@ namespace API.Controllers
             return await Mediator.Send(new Delete.Command
                 {DictionaryId = dictionaryId, ItemId = itemId});
         }
+
+        [HttpPost("{itemId}/star")]
+        public async Task<ActionResult<Unit>> Star(Guid dictionaryId, Guid itemId)
+        {
+            return await Mediator.Send(new Star.Command
+                {DictionaryId = dictionaryId, ItemId = itemId});
+        }
+
+        [HttpPost("{itemId}/unstar")]
+        public async Task<ActionResult<Unit>> Unstar(Guid dictionaryId, Guid itemId)
+        {
+            return await Mediator.Send(new Unstar.Command
+                {DictionaryId = dictionaryId, ItemId = itemId});
+        }
     }
 }
