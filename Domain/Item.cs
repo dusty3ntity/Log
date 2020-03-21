@@ -7,6 +7,7 @@ namespace Domain
         public Guid Id { get; set; }
         public string Original { get; set; }
         public string Translation { get; set; }
+        public string Description { get; set; }
         public ItemType ItemType { get; set; }
 
         public bool IsStarred { get; set; }

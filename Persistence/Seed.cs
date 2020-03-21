@@ -16,6 +16,7 @@ namespace Persistence
                 {
                     Original = "house",
                     Translation = "дом",
+                    Description = "A building for human habitation",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = false,
@@ -29,6 +30,7 @@ namespace Persistence
                 {
                     Original = "horse",
                     Translation = "лошадь",
+                    Description = "Domesticated mammal used for riding and racing",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = true,
@@ -42,6 +44,7 @@ namespace Persistence
                 {
                     Original = "thank you",
                     Translation = "спасибо",
+                    Description = "A polite expression used when acknowledging a gift, service, or compliment",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
@@ -55,6 +58,7 @@ namespace Persistence
                 {
                     Original = "hospital",
                     Translation = "больница",
+                    Description = "An institution providing medical and surgical treatment and nursing care",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = true,
@@ -66,12 +70,13 @@ namespace Persistence
 
                 var Item5 = new Item
                 {
-                    Original = "to care about",
-                    Translation = "заботиться о",
+                    Original = "to spill",
+                    Translation = "пролить",
+                    Description = "Cause (liquid) to flow over the edge of its container",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
-                    ItemType = ItemType.Phrase,
+                    ItemType = ItemType.Word,
                     CorrectRepeatsCount = 10,
                     TotalRepeatsCount = 11,
                     GoesForNextDay = false
