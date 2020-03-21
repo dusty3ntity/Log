@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Items
@@ -27,7 +28,9 @@ namespace Application.Items
 
             public async Task<Item> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
+                var dictionary = await _context.Dictionaries
+                    .Include(d => d.Items)
+                    .SingleOrDefaultAsync(d => d.Id == request.DictionaryId);
 
                 if (dictionary == null)
                     throw new Exception("Could not find dictionary");

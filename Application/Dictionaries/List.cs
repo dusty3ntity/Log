@@ -29,7 +29,10 @@ namespace Application.Dictionaries
             public async Task<List<DictionaryDto>> Handle(Query request,
                 CancellationToken cancellationToken)
             {
-                var dictionaries = await _context.Dictionaries.ToListAsync();
+                var dictionaries = await _context.Dictionaries
+                    .Include(d => d.KnownLanguage)
+                    .Include(d => d.LanguageToLearn)
+                    .ToListAsync();
 
                 var list = new List<DictionaryDto>();
 
