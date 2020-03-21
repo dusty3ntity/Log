@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Dictionaries
@@ -29,7 +30,10 @@ namespace Application.Dictionaries
             public async Task<DictionaryDto> Handle(Query request,
                 CancellationToken cancellationToken)
             {
-                var dictionary = await _context.Dictionaries.FindAsync(request.Id);
+                var dictionary = await _context.Dictionaries
+                    .Include(d => d.KnownLanguage)
+                    .Include(d => d.LanguageToLearn)
+                    .SingleOrDefaultAsync(d => d.Id == request.Id);
 
                 if (dictionary == null)
                     throw new Exception("Could not find dictionary");
