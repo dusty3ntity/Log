@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
@@ -47,7 +48,8 @@ namespace Application.Dictionaries
                     IsMain = false,
                     KnownLanguage = knownLanguage,
                     LanguageToLearn = languageToLearn,
-                    PreferredLearningListSize = request.PreferredLearningListSize
+                    PreferredLearningListSize = request.PreferredLearningListSize,
+                    Items = new List<Item>(),
                 };
 
                 _context.Dictionaries.Add(dictionary);
