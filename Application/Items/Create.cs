@@ -14,6 +14,7 @@ namespace Application.Items
             public Guid DictionaryId { get; set; }
             public string Original { get; set; }
             public string Translation { get; set; }
+            public string Description { get; set; }
             public string ItemType { get; set; }
             public bool IsStarred { get; set; }
         }
@@ -37,6 +38,7 @@ namespace Application.Items
                 {
                     Original = request.Original,
                     Translation = request.Translation,
+                    Description = request.Description,
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = request.IsStarred,

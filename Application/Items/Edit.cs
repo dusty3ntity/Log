@@ -15,6 +15,7 @@ namespace Application.Items
             public Guid ItemId { get; set; }
             public string Original { get; set; }
             public string Translation { get; set; }
+            public string Description { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -39,6 +40,7 @@ namespace Application.Items
 
                 item.Original = request.Original ?? item.Original;
                 item.Translation = request.Translation ?? item.Translation;
+                item.Description = request.Description ?? item.Description;
                 if (request.Original != null || request.Translation != null)
                 {
                     if (item.IsLearned)
