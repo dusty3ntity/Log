@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using Application.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -40,10 +41,7 @@ namespace Application.LearningLists
 
                 if (dictionary.LearningList != null)
                 {
-                    var creationDate = dictionary.LearningList.CreationDate;
-                    var now = DateTime.Now;
-
-                    if (creationDate.Day == now.Day)
+                    if (!DateChecker.IsLearningListOutdated(dictionary.LearningList))
                         return dictionary.LearningList.Id;
                     await _learningListRemover.Remove(dictionary);
                 }

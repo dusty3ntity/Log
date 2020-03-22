@@ -9,6 +9,7 @@ namespace Domain
         public DateTime CreationDate { get; set; }
         public int Size { get; set; }
         public int CompletedItemsCount { get; set; }
+        public bool Completed { get; set; }
 
         public ICollection<LearningItem> LearningItems { get; set; }
     }
