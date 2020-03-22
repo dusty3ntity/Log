@@ -1,4 +1,6 @@
 using Application.Dictionaries;
+using Application.Interfaces;
+using Application.LearningLists;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +34,9 @@ namespace API
             services.AddAutoMapper(typeof(Details));
 
             services.AddControllers();
+
+            services.AddScoped<ILearningListGenerator, LearningListGenerator>();
+            services.AddScoped<ILearningListRemover, LearningListRemover>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
