@@ -33,7 +33,7 @@ namespace Persistence.Migrations
                     PhrasesCount = table.Column<int>(nullable: false),
                     LearnedItemsCount = table.Column<int>(nullable: false),
                     PreferredLearningListSize = table.Column<int>(nullable: false),
-                    LearningListId = table.Column<Guid>(nullable: false)
+                    LearningListId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
