@@ -21,7 +21,7 @@ namespace Domain
 
         public ICollection<Item> Items { get; set; }
 
-        public Guid LearningListId { get; set; }
+        public Guid? LearningListId { get; set; }
         public LearningList LearningList { get; set; }
     }
 }
