@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Items;
 using Application.LearningItems;
 using Application.Utilities;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +25,12 @@ namespace Application.LearningLists
         public class Handler : IRequestHandler<Command, LearningItemAnswer>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             public async Task<LearningItemAnswer> Handle(Command request,
@@ -59,11 +63,11 @@ namespace Application.LearningLists
                 if (learningList.Size == learningList.CompletedItemsCount)
                     learningList.IsCompleted = true;
 
-                var answerCorrect = learningItem.LearningMode == LearningMode.Primary
+                var isAnswerCorrect = learningItem.LearningMode == LearningMode.Primary
                     ? request.Answer.Equals(item.Original)
                     : request.Answer.Equals(item.Translation);
 
-                if (answerCorrect)
+                if (isAnswerCorrect)
                 {
                     item.CorrectRepeatsCount++;
                     item.GoesForNextDay = false;
@@ -85,8 +89,8 @@ namespace Application.LearningLists
                 if (success)
                     return new LearningItemAnswer
                     {
-                        AnswerCorrect = answerCorrect,
-                        Item = item
+                        IsAnswerCorrect = isAnswerCorrect,
+                        Item = _mapper.Map<Item, ItemDto>(item)
                     };
                 throw new Exception("Problem saving changes");
             }
