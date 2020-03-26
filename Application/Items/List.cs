@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,30 +13,34 @@ namespace Application.Items
 {
     public class List
     {
-        public class Query : IRequest<List<Item>>
+        public class Query : IRequest<List<ItemDto>>
         {
             public Guid DictionaryId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<Item>>
+        public class Handler : IRequestHandler<Query, List<ItemDto>>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
-            public async Task<List<Item>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<ItemDto>> Handle(Query request,
+                CancellationToken cancellationToken)
             {
-                var dictionary = await _context.Dictionaries
-                    .Include(d => d.Items)
-                    .SingleOrDefaultAsync(d => d.Id == request.DictionaryId);
+                var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
                     throw new Exception("Could not find dictionary");
 
-                var items = dictionary.Items.ToList();
+                var items = await _context.Items
+                    .Where(i => i.DictionaryId == request.DictionaryId)
+                    .Select(i => _mapper.Map<Item, ItemDto>(i))
+                    .ToListAsync();
 
                 return items;
             }

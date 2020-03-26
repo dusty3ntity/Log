@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
@@ -32,22 +33,27 @@ namespace Application.LearningLists
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dictionary = await _context.Dictionaries
-                    .Include(d => d.LearningList)
-                    .SingleOrDefaultAsync(d => d.Id == request.DictionaryId);
+                var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
                     throw new Exception("Could not find dictionary");
 
-                if (dictionary.LearningList != null)
+                var learningList = await _context.LearningLists
+                    .Where(l => l.DictionaryId == request.DictionaryId)
+                    .Include(l => l.LearningItems)
+                    .FirstOrDefaultAsync();
+
+                if (learningList != null)
                 {
-                    if (!DateChecker.IsLearningListOutdated(dictionary.LearningList))
-                        return dictionary.LearningList.Id;
-                    await _learningListRemover.Remove(dictionary);
+                    if (!DateChecker.IsLearningListOutdated(learningList))
+                        return learningList.Id;
+                    await _learningListRemover.Remove(learningList);
                 }
 
-                var learningList = await _learningListGenerator.Generate(dictionary.Id);
-                dictionary.LearningList = learningList;
+                learningList = await _learningListGenerator.Generate(dictionary.Id,
+                    dictionary.PreferredLearningListSize);
+
+                _context.LearningLists.Add(learningList);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

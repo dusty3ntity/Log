@@ -29,6 +29,7 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
+        // For testing purposes, should be deleted soon
         [HttpDelete]
         public async Task<ActionResult<Unit>> Delete(Guid dictionaryId)
         {

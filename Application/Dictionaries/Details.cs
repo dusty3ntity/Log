@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -31,6 +32,7 @@ namespace Application.Dictionaries
                 CancellationToken cancellationToken)
             {
                 var dictionary = await _context.Dictionaries
+                    .Where(d => d.Id == request.Id)
                     .Include(d => d.KnownLanguage)
                     .Include(d => d.LanguageToLearn)
                     .SingleOrDefaultAsync(d => d.Id == request.Id);
