@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Dictionaries
@@ -12,8 +11,6 @@ namespace Application.Dictionaries
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            public string KnownLanguageCode { get; set; }
-            public string LanguageToLearnCode { get; set; }
             public int PreferredLearningListSize { get; set; }
         }
 
@@ -33,13 +30,6 @@ namespace Application.Dictionaries
                 if (dictionary == null)
                     throw new Exception("Could not find dictionary");
 
-                var knownLanguage = await _context.Languages
-                    .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.KnownLanguageCode));
-                var languageToLearn = await _context.Languages
-                    .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.LanguageToLearnCode));
-
-                dictionary.KnownLanguage = knownLanguage ?? dictionary.KnownLanguage;
-                dictionary.LanguageToLearn = languageToLearn ?? dictionary.LanguageToLearn;
                 dictionary.PreferredLearningListSize =
                     request.PreferredLearningListSize != 0
                         ? request.PreferredLearningListSize
