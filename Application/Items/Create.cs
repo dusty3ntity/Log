@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Items
@@ -16,7 +15,7 @@ namespace Application.Items
             public string Original { get; set; }
             public string Translation { get; set; }
             public string Description { get; set; }
-            public string ItemType { get; set; }
+            public int Type { get; set; }
             public bool IsStarred { get; set; }
         }
 
@@ -45,7 +44,7 @@ namespace Application.Items
                     Dictionary = dictionary,
                     IsLearned = false,
                     IsStarred = request.IsStarred,
-                    Type = request.ItemType.Equals("word") ? ItemType.Word : ItemType.Phrase,
+                    Type = (ItemType) request.Type,
                     CorrectRepeatsCount = 0,
                     TotalRepeatsCount = 0,
                     GoesForNextDay = request.IsStarred
