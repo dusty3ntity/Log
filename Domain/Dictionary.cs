@@ -6,11 +6,13 @@ namespace Domain
     public class Dictionary
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
         public bool IsMain { get; set; }
 
-        public virtual Language KnownLanguage { get; set; }
-        public virtual Language LanguageToLearn { get; set; }
+        public int KnownLanguageId { get; set; }
+        public Language KnownLanguage { get; set; }
+
+        public int LanguageToLearnId { get; set; }
+        public Language LanguageToLearn { get; set; }
 
         public int WordsCount { get; set; }
         public int PhrasesCount { get; set; }
@@ -18,6 +20,8 @@ namespace Domain
         public int PreferredLearningListSize { get; set; }
 
         public ICollection<Item> Items { get; set; }
+
+        public Guid LearningListId { get; set; }
         public LearningList LearningList { get; set; }
     }
 }
