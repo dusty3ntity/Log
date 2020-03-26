@@ -6,6 +6,6 @@ namespace Application.Interfaces
 {
     public interface ILearningListGenerator
     {
-        Task<LearningList> Generate(Guid dictionaryId);
+        Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize);
     }
 }

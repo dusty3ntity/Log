@@ -29,10 +29,7 @@ namespace Application.LearningLists
             public async Task<LearningItemDto> Handle(Query request,
                 CancellationToken cancellationToken)
             {
-                var learningList = await _context.LearningLists
-                    .Include(l => l.LearningItems)
-                    .ThenInclude(i => i.Item)
-                    .SingleOrDefaultAsync(l => l.Id == request.LearningListId);
+                var learningList = await _context.LearningLists.FindAsync(request.LearningListId);
 
                 if (learningList == null)
                     throw new Exception("Could not find learning list");
@@ -40,17 +37,32 @@ namespace Application.LearningLists
                 if (DateChecker.IsLearningListOutdated(learningList))
                     throw new Exception("Learning list is outdated. Try generating a new one");
 
-                if (learningList.Completed)
+                if (learningList.IsCompleted)
                     return null;
 
-                var learningItem = learningList.LearningItems
-                        .OrderBy(i => i.NumberInSequence)
-                        .ToList()[learningList.CompletedItemsCount];
+                var learningItem = await _context.LearningItems
+                    .Where(i =>
+                        i.LearningListId == learningList.Id &&
+                        i.NumberInSequence == learningList.CompletedItemsCount)
+                    .Include(i => i.Item)
+                    .FirstAsync();
+
+                if (learningItem.Item == null)
+                {
+                    learningList.CompletedItemsCount++;
+
+                    var success = await _context.SaveChangesAsync() > 0;
+
+                    if (!success)
+                        throw new Exception("Problem saving changes");
+
+                    throw new Exception("Item has been removed. Try again to get the next item");
+                }
 
                 var itemToReturn = new LearningItemDto
                 {
                     Id = learningItem.Id,
-                    NumberInSequence = learningList.CompletedItemsCount,
+                    NumberInSequence = learningItem.NumberInSequence,
                     LearningMode = learningItem.LearningMode,
                     Item = TestItemCreator.Create(learningItem)
                 };

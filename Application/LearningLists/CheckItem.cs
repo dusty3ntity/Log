@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.LearningItems;
@@ -40,8 +41,9 @@ namespace Application.LearningLists
                     throw new Exception("Learning list is outdated. Try generating a new one");
 
                 var learningItem = await _context.LearningItems
+                    .Where(i => i.Id == request.LearningItemId)
                     .Include(i => i.Item)
-                    .SingleOrDefaultAsync(i => i.Id == request.LearningItemId);
+                    .FirstOrDefaultAsync();
 
                 if (learningItem == null)
                     throw new Exception("Could not find learning item");
@@ -55,7 +57,7 @@ namespace Application.LearningLists
                 learningList.CompletedItemsCount++;
 
                 if (learningList.Size == learningList.CompletedItemsCount)
-                    learningList.Completed = true;
+                    learningList.IsCompleted = true;
 
                 var answerCorrect = learningItem.LearningMode == LearningMode.Primary
                     ? request.Answer.Equals(item.Original)

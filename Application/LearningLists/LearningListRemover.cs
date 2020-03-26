@@ -15,11 +15,10 @@ namespace Application.LearningLists
             _context = context;
         }
 
-        public async Task Remove(Dictionary dictionary)
+        public async Task Remove(LearningList learningList)
         {
-            _context.LearningItems.RemoveRange(dictionary.LearningList.LearningItems);
-            _context.LearningLists.Remove(dictionary.LearningList);
-            dictionary.LearningList = null;
+            _context.LearningItems.RemoveRange(learningList.LearningItems);
+            _context.LearningLists.Remove(learningList);
 
             var success = await _context.SaveChangesAsync() > 0;
 

@@ -18,27 +18,25 @@ namespace Application.LearningLists
             _context = context;
         }
 
-        public async Task<LearningList> Generate(Guid dictionaryId)
+        public async Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize)
         {
-            var dictionary = await _context.Dictionaries
-                .Include(d => d.Items)
-                .SingleOrDefaultAsync(d => d.Id == dictionaryId);
+            var items = await _context.Items
+                .Where(i => i.DictionaryId == dictionaryId)
+                .ToListAsync();
 
-            if (dictionary.Items.Count == 0)
+            if (items.Count == 0)
                 throw new Exception("Too few items for generating learning list");
-
-            var itemsList = dictionary.Items.ToList();
 
             var list = new List<LearningItem>();
             var random = new Random();
 
             for (int i = 0;
-                i < Math.Min(dictionary.PreferredLearningListSize, dictionary.Items.Count);
+                i < Math.Min(preferredLearningListSize, items.Count);
                 i++)
             {
                 var item = new LearningItem
                 {
-                    Item = itemsList[i],
+                    Item = items[i],
                     LearningMode = (LearningMode) random.Next(0, 2),
                     NumberInSequence = i
                 };
@@ -48,6 +46,7 @@ namespace Application.LearningLists
 
             var learningList = new LearningList
             {
+                DictionaryId = dictionaryId,
                 Size = list.Count,
                 CreationDate = DateTime.Now,
                 CompletedItemsCount = 0,

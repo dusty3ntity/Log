@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Items;
-using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,20 +11,20 @@ namespace API.Controllers
     public class ItemsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Item>>> List(Guid dictionaryId)
+        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId)
         {
             return await Mediator.Send(new List.Query {DictionaryId = dictionaryId});
         }
 
         [HttpGet("{itemId}")]
-        public async Task<ActionResult<Item>> Details(Guid dictionaryId, Guid itemId)
+        public async Task<ActionResult<ItemDto>> Details(Guid dictionaryId, Guid itemId)
         {
             return await Mediator.Send(new Details.Query
                 {DictionaryId = dictionaryId, ItemId = itemId});
         }
 
         [HttpPost]
-        public async Task<ActionResult<Unit>> Create(Create.Command command, Guid dictionaryId)
+        public async Task<ActionResult<Guid>> Create(Create.Command command, Guid dictionaryId)
         {
             command.DictionaryId = dictionaryId;
             return await Mediator.Send(command);

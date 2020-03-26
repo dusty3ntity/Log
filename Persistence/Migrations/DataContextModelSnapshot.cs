@@ -25,19 +25,16 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("KnownLanguageId")
+                    b.Property<int>("KnownLanguageId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("LanguageToLearnId")
+                    b.Property<int>("LanguageToLearnId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("LearnedItemsCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("LearningListId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
+                    b.Property<Guid>("LearningListId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PhrasesCount")
@@ -54,8 +51,6 @@ namespace Persistence.Migrations
                     b.HasIndex("KnownLanguageId");
 
                     b.HasIndex("LanguageToLearnId");
-
-                    b.HasIndex("LearningListId");
 
                     b.ToTable("Dictionaries");
                 });
@@ -75,7 +70,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("DictionaryId")
+                    b.Property<Guid>("DictionaryId")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("GoesForNextDay")
@@ -87,9 +82,6 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsStarred")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ItemType")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Original")
                         .HasColumnType("TEXT");
 
@@ -97,6 +89,10 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Translation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -132,18 +128,20 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("ItemId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("LearningListId")
+                    b.Property<Guid>("LearningListId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("LearningMode")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("LearningMode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("NumberInSequence")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ItemId")
+                        .IsUnique();
 
                     b.HasIndex("LearningListId");
 
@@ -156,19 +154,25 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("Completed")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("CompletedItemsCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("DictionaryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Size")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DictionaryId")
+                        .IsUnique();
 
                     b.ToTable("LearningLists");
                 });
@@ -177,33 +181,47 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Language", "KnownLanguage")
                         .WithMany()
-                        .HasForeignKey("KnownLanguageId");
+                        .HasForeignKey("KnownLanguageId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("Domain.Language", "LanguageToLearn")
                         .WithMany()
-                        .HasForeignKey("LanguageToLearnId");
-
-                    b.HasOne("Domain.LearningList", "LearningList")
-                        .WithMany()
-                        .HasForeignKey("LearningListId");
+                        .HasForeignKey("LanguageToLearnId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Item", b =>
                 {
-                    b.HasOne("Domain.Dictionary", null)
+                    b.HasOne("Domain.Dictionary", "Dictionary")
                         .WithMany("Items")
-                        .HasForeignKey("DictionaryId");
+                        .HasForeignKey("DictionaryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.LearningItem", b =>
                 {
                     b.HasOne("Domain.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId");
+                        .WithOne()
+                        .HasForeignKey("Domain.LearningItem", "ItemId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Domain.LearningList", null)
+                    b.HasOne("Domain.LearningList", "LearningList")
                         .WithMany("LearningItems")
-                        .HasForeignKey("LearningListId");
+                        .HasForeignKey("LearningListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.LearningList", b =>
+                {
+                    b.HasOne("Domain.Dictionary", "Dictionary")
+                        .WithOne("LearningList")
+                        .HasForeignKey("Domain.LearningList", "DictionaryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

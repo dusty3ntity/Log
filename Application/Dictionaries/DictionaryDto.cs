@@ -6,7 +6,6 @@ namespace Application.Dictionaries
     public class DictionaryDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
         public bool IsMain { get; set; }
 
         public Language KnownLanguage { get; set; }

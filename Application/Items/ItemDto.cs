@@ -1,13 +1,11 @@
 ﻿using System;
+using Domain;
 
-namespace Domain
+namespace Application.Items
 {
-    public class Item
+    public class ItemDto
     {
         public Guid Id { get; set; }
-
-        public Guid DictionaryId { get; set; }
-        public Dictionary Dictionary { get; set; }
 
         public string Original { get; set; }
         public string Translation { get; set; }
@@ -19,6 +17,5 @@ namespace Domain
         public bool IsLearned { get; set; }
         public int TotalRepeatsCount { get; set; }
         public int CorrectRepeatsCount { get; set; }
-        public bool GoesForNextDay { get; set; }
     }
 }

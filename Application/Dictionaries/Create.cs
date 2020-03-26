@@ -11,16 +11,14 @@ namespace Application.Dictionaries
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<Guid>
         {
-            public Guid Id { get; set; } // Client-generated guid
-            public string Name { get; set; }
             public string KnownLanguageCode { get; set; }
             public string LanguageToLearnCode { get; set; }
             public int PreferredLearningListSize { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Guid>
         {
             private readonly DataContext _context;
 
@@ -29,22 +27,18 @@ namespace Application.Dictionaries
                 _context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                var knownLanguage = await
-                    _context.Languages.SingleOrDefaultAsync(l =>
-                        l.ISOCode.Equals(request.KnownLanguageCode));
-                var languageToLearn = await
-                    _context.Languages.SingleOrDefaultAsync(l =>
-                        l.ISOCode.Equals(request.LanguageToLearnCode));
+                var knownLanguage = await _context.Languages
+                    .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.KnownLanguageCode));
+                var languageToLearn = await _context.Languages
+                    .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.LanguageToLearnCode));
 
                 if (knownLanguage == null || languageToLearn == null)
                     throw new Exception("Could not find language");
 
                 var dictionary = new Dictionary
                 {
-                    Id = request.Id,
-                    Name = request.Name,
                     IsMain = false,
                     KnownLanguage = knownLanguage,
                     LanguageToLearn = languageToLearn,
@@ -57,7 +51,7 @@ namespace Application.Dictionaries
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
-                    return Unit.Value;
+                    return dictionary.Id;
                 throw new Exception("Problem saving changes");
             }
         }
