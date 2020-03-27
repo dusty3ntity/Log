@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -14,6 +15,18 @@ namespace Application.Dictionaries
         {
             public Guid Id { get; set; }
             public int PreferredLearningListSize { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(d => d.PreferredLearningListSize)
+                    .NotEmpty()
+                    .InclusiveBetween(20, 60)
+                    .WithMessage(
+                        "Preferred learning list size must be from 20 to 60 items inclusively.");
+            }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -31,7 +44,7 @@ namespace Application.Dictionaries
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 dictionary.PreferredLearningListSize =
                     request.PreferredLearningListSize != 0
@@ -42,7 +55,7 @@ namespace Application.Dictionaries
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes");
+                throw new Exception("Problem saving changes.");
             }
         }
     }

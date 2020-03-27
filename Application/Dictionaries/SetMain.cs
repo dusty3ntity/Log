@@ -30,7 +30,7 @@ namespace Application.Dictionaries
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 dictionary.IsMain = true;
 
@@ -38,7 +38,7 @@ namespace Application.Dictionaries
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes");
+                throw new Exception("Problem saving changes.");
             }
         }
     }

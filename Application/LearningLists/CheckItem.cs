@@ -9,6 +9,7 @@ using Application.LearningItems;
 using Application.Utilities;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -23,6 +24,19 @@ namespace Application.LearningLists
             public Guid LearningListId { get; set; }
             public Guid LearningItemId { get; set; }
             public string Answer { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(i => i.LearningItemId)
+                    .NotEmpty();
+                RuleFor(i => i.Answer)
+                    .NotEmpty()
+                    .MinimumLength(2)
+                    .MaximumLength(30);
+            }
         }
 
         public class Handler : IRequestHandler<Command, LearningItemAnswer>
@@ -43,17 +57,17 @@ namespace Application.LearningLists
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var learningList = await _context.LearningLists.FindAsync(request.LearningListId);
 
                 if (learningList == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {learningList = "Not found"});
+                        new {learningList = "Not found."});
 
                 if (DateChecker.IsLearningListOutdated(learningList))
                     throw new RestException(HttpStatusCode.Gone,
-                        "Learning list is outdated. Try generating a new one");
+                        "Learning list is outdated. Try generating a new one.");
 
                 var learningItem = await _context.LearningItems
                     .Where(i => i.Id == request.LearningItemId)
@@ -62,11 +76,11 @@ namespace Application.LearningLists
 
                 if (learningItem == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {learningItem = "Not found"});
+                        new {learningItem = "Not found."});
 
                 if (learningItem.NumberInSequence != learningList.CompletedItemsCount)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {item = "Not found"});
+                        new {item = "Not found."});
 
                 var item = learningItem.Item;
 
@@ -105,7 +119,7 @@ namespace Application.LearningLists
                         IsAnswerCorrect = isAnswerCorrect,
                         Item = _mapper.Map<Item, ItemDto>(item)
                     };
-                throw new Exception("Problem saving changes");
+                throw new Exception("Problem saving changes.");
             }
         }
     }

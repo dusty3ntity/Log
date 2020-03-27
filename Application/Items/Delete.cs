@@ -32,13 +32,13 @@ namespace Application.Items
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var item = await _context.Items.FindAsync(request.ItemId);
 
                 if (item == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {item = "Not found"});
+                        new {item = "Not found."});
 
                 if (item.Type == ItemType.Word)
                     dictionary.WordsCount--;
@@ -51,7 +51,7 @@ namespace Application.Items
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes");
+                throw new Exception("Problem saving changes.");
             }
         }
     }

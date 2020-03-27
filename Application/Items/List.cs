@@ -38,7 +38,7 @@ namespace Application.Items
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var items = await _context.Items
                     .Where(i => i.DictionaryId == request.DictionaryId)

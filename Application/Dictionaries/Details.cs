@@ -41,7 +41,7 @@ namespace Application.Dictionaries
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var dictionaryToReturn = _mapper.Map<Dictionary, DictionaryDto>(dictionary);
 

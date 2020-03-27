@@ -36,17 +36,17 @@ namespace Application.LearningLists
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var learningList = await _context.LearningLists.FindAsync(request.LearningListId);
 
                 if (learningList == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {learningList = "Not found"});
+                        new {learningList = "Not found."});
 
                 if (DateChecker.IsLearningListOutdated(learningList))
                     throw new RestException(HttpStatusCode.Gone,
-                        "Learning list is outdated. Try generating a new one");
+                        "Learning list is outdated. Try generating a new one.");
 
                 if (learningList.IsCompleted)
                     return null;
@@ -65,10 +65,10 @@ namespace Application.LearningLists
                     var success = await _context.SaveChangesAsync() > 0;
 
                     if (!success)
-                        throw new Exception("Problem saving changes");
+                        throw new Exception("Problem saving changes.");
 
                     throw new RestException(HttpStatusCode.Gone,
-                        "Item has been removed. Try again to get the next item");
+                        "Item has been removed. Try again to get the next item.");
                 }
 
                 var itemToReturn = new LearningItemDto
