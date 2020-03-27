@@ -2,7 +2,7 @@
 {
     public enum LearningMode
     {
-        Primary,
-        Secondary
+        Primary = 110,
+        Secondary = 120
     }
 }

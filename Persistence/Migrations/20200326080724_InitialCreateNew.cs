@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateNew : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,26 +22,13 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearningLists",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Size = table.Column<int>(nullable: false),
-                    CompletedItemsCount = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LearningLists", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Dictionaries",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    KnownLanguageId = table.Column<int>(nullable: true),
-                    LanguageToLearnId = table.Column<int>(nullable: true),
+                    IsMain = table.Column<bool>(nullable: false),
+                    KnownLanguageId = table.Column<int>(nullable: false),
+                    LanguageToLearnId = table.Column<int>(nullable: false),
                     WordsCount = table.Column<int>(nullable: false),
                     PhrasesCount = table.Column<int>(nullable: false),
                     LearnedItemsCount = table.Column<int>(nullable: false),
@@ -55,20 +42,12 @@ namespace Persistence.Migrations
                         name: "FK_Dictionaries_Languages_KnownLanguageId",
                         column: x => x.KnownLanguageId,
                         principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Dictionaries_Languages_LanguageToLearnId",
                         column: x => x.LanguageToLearnId,
                         principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Dictionaries_LearningLists_LearningListId",
-                        column: x => x.LearningListId,
-                        principalTable: "LearningLists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -76,16 +55,17 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    DictionaryId = table.Column<Guid>(nullable: false),
                     Original = table.Column<string>(nullable: true),
                     Translation = table.Column<string>(nullable: true),
-                    ItemType = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     IsStarred = table.Column<bool>(nullable: false),
                     IsLearned = table.Column<bool>(nullable: false),
                     TotalRepeatsCount = table.Column<int>(nullable: false),
                     CorrectRepeatsCount = table.Column<int>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    GoesForNextDay = table.Column<bool>(nullable: false),
-                    DictionaryId = table.Column<Guid>(nullable: true)
+                    GoesForNextDay = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,7 +75,29 @@ namespace Persistence.Migrations
                         column: x => x.DictionaryId,
                         principalTable: "Dictionaries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LearningLists",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    DictionaryId = table.Column<Guid>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    Size = table.Column<int>(nullable: false),
+                    IsCompleted = table.Column<bool>(nullable: false),
+                    CompletedItemsCount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LearningLists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LearningLists_Dictionaries_DictionaryId",
+                        column: x => x.DictionaryId,
+                        principalTable: "Dictionaries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,10 +105,10 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    LearningMode = table.Column<int>(nullable: false),
+                    LearningListId = table.Column<Guid>(nullable: false),
+                    LearningMode = table.Column<string>(nullable: false),
                     NumberInSequence = table.Column<int>(nullable: false),
-                    ItemId = table.Column<Guid>(nullable: true),
-                    LearningListId = table.Column<Guid>(nullable: true)
+                    ItemId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -116,13 +118,13 @@ namespace Persistence.Migrations
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_LearningItems_LearningLists_LearningListId",
                         column: x => x.LearningListId,
                         principalTable: "LearningLists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -136,11 +138,6 @@ namespace Persistence.Migrations
                 column: "LanguageToLearnId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dictionaries_LearningListId",
-                table: "Dictionaries",
-                column: "LearningListId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Items_DictionaryId",
                 table: "Items",
                 column: "DictionaryId");
@@ -148,12 +145,19 @@ namespace Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_LearningItems_ItemId",
                 table: "LearningItems",
-                column: "ItemId");
+                column: "ItemId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_LearningItems_LearningListId",
                 table: "LearningItems",
                 column: "LearningListId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LearningLists_DictionaryId",
+                table: "LearningLists",
+                column: "DictionaryId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -165,13 +169,13 @@ namespace Persistence.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
+                name: "LearningLists");
+
+            migrationBuilder.DropTable(
                 name: "Dictionaries");
 
             migrationBuilder.DropTable(
                 name: "Languages");
-
-            migrationBuilder.DropTable(
-                name: "LearningLists");
         }
     }
 }

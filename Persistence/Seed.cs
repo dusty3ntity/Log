@@ -16,10 +16,11 @@ namespace Persistence
                 {
                     Original = "house",
                     Translation = "дом",
+                    Description = "A building for human habitation",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = false,
-                    ItemType = ItemType.Word,
+                    Type = ItemType.Word,
                     CorrectRepeatsCount = 0,
                     TotalRepeatsCount = 0,
                     GoesForNextDay = false
@@ -29,10 +30,11 @@ namespace Persistence
                 {
                     Original = "horse",
                     Translation = "лошадь",
+                    Description = "Domesticated mammal used for riding and racing",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = true,
-                    ItemType = ItemType.Word,
+                    Type = ItemType.Word,
                     CorrectRepeatsCount = 1,
                     TotalRepeatsCount = 3,
                     GoesForNextDay = true
@@ -42,10 +44,11 @@ namespace Persistence
                 {
                     Original = "thank you",
                     Translation = "спасибо",
+                    Description = "A polite expression used when acknowledging a gift, service, or compliment",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
-                    ItemType = ItemType.Phrase,
+                    Type = ItemType.Phrase,
                     CorrectRepeatsCount = 5,
                     TotalRepeatsCount = 5,
                     GoesForNextDay = false
@@ -55,10 +58,11 @@ namespace Persistence
                 {
                     Original = "hospital",
                     Translation = "больница",
+                    Description = "An institution providing medical and surgical treatment and nursing care",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = true,
-                    ItemType = ItemType.Word,
+                    Type = ItemType.Word,
                     CorrectRepeatsCount = 0,
                     TotalRepeatsCount = 0,
                     GoesForNextDay = true
@@ -66,12 +70,13 @@ namespace Persistence
 
                 var Item5 = new Item
                 {
-                    Original = "to care about",
-                    Translation = "заботиться о",
+                    Original = "to spill",
+                    Translation = "пролить",
+                    Description = "Cause (liquid) to flow over the edge of its container",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
-                    ItemType = ItemType.Phrase,
+                    Type = ItemType.Word,
                     CorrectRepeatsCount = 10,
                     TotalRepeatsCount = 11,
                     GoesForNextDay = false
@@ -79,10 +84,10 @@ namespace Persistence
 
                 var dictionary = new Dictionary
                 {
-                    Name = "dict1",
+                    IsMain = true,
                     KnownLanguage = new Language
                     {
-                        Name = "Russian",
+                        Name = "Русский",
                         ISOCode = "ru"
                     },
                     LanguageToLearn = new Language
@@ -100,7 +105,8 @@ namespace Persistence
                     },
                     LearningList = new LearningList
                     {
-                        Size = 5,
+                        CreationDate = DateTime.Now - TimeSpan.FromDays(2),
+                        Size = 3,
                         CompletedItemsCount = 0,
                         LearningItems = new List<LearningItem>
                         {
