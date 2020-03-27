@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -19,6 +20,20 @@ namespace Application.Items
             public string Description { get; set; }
         }
 
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(i => i.Original)
+                    .MinimumLength(2);
+                RuleFor(i => i.Translation)
+                    .MinimumLength(2);
+                RuleFor(i => i.Description)
+                    .MinimumLength(10)
+                    .MaximumLength(60);
+            }
+        }
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
@@ -30,20 +45,26 @@ namespace Application.Items
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                if (request.Original == null &&
+                    request.Translation == null &&
+                    request.Description == null)
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "At least one property must be provided to edit.");
+
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var item = await _context.Items.FindAsync(request.ItemId);
 
                 if (item == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {item = "Not found"});
+                        new {item = "Not found."});
 
-                item.Original = request.Original ?? item.Original;
-                item.Translation = request.Translation ?? item.Translation;
+                item.Original = request.Original?.ToLower() ?? item.Original;
+                item.Translation = request.Translation?.ToLower() ?? item.Translation;
                 item.Description = request.Description ?? item.Description;
                 if (request.Original != null || request.Translation != null)
                 {
@@ -58,7 +79,7 @@ namespace Application.Items
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes");
+                throw new Exception("Problem saving changes.");
             }
         }
     }

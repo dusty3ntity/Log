@@ -2,7 +2,7 @@
 {
     public enum ItemType
     {
-        Word,
-        Phrase
+        Word = 10,
+        Phrase = 20
     }
 }
