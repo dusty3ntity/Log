@@ -17,14 +17,19 @@ namespace API.Controllers
         }
 
         [HttpGet("{learningListId}/nextItem")]
-        public async Task<ActionResult<LearningItemDto>> GetNext(Guid learningListId)
+        public async Task<ActionResult<LearningItemDto>> GetNext(Guid dictionaryId,
+            Guid learningListId)
         {
-            return await Mediator.Send(new GetNextItem.Query {LearningListId = learningListId});
+            return await Mediator.Send(new GetNextItem.Query
+                {DictionaryId = dictionaryId, LearningListId = learningListId});
         }
 
         [HttpPost("{learningListId}/nextItem")]
-        public async Task<ActionResult<LearningItemAnswer>> CheckItem(Guid learningListId, CheckItem.Command command)
+        public async Task<ActionResult<LearningItemAnswer>> CheckItem(Guid dictionaryId,
+            Guid learningListId,
+            CheckItem.Command command)
         {
+            command.DictionaryId = dictionaryId;
             command.LearningListId = learningListId;
             return await Mediator.Send(command);
         }

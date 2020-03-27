@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using MediatR;
 using Persistence;
@@ -33,7 +35,8 @@ namespace Application.Items
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new Exception("Could not find dictionary");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {dictionary = "Not found"});
 
                 var item = new Item
                 {

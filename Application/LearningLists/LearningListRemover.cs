@@ -23,7 +23,7 @@ namespace Application.LearningLists
             var success = await _context.SaveChangesAsync() > 0;
 
             if (!success)
-                throw new Exception("Problem removing learning list");
+                throw new Exception("Problem saving changes");
         }
     }
 }

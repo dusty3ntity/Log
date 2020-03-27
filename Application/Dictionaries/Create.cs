@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +37,8 @@ namespace Application.Dictionaries
                     .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.LanguageToLearnCode));
 
                 if (knownLanguage == null || languageToLearn == null)
-                    throw new Exception("Could not find language");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {language = "Not found"});
 
                 var dictionary = new Dictionary
                 {

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.LearningItems;
 using Application.Utilities;
 using MediatR;
@@ -14,6 +16,7 @@ namespace Application.LearningLists
     {
         public class Query : IRequest<LearningItemDto>
         {
+            public Guid DictionaryId { get; set; }
             public Guid LearningListId { get; set; }
         }
 
@@ -29,13 +32,21 @@ namespace Application.LearningLists
             public async Task<LearningItemDto> Handle(Query request,
                 CancellationToken cancellationToken)
             {
+                var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
+
+                if (dictionary == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {dictionary = "Not found"});
+
                 var learningList = await _context.LearningLists.FindAsync(request.LearningListId);
 
                 if (learningList == null)
-                    throw new Exception("Could not find learning list");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {learningList = "Not found"});
 
                 if (DateChecker.IsLearningListOutdated(learningList))
-                    throw new Exception("Learning list is outdated. Try generating a new one");
+                    throw new RestException(HttpStatusCode.Gone,
+                        "Learning list is outdated. Try generating a new one");
 
                 if (learningList.IsCompleted)
                     return null;
@@ -56,7 +67,8 @@ namespace Application.LearningLists
                     if (!success)
                         throw new Exception("Problem saving changes");
 
-                    throw new Exception("Item has been removed. Try again to get the next item");
+                    throw new RestException(HttpStatusCode.Gone,
+                        "Item has been removed. Try again to get the next item");
                 }
 
                 var itemToReturn = new LearningItemDto

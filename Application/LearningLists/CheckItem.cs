@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.Items;
 using Application.LearningItems;
 using Application.Utilities;
@@ -17,6 +19,7 @@ namespace Application.LearningLists
     {
         public class Command : IRequest<LearningItemAnswer>
         {
+            public Guid DictionaryId { get; set; }
             public Guid LearningListId { get; set; }
             public Guid LearningItemId { get; set; }
             public string Answer { get; set; }
@@ -36,13 +39,21 @@ namespace Application.LearningLists
             public async Task<LearningItemAnswer> Handle(Command request,
                 CancellationToken cancellationToken)
             {
+                var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
+
+                if (dictionary == null)
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {dictionary = "Not found"});
+
                 var learningList = await _context.LearningLists.FindAsync(request.LearningListId);
 
                 if (learningList == null)
-                    throw new Exception("Could not find learning list");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {learningList = "Not found"});
 
                 if (DateChecker.IsLearningListOutdated(learningList))
-                    throw new Exception("Learning list is outdated. Try generating a new one");
+                    throw new RestException(HttpStatusCode.Gone,
+                        "Learning list is outdated. Try generating a new one");
 
                 var learningItem = await _context.LearningItems
                     .Where(i => i.Id == request.LearningItemId)
@@ -50,10 +61,12 @@ namespace Application.LearningLists
                     .FirstOrDefaultAsync();
 
                 if (learningItem == null)
-                    throw new Exception("Could not find learning item");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {learningItem = "Not found"});
 
                 if (learningItem.NumberInSequence != learningList.CompletedItemsCount)
-                    throw new Exception("Incorrect learning item");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {item = "Not found"});
 
                 var item = learningItem.Item;
 

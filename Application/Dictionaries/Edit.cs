@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using MediatR;
 using Persistence;
 
@@ -28,7 +30,8 @@ namespace Application.Dictionaries
                 var dictionary = await _context.Dictionaries.FindAsync(request.Id);
 
                 if (dictionary == null)
-                    throw new Exception("Could not find dictionary");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {dictionary = "Not found"});
 
                 dictionary.PreferredLearningListSize =
                     request.PreferredLearningListSize != 0
