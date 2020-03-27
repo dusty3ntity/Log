@@ -35,13 +35,13 @@ namespace Application.Items
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var item = await _context.Items.FindAsync(request.ItemId);
 
                 if (item == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {item = "Not found"});
+                        new {item = "Not found."});
 
                 var itemToReturn = _mapper.Map<Item, ItemDto>(item);
 

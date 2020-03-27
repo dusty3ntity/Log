@@ -31,7 +31,7 @@ namespace Application.LearningLists
                     .SingleOrDefaultAsync(d => d.Id == request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new Exception("Could not find dictionary");
+                    throw new Exception("Could not find dictionary.");
 
                 _context.LearningLists.Remove(dictionary.LearningList);
                 dictionary.LearningList = null;
@@ -40,7 +40,7 @@ namespace Application.LearningLists
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes");
+                throw new Exception("Problem saving changes.");
             }
         }
     }

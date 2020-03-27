@@ -39,7 +39,7 @@ namespace Application.LearningLists
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found"});
+                        new {dictionary = "Not found."});
 
                 var learningList = await _context.LearningLists
                     .Where(l => l.DictionaryId == request.DictionaryId)
@@ -62,7 +62,7 @@ namespace Application.LearningLists
 
                 if (success)
                     return learningList.Id;
-                throw new Exception("Problem saving learning list");
+                throw new Exception("Problem saving learning list.");
             }
         }
     }

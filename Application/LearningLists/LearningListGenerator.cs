@@ -28,7 +28,7 @@ namespace Application.LearningLists
 
             if (items.Count == 0)
                 throw new RestException(HttpStatusCode.BadRequest,
-                    "Too few items for generating learning list");
+                    "Too few items for generating learning list.");
 
             var list = new List<LearningItem>();
             var random = new Random();
