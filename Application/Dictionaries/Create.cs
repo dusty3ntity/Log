@@ -5,6 +5,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
+using Application.Utilities;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -55,10 +57,12 @@ namespace Application.Dictionaries
         public class Handler : IRequestHandler<Command, Guid>
         {
             private readonly DataContext _context;
+            private readonly IDuplicatesChecker _duplicatesChecker;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IDuplicatesChecker duplicatesChecker)
             {
                 _context = context;
+                _duplicatesChecker = duplicatesChecker;
             }
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
@@ -72,6 +76,8 @@ namespace Application.Dictionaries
                     throw new RestException(HttpStatusCode.NotFound,
                         new {language = "Not found"});
 
+                var dictionaries = await _context.Dictionaries.ToListAsync();
+
                 var dictionary = new Dictionary
                 {
                     IsMain = false,
@@ -80,6 +86,10 @@ namespace Application.Dictionaries
                     PreferredLearningListSize = request.PreferredLearningListSize,
                     Items = new List<Item>(),
                 };
+
+                if (await _duplicatesChecker.IsDuplicate(dictionary))
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "Duplicate dictionary found.");
 
                 _context.Dictionaries.Add(dictionary);
 

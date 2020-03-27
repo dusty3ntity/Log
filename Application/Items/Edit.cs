@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -37,10 +38,12 @@ namespace Application.Items
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
+            private readonly IDuplicatesChecker _duplicatesChecker;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IDuplicatesChecker duplicatesChecker)
             {
                 _context = context;
+                _duplicatesChecker = duplicatesChecker;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -63,8 +66,16 @@ namespace Application.Items
                     throw new RestException(HttpStatusCode.NotFound,
                         new {item = "Not found."});
 
-                item.Original = request.Original?.ToLower() ?? item.Original;
-                item.Translation = request.Translation?.ToLower() ?? item.Translation;
+                var newOriginal = request.Original?.ToLower() ?? item.Original;
+                var newTranslation = request.Translation?.ToLower() ?? item.Translation;
+
+                if (request.Original != null || request.Translation != null)
+                    if (await _duplicatesChecker.IsDuplicate(request.DictionaryId, newOriginal,
+                        newTranslation))
+                        throw new RestException(HttpStatusCode.BadRequest, "Duplicate item found.");
+
+                item.Original = newOriginal;
+                item.Translation = newTranslation;
                 item.Description = request.Description ?? item.Description;
                 if (request.Original != null || request.Translation != null)
                 {

@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
 using Application.Utilities;
 using Domain;
 using FluentValidation;
@@ -49,10 +50,12 @@ namespace Application.Items
         public class Handler : IRequestHandler<Command, Guid>
         {
             private readonly DataContext _context;
+            private readonly IDuplicatesChecker _duplicatesChecker;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IDuplicatesChecker duplicatesChecker)
             {
                 _context = context;
+                _duplicatesChecker = duplicatesChecker;
             }
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
@@ -89,6 +92,9 @@ namespace Application.Items
                     TotalRepeatsCount = 0,
                     GoesForNextDay = request.IsStarred
                 };
+
+                if (await _duplicatesChecker.IsDuplicate(request.DictionaryId, item))
+                    throw new RestException(HttpStatusCode.BadRequest, "Duplicate item found.");
 
                 if (item.Type == ItemType.Word)
                     dictionary.WordsCount++;
