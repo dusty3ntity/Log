@@ -3,6 +3,7 @@ using Application.Dictionaries;
 using Application.Interfaces;
 using Application.LearningLists;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,9 +36,14 @@ namespace API
             services.AddAutoMapper(typeof(Details));
 
             services.AddControllers().AddNewtonsoftJson(opt =>
-                opt.SerializerSettings.ReferenceLoopHandling =
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+                    opt.SerializerSettings.ReferenceLoopHandling =
+                        Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                )
+                .AddFluentValidation(cfg =>
+                {
+                    cfg.RegisterValidatorsFromAssemblyContaining<Application.Dictionaries.Create
+                    >();
+                });
 
             services.AddScoped<ILearningListGenerator, LearningListGenerator>();
             services.AddScoped<ILearningListRemover, LearningListRemover>();
