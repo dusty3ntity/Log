@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -38,7 +40,8 @@ namespace Application.Dictionaries
                     .SingleOrDefaultAsync(d => d.Id == request.Id);
 
                 if (dictionary == null)
-                    throw new Exception("Could not find dictionary");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {dictionary = "Not found"});
 
                 var dictionaryToReturn = _mapper.Map<Dictionary, DictionaryDto>(dictionary);
 

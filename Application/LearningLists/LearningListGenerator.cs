@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.Interfaces;
 using Domain;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +27,8 @@ namespace Application.LearningLists
                 .ToListAsync();
 
             if (items.Count == 0)
-                throw new Exception("Too few items for generating learning list");
+                throw new RestException(HttpStatusCode.BadRequest,
+                    "Too few items for generating learning list");
 
             var list = new List<LearningItem>();
             var random = new Random();

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -32,12 +34,14 @@ namespace Application.Items
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new Exception("Could not find dictionary");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {dictionary = "Not found"});
 
                 var item = await _context.Items.FindAsync(request.ItemId);
 
                 if (item == null)
-                    throw new Exception("Could not find item");
+                    throw new RestException(HttpStatusCode.NotFound,
+                        new {item = "Not found"});
 
                 var itemToReturn = _mapper.Map<Item, ItemDto>(item);
 

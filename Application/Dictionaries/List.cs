@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,14 +33,10 @@ namespace Application.Dictionaries
                 var dictionaries = await _context.Dictionaries
                     .Include(d => d.KnownLanguage)
                     .Include(d => d.LanguageToLearn)
+                    .Select(d => _mapper.Map<Dictionary, DictionaryDto>(d))
                     .ToListAsync();
 
-                var list = new List<DictionaryDto>();
-
-                foreach (var dict in dictionaries)
-                    list.Add(_mapper.Map<Dictionary, DictionaryDto>(dict));
-
-                return list;
+                return dictionaries;
             }
         }
     }
