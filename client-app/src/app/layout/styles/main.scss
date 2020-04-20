@@ -1,15 +1,35 @@
-@import 'globals';
+@import "./globals/globals";
+
+@import "./components/nav/nav";
 
 body {
-  margin: 0;
+	background-color: $backgroundColor;
 
-  background-color: $backgroundColor;
+	font-family: "Nunito", sans-serif;
 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-	sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	#main {
+		height: 100vh;
+		width: 100vw;
+		padding: $mainPadding;
+	}
+
+	.grid {
+		height: 100%;
+		margin: 0 !important;
+	}
 	
-  -webkit-font-smoothing: antialiased;
+	.column {
+		padding: 0!important;
+	}
 
-  -moz-osx-font-smoothing: grayscale;
+	#content-col {
+		padding-left: $mainPadding !important;
+	}
 }
+
+// * {
+// 	border: 1px dashed red;
+// }

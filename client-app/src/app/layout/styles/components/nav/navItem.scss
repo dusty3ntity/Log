@@ -1,0 +1,65 @@
+@import "../../globals/globals";
+@import "../../globals/shadows";
+
+.nav-item {
+	height: $navItemHeight;
+	border-radius: $mainBorderRadius;
+	padding: $navItemPadding;
+	color: $backgroundColor;
+	transition: 0.3s;
+
+	margin: $navItemMargin 0;
+
+	font-size: 22px;
+	font-weight: 800;
+
+	.nav-icon {
+		background-color: $backgroundColor;
+		color: $navBackgroundColor;
+		margin-right: 8px;
+		border-radius: 30px;
+		padding: 4px;
+	}
+
+	#power_settings_new {
+		color: $upgradeColor;
+	}
+
+	.item-name {
+		vertical-align: top;
+		line-height: 34px;
+	}
+
+	.nav-logout {
+		font-family: icos;
+	}
+
+	.arrow {
+		float: right;
+		margin-top: 5px;
+	}
+}
+
+.nav-item.active {
+	background-color: $backgroundColor;
+	color: $navBackgroundColor;
+	box-shadow: $navActiveItemShadow;
+
+	.nav-icon {
+		background-color: $navBackgroundColor;
+		color: $backgroundColor;
+	}
+}
+
+.nav-item:hover {
+	cursor: pointer;
+
+	background-color: $backgroundColor;
+	color: $navBackgroundColor;
+	box-shadow: $navActiveItemShadow;
+
+	.nav-icon {
+		background-color: $navBackgroundColor;
+		color: $backgroundColor;
+	}
+}
