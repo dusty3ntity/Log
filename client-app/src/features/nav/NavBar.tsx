@@ -6,7 +6,7 @@ const NavBar = () => {
 	return (
 		<Container id="navbar">
 			<div id="header">
-				<img id="logo" src="/icons/logo.svg" alt="Logo" />
+				<img id="logo" src="/images/logo.svg" alt="Logo" />
 				<span id="title">Log.</span>
 			</div>
 
@@ -24,9 +24,9 @@ const NavBar = () => {
 			<NavItem name={"Logout"} icon="power_settings_new" />
 
 			<div id="user-area">
-				<img id="avatar" src="/temp/user.jpg" alt="Avatar" />
+				<img id="avatar" src="/images/temp/user.jpg" alt="Avatar" />
 				<span id="username">Vadym Ohyr</span>
-				<Button id="upgrade-btn">Upgrade</Button>
+				<Button id="upgrade-btn" content="Upgrade" />
 			</div>
 		</Container>
 	);

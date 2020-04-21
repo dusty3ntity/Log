@@ -1,6 +1,7 @@
 @import "./globals/globals";
 
 @import "./components/nav/nav";
+@import "./components/topPanel/topPanel";
 
 body {
 	background-color: $backgroundColor;
@@ -26,7 +27,12 @@ body {
 	}
 
 	#content-col {
-		padding-left: $mainPadding !important;
+		padding-left: $contentPaddingLeft !important;
+	}
+
+	#top-panel-row {
+		height: $topPanelHeight;
+		margin-bottom: $topPanelMarginBottom;
 	}
 }
 

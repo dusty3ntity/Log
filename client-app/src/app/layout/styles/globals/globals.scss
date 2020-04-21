@@ -1,6 +1,7 @@
 /* Background */
 $backgroundColor: #E3EDF7;
 
+
 /* NavBar */
 $navBackgroundColorGradient: linear-gradient(326.91deg, rgba(255, 255, 255, 0.1) -0.87%, rgba(255, 255, 255, 0) 27.17%), 
 							 linear-gradient(155.21deg, #5685FF -1.71%, #3C6EEF 98.35%);
@@ -8,13 +9,31 @@ $navBackgroundColor: #4D7EFF;
 $navPadding: 15px;
 $upgradeColor: #F16F6F;
 
+
 /* NavItem */
 $navItemHeight: 48px;
 $navItemMargin: 10px;
 $navItemPadding: 8px;
 
+
 /* Paddings */
 $mainPadding: 40px;
+$contentPaddingLeft: 56px;
+
 
 /* Borders */
 $mainBorderRadius: 30px;
+
+
+/* TopPanel */
+$topPanelHeight: 96px;
+$topPanelMarginBottom: 16px;
+$topPanelPadding: 16px;
+
+$topPanelButtonsBackgroundColorGradient: linear-gradient(345.88deg, #E3EDF7 2.36%, #E3EDF7 51.86%, #E3EDF7 61.95%);
+
+$continueLearningIconBackgroundColor: #386F4E;
+$continueLearningButtonBackgroundColorGradient: linear-gradient(86.75deg, #386F4E 0.04%, rgba(36, 134, 65, 0.854688) 28.15%, #3DF06F 100%);
+
+
+
