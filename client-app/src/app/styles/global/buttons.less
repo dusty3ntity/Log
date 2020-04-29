@@ -12,15 +12,45 @@
 
 
 
+@checkbox-size: 20px;
+@checkbox-check-color: #fff;
+@checkbox-check-bg: @checkbox-check-color;
+@checkbox-border-width: @border-width-base;
+
+
+
 
 /*---------------------  Custom  ---------------------*/
 button {
 	border: none;
 	outline: none;
-	height: auto !important;
+	cursor: pointer;
 }
 
 a {
 	display: inline-block;
 	border: none !important;
+}
+
+.ant-checkbox {
+	border-radius: 6px;
+}
+
+.ant-checkbox-inner {
+	border-radius: 6px;
+}
+
+.ant-checkbox-checked:after {
+	border-radius: 6px;
+	animation: none;
+}
+
+.ant-badge-status-dot {
+	margin-left: 4px;
+	width: 8px;
+	height: 8px;
+}
+
+.ant-layout-content {
+	overflow: visible !important;
 }

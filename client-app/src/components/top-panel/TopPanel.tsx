@@ -12,7 +12,7 @@ const TopPanel = () => {
 				</Col>
 
 				<Col span={13}>
-					<Space className="kek" size="large">
+					<Space className="space" size="large">
 					<Button id="continue-learning-btn" className="top-panel-btn" href="/">
 						<i id="learning-icon" className="material-icons top-panel-icon">
 							wb_incandescent

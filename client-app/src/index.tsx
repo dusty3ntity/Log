@@ -4,6 +4,8 @@ import "./app/styles/style.less";
 import App from './app/layout/App';
 import * as serviceWorker from './serviceWorker';
 
+import "simplebar/dist/simplebar.min.css";
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

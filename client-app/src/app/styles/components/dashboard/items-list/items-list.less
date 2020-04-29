@@ -1,0 +1,70 @@
+@import "./list-container";
+@import "./list-item";
+
+#items-list {
+	height: 100%;
+
+	#items-list-header {
+		padding: 0;
+		height: 45px;
+		margin-bottom: 16px;
+
+		#items-list-title {
+			display: inline-block;
+			font-family: @font-family;
+			color: @primary-color;
+			font-weight: 700;
+			font-size: 34px;
+			vertical-align: super;
+			margin: 0;
+		}
+
+		.space {
+			height: 100%;
+			float: right;
+		}
+
+		.ant-space-item {
+			height: 100%;
+		}
+
+		#group-by-date-btn {
+			height: 100%;
+			border-radius: 20px;
+			background-color: @body-background;
+			box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px #fff,
+				2px 2px 4px rgba(114, 142, 171, 0.1);
+
+			i {
+				line-height: 44px;
+				vertical-align: super;
+				padding: 0 4px;
+			}
+		}
+
+		.ant-input-search {
+			height: 100%;
+			vertical-align: text-bottom;
+			border-radius: 20px;
+			border: 1px solid @body-background;
+			padding: 4px 16px;
+			box-shadow: inset 5px 5px 15px #a6b4c8, inset -5px -5px 10px rgba(255, 255, 255, 0.75);
+
+			&:hover {
+				border: 1px solid @primary-color;
+			}
+
+			.anticon-search {
+				color: @primary-color;
+				font-size: 20px;
+			}
+		}
+
+		#item-search {
+			height: 100%;
+			font-size: 20px;
+			background: none;
+			margin-right: 10px;
+		}
+	}
+}

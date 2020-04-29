@@ -1,0 +1,104 @@
+#item-details {
+	margin-left: 32px;
+	border-radius: 30px;
+	padding: 16px;
+
+	box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px rgba(255, 255, 255, 0.75), 2px 2px 4px rgba(114, 142, 171, 0.1);
+
+	#details-container {
+		position: relative;
+		height: 100%;
+
+		#header-row {
+			height: 56px;
+		}
+
+		#item-row {
+			height: 272px;
+			text-align: center;
+
+			#original {
+				width: 100%;
+				margin: 0;
+				font-family: @font-family;
+				display: block;
+				font-size: 36px;
+				font-weight: 700;
+				color: @primary-color;
+			}
+
+			#type {
+				width: 100%;
+				margin-top: -10px;
+				font-size: 12px;
+				font-weight: 600;
+				color: @warning-color;
+			}
+
+			.ant-divider {
+				margin: 10px 0;
+				background-color: #d3dfea;
+			}
+
+			#translation {
+				width: 100%;
+				margin: 0;
+				font-family: @font-family;
+				font-size: 20px;
+				font-weight: 700;
+				color: #909aa4;
+			}
+
+			#description {
+				margin: 0;
+				margin-top: 32px; 
+				font-size: 15px;
+				font-weight: 700;
+				text-align: justify;
+				color: #909aa4;
+			}
+
+			#description-origin {
+				width: 100%;
+				text-align: right;
+				font-size: 12px;
+				font-weight: 700;
+			}
+		}
+
+		// #stats-row {
+
+		// }
+
+		#actions-row {
+			position: absolute;
+			height: 80px;
+			width: 100%;
+			bottom: 0;
+
+			.ant-space {
+				height: 100%;
+			}
+
+			.actions-btn {
+				background-color: @body-background;
+				border-radius: 30px;
+				height: 48px;
+				box-shadow: 1px 1px 8px rgba(111, 140, 176, 0.41), -3px -3px 10px rgba(255, 255, 255, 0.75);
+			}
+
+			.actions-icon {
+				font-size: 34px;
+				vertical-align: middle;
+			}
+
+			#star-icon {
+				color: @warning-color;
+			}
+
+			#delete-icon {
+				color: @light-red;
+			}
+		}
+	}
+}
