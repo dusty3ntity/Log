@@ -1,128 +1,16 @@
-import React from "react";
-import { Layout, Space, List } from "antd";
+import React, { useContext } from "react";
+import { Layout, Space } from "antd";
 import Search from "antd/lib/input/Search";
 import ListItem from "./ListItem";
-import { IItem } from "../../app/models/item";
-
 import SimpleBar from "simplebar-react";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import { observer } from "mobx-react-lite";
 
 const { Header, Content } = Layout;
 
 const ItemsList = () => {
-	const data: IItem[] = [
-		{
-			id: "1",
-			isLearned: true,
-			original: "Horse",
-			translation: "Лошадь",
-			totalRepeatsCount: 3,
-		},
-		{
-			id: "2",
-			isLearned: false,
-			original: "House",
-			translation: "Дом",
-			totalRepeatsCount: 1,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-		{
-			id: "3",
-			isLearned: false,
-			original: "Genuine",
-			translation: "Оригинальный",
-			totalRepeatsCount: 0,
-		},
-	];
+	const rootStore = useContext(RootStoreContext);
+	const { itemsByDate } = rootStore.itemStore;
 
 	return (
 		<div id="items-list">
@@ -142,12 +30,9 @@ const ItemsList = () => {
 					<div id="list-container">
 						<SimpleBar style={{ height: "100%" }} autoHide={false}>
 							<div id="list">
-								<List
-									split={false}
-									itemLayout="horizontal"
-									dataSource={data}
-									renderItem={(item) => <ListItem item={item} />}
-								/>
+								{itemsByDate.map((item) => (
+									<ListItem key={item.id} item={item} />
+								))}
 							</div>
 						</SimpleBar>
 					</div>
@@ -157,4 +42,4 @@ const ItemsList = () => {
 	);
 };
 
-export default ItemsList;
+export default observer(ItemsList);

@@ -1,17 +1,22 @@
-import React from "react";
-import { List, Row, Col, Divider, Checkbox, Space } from "antd";
+import React, { useContext } from "react";
+import { Row, Col, Divider, Checkbox, Space } from "antd";
 import { IItem } from "../../app/models/item";
+import { observer } from "mobx-react-lite";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 interface IProps {
 	item: IItem;
 }
 
 const ListItem: React.FC<IProps> = ({ item }) => {
+	const rootStore = useContext(RootStoreContext);
+	const { selectItem } = rootStore.itemStore;
+
 	const progress = item.isLearned ? "learned" : item.totalRepeatsCount > 0 ? "in-progress" : "untouched";
 
 	return (
-		<List.Item>
-			<Row className="list-item">
+		<div className="list-item">
+			<Row className="list-item-row">
 				<Col span={2} className="item-selector-col">
 					<div className={"progress-bar " + progress}>‌‌</div>
 					<Checkbox className="selector" />
@@ -35,14 +40,14 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 							<i className="material-icons star-icon">star</i>
 						</button>
 
-						<button className="item-actions-dropdown">
+						<button className="item-actions-dropdown" onClick={() => selectItem(item.id)}>
 							<i className="material-icons actions-icon">more_vert</i>
 						</button>
 					</Space>
 				</Col>
 			</Row>
-		</List.Item>
+		</div>
 	);
 };
 
-export default ListItem;
+export default observer(ListItem);

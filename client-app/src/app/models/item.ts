@@ -2,11 +2,11 @@ export interface IItem {
 	id: string;
 	original: string;
 	translation: string;
-	description?: string | undefined;
-	type?: number | undefined;
-	creationDate?: Date | undefined;
-	isStarred?: boolean | undefined;
+	description?: string | null;
+	type: number;
+	creationDate: Date;
+	isStarred: boolean;
 	isLearned: boolean;
 	totalRepeatsCount: number;
-	correctRepeatsCount?: number | undefined;
+	correctRepeatsCount: number;
 }
