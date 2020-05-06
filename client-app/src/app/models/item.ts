@@ -10,3 +10,9 @@ export interface IItem {
 	totalRepeatsCount: number;
 	correctRepeatsCount: number;
 }
+
+export interface IEditItem {
+	original: string | undefined;
+	translation: string | undefined;
+	description: string | undefined;
+}

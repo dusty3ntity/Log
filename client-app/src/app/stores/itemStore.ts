@@ -1,4 +1,4 @@
-import { IItem } from "./../models/item";
+import { IItem, IEditItem } from "./../models/item";
 import { observable, action, runInAction, toJS, computed } from "mobx";
 import { RootStore } from "./rootStore";
 import agent from "../api/agent";
@@ -12,6 +12,7 @@ export default class ItemStore {
 
 	@observable loadingInitial = false;
 	@observable loading = false;
+	@observable editing = false;
 	@observable itemRegistry = new Map();
 	@observable activeItem: IItem | undefined;
 
@@ -67,15 +68,37 @@ export default class ItemStore {
 	}
 
 	@action selectItem = (id: string) => {
+		this.editing = false;
 		this.activeItem = this.itemRegistry.get(id);
 	};
 
 	@action createItem = async (item: IItem) => {
+		this.loading = true;
+	};
 
-	}
+	@action editItem = async (id: string, editItem: IEditItem) => {
+		this.loading = true;
+		try {
+			await agent.Items.update(id, editItem);
+			runInAction("updating item", () => {
+				this.activeItem!.original = editItem.original ?? this.activeItem!.original;
+				this.activeItem!.translation = editItem.translation ?? this.activeItem!.translation;
+				this.activeItem!.description = editItem.description ?? this.activeItem!.description;
+				this.editing = false;
+			});
+		} catch (err) {
+			console.log(err.response);
+		} finally {
+			runInAction("updating item", () => (this.loading = false));
+		}
+	};
 
-	@action editItem = async (editedItem: IItem) => {
+	@action openEditor = () => {
+		this.editing = true;
+	};
 
+	@action closeEditor = () => {
+		this.editing = false;
 	}
 
 	@action deleteItem = async () => {
@@ -86,16 +109,16 @@ export default class ItemStore {
 				this.itemRegistry.delete(this.activeItem!.id);
 				this.clearActiveItem();
 			});
-		} catch(err) {
+		} catch (err) {
 			console.log(err);
 		} finally {
 			runInAction("deleting item", () => (this.loading = false));
 		}
-	}
+	};
 
 	@action clearActiveItem = () => {
 		this.activeItem = undefined;
-	}
+	};
 
 	@action starItem = async () => {
 		this.loading = true;
@@ -104,12 +127,12 @@ export default class ItemStore {
 			runInAction("starring item", () => {
 				this.activeItem!.isStarred = true;
 			});
-		} catch(err) {
+		} catch (err) {
 			console.log(err);
 		} finally {
 			runInAction("starring item", () => (this.loading = false));
 		}
-	}
+	};
 
 	@action unstarItem = async () => {
 		this.loading = true;
@@ -118,10 +141,10 @@ export default class ItemStore {
 			runInAction("unstarring item", () => {
 				this.activeItem!.isStarred = false;
 			});
-		} catch(err) {
+		} catch (err) {
 			console.log(err);
 		} finally {
 			runInAction("unstarring item", () => (this.loading = false));
 		}
-	}
+	};
 }

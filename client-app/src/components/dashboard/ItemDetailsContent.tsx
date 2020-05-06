@@ -2,32 +2,37 @@ import React, { useContext, Fragment } from "react";
 import { Row, Space, Divider } from "antd";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import { IItem } from "../../app/models/item";
 
-const ItemDetailsContent = () => {
+interface IProps {
+	item: IItem;
+}
+
+const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { activeItem, deleteItem, starItem, unstarItem } = rootStore.itemStore;
+	const { deleteItem, starItem, unstarItem, openEditor } = rootStore.itemStore;
 
 	return (
 		<Fragment>
 			<div id="details-container">
 				<Row id="header-row" align="middle" justify="center">
-					{activeItem!.isStarred && <div>Starred</div>}
+					{item.isStarred && <div>Starred</div>}
 				</Row>
 
 				<Row id="item-row" align="middle" justify="center">
-					<h2 id="original">{activeItem!.original}</h2>
-					<span id="type">Word</span>
+					<h2 className="original">{item.original}</h2>
+					<span className="type">Word</span>
 					<Divider />
-					<h3 id="translation">{activeItem!.translation}</h3>
-					{activeItem?.description && <p id="description">{activeItem.description}</p>}
-					{/* <span id="description-origin">Cambridge Dictionary</span> */}
+					<h3 className="translation">{item.translation}</h3>
+					{item.description && <p className="description">{item.description}</p>}
+					{/* <span className="description-origin">Cambridge Dictionary</span> */}
 				</Row>
 
 				<Row id="stats-row" align="middle" justify="center"></Row>
 
 				<Row id="actions-row" align="middle" justify="center">
 					<Space size="large">
-						<button id="edit-btn" className="actions-btn">
+						<button id="edit-btn" className="actions-btn" onClick={openEditor}>
 							<i id="edit-icon" className="material-icons actions-icon">
 								edit
 							</i>
@@ -36,7 +41,7 @@ const ItemDetailsContent = () => {
 						<button
 							id="star-btn"
 							className="actions-btn"
-							onClick={activeItem!.isStarred ? unstarItem : starItem}
+							onClick={item.isStarred ? unstarItem : starItem}
 						>
 							<i id="star-icon" className="material-icons actions-icon">
 								star
