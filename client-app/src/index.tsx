@@ -7,9 +7,9 @@ import * as serviceWorker from './serviceWorker';
 import "simplebar/dist/simplebar.min.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+//   <React.StrictMode>
+    <App />,
+//   </React.StrictMode>,
   document.getElementById('root')
 );
 
