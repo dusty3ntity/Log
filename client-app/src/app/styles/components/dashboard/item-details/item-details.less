@@ -3,7 +3,8 @@
 	border-radius: 30px;
 	padding: 16px;
 
-	box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px rgba(255, 255, 255, 0.75), 2px 2px 4px rgba(114, 142, 171, 0.1);
+	box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px rgba(255, 255, 255, 0.75),
+		2px 2px 4px rgba(114, 142, 171, 0.1);
 
 	#details-container {
 		position: relative;
@@ -11,6 +12,33 @@
 
 		#header-row {
 			height: 56px;
+
+			.status {
+				
+				.ant-badge-status-dot {
+					width: 26px;
+					height: 26px;
+					box-shadow: inset 6px 6px 6px rgba(29, 38, 25, 0.25);
+				}
+			}
+
+			.type {
+				width: 100%;
+				font-size: 12px;
+				font-weight: 600;
+				line-height: 26px;
+				color: @warning-color-darker;
+				text-align: center;
+			}
+
+			.starred-icon {
+				color: @normal-color;
+				float: right;
+			}
+
+			.starred-icon.active {
+				color: @warning-color;
+			}
 		}
 
 		#item-row {
@@ -25,14 +53,6 @@
 				font-size: 36px;
 				font-weight: 700;
 				color: @primary-color;
-			}
-
-			.type {
-				width: 100%;
-				margin-top: -10px;
-				font-size: 12px;
-				font-weight: 600;
-				color: @warning-color;
 			}
 
 			.ant-divider {
@@ -51,7 +71,7 @@
 
 			.description {
 				margin: 0;
-				margin-top: 32px; 
+				margin-top: 32px;
 				font-size: 15px;
 				font-weight: 700;
 				text-align: justify;
@@ -66,19 +86,34 @@
 			}
 		}
 
-		// #stats-row {
+		#stats-row {
 
-		// }
+			.ant-statistic-title {
+				text-align: center;
+				font-size: 14px;
+				font-weight: 600;
+			}
+
+			.ant-statistic-content {
+				text-align: center;
+				color: @primary-color;
+				font-size: 36px;
+				font-weight: bold;
+			}
+		}
+
+		#date-row {
+			#date {
+				font-size: 12px;
+				color: #909aa4;
+			}
+		}
 
 		#actions-row {
 			position: absolute;
 			height: 80px;
 			width: 100%;
 			bottom: 0;
-
-			.ant-space {
-				height: 100%;
-			}
 
 			.actions-btn {
 				background-color: @body-background;
