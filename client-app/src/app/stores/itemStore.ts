@@ -1,4 +1,4 @@
-import { IItem, IEditItem } from "./../models/item";
+import { IItem, IEditItem, INewItem } from "./../models/item";
 import { observable, action, runInAction, toJS, computed } from "mobx";
 import { RootStore } from "./rootStore";
 import agent from "../api/agent";
@@ -72,8 +72,16 @@ export default class ItemStore {
 		this.activeItem = this.itemRegistry.get(id);
 	};
 
-	@action createItem = async (item: IItem) => {
+	@action createItem = async (item: INewItem) => {
 		this.loading = true;
+		try {
+			await agent.Items.create(item);
+			console.log("Item created");
+		} catch (err) {
+			console.log(err.response);
+		} finally {
+			runInAction("creating item", () => (this.loading = false));
+		}
 	};
 
 	@action editItem = async (id: string, editItem: IEditItem) => {

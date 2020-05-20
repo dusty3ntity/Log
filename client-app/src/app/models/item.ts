@@ -16,3 +16,11 @@ export interface IEditItem {
 	translation: string | undefined;
 	description: string | undefined;
 }
+
+export interface INewItem {
+	original: string;
+	translation: string;
+	description?: string | null;
+	type: number;
+	isStarred: boolean;
+}
