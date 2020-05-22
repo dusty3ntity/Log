@@ -20,7 +20,7 @@ const TopPanel = () => {
 						<span className="md-hidden">Continue learning</span>
 					</Button>
 
-					<Button id="new-item-btn" className="top-panel-btn" href="/">
+					<Button id="new-item-btn" className="top-panel-btn" href="/new-item">
 						<i id="new-item-icon" className="material-icons top-panel-icon">
 							add
 						</i>

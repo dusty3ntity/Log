@@ -1,0 +1,93 @@
+@import "./word-form";
+@import "./phrase-form";
+
+#new-word-form,
+#new-phrase-form {
+
+	.ant-form-item-label label {
+		font-size: 20px;
+		font-weight: 600;
+		color: @primary-color;
+	}
+
+	.ant-input {
+		border-radius: 30px;
+		padding: 8px;
+		font-size: 30px;
+		font-weight: 500;
+		color: @primary-color;
+		text-align: center;
+		border: 1px solid @body-background;
+		border-top-color: #dcdadade;
+
+		box-shadow: -1px -1px 2px rgba(204, 213, 220, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3), inset 3px 3px 8px rgba(204, 213, 220, 0.9), inset -3px -3px 6px rgba(250, 255, 255, 0.9), inset 3px -3px 6px rgba(204, 213, 220, 0.2), inset -3px 3px 6px rgba(204, 213, 220, 0.2);
+	
+		&.translation {
+			color: @text-color-grey;
+		}
+
+		&:hover {
+			border: 1px solid @primary-color;
+		}
+	}
+
+	.control-buttons-space {
+		float: right;
+
+		.ant-btn {
+			border: none;
+			border-radius: 30px;
+			font-size: 20px;
+			font-weight: 600;
+			color: @text-color-grey;
+
+			box-shadow: 1px 1px 3px rgba(204, 213, 220, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9), 1px -1px 2px rgba(204, 213, 220, 0.2), -1px 1px 2px rgba(204, 213, 220, 0.2), inset -1px -1px 2px rgba(204, 213, 220, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+		}
+
+		.add-definition-btn {
+			i {
+				vertical-align: text-top;
+			}
+
+			span {
+				vertical-align: top;
+			}
+		}
+
+		.star-btn i {
+			vertical-align: text-top;
+		}
+	}
+
+	.actions-space-container {
+		padding: 20px 0;
+	}
+
+	.form-actions-space {
+		width: 100%;
+
+		.actions-btn {
+			border: none;
+			border-radius: 30px;
+			font-size: 24px;
+			font-weight: 800;
+			height: 64px;
+			width: 100%;
+		}
+
+		.ant-space-item {
+			width: 46%;
+		}
+
+		.add-btn {
+			background-color: @primary-color;
+			color: @body-background;
+			box-shadow: 6px 6px 20px rgba(111, 140, 176, 0.45), -6px -6px 20px #FFFFFF, 2px 2px 4px rgba(0, 0, 0, 0.25);
+		}
+
+		.cancel-btn {
+			color: @text-color-grey;
+			box-shadow: 3px 3px 8px rgba(190, 201, 211, 0.9), -3px -3px 6px rgba(232, 245, 255, 0.9), 3px -3px 6px rgba(190, 201, 211, 0.2), -3px 3px 6px rgba(190, 201, 211, 0.2), inset -1px -1px 2px rgba(190, 201, 211, 0.5), inset 1px 1px 2px rgba(232, 245, 255, 0.3);
+		}
+	}
+}
