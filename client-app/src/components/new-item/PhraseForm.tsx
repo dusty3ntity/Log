@@ -32,14 +32,14 @@ const PhraseForm = () => {
 			</Form.Item> */}
 
 			<Form.Item>
-				<Space>
-					<Button>
+				<Space className="control-buttons-space" size="large">
+					<Button className="add-definition-btn" size="large">
 						<i id="plus" className="material-icons plus">
 							add
 						</i>
 						Definition
 					</Button>
-					<Button>
+					<Button className="star-btn" shape="circle" size="large">
 						<i id="star" className="material-icons star">
 							star
 						</i>
@@ -47,15 +47,17 @@ const PhraseForm = () => {
 				</Space>
 			</Form.Item>
 
-			<Space size="large">
-				<Button id="save-btn" htmlType="submit">
-					Add
-				</Button>
+			<div className="actions-space-container">
+				<Space className="form-actions-space" size="large">
+					<Button className="add-btn actions-btn" htmlType="submit">
+						Add
+					</Button>
 
-				<Button id="cancel-btn" className="actions-btn" htmlType="reset">
-					Cancel
-				</Button>
-			</Space>
+					<Button className="cancel-btn actions-btn" htmlType="reset">
+						Cancel
+					</Button>
+				</Space>
+			</div>
 		</Form>
 	);
 };

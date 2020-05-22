@@ -9,7 +9,7 @@ const { TabPane } = Tabs;
 const NewItem = () => {
 	return (
 		<Layout id="new-item-container">
-			<Sider width={432} trigger={null} collapsible breakpoint={"xl"}></Sider>
+			<Sider width={390} trigger={null} collapsible breakpoint={"xl"}></Sider>
 
 			<Content id="new-item">
 				<Tabs defaultActiveKey="10">
@@ -23,7 +23,7 @@ const NewItem = () => {
 				</Tabs>
 			</Content>
 
-			<Sider width={432} trigger={null} collapsible breakpoint={"xl"}></Sider>
+			<Sider width={390} trigger={null} collapsible breakpoint={"xl"}></Sider>
 		</Layout>
 	);
 };
