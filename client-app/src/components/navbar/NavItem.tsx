@@ -9,15 +9,12 @@ interface IProps {
 }
 
 const NavItem: React.FC<IProps> = ({ id, name, icon, link }) => {
-	// const className = "nav-item" + (active ? " active" : "");
-
 	return (
-		<NavLink to={link} exact id={id} className={"nav-item"}>
+		<NavLink to={link} exact id={id} className="nav-item">
 			<i id={id + "-icon"} className="material-icons nav-icon">
 				{icon}
 			</i>
-			<span className="item-name lg-hidden">{name}</span>
-			{/* {active && <i className="material-icons arrow lg-hidden">keyboard_arrow_right</i>} */}
+			<span className="item-name xl-hidden">{name}</span>
 		</NavLink>
 	);
 };

@@ -1,44 +1,40 @@
+.nav-item:first-child {
+	margin-top: 0;
+}
+
+.nav-item:last-child {
+	margin-bottom: 0;
+}
+
 .nav-item {
-	display: block;
-	height: 4.72vh;
-	border-radius: 2.36vh;
-	padding: 0.8vh;
+	width: 100%;
 	color: @body-background;
-	transition: 0.3s;
-	margin: 1vh 0;
+	border-radius: 1.3em;
+	font-weight: 800;
+	padding: 0.5rem;
+	margin: 0.24em 0;
 
-	.nav-icon {
-		font-size: convert(2.4vmin, px);
-		background-color: @body-background;
-		color: @primary-color;
-		border-radius: 30px;
-		padding: 0.4vh;
-		vertical-align: top;
+	&:hover {
+		.nav-icon {
+			background-color: @primary-color;
+			color: @body-background;
+		}
+
+		background: linear-gradient(167.01deg, #D8E1E8 0%, #EEF9FF 100%);
+		box-shadow: 1px 1px 3px rgba(225, 235, 242, 0.9), -1px -1px 2px rgba(229, 239, 246, 0.9), 1px -1px 2px rgba(225, 235, 242, 0.2), -1px 1px 2px rgba(225, 235, 242, 0.2), inset -1px -1px 2px rgba(225, 235, 242, 0.5), inset 1px 1px 2px rgba(229, 239, 246, 0.3);
+		color: unset;
 	}
 
-	#nav-logout-icon {
-		color: @light-red;
-	}
-
-	.item-name {
-		font-weight: 800;
-		font-size: 1.145vw;
-		vertical-align: top;
-		margin-left: 8px;
-		line-height: 3.35vh;
-	}
-
-	.arrow {
-		font-size: convert(2.4vmin, px);
-		float: right;
-		line-height: 3.35vh;
+	&:active {
+		color: unset;
+		box-shadow: -1px -1px 2px rgba(225, 235, 242, 0.5), 1px 1px 2px rgba(229, 239, 246, 0.3), inset 1px 1px 3px rgba(225, 235, 242, 0.9), inset -1px -1px 2px rgba(229, 239, 246, 0.9), inset 1px -1px 2px rgba(225, 235, 242, 0.2), inset -1px 1px 2px rgba(225, 235, 242, 0.2);
 	}
 }
 
 .nav-item.active {
 	background-color: @body-background;
 	color: @primary-color;
-	box-shadow: @nav-active-item-shadow;
+	box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3), inset 1px 1px 3px rgba(204, 213, 222, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9), inset 1px -1px 2px rgba(204, 213, 222, 0.2), inset -1px 1px 2px rgba(204, 213, 222, 0.2);
 
 	.nav-icon {
 		background-color: @primary-color;
@@ -46,21 +42,35 @@
 	}
 }
 
-.nav-item:hover {
-	cursor: pointer;
-
+.nav-icon {
 	background-color: @body-background;
 	color: @primary-color;
-	box-shadow: @nav-active-item-shadow;
-
-	.nav-icon {
-		background-color: @primary-color;
-		color: @body-background;
-	}
+	border-radius: @circle-radius;
+	padding: 0.25rem;
+	vertical-align: sub;
+	transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 1200px) {
+#nav-logout-icon {
+	color: @light-red;
+}
+
+.item-name {
+	margin-left: 8px;
+}
+
+
+
+
+/*---------------------  Breakpoints  ---------------------*/
+
+@media (max-width: 1600px) {
+	#nav-items {
+		text-align: center;
+	}
+
 	.nav-item {
 		text-align: center;
+		width: auto;
 	}
 }

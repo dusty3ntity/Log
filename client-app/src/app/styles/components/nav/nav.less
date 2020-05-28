@@ -1,90 +1,129 @@
 @import "nav-item";
 
+#nav-sider {
+	height: 100%;
+	margin-right: 3rem;
+}
+
 #nav {
-	background: linear-gradient(326.91deg, rgba(255, 255, 255, 0.1) -0.87%, rgba(255, 255, 255, 0) 27.17%), 
-				linear-gradient(155.21deg, #5685FF -1.71%, #3C6EEF 98.35%);
-	border-radius: 30px;
-	padding: 1.6vh 0.73vw;
-	box-shadow: @nav-shadow;
-	margin-right: 48px;
+	height: 100%;
+	background: linear-gradient(326.47deg, rgba(255, 255, 255, 0.1) -0.87%, rgba(255, 255, 255, 0) 27.17%), 
+				linear-gradient(154.84deg, #5685FF -1.71%, #3C6EEF 98.35%);
+	box-shadow: 6px 6px 20px rgba(111, 140, 176, 0.45), -6px -6px 20px #FFFFFF, 2px 2px 4px rgba(0, 0, 0, 0.25);
+	display: flex;
+	flex-direction: column;
+	font-size: 1.375rem;
+	border-radius: 1.875rem;
+	padding: 1rem;
+}
 
-	#nav-header {
-		text-align: center;
-		margin-bottom: 3vh;
+#nav-header {
+	text-align: center;
+	margin-bottom: 20px;
+}
 
-		#nav-logo {
-			width: 60px;
-			height: 60px;
-			background-color: @body-background;
-			padding: 7px;
-			border-radius: 30px;
-		}
+#nav-logo {
+	width: 4.2rem;
+	height: 4.2rem;
+	background-color: @body-background;
+	padding: 0.4rem;
+	border-radius: @circle-radius;
+	vertical-align: top;
+}
 
-		#nav-title {
-			font-size: 2.2vw;
-			margin-left: 8px;
-			vertical-align: top;
-			line-height: 60px;
-			color: @body-background;
-			font-family: "Vibur", cursive;
-		}
+#nav-title {
+	font-size: 3rem;
+	font-weight: 400;
+	color: @body-background;
+	font-family: "Vibur", cursive;
+	margin-left: 0.6rem;
+}
+
+.nav-divider {
+	height: 0.625rem;
+}
+
+#profile-link {
+	width: 100%;
+}
+
+#nav-user-area {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	flex-grow: 8;
+}
+
+#user-area-content {
+	text-align: center;
+	font-weight: 800;
+}
+
+.nav-avatar {
+	width: 7em;
+	height: 7em;
+	border: 0.2em solid @body-background;
+	border-radius: @circle-radius;
+}
+
+.nav-avatar:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+.nav-avatar img {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+  }
+
+#nav-username {
+	color: @body-background;
+	margin: 0.35em 0;
+}
+
+#nav-upgrade-btn {
+	background: linear-gradient(153.51deg, #EEF9FF 0%, #D8E1E8 100%);
+	color: @light-red;
+	border-radius: 1.08em;
+	padding: 0.6em 0.7em;
+	box-shadow: 1px 1px 3px rgba(91, 95, 98, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9), 1px -1px 2px rgba(91, 95, 98, 0.2), -1px 1px 2px rgba(91, 95, 98, 0.2), inset -1px -1px 2px rgba(91, 95, 98, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+
+	&:hover {
+		background: linear-gradient(153.51deg, #D8E1E8 0%, #EEF9FF 100%);
 	}
 
-	.nav-divider {
-		height: 1vh;
+	&:active {
+		box-shadow: -1px -1px 2px rgba(91, 95, 98, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3), inset 1px 1px 3px rgba(91, 95, 98, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.9), inset 1px -1px 2px rgba(91, 95, 98, 0.2), inset -1px 1px 2px rgba(91, 95, 98, 0.2);
 	}
+}
 
-	#nav-user-area {
-		position: absolute;
-		bottom: 2.75vh;
-		left: 50%;
-		transform: translate(-50%);
-		text-align: center;
+
+
+
+/*---------------------  Breakpoints  ---------------------*/
+
+@media (min-width: 1600px) {
+	#nav-logo {
+		display: none;
+	}
+}
+
+@media (max-width: 1599px) {
+	#nav-logo {
 		width: 100%;
+		height: 100%;
+	}
 
-		#nav-avatar {
-			width: 5.73vw;
-			height: 5.73vw;
-			border: 4px solid @body-background;
-			border-radius: 100px;
-			overflow: hidden;
-		}
-
-		@media screen and (max-width: 1200px) {
-			#nav-avatar {
-				width: 60%;
-				height: 60%;
-			}
-		}
-
-		#nav-username {
-			display: block;
-			color: @body-background;
-			font-size: 2.1vh;
-			font-weight: 800;
-			margin-top: 8px;
-		}
-
-		#nav-upgrade-btn {
-			display: inline-block;
-			background-color: @body-background;
-			color: @light-red;
-			border-radius: 2.36vh;
-			font-size: 2.1vh;
-			font-weight: 800;
-			padding: 12px 16px;
-			margin-top: 1.5vh;
-			box-shadow: @upgrade-btn-shadow;
-			transition: 0.3s;
-		}
-
-		#nav-upgrade-btn:hover {
-			box-shadow: @upgrade-btn-hover-shadow;
-		}
-
-		#nav-upgrade-btn:focus {
-			transition: none;
-			box-shadow: @upgrade-btn-focus-shadow;
-		}
+	.nav-avatar {
+		width: 100%;
+		height: 100%;
 	}
 }

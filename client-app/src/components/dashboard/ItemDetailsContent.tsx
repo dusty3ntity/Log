@@ -4,7 +4,6 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 import { IItem } from "../../app/models/item";
 import format from 'date-fns/format';
-import formatISO from 'date-fns/formatISO'
 
 interface IProps {
 	item: IItem;

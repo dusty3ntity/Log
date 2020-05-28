@@ -1,44 +1,51 @@
 import React from "react";
-import { Layout } from "antd";
+import { Layout, Avatar, Button } from "antd";
+import { Link } from "react-router-dom";
 import NavItem from "./NavItem";
-import { Link, NavLink } from "react-router-dom";
 
 const { Sider } = Layout;
 
 const NavBar = () => {
 	return (
-		<Sider id="nav" width={"12.5vw"} trigger={null} collapsible breakpoint={"xl"}>
-			<div id="nav-header">
-				<Link to="/">
-					<img id="nav-logo" src="/images/logo.svg" alt="Logo" />
-					<span id="nav-title" className="lg-hidden">
-						Log.
-					</span>
-				</Link>
-			</div>
+		<Sider id="nav-sider" width={"12.5vw"} trigger={null} collapsible breakpoint={"xxl"}>
+			<div id="nav">
+				<div id="nav-header">
+					<Link to="/">
+						<img id="nav-logo" src="/images/logo.svg" alt="Logo" />
+						<span id="nav-title" className="xl-hidden">
+							Log.
+						</span>
+					</Link>
+				</div>
 
-			<NavItem link="/dashboard" id="nav-dashboard" name={"Dashboard"} icon="dashboard" />
+				<div id="nav-items">
+					<NavItem link="/dashboard" id="nav-dashboard" name={"Dashboard"} icon="dashboard" />
+					<NavItem link="/statistics" id="nav-statistics" name={"Statistics"} icon="timeline" />
 
-			<NavItem link="/statistics" id="nav-statistics" name={"Statistics"} icon="timeline" />
+					<div className="nav-divider" />
 
-			<div className="nav-divider" />
+					<NavItem link="/community" id="nav-community" name={"Community"} icon="people" />
+					<NavItem link="/packs" id="nav-my-packs" name={"My Packs"} icon="view_column" />
 
-			<NavItem link="/community" id="nav-community" name={"Community"} icon="people" />
-			<NavItem link="/packs" id="nav-my-packs" name={"My Packs"} icon="view_column" />
+					<div className="nav-divider" />
 
-			<div className="nav-divider" />
+					<NavItem link="/settings" id="nav-settings" name={"Settings"} icon="settings" />
+					<NavItem link="/logout" id="nav-logout" name={"Logout"} icon="power_settings_new" />
+				</div>
 
-			<NavItem link="/settings" id="nav-settings" name={"Settings"} icon="settings" />
-			<NavItem link="/logout" id="nav-logout" name={"Logout"} icon="power_settings_new" />
-
-			<div id="nav-user-area">
-				<img id="nav-avatar" src="/images/temp/avatar.jpg" alt="Avatar" />
-				<span id="nav-username" className="lg-hidden">
-					Vadym Ohyr
-				</span>
-				<a id="nav-upgrade-btn" className="lg-hidden" href="/">
-					Upgrade
-				</a>
+				<div id="nav-user-area">
+					<div id="user-area-content">
+						<Link to="/profile" id="profile-link">
+							<Avatar className="nav-avatar" src="/images/temp/avatar.png" alt={"Account name"} />
+						</Link>
+						<div id="nav-username" className="xl-hidden">
+							Vadym Ohyr
+						</div>
+						<Button id="nav-upgrade-btn" className="xl-hidden" type="link" href="/">
+							Upgrade
+						</Button>
+					</div>
+				</div>
 			</div>
 		</Sider>
 	);
