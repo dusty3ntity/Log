@@ -14,12 +14,13 @@ const menu = (
 
 const DictionarySelector = () => {
 	return (
-		<Dropdown className="dictionary-selector" 
+		<Dropdown
 			overlay={menu} 
 			trigger={["click"]} 
-			placement="bottomRight"
+			placement="bottomCenter"
+			overlayClassName="dictionary-selector-dropdown"
 		>
-			<div id="selected-dictionary">
+			<div id="dictionary-selector">
 				<img id="lang-from" src="/images/flags/ru.png" alt="Lang from" />
 				<img id="lang-to" src="/images/flags/en.png" alt="Lang to" />
 				<i id="arrow" className="material-icons arrow">
