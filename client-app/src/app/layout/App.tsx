@@ -1,16 +1,15 @@
 import React, { Fragment } from "react";
 import { Layout } from "antd";
-import NavBar from "../../components/navbar/NavBar";
-import TopPanel from "../../components/top-panel/TopPanel";
-import Dashboard from "../../components/dashboard/Dashboard";
 import { observer } from "mobx-react-lite";
 import "mobx-react-lite/batchingForReactDom";
 import { Route, Switch } from "react-router-dom";
+
+import NavBar from "../../components/navbar/NavBar";
+import TopPanel from "../../components/top-panel/TopPanel";
+import Dashboard from "../../components/dashboard/Dashboard";
 import HomePage from "../../components/home/HomePage";
 import NewItem from "../../components/new-item/NewItem";
 import NotFound from "./NotFound";
-
-const { Content } = Layout;
 
 function App() {
 	return (

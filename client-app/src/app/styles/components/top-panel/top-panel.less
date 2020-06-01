@@ -1,125 +1,106 @@
+@import "./dictionary-selector";
+
 #top-panel {
-	height: 9.5vh;
-	padding: 1.57vh 0;
-	margin-bottom: 14px;
+	display: flex;
+	align-items: center;
 
-	#top-panel-row {
+	height: 6rem;
+	padding: 1rem 0;
+	margin-bottom: 0.5rem;
+
+	#page-title-container,
+	#dictionary-selector-container {
+		height: 100%;
+		width: 25%;
+	}
+
+	#buttons-container {
+		width: 50%;
 		height: 100%;
 	}
 
-	.ant-col {
+	.page-title {
 		height: 100%;
-	}
-
-	#top-panel-title {
 		font-family: "Nunito", sans-serif;
 		color: @primary-color;
-		font-size: 4.72vmin;
+		font-size: 3rem;
 		font-weight: 800;
-		line-height: 70px;
 	}
 
-	.space {
+	.btn-space {
 		float: right;
 		height: 100%;
+
+		.ant-space-item {
+			height: 100%;
+		}
 	}
 
 	.top-panel-btn {
+		display: flex;
+		align-items: center;
 		height: 100%;
-		padding: 12px 16px;
-		border-radius: 2.36vh;
-		background: linear-gradient(345.88deg, #e3edf7 2.36%, #e3edf7 51.86%, #e3edf7 61.95%);
-		box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px #ffffff, 2px 2px 4px rgba(114, 142, 171, 0.1);
-
-		.top-panel-icon {
-			font-size: convert(2.4vmin, px);
-			border-radius: 30px;
-			margin-right: 8px;
-			padding: 0.4vh;
-			vertical-align: text-bottom;
-		}
+		padding: 0 16px;
+		border-radius: 1.3rem;
+		background: @body-background;
+		box-shadow: 3px 3px 8px rgba(211, 220, 230, 0.9), -3px -3px 6px rgba(243, 254, 255, 0.9),
+			3px -3px 6px rgba(211, 220, 230, 0.2), -3px 3px 6px rgba(211, 220, 230, 0.2),
+			inset -1px -1px 2px rgba(211, 220, 230, 0.5), inset 1px 1px 2px rgba(243, 254, 255, 0.3);
 
 		span {
-			font-size: 2.95vmin;
-			font-weight: 800;
-			line-height: 4.3vmin;
+			font-size: 1.9rem;
+			font-weight: 700;
+			margin-left: 8px;
+		}
+
+		&:hover {
+			background: linear-gradient(168.69deg, #d8e1eb 0%, #eef9ff 100%);
+			box-shadow: 3px 3px 8px rgba(211, 220, 228, 0.9), -3px -3px 6px rgba(243, 254, 255, 0.9),
+				3px -3px 6px rgba(211, 220, 228, 0.2), -3px 3px 6px rgba(211, 220, 228, 0.2),
+				inset -1px -1px 2px rgba(211, 220, 228, 0.5), inset 1px 1px 2px rgba(243, 254, 255, 0.3);
+		}
+
+		&:focus {
+			background: @body-background;
+			box-shadow: -1px -1px 2px rgba(211, 220, 228, 0.5), 1px 1px 2px rgba(243, 254, 255, 0.3),
+				inset 3px 3px 8px rgba(211, 220, 228, 0.9), inset -3px -3px 6px rgba(243, 254, 255, 0.9),
+				inset 3px -3px 6px rgba(211, 220, 228, 0.2), inset -3px 3px 6px rgba(211, 220, 228, 0.2);
 		}
 	}
 
-	#continue-learning-btn {
-		#learning-icon {
-			transform: rotate(180deg);
-			background-color: #386f4e;
-			color: @body-background;
-		}
-
-		span {
-			background: linear-gradient(86.75deg, #386f4e 0.04%, rgba(36, 134, 65, 0.854688) 28.15%, #3df06f 100%);
-			background-clip: text;
-			-webkit-text-fill-color: transparent;
-		}
-	}
-
-	#new-item-btn {
-		color: @primary-color;
-
-		#new-item-icon {
-			background-color: @primary-color;
-			color: @body-background;
-			font-weight: bold;
-		}
-	}
-
-	#selected-dictionary {
-		padding: 0 4px 0 16px;
-		float: right;
-		background-color: @body-background;
-		cursor: pointer;
-		border-radius: 20px;
-		height: 100%;
-		box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px #ffffff, 2px 2px 4px rgba(114, 142, 171, 0.1);
-		
-		img {
-			border-radius: 10px;
-			vertical-align: middle;
-		}
-
-		i {
-			font-size: 50px;
-			vertical-align: middle;
-			margin-left: 4px;
-		}
-
-		#lang-from {
-			width: 40px;
-			height: 26px;
-			margin-right: 16px;
-			box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.5), inset -2px -2px 4px rgba(255, 255, 255, 0.9);
-		}
-
-		#lang-to {
-			width: 56px;
-			height: 40px;
-			box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.25), 1px 1px 4px rgba(0, 0, 0, 0.25), -4px -4px 20px #ffffff;
-		}
-	}
-
-	#dropdown {
-		background-color: @body-background;
-		border-radius: 20px;
-		padding-left: 0;
-
-		#arrow {
-			transform: rotate(90deg);
-			font-size: 40px;
-			color: @primary-color;
-		}
+	.btn-icon {
+		border-radius: @circle-radius;
+		padding: 0.3rem;
 	}
 }
 
-.ant-dropdown {
-	img {
-		width: 30px;
-		height: 30px;
+#continue-learning-btn {
+	i {
+		transform: rotate(180deg);
+		background-color: #386f4e;
+		color: @body-background;
+	}
+
+	span {
+		background: linear-gradient(
+			86.83deg,
+			#2a7749 0.04%,
+			rgba(36, 134, 65, 0.854688) 28.15%,
+			rgba(27, 177, 69, 0.86) 100%
+		);
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+}
+
+#new-item-btn {
+	i {
+		background-color: @primary-color;
+		color: @body-background;
+		font-weight: bold;
+	}
+
+	span {
+		color: @primary-color;
 	}
 }

@@ -1,29 +1,51 @@
 import React from "react";
-import { Menu, Dropdown } from "antd";
+import { Menu, Dropdown, Divider, Button } from "antd";
 
 const menu = (
 	<Menu>
-		<Menu.Item key="0">
-			<img id="lang-from" src="/images/flags/en.png" alt="Lang from" />
-			<img id="lang-to" src="/images/flags/ru.png" alt="Lang to" />
+		<Menu.Item key="0" className="menu-item">
+			<img className="flag lang-from" src="/images/flags/ua.png" alt="Lang from" />
+			<i className="material-icons arrow">arrow_forward</i>
+			<img className="flag lang-to" src="/images/flags/en.png" alt="Lang to" />
+
+			<Divider className="menu-divider" type="vertical" />
+			<span className="items-counter">273</span>
 		</Menu.Item>
-		<Menu.Divider />
-		<Menu.Item key="new">Create new</Menu.Item>
+		<Menu.Item key="1" className="menu-item">
+			<img className="flag lang-from" src="/images/flags/en.png" alt="Lang to" />
+
+			<i className="material-icons arrow">arrow_forward</i>
+			<img className="flag lang-to" src="/images/flags/ru.png" alt="Lang from" />
+
+			<Divider className="menu-divider" type="vertical" />
+			<span className="items-counter">4921</span>
+		</Menu.Item>
+		<div id="menu-actions">
+			<Button id="new-btn" className="actions-btn">
+				<i className="material-icons">add</i>
+			</Button>
+
+			<Button id="edit-btn" className="actions-btn">
+				<i className="material-icons">edit</i>
+			</Button>
+		</div>
 	</Menu>
 );
 
 const DictionarySelector = () => {
 	return (
-		<Dropdown className="dictionary-selector" 
-			overlay={menu} 
-			trigger={["click"]} 
-			placement="bottomRight"
+		<Dropdown
+			overlay={menu}
+			trigger={["click"]}
+			placement="bottomCenter"
+			overlayClassName="dictionary-selector-dropdown"
 		>
-			<div id="selected-dictionary">
-				<img id="lang-from" src="/images/flags/ru.png" alt="Lang from" />
-				<img id="lang-to" src="/images/flags/en.png" alt="Lang to" />
-				<i id="arrow" className="material-icons arrow">
-					keyboard_arrow_down
+			<div id="dictionary-selector">
+				<img className="flag lang-from" src="/images/flags/ru.png" alt="Lang from" />
+				<i className="material-icons arrow">arrow_forward</i>
+				<img className="flag lang-to" src="/images/flags/en.png" alt="Lang to" />
+				<i id="arrow-dropdown" className="material-icons">
+					play_arrow
 				</i>
 			</div>
 		</Dropdown>
