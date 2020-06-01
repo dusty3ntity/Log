@@ -27,7 +27,7 @@ const TopPanel = () => {
 			</div>
 
 			<div id="dictionary-selector-container">
-				{/* <DictionarySelector /> */}
+				<DictionarySelector />
 			</div>
 		</Header>
 	);
