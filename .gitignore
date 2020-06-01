@@ -592,7 +592,6 @@ dist/
 
 # Temporary folders
 tmp/
-temp/
 
 ### react ###
 .DS_*
