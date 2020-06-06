@@ -3,15 +3,13 @@
 
 #items-list {
 	height: 100%;
+	flex-grow: 2;
+	display: flex;
+	flex-direction: column;
 
-	.ant-layout-content {
-		height: 100px;
-	}
-
-	#items-list-header {
-		padding: 0;
-		height: 45px;
-		margin-bottom: 16px;
+	#header-container {
+		height: 3rem;
+		margin-bottom: 1.2rem;
 
 		#items-list-title {
 			display: inline-block;
@@ -78,5 +76,11 @@
 			background: none;
 			margin-right: 10px;
 		}
+	}
+
+	#content-container {
+		display: flex;
+		height: 90%;
+		flex-grow: 2;
 	}
 }

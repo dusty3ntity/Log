@@ -1,10 +1,15 @@
 #item-details {
-	margin-left: 32px;
-	border-radius: 30px;
-	padding: 16px;
+	height: 100%;
+	margin-left: 2rem;
+	width: calc(25% - 2rem);
+	border-radius: 1.875rem;
+	padding: 1rem;
 
-	box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px rgba(255, 255, 255, 0.75),
-		2px 2px 4px rgba(114, 142, 171, 0.1);
+	background-color: @body-background;
+
+	box-shadow: 5px 5px 13px rgba(204, 213, 222, 0.9), -5px -5px 10px rgba(250, 255, 255, 0.9),
+		5px -5px 10px rgba(204, 213, 222, 0.2), -5px 5px 10px rgba(204, 213, 222, 0.2),
+		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 
 	#details-container {
 		position: relative;
@@ -14,7 +19,6 @@
 			height: 56px;
 
 			.status {
-				
 				.ant-badge-status-dot {
 					width: 26px;
 					height: 26px;
@@ -87,7 +91,6 @@
 		}
 
 		#stats-row {
-
 			.ant-statistic-title {
 				text-align: center;
 				font-size: 14px;

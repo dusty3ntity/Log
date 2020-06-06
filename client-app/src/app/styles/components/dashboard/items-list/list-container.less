@@ -1,9 +1,13 @@
 #list-container {
 	height: 100%;
+	flex-grow: 2;
 	border-radius: 30px;
 	padding-right: 12px;
-	box-shadow: inset 6px 6px 20px rgba(111, 140, 176, 0.41), inset -6px -6px 20px #fff;
+	box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+		3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 
+	position: relative;
 	overflow: hidden;
 
 	#list {

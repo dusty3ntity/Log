@@ -3,17 +3,22 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 import ItemDetailsContent from "./ItemDetailsContent";
 import ItemDetailsEditForm from "./ItemDetailsEditForm";
+import { Empty } from "antd";
 
-const ItemDetails = () => {
+interface IProps {
+	classNames: string;
+}
+
+const ItemDetails: React.FC<IProps> = ({ classNames }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { activeItem, editing } = rootStore.itemStore;
 
-	if (!activeItem) return <div></div>;
-
-	if (editing) return <ItemDetailsEditForm item={activeItem} />
-
 	return (
-		<ItemDetailsContent item={activeItem} />
+		<div id="item-details" className={classNames}>
+			{!activeItem && <Empty description="Select an item" />}
+			{activeItem && editing && <ItemDetailsEditForm item={activeItem} />}
+			{activeItem && !editing && <ItemDetailsContent item={activeItem} />}
+		</div>
 	);
 };
 

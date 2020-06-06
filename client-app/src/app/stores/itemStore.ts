@@ -70,6 +70,7 @@ export default class ItemStore {
 	@action selectItem = (id: string) => {
 		this.editing = false;
 		this.activeItem = this.itemRegistry.get(id);
+		this.showDetailsDrawer();
 	};
 
 	@action createItem = async (item: INewItem) => {
@@ -107,7 +108,7 @@ export default class ItemStore {
 
 	@action closeEditor = () => {
 		this.editing = false;
-	}
+	};
 
 	@action deleteItem = async () => {
 		this.loading = true;
@@ -154,5 +155,24 @@ export default class ItemStore {
 		} finally {
 			runInAction("unstarring item", () => (this.loading = false));
 		}
+	};
+
+	@observable filtersDrawerVisible = false;
+	@observable detailsDrawerVisible = false;
+
+	@action showFiltersDrawer = () => {
+		this.filtersDrawerVisible = true;
+	};
+
+	@action hideFiltersDrawer = () => {
+		this.filtersDrawerVisible = false;
+	};
+
+	@action showDetailsDrawer = () => {
+		this.detailsDrawerVisible = true;
+	};
+
+	@action hideDetailsDrawer = () => {
+		this.detailsDrawerVisible = false;
 	};
 }

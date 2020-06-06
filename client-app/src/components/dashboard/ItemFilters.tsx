@@ -1,10 +1,13 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Divider, Checkbox, Badge } from "antd";
 
-const ItemFilters = () => {
+interface IProps {
+	classNames: string;
+}
+
+const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 	return (
-		<Fragment>
-			<h2 id="filters-title">Filters</h2>
+		<div id="item-filters" className={classNames}>
 			<div id="filters-container">
 				<div id="filters-category">
 					<h3>Category</h3>
@@ -30,7 +33,7 @@ const ItemFilters = () => {
 					</Checkbox>
 				</div>
 			</div>
-		</Fragment>
+		</div>
 	);
 };
 
