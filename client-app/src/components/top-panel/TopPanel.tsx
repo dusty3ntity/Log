@@ -16,12 +16,12 @@ const TopPanel = () => {
 				<Space className="btn-space" size="large">
 					<Button id="continue-learning-btn" className="top-panel-btn" type="link" block href="/">
 						<i className="btn-icon material-icons">wb_incandescent</i>
-						<span className="lg-hidden">Continue learning</span>
+						<span className="lg-visible">Continue learning</span>
 					</Button>
 
 					<Button id="new-item-btn" className="top-panel-btn" type="link" href="/new-item">
 						<i className="btn-icon material-icons">add</i>
-						<span className="lg-hidden">New item</span>
+						<span className="lg-visible">New item</span>
 					</Button>
 				</Space>
 			</div>

@@ -12,7 +12,7 @@ const NavBar = () => {
 				<div id="nav-header">
 					<Link to="/">
 						<img id="nav-logo" src="/images/logo.svg" alt="Logo" />
-						<span id="nav-title" className="xl-hidden">
+						<span id="nav-title" className="xl-visible">
 							Log.
 						</span>
 					</Link>
@@ -38,10 +38,10 @@ const NavBar = () => {
 						<Link to="/profile" id="profile-link">
 							<Avatar className="nav-avatar" src="/images/temp/avatar.png" alt={"Account name"} />
 						</Link>
-						<div id="nav-username" className="xl-hidden">
+						<div id="nav-username" className="xl-visible">
 							Vadym Ohyr
 						</div>
-						<Button id="nav-upgrade-btn" className="xl-hidden" type="link" href="/">
+						<Button id="nav-upgrade-btn" className="xl-visible" type="link" href="/">
 							Upgrade
 						</Button>
 					</div>

@@ -8,11 +8,12 @@ interface IProps {
 const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 	return (
 		<div id="item-filters" className={classNames}>
+			<h1 id="filters-title" className="mlg-hidden">Filters</h1>
+
 			<div id="filters-container">
 				<div id="filters-category">
 					<h3>Category</h3>
 					<Checkbox className="checkbox">Words</Checkbox>
-					<br />
 					<Checkbox className="checkbox">Phrases</Checkbox>
 				</div>
 
@@ -23,11 +24,11 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 					<Checkbox className="checkbox">
 						Learned <Badge status="success" />
 					</Checkbox>
-					<br />
+
 					<Checkbox className="checkbox">
 						In progress <Badge status="warning" />
 					</Checkbox>
-					<br />
+
 					<Checkbox className="checkbox">
 						Untouched <Badge status="default" />
 					</Checkbox>

@@ -17,7 +17,7 @@ const Dashboard = () => {
 	return (
 		<div id="dashboard">
 			<ItemsList />
-			<ItemDetails classNames="mlg-hidden" />
+			<ItemDetails classNames="mlg-visible" />
 		</div>
 	);
 };

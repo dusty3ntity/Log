@@ -20,7 +20,7 @@ const ItemsList = () => {
 				<h2 id="items-list-title">Items</h2>
 
 				<Space className="space" size="large">
-					<Button id="filters-btn" type="primary" onClick={showFiltersDrawer}>
+					<Button id="filters-btn" className="mlg-hidden" type="primary" onClick={showFiltersDrawer}>
 						Filters
 					</Button>
 
@@ -35,7 +35,7 @@ const ItemsList = () => {
 			</div>
 
 			<div id="content-container">
-				<ItemFilters classNames="mlg-hidden" />
+				<ItemFilters classNames="mlg-visible" />
 
 				<div id="list-container">
 					<ItemFiltersDrawer />

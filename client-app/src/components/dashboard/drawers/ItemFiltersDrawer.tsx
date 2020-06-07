@@ -12,7 +12,6 @@ const ItemFiltersDrawer = () => {
 	return (
 		<Drawer
 			className="dashboard-drawer item-filters-drawer"
-			title="Filters"
 			placement="left"
 			closable={false}
 			onClose={hideFiltersDrawer}
