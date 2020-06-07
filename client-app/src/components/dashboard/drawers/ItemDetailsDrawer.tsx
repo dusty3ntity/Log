@@ -9,9 +9,11 @@ const ItemDetailsDrawer = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { detailsDrawerVisible, hideDetailsDrawer } = rootStore.itemStore;
 
+	const noShadowClass = !detailsDrawerVisible ? " no-shadow" : "";
+
 	return (
 		<Drawer
-			className="dashboard-drawer item-details-drawer mlg-hidden"
+			className={"dashboard-drawer item-details-drawer mlg-hidden" + noShadowClass}
 			placement="right"
 			closable={false}
 			onClose={hideDetailsDrawer}

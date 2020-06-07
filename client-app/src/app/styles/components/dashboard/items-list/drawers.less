@@ -1,5 +1,13 @@
-.dashboard-drawer .ant-drawer-mask {
-	background: rgba(0, 0, 0, 0.03);
+.dashboard-drawer {
+	.ant-drawer-mask {
+		background: rgba(0, 0, 0, 0.03);
+	}
+
+	&.no-shadow {
+		.ant-drawer-content-wrapper {
+			box-shadow: none;
+		}
+	}
 }
 
 .item-filters-drawer {
