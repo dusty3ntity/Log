@@ -11,7 +11,7 @@ const ItemDetailsDrawer = () => {
 
 	return (
 		<Drawer
-			className="dashboard-drawer item-details-drawer"
+			className="dashboard-drawer item-details-drawer mlg-hidden"
 			placement="right"
 			closable={false}
 			onClose={hideDetailsDrawer}

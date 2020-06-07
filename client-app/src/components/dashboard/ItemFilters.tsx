@@ -8,29 +8,40 @@ interface IProps {
 const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 	return (
 		<div id="item-filters" className={classNames}>
-			<h1 id="filters-title" className="mlg-hidden">Filters</h1>
+			<h1 id="filters-title" className="mlg-hidden">
+				Filters
+			</h1>
+
+			<Divider className="mlg-hidden" />
 
 			<div id="filters-container">
-				<div id="filters-category">
-					<h3>Category</h3>
-					<Checkbox className="checkbox">Words</Checkbox>
-					<Checkbox className="checkbox">Phrases</Checkbox>
+				<div className="filters-category">
+					<h2 className="category-title">Category</h2>
+					<Checkbox className="filters-item">
+						<span className="item-name">Words</span>
+					</Checkbox>
+					<Checkbox className="filters-item">
+						<span className="item-name">Phrases</span>
+					</Checkbox>
 				</div>
 
 				<Divider />
 
-				<div id="filters-progress">
-					<h3>Progress</h3>
-					<Checkbox className="checkbox">
-						Learned <Badge status="success" />
+				<div className="filters-category">
+					<h2 className="category-title">Progress</h2>
+					<Checkbox className="filters-item">
+						<span className="item-name">Learned</span>
+						<Badge status="success" />
 					</Checkbox>
 
-					<Checkbox className="checkbox">
-						In progress <Badge status="warning" />
+					<Checkbox className="filters-item">
+						<span className="item-name">In progress</span>
+						<Badge status="warning" />
 					</Checkbox>
 
-					<Checkbox className="checkbox">
-						Untouched <Badge status="default" />
+					<Checkbox className="filters-item">
+						<span className="item-name">Untouched</span>
+						<Badge status="default" />
 					</Checkbox>
 				</div>
 			</div>

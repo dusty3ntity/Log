@@ -9,12 +9,18 @@
 	display: flex;
 	align-items: center;
 	margin: 4px 0;
+
+	&:hover {
+		.ant-checkbox {
+			border-color: @primary-color;
+		}
+	}
 }
 
 .ant-checkbox {
 	height: @checkbox-size;
 	width: @checkbox-size;
-	vertical-align: unset;
+	top: unset;
 	border: 1px solid @body-background;
 	border-radius: 40%;
 

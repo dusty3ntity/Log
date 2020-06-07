@@ -1,30 +1,38 @@
 #item-filters {
-	height: 100%;
 	margin-right: 2rem;
 
 	#filters-title {
-		font-family: @font-family;
-		color: @primary-color;
 		font-weight: 700;
-		font-size: 34px;
-		margin-bottom: 14px;
+		font-size: 28px;
+		margin-bottom: 20px;
 	}
 
-	#filters-container {
-		h3 {
-			font-family: @font-family;
-			color: @primary-color;
-			font-weight: 700;
-		}
+	.category-title {
+		font-weight: 700;
+		font-size: 20px;
+	}
 
-		span {
-			font-size: 16px;
-		}
+	.filters-item {
+		margin-left: 0;
+	}
 
-		.ant-divider {
-			background-color: #d3dfea;
-			height: 2px;
-			margin: 14px 0;
-		}
+	.ant-checkbox + span {
+		flex-grow: 2;
+		padding-right: 0;
+	}
+
+	.item-name {
+		font-size: 16px;
+	}
+
+	.ant-badge {
+		float: right;
+		margin-left: 14px;
+	}
+
+	.ant-divider {
+		background-color: #d3dfea;
+		height: 2px;
+		margin: 14px 0;
 	}
 }
