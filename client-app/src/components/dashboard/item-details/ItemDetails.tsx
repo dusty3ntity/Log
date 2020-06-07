@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 import ItemDetailsContent from "./ItemDetailsContent";
 import ItemDetailsEditForm from "./ItemDetailsEditForm";

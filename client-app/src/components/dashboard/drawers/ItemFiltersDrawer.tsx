@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { Drawer } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import ItemFilters from "../ItemFilters";
+import ItemFilters from "../items-list/ItemFilters";
 
 const ItemFiltersDrawer = () => {
 	const rootStore = useContext(RootStoreContext);

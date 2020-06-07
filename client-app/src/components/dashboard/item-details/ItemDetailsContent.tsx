@@ -1,8 +1,8 @@
 import React, { useContext, Fragment } from "react";
 import { Row, Space, Divider, Col, Badge, Statistic } from "antd";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
-import { IItem } from "../../app/models/item";
+import { IItem } from "../../../app/models/item";
 import format from 'date-fns/format';
 
 interface IProps {

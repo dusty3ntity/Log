@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
-import ItemDetails from "./ItemDetails";
-import ItemsList from "./ItemsList";
+import ItemDetails from "./item-details/ItemDetails";
+import ItemsList from "./items-list/ItemsList";
 
 const Dashboard = () => {
 	const rootStore = useContext(RootStoreContext);

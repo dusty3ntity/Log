@@ -8,73 +8,69 @@
 	flex-direction: column;
 
 	#header-container {
-		height: 3rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 40px;
 		margin-bottom: 1.2rem;
 
 		#items-list-title {
 			display: inline-block;
-			font-family: @font-family;
-			color: @primary-color;
 			font-weight: 700;
-			font-size: 34px;
-			vertical-align: super;
-			margin: 0;
+			font-size: 2.125rem;
 		}
 
-		.space {
-			height: 100%;
-			float: right;
-		}
-
+		#buttons-container,
+		.header-space,
 		.ant-space-item {
 			height: 100%;
 		}
 
-		#group-by-date-btn {
+		.header-btn {
 			height: 100%;
-			border-radius: 20px;
-			background-color: @body-background;
-			box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px #fff,
-				2px 2px 4px rgba(114, 142, 171, 0.1);
+			display: flex;
+			align-items: center;
+			padding: 0 16px;
 
-			i {
-				line-height: 44px;
-				vertical-align: super;
-				padding: 0 4px;
+			background: @body-background;
+			box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
+				1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),
+				inset -1px -1px 2px rgba(204, 213, 221, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			span {
+				margin-left: 8px;
+				font-size: 16px;
+				font-weight: 700;
 			}
-		}
-
-		.ant-input-affix-wrapper {
-			max-height: unset;
-		}
-
-		.ant-input-search {
-			height: 100%;
-			vertical-align: text-bottom;
-			border-radius: 20px;
-			border: 1px solid @body-background;
-			padding: 4px 16px;
-			box-shadow: inset 5px 5px 15px #a6b4c8, inset -5px -5px 10px rgba(255, 255, 255, 0.75);
 
 			&:hover {
-				border: 1px solid @primary-color;
+				background: linear-gradient(135deg, #d8e1e9 0%, #eef9ff 100%);
 			}
 
-			.anticon-search {
-				color: @primary-color;
-				font-size: 20px;
+			&:focus {
+				box-shadow: -1px -1px 2px rgba(204, 213, 220, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+					inset 1px 1px 3px rgba(204, 213, 220, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+					inset 1px -1px 2px rgba(204, 213, 220, 0.2), inset -1px 1px 2px rgba(204, 213, 220, 0.2);
 			}
 
-			.ant-input-search-icon::before {
-				display: none;
+			&:disabled {
+				box-shadow: -1px -1px 2px rgba(204, 213, 220, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+					inset 1px 1px 3px rgba(204, 213, 220, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+					inset 1px -1px 2px rgba(204, 213, 220, 0.2), inset -1px 1px 2px rgba(204, 213, 220, 0.2);
 			}
 		}
 
-		#item-search {
-			height: 100%;
-			font-size: 20px;
-			background: none;
-			margin-right: 10px;
+		#filters-btn {
+			border-radius: 1.3rem;
+
+			i {
+				font-size: 28px;
+			}
+		}
+
+		#group-by-date-btn {
+			border-radius: 50%;
+			padding: 0 8px;
 		}
 	}
 

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Row, Space, Divider, Form, Button } from "antd";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import EditInput from "../common/EditInput";
-import { IItem } from "../../app/models/item";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+import EditInput from "../../common/EditInput";
+import { IItem } from "../../../app/models/item";
 
 interface IProps {
 	item: IItem;

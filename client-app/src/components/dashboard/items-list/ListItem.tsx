@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Row, Col, Divider, Checkbox, Space } from "antd";
-import { IItem } from "../../app/models/item";
+import { IItem } from "../../../app/models/item";
 import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../../app/stores/rootStore";
 
 interface IProps {
 	item: IItem;
