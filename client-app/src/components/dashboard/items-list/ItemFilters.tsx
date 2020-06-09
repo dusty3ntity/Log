@@ -16,7 +16,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 
 			<div id="filters-container">
 				<div className="filters-category">
-					<h2 className="category-title">Category</h2>
+					<h2 className="category-title">Type</h2>
 					<Checkbox className="filters-item">
 						<span className="item-name">Words</span>
 					</Checkbox>

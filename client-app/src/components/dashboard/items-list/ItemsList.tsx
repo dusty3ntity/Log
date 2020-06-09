@@ -23,7 +23,7 @@ const ItemsList = () => {
 				<div id="list-container">
 					<ItemFiltersDrawer />
 
-					<SimpleBar style={{ height: "100%" }} autoHide={false}>
+					<SimpleBar style={{ height: "100%" }} autoHide={false} forceVisible="y" scrollbarMinSize={36}>
 						<div id="list">
 							{itemsByDate.map((item) => (
 								<ListItem key={item.id} item={item} />

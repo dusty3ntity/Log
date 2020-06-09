@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { Row, Col, Divider, Checkbox, Space } from "antd";
-import { IItem } from "../../../app/models/item";
+import { Divider, Checkbox, Button } from "antd";
 import { observer } from "mobx-react-lite";
+
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import { IItem } from "../../../app/models/item";
 
 interface IProps {
 	item: IItem;
@@ -10,43 +11,38 @@ interface IProps {
 
 const ListItem: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { selectItem } = rootStore.itemStore;
+	const { selectItem, starItemById, unstarItemById, activeItem } = rootStore.itemStore;
 
-	const progress = item.isLearned ? "learned" : item.totalRepeatsCount > 0 ? "in-progress" : "untouched";
+	const progressClass = item.isLearned ? "learned" : item.totalRepeatsCount > 0 ? "in-progress" : "untouched";
+	const starredClass = item.isStarred ? " active" : "";
+	const focusClass = item === activeItem ? " active" : "";
 
 	return (
-		<div className="list-item">
-			<Row className="list-item-row">
-				<Col span={2} className="item-selector-col">
-					<div className={"progress-bar " + progress}>‌‌</div>
+			<div className={"list-item" + focusClass}>
+				<div className="selector-col col">
+					<div className={"progress-bar " + progressClass}>‌‌</div>
 					<Checkbox className="selector" />
-				</Col>
+				</div>
 
-				<Col span={8} className="text-col original">
-					{item.original}
-				</Col>
+				<a className="text-container" onClick={() => selectItem(item.id)}>
+					<div className="text-col col original">{item.original}</div>
 
-				<Col span={1} className="item-divider-col">
-					<Divider type="vertical" />
-				</Col>
+					<div className="divider-col col">
+						<Divider type="vertical" />
+					</div>
 
-				<Col span={8} className="text-col translation">
-					{item.translation}
-				</Col>
+					<div className="text-col col translation">{item.translation}</div>
+				</a>
 
-				<Col span={5} className="item-actions-col">
-					<Space className="item-actions" size="middle">
-						<button className="item-star-btn">
-							<i className="material-icons star-icon">star</i>
-						</button>
-
-						<button className="item-actions-dropdown" onClick={() => selectItem(item.id)}>
-							<i className="material-icons actions-icon">more_vert</i>
-						</button>
-					</Space>
-				</Col>
-			</Row>
-		</div>
+				<div className="actions-col col">
+					<Button
+						className="star-btn actions-btn"
+						onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
+					>
+						<i className={"material-icons star-icon" + starredClass}>star</i>
+					</Button>
+				</div>
+			</div>
 	);
 };
 

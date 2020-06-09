@@ -129,12 +129,12 @@ export default class ItemStore {
 		this.activeItem = undefined;
 	};
 
-	@action starItem = async () => {
+	@action starItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.star(this.activeItem!.id);
+			await agent.Items.star(id);
 			runInAction("starring item", () => {
-				this.activeItem!.isStarred = true;
+				this.itemRegistry.get(id).isStarred = true;
 			});
 		} catch (err) {
 			console.log(err);
@@ -143,12 +143,16 @@ export default class ItemStore {
 		}
 	};
 
-	@action unstarItem = async () => {
+	@action starItem = async () => {
+		this.starItemById(this.activeItem!.id);
+	};
+
+	@action unstarItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.unstar(this.activeItem!.id);
+			await agent.Items.unstar(id);
 			runInAction("unstarring item", () => {
-				this.activeItem!.isStarred = false;
+				this.itemRegistry.get(id).isStarred = false;
 			});
 		} catch (err) {
 			console.log(err);
@@ -157,10 +161,15 @@ export default class ItemStore {
 		}
 	};
 
+	@action unstarItem = async () => {
+		this.unstarItemById(this.activeItem!.id);
+	};
+
 	@observable filtersDrawerVisible = false;
 	@observable detailsDrawerVisible = false;
 
 	@action showFiltersDrawer = () => {
+		this.detailsDrawerVisible = false;
 		this.filtersDrawerVisible = true;
 	};
 
@@ -169,6 +178,7 @@ export default class ItemStore {
 	};
 
 	@action showDetailsDrawer = () => {
+		this.filtersDrawerVisible = false;
 		this.detailsDrawerVisible = true;
 	};
 
