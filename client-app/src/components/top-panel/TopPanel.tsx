@@ -8,11 +8,11 @@ const { Header } = Layout;
 const TopPanel = () => {
 	return (
 		<Header id="top-panel">
-			<div id="page-title-container">
+			<div id="title-col">
 				<h1 className="page-title">Dashboard</h1>
 			</div>
 
-			<div id="buttons-container">
+			<div id="buttons-col">
 				<Space className="btn-space" size="large">
 					<Button id="continue-learning-btn" className="top-panel-btn" type="link" block href="/">
 						<i className="btn-icon material-icons">wb_incandescent</i>
@@ -26,7 +26,7 @@ const TopPanel = () => {
 				</Space>
 			</div>
 
-			<div id="dictionary-selector-container">
+			<div id="dictionary-selector-col">
 				<DictionarySelector />
 			</div>
 		</Header>
