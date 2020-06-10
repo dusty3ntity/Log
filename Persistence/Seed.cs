@@ -16,7 +16,7 @@ namespace Persistence
                 {
                     Original = "house",
                     Translation = "дом",
-                    Description = "A building for human habitation",
+                    Definition = "A building for human habitation",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = false,
@@ -43,7 +43,7 @@ namespace Persistence
                 {
                     Original = "thank you",
                     Translation = "спасибо",
-                    Description = "A polite expression used when acknowledging a gift, service, or compliment",
+                    Definition = "A polite expression used when acknowledging a gift, service, or compliment",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
@@ -57,7 +57,7 @@ namespace Persistence
                 {
                     Original = "hospital",
                     Translation = "больница",
-                    Description = "An institution providing medical and surgical treatment and nursing care",
+                    Definition = "An institution providing medical and surgical treatment and nursing care",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = true,
@@ -71,7 +71,7 @@ namespace Persistence
                 {
                     Original = "to spill",
                     Translation = "пролить",
-                    Description = "Cause (liquid) to flow over the edge of its container",
+                    Definition = "Cause (liquid) to flow over the edge of its container",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
@@ -85,7 +85,7 @@ namespace Persistence
                 {
                     Original = "a spillwwwwwwwwwwwwwwwwwwwwwww",
                     Translation = "пролитьффффффффффффффффффффффф",
-                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    Definition = "Having a great deal to do very long description very long description very long description very lon",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
@@ -99,7 +99,7 @@ namespace Persistence
                 {
                     Original = "a spillwwwwwww wwwwwwwwwwwwwww",
                     Translation = "пролить",
-                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    Definition = "Having a great deal to do very long description very long description very long description very lon",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = false,
@@ -113,7 +113,7 @@ namespace Persistence
                 {
                     Original = "abkfjdf",
                     Translation = "пролитьффффффффффффффффффффффф",
-                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    Definition = "Having a great deal to do very long description very long description very long description very lon",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = false,
@@ -127,7 +127,7 @@ namespace Persistence
                 {
                     Original = "abkfjwwwwwwwwwwwwwwwwwwwwwwwww",
                     Translation = "пролитьффффффффффффффффффффффф",
-                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    Definition = "Having a great deal to do very long description very long description very long description very lon",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,

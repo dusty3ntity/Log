@@ -11,7 +11,7 @@ namespace Domain
 
         public string Original { get; set; }
         public string Translation { get; set; }
-        public string Description { get; set; }
+        public string Definition { get; set; }
         public ItemType Type { get; set; }
         public DateTime CreationDate { get; set; }
 

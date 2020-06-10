@@ -19,7 +19,7 @@ namespace Application.Items
             public Guid DictionaryId { get; set; }
             public string Original { get; set; }
             public string Translation { get; set; }
-            public string Description { get; set; }
+            public string Definition { get; set; }
             public ItemType Type { get; set; }
             public bool IsStarred { get; set; }
         }
@@ -37,7 +37,7 @@ namespace Application.Items
                     .MinimumLength(2)
                     .MaximumLength(30)
                     .NotEqual(i => i.Original);
-                RuleFor(i => i.Description)
+                RuleFor(i => i.Definition)
                     .MinimumLength(5)
                     .MaximumLength(100);
                 RuleFor(i => i.Type)
@@ -73,7 +73,7 @@ namespace Application.Items
                     throw new RestException(HttpStatusCode.BadRequest,
                         "Item's original and translation mustn't be equal or contain each other.");
 
-                if (request.Description != null && ItemChecker.DoesDescriptionContainItem(request.Description,
+                if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
                     request.Original,
                     request.Translation))
                     throw new RestException(HttpStatusCode.BadRequest,
@@ -83,7 +83,7 @@ namespace Application.Items
                 {
                     Original = request.Original,
                     Translation = request.Translation,
-                    Description = request.Description,
+                    Definition = request.Definition,
                     CreationDate = DateTime.Now,
                     Dictionary = dictionary,
                     IsLearned = false,

@@ -58,7 +58,7 @@ namespace Persistence.Migrations
                     DictionaryId = table.Column<Guid>(nullable: false),
                     Original = table.Column<string>(nullable: true),
                     Translation = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Definition = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     IsStarred = table.Column<bool>(nullable: false),

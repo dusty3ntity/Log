@@ -19,7 +19,7 @@ namespace Application.Items
             public Guid ItemId { get; set; }
             public string Original { get; set; }
             public string Translation { get; set; }
-            public string Description { get; set; }
+            public string Definition { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -32,7 +32,7 @@ namespace Application.Items
                 RuleFor(i => i.Translation)
                     .MinimumLength(2)
                     .MaximumLength(30);
-                RuleFor(i => i.Description)
+                RuleFor(i => i.Definition)
                     .MinimumLength(5)
                     .MaximumLength(100);
             }
@@ -53,7 +53,7 @@ namespace Application.Items
             {
                 if (request.Original == null &&
                     request.Translation == null &&
-                    request.Description == null)
+                    request.Definition == null)
                     throw new RestException(HttpStatusCode.BadRequest,
                         "At least one property must be provided to edit.");
 
@@ -77,15 +77,15 @@ namespace Application.Items
                         newTranslation))
                         throw new RestException(HttpStatusCode.BadRequest, "Duplicate item found.");
 
-                if (request.Description != null && ItemChecker.DoesDescriptionContainItem(request.Description,
+                if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
                     newOriginal,
                     newTranslation))
                     throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's description mustn't contain item's original or translation.");
+                        "Item's definition mustn't contain item's original or translation.");
 
                 item.Original = newOriginal;
                 item.Translation = newTranslation;
-                item.Description = request.Description ?? item.Description;
+                item.Definition = request.Definition ?? item.Definition;
                 if (request.Original != null || request.Translation != null)
                 {
                     if (item.IsLearned)
