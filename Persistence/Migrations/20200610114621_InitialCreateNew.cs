@@ -59,6 +59,7 @@ namespace Persistence.Migrations
                     Original = table.Column<string>(nullable: true),
                     Translation = table.Column<string>(nullable: true),
                     Definition = table.Column<string>(nullable: true),
+                    DefinitionOrigin = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     IsStarred = table.Column<bool>(nullable: false),

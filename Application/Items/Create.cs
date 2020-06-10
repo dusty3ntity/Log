@@ -20,6 +20,7 @@ namespace Application.Items
             public string Original { get; set; }
             public string Translation { get; set; }
             public string Definition { get; set; }
+            public string DefinitionOrigin { get; set; }
             public ItemType Type { get; set; }
             public bool IsStarred { get; set; }
         }
@@ -40,6 +41,9 @@ namespace Application.Items
                 RuleFor(i => i.Definition)
                     .MinimumLength(5)
                     .MaximumLength(100);
+                RuleFor(i => i.DefinitionOrigin)
+                    .MinimumLength(5)
+                    .MaximumLength(24);
                 RuleFor(i => i.Type)
                     .NotEmpty()
                     .IsInEnum()
@@ -77,13 +81,18 @@ namespace Application.Items
                     request.Original,
                     request.Translation))
                     throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's description mustn't contain item's original or translation.");
+                        "Item's definition mustn't contain item's original or translation.");
+
+                if (request.DefinitionOrigin != null && request.Definition == null)
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "Item's definition origin can't be provided without definition.");
 
                 var item = new Item
                 {
                     Original = request.Original,
                     Translation = request.Translation,
                     Definition = request.Definition,
+                    DefinitionOrigin = request.DefinitionOrigin,
                     CreationDate = DateTime.Now,
                     Dictionary = dictionary,
                     IsLearned = false,

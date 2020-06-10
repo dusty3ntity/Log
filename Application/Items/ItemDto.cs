@@ -10,6 +10,7 @@ namespace Application.Items
         public string Original { get; set; }
         public string Translation { get; set; }
         public string Definition { get; set; }
+        public string DefinitionOrigin { get; set; }
         public ItemType Type { get; set; }
         public DateTime CreationDate { get; set; }
 

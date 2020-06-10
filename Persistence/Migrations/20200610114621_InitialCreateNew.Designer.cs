@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200610103545_InitialCreateNew")]
+    [Migration("20200610114621_InitialCreateNew")]
     partial class InitialCreateNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Definition")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DefinitionOrigin")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("DictionaryId")

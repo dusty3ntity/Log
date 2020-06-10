@@ -70,6 +70,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Definition")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("DefinitionOrigin")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("DictionaryId")
                         .HasColumnType("TEXT");
 
