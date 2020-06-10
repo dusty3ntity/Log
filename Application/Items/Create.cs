@@ -38,8 +38,8 @@ namespace Application.Items
                     .MaximumLength(30)
                     .NotEqual(i => i.Original);
                 RuleFor(i => i.Description)
-                    .MinimumLength(10)
-                    .MaximumLength(60);
+                    .MinimumLength(5)
+                    .MaximumLength(100);
                 RuleFor(i => i.Type)
                     .NotEmpty()
                     .IsInEnum()

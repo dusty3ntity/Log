@@ -82,6 +82,62 @@ namespace Persistence
                     GoesForNextDay = false
                 };
 
+                var Item6 = new Item
+                {
+                    Original = "a spillwwwwwwwwwwwwwwwwwwwwwww",
+                    Translation = "пролитьффффффффффффффффффффффф",
+                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    CreationDate = DateTime.Now,
+                    IsLearned = true,
+                    IsStarred = false,
+                    Type = ItemType.Word,
+                    CorrectRepeatsCount = 1003,
+                    TotalRepeatsCount = 1123,
+                    GoesForNextDay = false
+                };
+                
+                var Item7 = new Item
+                {
+                    Original = "a spillwwwwwww wwwwwwwwwwwwwww",
+                    Translation = "пролить",
+                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    CreationDate = DateTime.Now,
+                    IsLearned = false,
+                    IsStarred = false,
+                    Type = ItemType.Phrase,
+                    CorrectRepeatsCount = 13,
+                    TotalRepeatsCount = 11333,
+                    GoesForNextDay = false
+                };
+                
+                var Item8 = new Item
+                {
+                    Original = "abkfjdf",
+                    Translation = "пролитьффффффффффффффффффффффф",
+                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    CreationDate = DateTime.Now,
+                    IsLearned = false,
+                    IsStarred = false,
+                    Type = ItemType.Word,
+                    CorrectRepeatsCount = 13333,
+                    TotalRepeatsCount = 19333,
+                    GoesForNextDay = false
+                };
+                
+                var Item9 = new Item
+                {
+                    Original = "abkfjwwwwwwwwwwwwwwwwwwwwwwwww",
+                    Translation = "пролитьффффффффффффффффффффффф",
+                    Description = "Having a great deal to do very long description very long description very long description very lon",
+                    CreationDate = DateTime.Now,
+                    IsLearned = true,
+                    IsStarred = false,
+                    Type = ItemType.Word,
+                    CorrectRepeatsCount = 133,
+                    TotalRepeatsCount = 133,
+                    GoesForNextDay = false
+                };
+
                 var dictionary = new Dictionary
                 {
                     IsMain = true,
@@ -96,17 +152,17 @@ namespace Persistence
                         ISOCode = "en"
                     },
                     PhrasesCount = 2,
-                    WordsCount = 3,
-                    LearnedItemsCount = 0,
+                    WordsCount = 7,
+                    LearnedItemsCount = 4,
                     PreferredLearningListSize = 50,
                     Items = new List<Item>
                     {
-                        Item1, Item2, Item3, Item4, Item5
+                        Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8, Item9
                     },
                     LearningList = new LearningList
                     {
                         CreationDate = DateTime.Now - TimeSpan.FromDays(2),
-                        Size = 3,
+                        Size = 6,
                         CompletedItemsCount = 0,
                         LearningItems = new List<LearningItem>
                         {
@@ -114,19 +170,37 @@ namespace Persistence
                             {
                                 LearningMode = LearningMode.Primary,
                                 NumberInSequence = 0,
-                                Item = Item1
+                                Item = Item6
                             },
                             new LearningItem
                             {
                                 LearningMode = LearningMode.Secondary,
                                 NumberInSequence = 1,
-                                Item = Item2
+                                Item = Item1
                             },
                             new LearningItem
                             {
                                 LearningMode = LearningMode.Primary,
                                 NumberInSequence = 2,
-                                Item = Item3
+                                Item = Item9
+                            },
+                            new LearningItem
+                            {
+                                LearningMode = LearningMode.Primary,
+                                NumberInSequence = 3,
+                                Item = Item2
+                            },
+                            new LearningItem
+                            {
+                                LearningMode = LearningMode.Primary,
+                                NumberInSequence = 4,
+                                Item = Item7
+                            },
+                            new LearningItem
+                            {
+                                LearningMode = LearningMode.Primary,
+                                NumberInSequence = 5,
+                                Item = Item8
                             }
                         }
                     }

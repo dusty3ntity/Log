@@ -26,12 +26,14 @@ namespace Application.Items
             public CommandValidator()
             {
                 RuleFor(i => i.Original)
-                    .MinimumLength(2);
+                    .MinimumLength(2)
+                    .MaximumLength(30);
                 RuleFor(i => i.Translation)
-                    .MinimumLength(2);
+                    .MinimumLength(2)
+                    .MaximumLength(30);
                 RuleFor(i => i.Description)
-                    .MinimumLength(10)
-                    .MaximumLength(60);
+                    .MinimumLength(5)
+                    .MaximumLength(100);
             }
         }
 
