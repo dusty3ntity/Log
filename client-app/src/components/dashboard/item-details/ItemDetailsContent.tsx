@@ -1,9 +1,10 @@
-import React, { useContext, Fragment } from "react";
-import { Row, Space, Divider, Col, Badge, Statistic } from "antd";
-import { RootStoreContext } from "../../../app/stores/rootStore";
+import React, { useContext } from "react";
+import { Space, Divider, Col, Badge, Statistic, Button } from "antd";
 import { observer } from "mobx-react-lite";
+import format from "date-fns/format";
+
+import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
-import format from 'date-fns/format';
 
 interface IProps {
 	item: IItem;
@@ -13,70 +14,61 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { deleteItem, starItem, unstarItem, openEditor } = rootStore.itemStore;
 
-	const status = item.isLearned ? "success" : item.totalRepeatsCount > 0 ? "warning" : "default";
+	const statusClass = item.isLearned ? "success" : item.totalRepeatsCount > 0 ? "warning" : "default";
 	const type = item.type === 10 ? "Word" : "Phrase";
-	const isStarred = item.isStarred ? " active" : "";
+	const starredClass = item.isStarred ? " active" : "";
 
 	const date = format(new Date(item.creationDate.toString().split("T")[0]), "MM.dd.yyyy");
 
 	return (
-		<Fragment>
-			<div id="details-container">
-				<Row id="header-row" align="top">
-						<Col span={8}><Badge status={status} className="status"/></Col>
-						<Col span={8}><p className="type">{type}</p></Col>
-						<Col span={8}>
-							<i className={`material-icons starred-icon${isStarred}`}>
-								star
-							</i>
-						</Col>
-				</Row>
-
-				<Row id="item-row" align="top" justify="center">
-					<h2 className="original">{item.original}</h2>
-					<Divider />
-					<h3 className="translation">{item.translation}</h3>
-					{item.description && <p className="description">{item.description}</p>}
-					{/* <span className="description-origin">Cambridge Dictionary</span> */}
-				</Row>
-
-				<Row id="stats-row" align="middle" justify="center" gutter={32}>
-					<Col span={12}>
-						<Statistic title="Total repeats" value={item.totalRepeatsCount} />
-					</Col>
-
-					<Col span={12}>
-						<Statistic title="Correct answers" value={item.correctRepeatsCount} />
-					</Col>
-				</Row>
-
-				<Row id="date-row" align="bottom" justify="center">
-					<span id="date">Added {date}</span>
-				</Row>
-
-				<Row id="actions-row" align="bottom" justify="center">
-					<Space size="large">
-						<button id="edit-btn" className="actions-btn" onClick={openEditor}>
-							<i id="edit-icon" className="material-icons actions-icon">
-								edit
-							</i>
-						</button>
-
-						<button id="star-btn" className="actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
-							<i id="star-icon" className="material-icons actions-icon">
-								star
-							</i>
-						</button>
-
-						<button id="delete-btn" className="actions-btn" onClick={deleteItem}>
-							<i id="delete-icon" className="material-icons actions-icon">
-								delete
-							</i>
-						</button>
-					</Space>
-				</Row>
+		<div id="details-container">
+			<div className="header-row row">
+				<Badge status={statusClass} className="status-badge" />
+				<span className="type">{type}</span>
+				<i className={"material-icons starred-icon" + starredClass}>star</i>
 			</div>
-		</Fragment>
+
+			<div className="item-row row">
+				<div className="original-row text-row">
+					<h2 className="original text">{item.original}</h2>
+				</div>
+				<Divider />
+				<div className="translation-row text-row">
+					<h3 className="translation text">{item.translation}</h3>
+				</div>
+			</div>
+
+			<div className="definition-row row">
+				{item.description && <p className="definition text">{item.description}</p>}
+				<h5 className="definition-origin">Cambridge Dictionary</h5>
+			</div>
+
+			<div className="stats-row row">
+				<Statistic title="Total repeats" value={item.totalRepeatsCount} />
+
+				<Statistic title="Correct answers" value={item.correctRepeatsCount} />
+			</div>
+
+			<div className="date-row row">
+				<span className="date">Added {date}</span>
+			</div>
+
+			<div className="actions-row row">
+				<Space size="large" className="actions-space">
+					<Button className="edit-btn actions-btn" onClick={openEditor}>
+						<i className="material-icons">edit</i>
+					</Button>
+
+					<Button className="star-btn actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
+						<i className={"material-icons" + starredClass}>star</i>
+					</Button>
+
+					<Button className="delete-btn actions-btn" onClick={deleteItem}>
+						<i className="material-icons">delete</i>
+					</Button>
+				</Space>
+			</div>
+		</div>
 	);
 };
 
