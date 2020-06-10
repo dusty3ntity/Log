@@ -39,7 +39,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="definition-row row">
-				{item.description && <p className="definition text">{item.description}</p>}
+				{item.definition && <p className="definition text">{item.definition}</p>}
 				<h5 className="definition-origin">Cambridge Dictionary</h5>
 			</div>
 
