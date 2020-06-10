@@ -73,7 +73,8 @@ namespace Application.Items
                     throw new RestException(HttpStatusCode.BadRequest,
                         "Item's original and translation mustn't be equal or contain each other.");
 
-                if (ItemChecker.DoesDescriptionContainItem(request.Description, request.Original,
+                if (request.Description != null && ItemChecker.DoesDescriptionContainItem(request.Description,
+                    request.Original,
                     request.Translation))
                     throw new RestException(HttpStatusCode.BadRequest,
                         "Item's description mustn't contain item's original or translation.");

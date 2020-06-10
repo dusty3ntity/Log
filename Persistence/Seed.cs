@@ -30,7 +30,6 @@ namespace Persistence
                 {
                     Original = "horse",
                     Translation = "лошадь",
-                    Description = "Domesticated mammal used for riding and racing",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = true,

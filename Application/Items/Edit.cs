@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using Application.Utilities;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -75,6 +76,12 @@ namespace Application.Items
                     if (await _duplicatesChecker.IsDuplicate(request.DictionaryId, newOriginal,
                         newTranslation))
                         throw new RestException(HttpStatusCode.BadRequest, "Duplicate item found.");
+
+                if (request.Description != null && ItemChecker.DoesDescriptionContainItem(request.Description,
+                    newOriginal,
+                    newTranslation))
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "Item's description mustn't contain item's original or translation.");
 
                 item.Original = newOriginal;
                 item.Translation = newTranslation;
