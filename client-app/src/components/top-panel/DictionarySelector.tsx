@@ -9,8 +9,10 @@ const menu = (
 			<img className="flag lang-to" src="/images/flags/en.png" alt="Lang to" />
 
 			<Divider className="menu-divider" type="vertical" />
+
 			<span className="items-counter">273</span>
 		</Menu.Item>
+
 		<Menu.Item key="1" className="menu-item">
 			<img className="flag lang-from" src="/images/flags/en.png" alt="Lang to" />
 
@@ -18,14 +20,16 @@ const menu = (
 			<img className="flag lang-to" src="/images/flags/ru.png" alt="Lang from" />
 
 			<Divider className="menu-divider" type="vertical" />
+
 			<span className="items-counter">4921</span>
 		</Menu.Item>
+		
 		<div id="menu-actions">
-			<Button id="new-btn" className="actions-btn">
+			<Button id="new-btn" className="actions-btn" href="#">
 				<i className="material-icons">add</i>
 			</Button>
 
-			<Button id="edit-btn" className="actions-btn">
+			<Button id="edit-btn" className="actions-btn" href="#">
 				<i className="material-icons">edit</i>
 			</Button>
 		</div>

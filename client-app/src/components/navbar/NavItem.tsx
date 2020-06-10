@@ -14,7 +14,7 @@ const NavItem: React.FC<IProps> = ({ id, name, icon, link }) => {
 			<i id={id + "-icon"} className="material-icons nav-icon">
 				{icon}
 			</i>
-			<span className="item-name xl-hidden">{name}</span>
+			<span className="item-name xl-visible">{name}</span>
 		</NavLink>
 	);
 };

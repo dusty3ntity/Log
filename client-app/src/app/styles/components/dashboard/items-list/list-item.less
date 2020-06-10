@@ -1,23 +1,125 @@
-.list-item {
-	height: 48px;
-	padding: 8px !important;
-	margin-bottom: 12px;
-	border-radius: 20px;
-	box-shadow: 4px 4px 20px rgba(111, 140, 176, 0.41), -6px -6px 20px rgba(255, 255, 255, 0.75),
-		2px 2px 4px rgba(114, 142, 171, 0.1);
+#items-list {
+	.list-item:last-child {
+		margin: 0 !important;
+	}
 
-	.list-item-row {
-		height: 100%;
-		width: 100%;
+	.list-item {
+		height: 48px;
+		padding: 0 8px;
+		display: flex;
+
+		margin-bottom: 12px;
+		border-radius: 1.25rem;
+		box-shadow: 1px 1px 3px rgba(204, 213, 222, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
+			1px -1px 2px rgba(204, 213, 222, 0.2), -1px 1px 2px rgba(204, 213, 222, 0.2),
+			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+		&:hover {
+			background: #d8e2ec;
+			box-shadow: 1px 1px 3px rgba(204, 213, 222, 0.4), -1px -1px 2px rgba(250, 255, 255, 0.2),
+				1px -1px 2px rgba(204, 213, 222, 0.05), -1px 1px 2px rgba(204, 213, 222, 0.05),
+				inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			.selector {
+				.ant-checkbox-inner {
+					background: #d8e2ec;
+					box-shadow: -1px -1px 2px rgba(192, 203, 212, 0.5), 1px 1px 2px rgba(234, 248, 255, 0.3),
+						inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
+						inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
+				}
+			}
+
+			.star-btn {
+				background: #d8e2ec;
+				box-shadow: 1px 1px 3px rgba(194, 203, 212, 0.9), -1px -1px 2px rgba(238, 249, 255, 0.9),
+					1px -1px 2px rgba(194, 203, 212, 0.2), -1px 1px 2px rgba(194, 203, 212, 0.2),
+					inset -1px -1px 2px rgba(194, 203, 212, 0.5), inset 1px 1px 2px rgba(238, 249, 255, 0.3);
+
+				&:hover {
+					background: linear-gradient(135deg, #cdd7e0 0%, #e3edf8 100%);
+					box-shadow: 1px 1px 3px rgba(194, 203, 212, 0.9), -1px -1px 2px rgba(238, 249, 255, 0.9),
+						1px -1px 2px rgba(194, 203, 212, 0.2), -1px 1px 2px rgba(194, 203, 212, 0.2),
+						inset -1px -1px 2px rgba(194, 203, 212, 0.5), inset 1px 1px 2px rgba(238, 249, 255, 0.3);
+				}
+
+				&:active {
+					box-shadow: -1px -1px 2px rgba(194, 203, 212, 0.5), 1px 1px 2px rgba(238, 249, 255, 0.3),
+						inset 1px 1px 3px rgba(194, 203, 212, 0.9), inset -1px -1px 2px rgba(238, 249, 255, 0.9),
+						inset 1px -1px 2px rgba(194, 203, 212, 0.2), inset -1px 1px 2px rgba(194, 203, 212, 0.2);
+				}
+			}
+		}
+
+		&.active {
+			background: #d5e1ec;
+			box-shadow: -1px -1px 2px rgba(204, 213, 221, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+				inset 1px 1px 3px rgba(204, 213, 221, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+				inset 1px -1px 2px rgba(204, 213, 221, 0.2), inset -1px 1px 2px rgba(204, 213, 221, 0.2);
+
+			.selector {
+				.ant-checkbox-inner {
+					background: #d5e1ec;
+					box-shadow: -1px -1px 2px rgba(192, 203, 212, 0.5), 1px 1px 2px rgba(234, 248, 255, 0.3),
+						inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
+						inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
+				}
+			}
+
+			.ant-divider {
+				background: @body-background;
+			}
+
+			.star-btn {
+				visibility: hidden;
+			}
+		}
+
 		font-size: 20px;
 		font-weight: 600;
+
+		.col {
+			height: 100%;
+			padding: 8px 0;
+		}
+
+		.selector-col {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-right: 12px;
+		}
+
+		.text-container {
+			display: flex;
+			height: 100%;
+			flex-grow: 2;
+			overflow: hidden;
+
+			&:hover {
+				color: unset;
+			}
+
+			&:focus {
+				color: unset;
+			}
+		}
+
+		.text-col {
+			width: 50%;
+		}
+
+		.actions-col {
+			margin-left: 12px;
+			display: flex;
+			align-items: center;
+		}
 
 		.progress-bar {
 			display: inline-block;
 			width: 12px;
 			height: 100%;
 			margin-right: 12px;
-			border-radius: 20px 10px 10px 20px;
+			border-radius: 30px 10px 10px 30px;
 			box-shadow: inset 4px 4px 4px rgba(29, 38, 25, 0.25);
 
 			&.learned {
@@ -34,41 +136,12 @@
 		}
 
 		.selector {
+			display: inline;
+			margin: 0;
+
 			.ant-checkbox {
-				border-radius: 10px;
-				border: 1px solid @body-background;
-
-				&:hover {
-					border: 1px solid @primary-color;
-				}
-
-				&-checked:hover {
-					border-radius: 12px;
-				}
-			}
-
-			.ant-checkbox-inner {
-				box-shadow: inset 1px 1px 4px rgba(111, 140, 176, 0.41), inset -1px -1px 4px #ffffff;
-				height: 30px;
-				width: 30px;
-				border: none;
-				background: linear-gradient(308.48deg, #e3edf7 2.36%, #e3edf7 51.86%, #e3edf7 61.95%), #4c7eff;
-				border-radius: 10px;
-
-				&:after {
-					width: 8px;
-					height: 14px;
-					left: 28%;
-				}
-			}
-
-			.ant-checkbox-checked .ant-checkbox-inner {
-				background: linear-gradient(309.38deg, #1b86f0 6.86%, #4a9cef 94.61%);
-				box-shadow: inset 1px 1px 2px rgba(7, 17, 31, 0.25), inset -1px -1px 3px rgba(255, 255, 255, 0.25);
-			}
-
-			.ant-checkbox-checked:after {
-				border: none;
+				height: 32px;
+				width: 32px;
 			}
 		}
 
@@ -88,32 +161,44 @@
 			background-color: #d3dfea;
 			width: 2px;
 			height: 100%;
+			margin: 0 12px;
+			text-align: center;
 		}
 
-		.item-actions {
-			float: right;
-
-			.item-star-btn {
-				background-color: @body-background;
-				border-radius: 20px;
-				
-				box-shadow: 1px 1px 8px rgba(111, 140, 176, 0.41), -3px -3px 10px rgba(255, 255, 255, 0.75);
-			
-				i {
-					color: @warning-color;
-					vertical-align: text-top;
-				}
+		.star-btn {
+			i {
+				color: #bfc8d1;
 			}
 
-			.item-actions-dropdown {
-				background-color: @body-background;
-				border-radius: 20px;
-				
-				box-shadow: 1px 1px 8px rgba(111, 140, 176, 0.41), -3px -3px 10px rgba(255, 255, 255, 0.75);
-			
-				i {
-					vertical-align: text-top;
-				}
+			i.active {
+				color: @warning-color;
+			}
+		}
+
+		.open-btn {
+			margin-left: 12px;
+		}
+
+		.actions-btn {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			border-radius: 50%;
+			padding: 0 4px;
+
+			background-color: @body-background;
+			box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
+				1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),
+				inset -1px -1px 2px rgba(204, 213, 221, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			&:hover {
+				background: linear-gradient(135deg, #d8e1e9 0%, #eef9ff 100%);
+			}
+
+			&:active {
+				box-shadow: -1px -1px 2px rgba(204, 213, 220, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+					inset 1px 1px 3px rgba(204, 213, 220, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+					inset 1px -1px 2px rgba(204, 213, 220, 0.2), inset -1px 1px 2px rgba(204, 213, 220, 0.2);
 			}
 		}
 	}

@@ -12,15 +12,6 @@
 
 
 
-@checkbox-size: 20px;
-@checkbox-check-color: #fff;
-@checkbox-check-bg: @checkbox-check-color;
-@checkbox-border-width: @border-width-base;
-
-@wave-animation-width: 0;
-
-
-
 
 /*---------------------  Custom  ---------------------*/
 .ant-btn {
@@ -32,6 +23,18 @@
 	padding: unset;
 	outline: none;
 	transition: none;
+
+	span {
+		padding-top: 1px;
+	}
+
+	&:hover {
+		color: unset;
+	}
+
+	&:focus {
+		color: unset;
+	}
 }
 
 a.ant-btn {
@@ -42,21 +45,17 @@ a {
 	display: inline-block;
 }
 
-.ant-checkbox {
-	border-radius: 6px;
-}
-
-.ant-checkbox-inner {
-	border-radius: 6px;
-}
-
-.ant-checkbox-checked:after {
-	border-radius: 6px;
-	animation: none;
+.ant-badge {
+	line-height: unset;
+	vertical-align: unset;
 }
 
 .ant-badge-status-dot {
-	margin-left: 4px;
-	width: 8px;
-	height: 8px;
+	width: 10px;
+	height: 10px;
+	top: unset;
+}
+
+.ant-badge-status-text {
+	margin: 0;
 }

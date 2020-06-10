@@ -70,6 +70,7 @@ export default class ItemStore {
 	@action selectItem = (id: string) => {
 		this.editing = false;
 		this.activeItem = this.itemRegistry.get(id);
+		this.showDetailsDrawer();
 	};
 
 	@action createItem = async (item: INewItem) => {
@@ -107,7 +108,7 @@ export default class ItemStore {
 
 	@action closeEditor = () => {
 		this.editing = false;
-	}
+	};
 
 	@action deleteItem = async () => {
 		this.loading = true;
@@ -128,12 +129,12 @@ export default class ItemStore {
 		this.activeItem = undefined;
 	};
 
-	@action starItem = async () => {
+	@action starItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.star(this.activeItem!.id);
+			await agent.Items.star(id);
 			runInAction("starring item", () => {
-				this.activeItem!.isStarred = true;
+				this.itemRegistry.get(id).isStarred = true;
 			});
 		} catch (err) {
 			console.log(err);
@@ -142,17 +143,46 @@ export default class ItemStore {
 		}
 	};
 
-	@action unstarItem = async () => {
+	@action starItem = async () => {
+		this.starItemById(this.activeItem!.id);
+	};
+
+	@action unstarItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.unstar(this.activeItem!.id);
+			await agent.Items.unstar(id);
 			runInAction("unstarring item", () => {
-				this.activeItem!.isStarred = false;
+				this.itemRegistry.get(id).isStarred = false;
 			});
 		} catch (err) {
 			console.log(err);
 		} finally {
 			runInAction("unstarring item", () => (this.loading = false));
 		}
+	};
+
+	@action unstarItem = async () => {
+		this.unstarItemById(this.activeItem!.id);
+	};
+
+	@observable filtersDrawerVisible = false;
+	@observable detailsDrawerVisible = false;
+
+	@action showFiltersDrawer = () => {
+		this.detailsDrawerVisible = false;
+		this.filtersDrawerVisible = true;
+	};
+
+	@action hideFiltersDrawer = () => {
+		this.filtersDrawerVisible = false;
+	};
+
+	@action showDetailsDrawer = () => {
+		this.filtersDrawerVisible = false;
+		this.detailsDrawerVisible = true;
+	};
+
+	@action hideDetailsDrawer = () => {
+		this.detailsDrawerVisible = false;
 	};
 }
