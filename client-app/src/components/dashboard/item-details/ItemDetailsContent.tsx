@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
-import { Space, Divider, Col, Badge, Statistic, Button } from "antd";
+import { Space, Divider, Badge, Statistic, Button } from "antd";
 import { observer } from "mobx-react-lite";
 import format from "date-fns/format";
+
+import TextEllipsis from "react-text-ellipsis";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -30,17 +32,26 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 
 			<div className="item-row row">
 				<div className="original-row text-row">
-					<h2 className="original text">{item.original}</h2>
+					<TextEllipsis lines={2} tag="h2" tagClass={"original"}>
+						{item.original}
+					</TextEllipsis>
 				</div>
+
 				<Divider />
+
 				<div className="translation-row text-row">
-					<h3 className="translation text">{item.translation}</h3>
+					<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>
+						{item.translation}
+					</TextEllipsis>
 				</div>
 			</div>
 
 			<div className="definition-row row">
-				{item.definition && <p className="definition text">{item.definition}</p>}
-				{item.definitionOrigin && <h5 className="definition-origin">{item.definitionOrigin}</h5>}
+				<TextEllipsis lines={4} tag="p" tagClass={"definition"}>
+					{item.definition}
+				</TextEllipsis>
+
+				<h5 className="definition-origin">{item.definitionOrigin}</h5>
 			</div>
 
 			<div className="stats-row row">
