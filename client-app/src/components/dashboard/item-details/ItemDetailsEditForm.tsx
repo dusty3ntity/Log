@@ -16,7 +16,8 @@ const ItemDetailsEditForm: React.FC<IProps> = ({ item }) => {
 		let editedItem = {
 			original: formData.original === item.original ? undefined : formData.original,
 			translation: formData.translation === item.translation ? undefined : formData.translation,
-			definition: formData.definition === item.definition ? undefined : formData.definition
+			definition: formData.definition === item.definition ? undefined : formData.definition,
+			definitionOrigin: undefined
 		};
 
 		editItem(item.id, editedItem);

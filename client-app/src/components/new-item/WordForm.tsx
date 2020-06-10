@@ -12,6 +12,7 @@ const WordForm = () => {
 			original: formData.original,
 			translation: formData.translation,
 			definition: "test definition",
+			definitionOrigin: null,
 			type: 10,
 			isStarred: true,
 		};

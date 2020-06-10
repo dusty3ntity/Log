@@ -12,6 +12,7 @@ const PhraseForm = () => {
 			original: formData.original,
 			translation: formData.translation,
 			definition: formData.definition,
+			definitionOrigin: null,
 			type: 20,
 			isStarred: true,
 		};
