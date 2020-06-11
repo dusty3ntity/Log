@@ -92,7 +92,8 @@ export default class ItemStore {
 			runInAction("updating item", () => {
 				this.activeItem!.original = editItem.original ?? this.activeItem!.original;
 				this.activeItem!.translation = editItem.translation ?? this.activeItem!.translation;
-				this.activeItem!.description = editItem.description ?? this.activeItem!.description;
+				this.activeItem!.definition = editItem.definition ?? this.activeItem!.definition;
+				this.activeItem!.definitionOrigin = editItem.definitionOrigin ?? null;
 				this.editing = false;
 			});
 		} catch (err) {

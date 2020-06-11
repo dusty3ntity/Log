@@ -2,7 +2,8 @@ export interface IItem {
 	id: string;
 	original: string;
 	translation: string;
-	description?: string | null;
+	definition: string | null;
+	definitionOrigin: string | null;
 	type: number;
 	creationDate: Date;
 	isStarred: boolean;
@@ -14,13 +15,15 @@ export interface IItem {
 export interface IEditItem {
 	original: string | undefined;
 	translation: string | undefined;
-	description: string | undefined;
+	definition: string | undefined;
+	definitionOrigin: string | undefined;
 }
 
 export interface INewItem {
 	original: string;
 	translation: string;
-	description?: string | null;
+	definition: string | null;
+	definitionOrigin: string | null;
 	type: number;
 	isStarred: boolean;
 }

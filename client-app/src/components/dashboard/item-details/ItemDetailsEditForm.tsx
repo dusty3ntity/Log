@@ -16,7 +16,8 @@ const ItemDetailsEditForm: React.FC<IProps> = ({ item }) => {
 		let editedItem = {
 			original: formData.original === item.original ? undefined : formData.original,
 			translation: formData.translation === item.translation ? undefined : formData.translation,
-			description: formData.description === item.description ? undefined : formData.description
+			definition: formData.definition === item.definition ? undefined : formData.definition,
+			definitionOrigin: undefined
 		};
 
 		editItem(item.id, editedItem);
@@ -34,8 +35,8 @@ const ItemDetailsEditForm: React.FC<IProps> = ({ item }) => {
 					<span className="type">Word</span>
 					<Divider />
 					<EditInput name="translation" className="translation" value={item.translation} />
-					{item.description && <EditInput name="description" className="description" value={item.description} />}
-					{/* <span className="description-origin">Cambridge Dictionary</span> */}
+					{item.definition && <EditInput name="definition" className="definition" value={item.definition} />}
+					{/* <span className="definition-origin">Cambridge Dictionary</span> */}
 				</Row>
 
 				<Row id="stats-row" align="middle" justify="center"></Row>

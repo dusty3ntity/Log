@@ -11,7 +11,8 @@ const WordForm = () => {
 		let newItem: INewItem = {
 			original: formData.original,
 			translation: formData.translation,
-			description: "test description",
+			definition: "test definition",
+			definitionOrigin: null,
 			type: 10,
 			isStarred: true,
 		};
@@ -27,8 +28,8 @@ const WordForm = () => {
 			<Form.Item label="Translation" name="translation">
 				<Input className="translation" />
 			</Form.Item>
-			{/* <Form.Item name="description">
-				<Input className="description" />
+			{/* <Form.Item name="definition">
+				<Input className="definition" />
 			</Form.Item> */}
 
 			<Form.Item>

@@ -11,7 +11,8 @@ const PhraseForm = () => {
 		let newItem: INewItem = {
 			original: formData.original,
 			translation: formData.translation,
-			description: formData.description,
+			definition: formData.definition,
+			definitionOrigin: null,
 			type: 20,
 			isStarred: true,
 		};
@@ -27,8 +28,8 @@ const PhraseForm = () => {
 			<Form.Item label="Translation" name="translation">
 				<Input className="translation" />
 			</Form.Item>
-			{/* <Form.Item name="description">
-				<Input className="description" />
+			{/* <Form.Item name="definition">
+				<Input className="definition" />
 			</Form.Item> */}
 
 			<Form.Item>

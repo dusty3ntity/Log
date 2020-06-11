@@ -19,7 +19,8 @@ namespace Application.Items
             public Guid DictionaryId { get; set; }
             public string Original { get; set; }
             public string Translation { get; set; }
-            public string Description { get; set; }
+            public string Definition { get; set; }
+            public string DefinitionOrigin { get; set; }
             public ItemType Type { get; set; }
             public bool IsStarred { get; set; }
         }
@@ -37,9 +38,12 @@ namespace Application.Items
                     .MinimumLength(2)
                     .MaximumLength(30)
                     .NotEqual(i => i.Original);
-                RuleFor(i => i.Description)
-                    .MinimumLength(10)
-                    .MaximumLength(60);
+                RuleFor(i => i.Definition)
+                    .MinimumLength(5)
+                    .MaximumLength(100);
+                RuleFor(i => i.DefinitionOrigin)
+                    .MinimumLength(5)
+                    .MaximumLength(24);
                 RuleFor(i => i.Type)
                     .NotEmpty()
                     .IsInEnum()
@@ -73,16 +77,22 @@ namespace Application.Items
                     throw new RestException(HttpStatusCode.BadRequest,
                         "Item's original and translation mustn't be equal or contain each other.");
 
-                if (ItemChecker.DoesDescriptionContainItem(request.Description, request.Original,
+                if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
+                    request.Original,
                     request.Translation))
                     throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's description mustn't contain item's original or translation.");
+                        "Item's definition mustn't contain item's original or translation.");
+
+                if (request.DefinitionOrigin != null && request.Definition == null)
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "Item's definition origin can't be provided without definition.");
 
                 var item = new Item
                 {
                     Original = request.Original,
                     Translation = request.Translation,
-                    Description = request.Description,
+                    Definition = request.Definition,
+                    DefinitionOrigin = request.DefinitionOrigin,
                     CreationDate = DateTime.Now,
                     Dictionary = dictionary,
                     IsLearned = false,

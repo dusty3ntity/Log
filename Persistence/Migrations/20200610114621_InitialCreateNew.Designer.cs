@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200326080724_InitialCreateNew")]
+    [Migration("20200610114621_InitialCreateNew")]
     partial class InitialCreateNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace Persistence.Migrations
                     b.Property<int>("LearnedItemsCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("LearningListId")
+                    b.Property<Guid?>("LearningListId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PhrasesCount")
@@ -69,7 +69,10 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Definition")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DefinitionOrigin")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("DictionaryId")

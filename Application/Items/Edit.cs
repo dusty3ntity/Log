@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using Application.Utilities;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -18,7 +19,8 @@ namespace Application.Items
             public Guid ItemId { get; set; }
             public string Original { get; set; }
             public string Translation { get; set; }
-            public string Description { get; set; }
+            public string Definition { get; set; }
+            public string DefinitionOrigin { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -26,12 +28,17 @@ namespace Application.Items
             public CommandValidator()
             {
                 RuleFor(i => i.Original)
-                    .MinimumLength(2);
+                    .MinimumLength(2)
+                    .MaximumLength(30);
                 RuleFor(i => i.Translation)
-                    .MinimumLength(2);
-                RuleFor(i => i.Description)
-                    .MinimumLength(10)
-                    .MaximumLength(60);
+                    .MinimumLength(2)
+                    .MaximumLength(30);
+                RuleFor(i => i.Definition)
+                    .MinimumLength(5)
+                    .MaximumLength(100);
+                RuleFor(i => i.DefinitionOrigin)
+                    .MinimumLength(5)
+                    .MaximumLength(24);
             }
         }
 
@@ -50,7 +57,7 @@ namespace Application.Items
             {
                 if (request.Original == null &&
                     request.Translation == null &&
-                    request.Description == null)
+                    request.Definition == null)
                     throw new RestException(HttpStatusCode.BadRequest,
                         "At least one property must be provided to edit.");
 
@@ -74,9 +81,19 @@ namespace Application.Items
                         newTranslation))
                         throw new RestException(HttpStatusCode.BadRequest, "Duplicate item found.");
 
+                if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
+                    newOriginal,
+                    newTranslation))
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "Item's definition mustn't contain item's original or translation.");
+                
+                if (request.DefinitionOrigin != null && request.Definition == null)
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "Item's definition origin can't be provided without definition.");
+
                 item.Original = newOriginal;
                 item.Translation = newTranslation;
-                item.Description = request.Description ?? item.Description;
+                item.Definition = request.Definition ?? item.Definition;
                 if (request.Original != null || request.Translation != null)
                 {
                     if (item.IsLearned)
