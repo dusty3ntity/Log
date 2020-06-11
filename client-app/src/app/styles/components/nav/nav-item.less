@@ -8,6 +8,8 @@
 
 .nav-item {
 	width: 100%;
+	display: inline-flex;
+	align-items: center;
 	color: @body-background;
 	border-radius: 1.3em;
 	font-weight: 800;
@@ -16,8 +18,8 @@
 
 	&:hover {
 		.nav-icon {
-			background-color: @primary-color;
-			color: @body-background;
+			background: @primary-color;
+			fill: @body-background;
 		}
 
 		background: linear-gradient(167.01deg, #D8E1E8 0%, #EEF9FF 100%);
@@ -36,27 +38,22 @@
 }
 
 .nav-item.active {
-	background-color: @body-background;
+	background: @body-background;
 	color: @primary-color;
 	box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3), inset 1px 1px 3px rgba(204, 213, 222, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9), inset 1px -1px 2px rgba(204, 213, 222, 0.2), inset -1px 1px 2px rgba(204, 213, 222, 0.2);
 
 	.nav-icon {
-		background-color: @primary-color;
-		color: @body-background;
+		background: @primary-color;
+		fill: @body-background;
 	}
 }
 
 .nav-icon {
-	background-color: @body-background;
-	color: @primary-color;
+	background: @body-background;
 	border-radius: @circle-radius;
 	padding: 0.25rem;
 	vertical-align: sub;
 	transition: all 0.3s ease;
-}
-
-#nav-logout-icon {
-	color: @light-red;
 }
 
 
@@ -70,7 +67,7 @@
 	}
 
 	.nav-item {
-		text-align: center;
+		justify-content: center;
 		width: auto;
 	}
 }

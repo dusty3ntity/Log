@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
+import StarIcon from "../../icons/StarIcon";
 
 interface IProps {
 	item: IItem;
@@ -36,10 +37,10 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 
 			<div className="actions-col col">
 				<Button
-					className="star-btn actions-btn"
+					className="btn star-btn actions-btn"
 					onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
 				>
-					<i className={"material-icons star-icon" + starredClass}>star</i>
+					<StarIcon classNames={starredClass} />
 				</Button>
 			</div>
 		</div>

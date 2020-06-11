@@ -7,6 +7,9 @@ import TextEllipsis from "react-text-ellipsis";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
+import StarIcon from "../../icons/StarIcon";
+import EditIcon from "../../icons/EditIcon";
+import DeleteIcon from "../../icons/DeleteIcon";
 
 interface IProps {
 	item: IItem;
@@ -27,7 +30,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			<div className="header-row row">
 				<Badge status={statusClass} className="status-badge" />
 				<span className="type">{type}</span>
-				<i className={"material-icons starred-icon" + starredClass}>star</i>
+				<StarIcon classNames={starredClass} />
 			</div>
 
 			<div className="item-row row">
@@ -67,15 +70,15 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			<div className="actions-row row">
 				<Space size="large" className="actions-space">
 					<Button className="edit-btn actions-btn" onClick={openEditor}>
-						<i className="material-icons">edit</i>
+						<EditIcon />
 					</Button>
 
 					<Button className="star-btn actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
-						<i className={"material-icons" + starredClass}>star</i>
+						<StarIcon classNames={starredClass} />
 					</Button>
 
 					<Button className="delete-btn actions-btn" onClick={deleteItem}>
-						<i className="material-icons">delete</i>
+						<DeleteIcon />
 					</Button>
 				</Space>
 			</div>

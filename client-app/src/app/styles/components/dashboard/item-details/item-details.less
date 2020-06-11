@@ -47,12 +47,12 @@
 				color: @warning-color-darker;
 			}
 
-			.starred-icon {
-				font-size: 28px;
-				color: #bfc8d1;
+			.star-icon {
+				height: 36px;
+				width: 36px;
 
 				&.active {
-					color: @warning-color;
+					fill: @warning-color;
 				}
 			}
 		}
@@ -185,14 +185,8 @@
 			}
 		}
 
-		.star-btn {
-			i {
-				color: #bfc8d1;
-			}
-
-			i.active {
-				color: @warning-color;
-			}
+		.star-btn .icon.active {
+			fill: @warning-color;
 		}
 
 		.delete-btn i {

@@ -4,6 +4,8 @@ import { Space, Button } from "antd";
 import Search from "antd/lib/input/Search";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import FilterIcon from "../../icons/FilterIcon";
+import CalendarIcon from "../../icons/CalendarIcon";
 
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -15,17 +17,17 @@ const Header = () => {
 
 			<div id="buttons-container">
 				<Space className="header-space" size="large">
-					<Button id="filters-btn" className="header-btn mlg-hidden" onClick={showFiltersDrawer} disabled={filtersDrawerVisible}>
-						<i id="filters-icon" className="material-icons header-icon">
-							filter_list
-						</i>
+					<Button
+						className="header-btn filters-btn mlg-hidden"
+						onClick={showFiltersDrawer}
+						disabled={filtersDrawerVisible}
+					>
+						<FilterIcon />
 						<span>Filters</span>
 					</Button>
 
-					<Button id="group-by-date-btn" className="header-btn">
-						<i id="group-by-date-icon" className="material-icons header-icon">
-							insert_invitation
-						</i>
+					<Button className="header-btn group-by-date-btn">
+						<CalendarIcon />
 					</Button>
 
 					<Search id="item-search" placeholder="item..." />
