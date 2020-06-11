@@ -1,12 +1,9 @@
-#dictionary-selector {
-	display: flex;
-	align-items: center;
+.dictionary-selector {
+	height: 100%;
 	padding: 0 0.875rem 0 1.125rem;
 	float: right;
-	background: @body-background;
-	cursor: pointer;
 	border-radius: 1.25rem;
-	height: 100%;
+	
 	box-shadow: 3px 3px 8px rgba(211, 220, 230, 0.9), -3px -3px 6px rgba(243, 254, 255, 0.9),
 		3px -3px 6px rgba(211, 220, 230, 0.2), -3px 3px 6px rgba(211, 220, 230, 0.2),
 		inset -1px -1px 2px rgba(211, 220, 230, 0.5), inset 1px 1px 2px rgba(243, 254, 255, 0.3);
@@ -144,16 +141,14 @@
 
 		.actions-btn {
 			height: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
 			padding: 2px 0;
 			border-radius: 1.25rem;
 		}
 
-		#new-btn {
+		.new-btn {
 			width: 70%;
 			background: @primary-color;
+
 			box-shadow: 1px 1px 4px rgba(110, 132, 185, 0.9), -1px -1px 4px rgba(245, 248, 255, 0.9),
 				1px -1px 2px rgba(242, 246, 255, 0.2), -1px 1px 2px rgba(233, 239, 255, 0.2),
 				0.5px 0.5px 2px rgba(62, 72, 95, 0.25), inset -1px -1px 2px rgba(84, 99, 135, 0.5),
@@ -169,16 +164,16 @@
 				background: linear-gradient(163.78deg, #3d64c1 0%, #5184ff 100%);
 			}
 
-			&:focus {
-				background: linear-gradient(163.78deg, #3d64c1 0%, #5184ff 100%);
+			&:active {
 				box-shadow: -1px -1px 2px rgba(193, 201, 207, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3),
 					inset 1px 1px 3px rgba(193, 201, 207, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.9),
 					inset 1px -1px 2px rgba(193, 201, 207, 0.2), inset -1px 1px 2px rgba(193, 201, 207, 0.2);
 			}
 		}
 
-		#edit-btn {
+		.edit-btn {
 			width: 22%;
+
 			box-shadow: 1px 1px 3px rgba(193, 201, 208, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9),
 				1px -1px 2px rgba(193, 201, 208, 0.2), -1px 1px 2px rgba(193, 201, 208, 0.2),
 				inset -1px -1px 2px rgba(193, 201, 208, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
@@ -195,8 +190,7 @@
 					inset -1px -1px 2px rgba(193, 201, 207, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
 			}
 
-			&:focus {
-				background: linear-gradient(155.43deg, #d8e1e9 0%, #eef9ff 100%);
+			&:active {
 				box-shadow: -1px -1px 2px rgba(193, 201, 207, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3),
 					inset 1px 1px 3px rgba(193, 201, 207, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.9),
 					inset 1px -1px 2px rgba(193, 201, 207, 0.2), inset -1px 1px 2px rgba(193, 201, 207, 0.2);

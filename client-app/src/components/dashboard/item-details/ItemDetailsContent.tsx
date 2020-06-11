@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Space, Divider, Badge, Statistic, Button } from "antd";
+import { Space, Divider, Badge, Statistic } from "antd";
 import { observer } from "mobx-react-lite";
 import format from "date-fns/format";
 
@@ -69,17 +69,17 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 
 			<div className="actions-row row">
 				<Space size="large" className="actions-space">
-					<Button className="edit-btn actions-btn" onClick={openEditor}>
+					<button className="btn edit-btn round actions-btn" onClick={openEditor}>
 						<EditIcon />
-					</Button>
+					</button>
 
-					<Button className="star-btn actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
+					<button className="btn star-btn round actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
 						<StarIcon classNames={starredClass} />
-					</Button>
+					</button>
 
-					<Button className="delete-btn actions-btn" onClick={deleteItem}>
+					<button className="btn delete-btn round actions-btn" onClick={deleteItem}>
 						<DeleteIcon />
-					</Button>
+					</button>
 				</Space>
 			</div>
 		</div>

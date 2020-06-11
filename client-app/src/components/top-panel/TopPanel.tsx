@@ -1,5 +1,7 @@
 import React from "react";
-import { Layout, Button, Space } from "antd";
+import { Layout, Space } from "antd";
+import { NavLink } from "react-router-dom";
+
 
 import DictionarySelector from "./DictionarySelector";
 import LearningIcon from "../icons/LearningIcon";
@@ -16,15 +18,15 @@ const TopPanel = () => {
 
 			<div id="buttons-col">
 				<Space className="btn-space" size="large">
-					<Button id="continue-learning-btn" className="top-panel-btn" type="link" block href="/">
+					<NavLink to="/learning" exact className="btn continue-learning top-panel-btn">
 						<LearningIcon classNames="btn-icon" />
 						<span className="lg-visible">Continue learning</span>
-					</Button>
+					</NavLink>
 
-					<Button id="new-item-btn" className="top-panel-btn" type="link" href="/new-item">
+					<NavLink to="/new-item" exact className="btn new-item top-panel-btn">
 						<PlusIcon classNames="btn-icon" />
 						<span className="lg-visible">New item</span>
-					</Button>
+					</NavLink>
 				</Space>
 			</div>
 

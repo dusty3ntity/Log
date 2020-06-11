@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Divider, Checkbox, Button } from "antd";
+import { Divider, Checkbox } from "antd";
 import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -25,7 +25,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 				<Checkbox className="selector" />
 			</div>
 
-			<Button className="text-container" onClick={() => selectItem(item.id)}>
+			<button className="text-container btn" onClick={() => selectItem(item.id)}>
 				<div className="text-col col original">{item.original}</div>
 
 				<div className="divider-col col">
@@ -33,15 +33,15 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 				</div>
 
 				<div className="text-col col translation">{item.translation}</div>
-			</Button>
+			</button>
 
 			<div className="actions-col col">
-				<Button
-					className="btn star-btn actions-btn"
+				<button
+					className="btn star-btn round actions-btn"
 					onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
 				>
 					<StarIcon classNames={starredClass} />
-				</Button>
+				</button>
 			</div>
 		</div>
 	);

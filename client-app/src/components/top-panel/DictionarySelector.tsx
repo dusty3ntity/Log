@@ -1,5 +1,6 @@
 import React from "react";
-import { Menu, Dropdown, Divider, Button } from "antd";
+import { Menu, Dropdown, Divider } from "antd";
+import { Link } from "react-router-dom";
 
 import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import DropdownIcon from "../icons/DropdownIcon";
@@ -30,13 +31,13 @@ const menu = (
 		</Menu.Item>
 
 		<div id="menu-actions">
-			<Button id="new-btn" className="actions-btn" href="#">
+			<Link to="/dictionaries/new" className="btn actions-btn new-btn">
 				<PlusIcon />
-			</Button>
+			</Link>
 
-			<Button id="edit-btn" className="actions-btn" href="#">
+			<Link to="/dictionaries" className="btn actions-btn edit-btn">
 				<EditIcon />
-			</Button>
+			</Link>
 		</div>
 	</Menu>
 );
@@ -49,7 +50,7 @@ const DictionarySelector = () => {
 			placement="bottomCenter"
 			overlayClassName="dictionary-selector-dropdown"
 		>
-			<div id="dictionary-selector">
+			<div className="dictionary-selector btn">
 				<img className="flag lang-from" src="/images/flags/ru.png" alt="Lang from" />
 				<ArrowForwardIcon />
 				<img className="flag lang-to" src="/images/flags/en.png" alt="Lang to" />

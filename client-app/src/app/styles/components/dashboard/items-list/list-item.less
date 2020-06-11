@@ -7,9 +7,9 @@
 		height: 48px;
 		padding: 0 8px;
 		display: flex;
-
 		margin-bottom: 12px;
 		border-radius: 1.25rem;
+
 		box-shadow: 1px 1px 3px rgba(204, 213, 222, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 			1px -1px 2px rgba(204, 213, 222, 0.2), -1px 1px 2px rgba(204, 213, 222, 0.2),
 			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
@@ -78,9 +78,6 @@
 			}
 		}
 
-		font-size: 20px;
-		font-weight: 600;
-
 		.col {
 			height: 100%;
 			padding: 8px 0;
@@ -94,25 +91,15 @@
 		}
 
 		.text-container {
-			display: flex;
-			height: 100%;
 			flex-grow: 2;
 			overflow: hidden;
-
 			background: none;
-			box-shadow: none;
-
-			&:hover {
-				color: unset;
-			}
-
-			&:focus {
-				color: unset;
-			}
 		}
 
 		.text-col {
 			width: 50%;
+			font-size: 20px;
+			font-weight: 600;
 		}
 
 		.actions-col {
@@ -127,6 +114,7 @@
 			height: 100%;
 			margin-right: 12px;
 			border-radius: 30px 10px 10px 30px;
+
 			box-shadow: inset 4px 4px 4px rgba(29, 38, 25, 0.25);
 
 			&.learned {
@@ -172,30 +160,22 @@
 			text-align: center;
 		}
 
-		.star-btn .icon {
-			height: 26px;
-			width: 26px;
-
-			&.active {
-				fill: @warning-color;
-			}
-		}
-
-		.open-btn {
-			margin-left: 12px;
-		}
-
 		.actions-btn {
 			height: 100%;
-			display: flex;
-			align-items: center;
-			border-radius: 50%;
-			padding: 0 4px;
+			padding: 0 3px;
 
-			background-color: @body-background;
 			box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 				1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),
 				inset -1px -1px 2px rgba(204, 213, 221, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			.icon {
+				height: 26px;
+				width: 26px;
+
+				&.active {
+					fill: @warning-color;
+				}
+			}
 
 			&:hover {
 				background: linear-gradient(135deg, #d8e1e9 0%, #eef9ff 100%);
