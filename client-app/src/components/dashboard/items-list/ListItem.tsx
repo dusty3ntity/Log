@@ -18,31 +18,31 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 	const focusClass = item === activeItem ? " active" : "";
 
 	return (
-			<div className={"list-item" + focusClass}>
-				<div className="selector-col col">
-					<div className={"progress-bar " + progressClass}>‌‌</div>
-					<Checkbox className="selector" />
-				</div>
-
-				<a className="text-container" onClick={() => selectItem(item.id)}>
-					<div className="text-col col original">{item.original}</div>
-
-					<div className="divider-col col">
-						<Divider type="vertical" />
-					</div>
-
-					<div className="text-col col translation">{item.translation}</div>
-				</a>
-
-				<div className="actions-col col">
-					<Button
-						className="star-btn actions-btn"
-						onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
-					>
-						<i className={"material-icons star-icon" + starredClass}>star</i>
-					</Button>
-				</div>
+		<div className={"list-item" + focusClass}>
+			<div className="selector-col col">
+				<div className={"progress-bar " + progressClass}>‌‌</div>
+				<Checkbox className="selector" />
 			</div>
+
+			<Button className="text-container" onClick={() => selectItem(item.id)}>
+				<div className="text-col col original">{item.original}</div>
+
+				<div className="divider-col col">
+					<Divider type="vertical" />
+				</div>
+
+				<div className="text-col col translation">{item.translation}</div>
+			</Button>
+
+			<div className="actions-col col">
+				<Button
+					className="star-btn actions-btn"
+					onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
+				>
+					<i className={"material-icons star-icon" + starredClass}>star</i>
+				</Button>
+			</div>
+		</div>
 	);
 };
 
