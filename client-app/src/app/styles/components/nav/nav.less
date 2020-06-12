@@ -20,10 +20,9 @@
 		margin-bottom: 1.4rem;
 
 		.logo {
-			width: 4.2rem;
-			height: 4.2rem;
-			background-color: @body-background;
-			padding: 3px;
+			width: 3.8rem;
+			height: 3.8rem;
+			border: 3px solid @body-background;
 			border-radius: 50%;
 		}
 
@@ -31,7 +30,7 @@
 			font-size: 3rem;
 			font-weight: 400;
 			color: @body-background;
-			font-family: "Vibur", cursive;
+			font-family: @font-family-logo;
 			margin-left: 0.6rem;
 			line-height: 60px;
 		}
@@ -50,17 +49,13 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-end;
-		flex-grow: 8;
+		flex-grow: 2;
 		text-align: center;
 		font-weight: 800;
 
-		.profile-link {
-			width: 100%;
-		}
-
 		.avatar {
-			width: 7em;
-			height: 7em;
+			width: 6rem;
+			height: 6rem;
 			border: 3px solid @body-background;
 			border-radius: 50%;
 
@@ -85,16 +80,18 @@
 
 		.username {
 			color: @body-background;
-			margin: 0.35em 0;
+			margin: 0.5rem 0;
+			font-size: 1.3rem;
 		}
 
 		.upgrade-btn {
-			background: linear-gradient(153.51deg, #eef9ff 0%, #d8e1e8 100%);
 			color: @light-red;
-			border-radius: 1.08em;
-			padding: 0.6em 0.7em;
-			width: 60%;
+			border-radius: 1.08rem;
+			padding: 12px 14px;
+			border-radius: 1.4rem;
+			font-size: 1.3rem;
 
+			background: linear-gradient(153.51deg, #eef9ff 0%, #d8e1e8 100%);
 			box-shadow: 1px 1px 3px rgba(91, 95, 98, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9),
 				1px -1px 2px rgba(91, 95, 98, 0.2), -1px 1px 2px rgba(91, 95, 98, 0.2),
 				inset -1px -1px 2px rgba(91, 95, 98, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
@@ -124,8 +121,14 @@
 		height: 100%;
 	}
 
-	.nav-user-area .avatar {
-		width: 100% !important;
-		height: 100% !important;
+	.nav-user-area {
+		.avatar {
+			width: 100% !important;
+			height: 100% !important;
+		}
+
+		.profile-link {
+			width: 100%;
+		}
 	}
 }

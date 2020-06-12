@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import TextEllipsis from "react-text-ellipsis";
 import format from "date-fns/format";
-import { Badge, Statistic } from "antd";
+import { Badge } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -21,6 +21,11 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const statusClass = item.isLearned ? "success" : item.totalRepeatsCount > 0 ? "warning" : "default";
 	const type = item.type === 10 ? "Word" : "Phrase";
 	const starredClass = item.isStarred ? " active" : "";
+
+	const totalRepeatsCount =
+		item.totalRepeatsCount > 999 ? Math.floor(item.totalRepeatsCount / 1000) + "k" : item.totalRepeatsCount;
+	const correctAnswersCount =
+		item.correctRepeatsCount > 999 ? Math.floor(item.correctRepeatsCount / 1000) + "k" : item.correctRepeatsCount;
 
 	const date = format(new Date(item.creationDate.toString().split("T")[0]), "MM.dd.yyyy");
 
@@ -49,7 +54,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="definition-row row">
-				<TextEllipsis lines={4} tag="p" tagClass={"definition"}>
+				<TextEllipsis lines={3} tag="p" tagClass={"definition"}>
 					{item.definition}
 				</TextEllipsis>
 
@@ -57,9 +62,15 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="stats-row row">
-				<Statistic title="Total repeats" value={item.totalRepeatsCount} />
+				<div className="statistic">
+					<div className="title">Total repeats</div>
+					<div className="counter">{totalRepeatsCount}</div>
+				</div>
 
-				<Statistic title="Correct answers" value={item.correctRepeatsCount} />
+				<div className="statistic">
+					<div className="title">Correct answers</div>
+					<div className="counter">{correctAnswersCount}</div>
+				</div>
 			</div>
 
 			<div className="date-row row">

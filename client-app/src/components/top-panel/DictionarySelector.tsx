@@ -27,7 +27,7 @@ const menu = (
 
 			<div className="divider vertical menu-divider" />
 
-			<span className="items-counter">4921</span>
+			<span className="items-counter">4k</span>
 		</Menu.Item>
 
 		<div id="menu-actions">

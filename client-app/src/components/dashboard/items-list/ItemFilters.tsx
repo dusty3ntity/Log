@@ -8,13 +8,7 @@ interface IProps {
 const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 	return (
 		<div id="item-filters" className={classNames}>
-			<h1 id="filters-title" className="mlg-hidden">
-				Filters
-			</h1>
-
-			<div className="divider mlg-hidden" />
-
-			<div id="filters-container">
+			<div className="filters-container">
 				<div className="filters-category">
 					<h2 className="category-title">Type</h2>
 					<Checkbox className="filters-item">
