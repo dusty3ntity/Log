@@ -1,6 +1,6 @@
 import React from "react";
-import { Menu, Dropdown, Divider } from "antd";
 import { Link } from "react-router-dom";
+import { Menu, Dropdown } from "antd";
 
 import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import DropdownIcon from "../icons/DropdownIcon";
@@ -14,7 +14,7 @@ const menu = (
 			<ArrowForwardIcon />
 			<img className="flag lang-to" src="/images/flags/en.png" alt="Lang to" />
 
-			<Divider className="menu-divider" type="vertical" />
+			<div className="divider vertical menu-divider" />
 
 			<span className="items-counter">273</span>
 		</Menu.Item>
@@ -25,7 +25,7 @@ const menu = (
 			<ArrowForwardIcon />
 			<img className="flag lang-to" src="/images/flags/ru.png" alt="Lang from" />
 
-			<Divider className="menu-divider" type="vertical" />
+			<div className="divider vertical menu-divider" />
 
 			<span className="items-counter">4921</span>
 		</Menu.Item>

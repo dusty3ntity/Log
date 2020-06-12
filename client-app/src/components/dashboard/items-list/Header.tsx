@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
-import { Space } from "antd";
 import Search from "antd/lib/input/Search";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -13,25 +12,23 @@ const Header = () => {
 
 	return (
 		<div id="header-container">
-			<h2 id="items-list-title">Items</h2>
+			<h2 className="items-list-title">Items</h2>
 
-			<div id="buttons-container">
-				<Space className="header-space" size="large">
-					<button
-						className="btn header-btn filters-btn mlg-hidden"
-						onClick={showFiltersDrawer}
-						disabled={filtersDrawerVisible}
-					>
-						<FilterIcon />
-						<span>Filters</span>
-					</button>
+			<div className="buttons-container">
+				<button
+					className="btn header-btn filters-btn mlg-hidden"
+					onClick={showFiltersDrawer}
+					disabled={filtersDrawerVisible}
+				>
+					<FilterIcon />
+					<span>Filters</span>
+				</button>
 
-					<button className="btn header-btn round group-by-date-btn">
-						<CalendarIcon />
-					</button>
+				<button className="btn header-btn round group-by-date-btn">
+					<CalendarIcon />
+				</button>
 
-					<Search id="item-search" placeholder="item..." />
-				</Space>
+				<Search id="item-search" placeholder="item..." />
 			</div>
 		</div>
 	);

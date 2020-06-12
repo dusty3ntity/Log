@@ -19,9 +19,9 @@ function App() {
 			<Route
 				path={"/(.+)"}
 				render={() => (
-					<Layout id="main">
+					<div id="main">
 						<NavBar />
-						<Layout>
+						<div id="page-content">
 							<TopPanel />
 							<Switch>
 								<Route path="/dashboard" component={Dashboard} />
@@ -29,8 +29,8 @@ function App() {
 
 								<Route component={NotFound} />
 							</Switch>
-						</Layout>
-					</Layout>
+						</div>
+					</div>
 				)}
 			/>
 		</Fragment>

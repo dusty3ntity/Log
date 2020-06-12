@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { Divider, Checkbox } from "antd";
 import { observer } from "mobx-react-lite";
+import { Checkbox } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -26,13 +26,11 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<button className="text-container btn" onClick={() => selectItem(item.id)}>
-				<div className="text-col col original">{item.original}</div>
+				<div className="text original">{item.original}</div>
 
-				<div className="divider-col col">
-					<Divider type="vertical" />
-				</div>
+				<div className="divider vertical" />
 
-				<div className="text-col col translation">{item.translation}</div>
+				<div className="text translation">{item.translation}</div>
 			</button>
 
 			<div className="actions-col col">

@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import { Space, Divider, Badge, Statistic } from "antd";
 import { observer } from "mobx-react-lite";
-import format from "date-fns/format";
-
 import TextEllipsis from "react-text-ellipsis";
+import format from "date-fns/format";
+import { Badge, Statistic } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -40,7 +39,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					</TextEllipsis>
 				</div>
 
-				<Divider />
+				<div className="divider" />
 
 				<div className="translation-row text-row">
 					<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>
@@ -68,19 +67,17 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="actions-row row">
-				<Space size="large" className="actions-space">
-					<button className="btn edit-btn round actions-btn" onClick={openEditor}>
-						<EditIcon />
-					</button>
+				<button className="btn edit-btn round actions-btn" onClick={openEditor}>
+					<EditIcon />
+				</button>
 
-					<button className="btn star-btn round actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
-						<StarIcon classNames={starredClass} />
-					</button>
+				<button className="btn star-btn round actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
+					<StarIcon classNames={starredClass} />
+				</button>
 
-					<button className="btn delete-btn round actions-btn" onClick={deleteItem}>
-						<DeleteIcon />
-					</button>
-				</Space>
+				<button className="btn delete-btn round actions-btn" onClick={deleteItem}>
+					<DeleteIcon />
+				</button>
 			</div>
 		</div>
 	);

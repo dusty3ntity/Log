@@ -29,7 +29,7 @@
 				}
 			}
 
-			.ant-divider {
+			.divider {
 				background: @body-background;
 			}
 
@@ -69,7 +69,7 @@
 				}
 			}
 
-			.ant-divider {
+			.divider {
 				background: @body-background;
 			}
 
@@ -92,14 +92,21 @@
 
 		.text-container {
 			flex-grow: 2;
+			padding: 8px 0;
 			overflow: hidden;
 			background: none;
 		}
 
-		.text-col {
+		.text {
+			height: 100%;
 			width: 50%;
 			font-size: 20px;
 			font-weight: 600;
+
+			overflow: hidden;
+			white-space: nowrap;
+			text-align: center;
+			text-overflow: ellipsis;
 		}
 
 		.actions-col {
@@ -140,24 +147,8 @@
 			}
 		}
 
-		.text-col,
-		.item-divider-col {
-			overflow: hidden;
-			white-space: nowrap;
-			text-align: center;
-			text-overflow: ellipsis;
-		}
-
 		.translation {
 			color: #909aa4;
-		}
-
-		.ant-divider {
-			background: #d3dfea;
-			width: 2px;
-			height: 32px;
-			margin: 0 12px;
-			text-align: center;
 		}
 
 		.actions-btn {
