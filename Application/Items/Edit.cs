@@ -99,7 +99,7 @@ namespace Application.Items
                     if (item.IsLearned)
                         dictionary.LearnedItemsCount--;
                     item.IsLearned = false;
-                    item.CorrectRepeatsCount = 0;
+                    item.CorrectAnswersCount = 0;
                     item.CreationDate = DateTime.Now;
                 }
 

@@ -61,7 +61,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CorrectRepeatsCount")
+                    b.Property<int>("CorrectAnswersCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationDate")

@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200610114621_InitialCreateNew")]
+    [Migration("20200613182912_InitialCreateNew")]
     partial class InitialCreateNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CorrectRepeatsCount")
+                    b.Property<int>("CorrectAnswersCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationDate")

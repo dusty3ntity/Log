@@ -96,10 +96,10 @@ namespace Application.LearningLists
 
                 if (isAnswerCorrect)
                 {
-                    item.CorrectRepeatsCount++;
+                    item.CorrectAnswersCount++;
                     item.GoesForNextDay = false;
 
-                    if (item.CorrectRepeatsCount == 5) // Take this out somehow...
+                    if (item.CorrectAnswersCount == 5) // Take this out somehow...
                     {
                         item.IsLearned = true;
                         item.IsStarred = false;
