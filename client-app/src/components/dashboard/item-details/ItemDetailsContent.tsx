@@ -25,7 +25,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const totalRepeatsCount =
 		item.totalRepeatsCount > 999 ? Math.floor(item.totalRepeatsCount / 1000) + "k" : item.totalRepeatsCount;
 	const correctAnswersCount =
-		item.correctRepeatsCount > 999 ? Math.floor(item.correctRepeatsCount / 1000) + "k" : item.correctRepeatsCount;
+		item.correctAnswersCount > 999 ? Math.floor(item.correctAnswersCount / 1000) + "k" : item.correctAnswersCount;
 
 	const date = format(new Date(item.creationDate.toString().split("T")[0]), "MM.dd.yyyy");
 

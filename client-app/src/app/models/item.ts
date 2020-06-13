@@ -9,7 +9,7 @@ export interface IItem {
 	isStarred: boolean;
 	isLearned: boolean;
 	totalRepeatsCount: number;
-	correctRepeatsCount: number;
+	correctAnswersCount: number;
 }
 
 export interface IEditItem {
