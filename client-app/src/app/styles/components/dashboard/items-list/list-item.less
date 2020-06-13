@@ -7,9 +7,9 @@
 		height: 48px;
 		padding: 0 8px;
 		display: flex;
-
 		margin-bottom: 12px;
 		border-radius: 1.25rem;
+
 		box-shadow: 1px 1px 3px rgba(204, 213, 222, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 			1px -1px 2px rgba(204, 213, 222, 0.2), -1px 1px 2px rgba(204, 213, 222, 0.2),
 			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
@@ -27,6 +27,10 @@
 						inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
 						inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
 				}
+			}
+
+			.divider {
+				background: @body-background;
 			}
 
 			.star-btn {
@@ -51,21 +55,21 @@
 		}
 
 		&.active {
-			background: #d5e1ec;
+			background: @body-background-darker;
 			box-shadow: -1px -1px 2px rgba(204, 213, 221, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
 				inset 1px 1px 3px rgba(204, 213, 221, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
 				inset 1px -1px 2px rgba(204, 213, 221, 0.2), inset -1px 1px 2px rgba(204, 213, 221, 0.2);
 
 			.selector {
 				.ant-checkbox-inner {
-					background: #d5e1ec;
+					background: @body-background-darker;
 					box-shadow: -1px -1px 2px rgba(192, 203, 212, 0.5), 1px 1px 2px rgba(234, 248, 255, 0.3),
 						inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
 						inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
 				}
 			}
 
-			.ant-divider {
+			.divider {
 				background: @body-background;
 			}
 
@@ -73,9 +77,6 @@
 				visibility: hidden;
 			}
 		}
-
-		font-size: 20px;
-		font-weight: 600;
 
 		.col {
 			height: 100%;
@@ -90,22 +91,22 @@
 		}
 
 		.text-container {
-			display: flex;
-			height: 100%;
 			flex-grow: 2;
+			padding: 8px 0;
 			overflow: hidden;
-
-			&:hover {
-				color: unset;
-			}
-
-			&:focus {
-				color: unset;
-			}
+			background: none;
 		}
 
-		.text-col {
+		.text {
+			height: 100%;
 			width: 50%;
+			font-size: 20px;
+			font-weight: 600;
+
+			overflow: hidden;
+			white-space: nowrap;
+			text-align: center;
+			text-overflow: ellipsis;
 		}
 
 		.actions-col {
@@ -120,6 +121,7 @@
 			height: 100%;
 			margin-right: 12px;
 			border-radius: 30px 10px 10px 30px;
+
 			box-shadow: inset 4px 4px 4px rgba(29, 38, 25, 0.25);
 
 			&.learned {
@@ -145,51 +147,30 @@
 			}
 		}
 
-		.text-col,
-		.item-divider-col {
-			overflow: hidden;
-			white-space: nowrap;
-			text-align: center;
-			text-overflow: ellipsis;
+		.divider {
+			height: 30px;
 		}
 
 		.translation {
-			color: #909aa4;
-		}
-
-		.ant-divider {
-			background-color: #d3dfea;
-			width: 2px;
-			height: 100%;
-			margin: 0 12px;
-			text-align: center;
-		}
-
-		.star-btn {
-			i {
-				color: #bfc8d1;
-			}
-
-			i.active {
-				color: @warning-color;
-			}
-		}
-
-		.open-btn {
-			margin-left: 12px;
+			color: @text-color-grey;
 		}
 
 		.actions-btn {
 			height: 100%;
-			display: flex;
-			align-items: center;
-			border-radius: 50%;
-			padding: 0 4px;
+			padding: 0 3px;
 
-			background-color: @body-background;
 			box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 				1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),
 				inset -1px -1px 2px rgba(204, 213, 221, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			.icon {
+				height: 26px;
+				width: 26px;
+
+				&.active {
+					fill: @warning-color;
+				}
+			}
 
 			&:hover {
 				background: linear-gradient(135deg, #d8e1e9 0%, #eef9ff 100%);

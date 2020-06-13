@@ -1,0 +1,31 @@
+.btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: @body-background;
+	border: none;
+	cursor: pointer;
+
+	span {
+		margin-left: 8px;
+	}
+
+	&:active,
+	&:focus {
+		outline: none;
+	}
+
+	&:disabled {
+		background: initial !important;
+		cursor: not-allowed;
+	}
+
+	&.round {
+		border-radius: 50%;
+	}
+}
+
+a {
+	transition: none;
+	background: none;
+}

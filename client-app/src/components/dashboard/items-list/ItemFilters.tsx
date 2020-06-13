@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Checkbox, Badge } from "antd";
+import { Checkbox, Badge } from "antd";
 
 interface IProps {
 	classNames: string;
@@ -8,13 +8,7 @@ interface IProps {
 const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 	return (
 		<div id="item-filters" className={classNames}>
-			<h1 id="filters-title" className="mlg-hidden">
-				Filters
-			</h1>
-
-			<Divider className="mlg-hidden" />
-
-			<div id="filters-container">
+			<div className="filters-container">
 				<div className="filters-category">
 					<h2 className="category-title">Type</h2>
 					<Checkbox className="filters-item">
@@ -25,7 +19,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 					</Checkbox>
 				</div>
 
-				<Divider />
+				<div className="divider" />
 
 				<div className="filters-category">
 					<h2 className="category-title">Progress</h2>

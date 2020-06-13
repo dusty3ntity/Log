@@ -1,14 +1,20 @@
 import React from "react";
-import { Menu, Dropdown, Divider, Button } from "antd";
+import { Link } from "react-router-dom";
+import { Menu, Dropdown } from "antd";
+
+import ArrowForwardIcon from "../icons/ArrowForwardIcon";
+import DropdownIcon from "../icons/DropdownIcon";
+import EditIcon from "../icons/EditIcon";
+import PlusIcon from "../icons/PlusIcon";
 
 const menu = (
 	<Menu>
 		<Menu.Item key="0" className="menu-item">
 			<img className="flag lang-from" src="/images/flags/ua.png" alt="Lang from" />
-			<i className="material-icons arrow">arrow_forward</i>
+			<ArrowForwardIcon />
 			<img className="flag lang-to" src="/images/flags/en.png" alt="Lang to" />
 
-			<Divider className="menu-divider" type="vertical" />
+			<div className="divider vertical menu-divider" />
 
 			<span className="items-counter">273</span>
 		</Menu.Item>
@@ -16,22 +22,22 @@ const menu = (
 		<Menu.Item key="1" className="menu-item">
 			<img className="flag lang-from" src="/images/flags/en.png" alt="Lang to" />
 
-			<i className="material-icons arrow">arrow_forward</i>
+			<ArrowForwardIcon />
 			<img className="flag lang-to" src="/images/flags/ru.png" alt="Lang from" />
 
-			<Divider className="menu-divider" type="vertical" />
+			<div className="divider vertical menu-divider" />
 
-			<span className="items-counter">4921</span>
+			<span className="items-counter">4k</span>
 		</Menu.Item>
-		
-		<div id="menu-actions">
-			<Button id="new-btn" className="actions-btn" href="#">
-				<i className="material-icons">add</i>
-			</Button>
 
-			<Button id="edit-btn" className="actions-btn" href="#">
-				<i className="material-icons">edit</i>
-			</Button>
+		<div id="menu-actions">
+			<Link to="/dictionaries/new" className="btn actions-btn new-btn">
+				<PlusIcon />
+			</Link>
+
+			<Link to="/dictionaries" className="btn actions-btn edit-btn">
+				<EditIcon />
+			</Link>
 		</div>
 	</Menu>
 );
@@ -44,13 +50,12 @@ const DictionarySelector = () => {
 			placement="bottomCenter"
 			overlayClassName="dictionary-selector-dropdown"
 		>
-			<div id="dictionary-selector">
+			<div className="dictionary-selector btn">
 				<img className="flag lang-from" src="/images/flags/ru.png" alt="Lang from" />
-				<i className="material-icons arrow">arrow_forward</i>
+				<ArrowForwardIcon />
 				<img className="flag lang-to" src="/images/flags/en.png" alt="Lang to" />
-				<i id="arrow-dropdown" className="material-icons">
-					play_arrow
-				</i>
+
+				<DropdownIcon />
 			</div>
 		</Dropdown>
 	);

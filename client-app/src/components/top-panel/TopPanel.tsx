@@ -1,35 +1,35 @@
 import React from "react";
-import { Layout, Button, Space } from "antd";
+import { NavLink } from "react-router-dom";
 
 import DictionarySelector from "./DictionarySelector";
-
-const { Header } = Layout;
+import LearningIcon from "../icons/LearningIcon";
+import PlusIcon from "../icons/PlusIcon";
 
 const TopPanel = () => {
 	return (
-		<Header id="top-panel">
+		<div id="top-panel">
 			<div id="title-col">
 				<h1 className="page-title">Dashboard</h1>
 			</div>
 
 			<div id="buttons-col">
-				<Space className="btn-space" size="large">
-					<Button id="continue-learning-btn" className="top-panel-btn" type="link" block href="/">
-						<i className="btn-icon material-icons">wb_incandescent</i>
+				<div className="btn-space">
+					<NavLink to="/learning" className="btn continue-learning top-panel-btn">
+						<LearningIcon classNames="btn-icon" />
 						<span className="lg-visible">Continue learning</span>
-					</Button>
+					</NavLink>
 
-					<Button id="new-item-btn" className="top-panel-btn" type="link" href="/new-item">
-						<i className="btn-icon material-icons">add</i>
+					<NavLink to="/new-item" className="btn new-item top-panel-btn">
+						<PlusIcon classNames="btn-icon" />
 						<span className="lg-visible">New item</span>
-					</Button>
-				</Space>
+					</NavLink>
+				</div>
 			</div>
 
 			<div id="dictionary-selector-col">
 				<DictionarySelector />
 			</div>
-		</Header>
+		</div>
 	);
 };
 

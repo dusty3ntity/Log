@@ -6,31 +6,32 @@
 		height: 40px;
 		margin-bottom: 1.2rem;
 
-		#items-list-title {
+		.items-list-title {
 			display: inline-block;
 			font-weight: 700;
-			font-size: 2.125rem;
+			font-size: 2.2rem;
 		}
 
-		#buttons-container,
-		.header-space,
-		.ant-space-item {
+		.buttons-container {
 			height: 100%;
+			display: flex;
 		}
 
 		.header-btn {
 			height: 100%;
-			display: flex;
-			align-items: center;
 			padding: 0 16px;
+			margin-right: 1.5rem;
 
-			background: @body-background;
 			box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 				1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),
 				inset -1px -1px 2px rgba(204, 213, 221, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 
+			.icon {
+				height: 26px;
+				width: 26px;
+			}
+
 			span {
-				margin-left: 8px;
 				font-size: 16px;
 				font-weight: 700;
 			}
@@ -52,16 +53,11 @@
 			}
 		}
 
-		#filters-btn {
+		.filters-btn {
 			border-radius: 1.3rem;
-
-			i {
-				font-size: 28px;
-			}
 		}
 
-		#group-by-date-btn {
-			border-radius: 50%;
+		.group-by-date-btn {
 			padding: 0 8px;
 		}
 	}

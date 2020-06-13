@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
-import { Layout } from "antd";
+import { Route, Switch } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import "mobx-react-lite/batchingForReactDom";
-import { Route, Switch } from "react-router-dom";
 
 import NavBar from "../../components/navbar/NavBar";
 import TopPanel from "../../components/top-panel/TopPanel";
@@ -19,9 +18,9 @@ function App() {
 			<Route
 				path={"/(.+)"}
 				render={() => (
-					<Layout id="main">
+					<div id="main">
 						<NavBar />
-						<Layout>
+						<div id="page-content">
 							<TopPanel />
 							<Switch>
 								<Route path="/dashboard" component={Dashboard} />
@@ -29,8 +28,8 @@ function App() {
 
 								<Route component={NotFound} />
 							</Switch>
-						</Layout>
-					</Layout>
+						</div>
+					</div>
 				)}
 			/>
 		</Fragment>

@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
-import { Space, Divider, Badge, Statistic, Button } from "antd";
 import { observer } from "mobx-react-lite";
-import format from "date-fns/format";
-
 import TextEllipsis from "react-text-ellipsis";
+import format from "date-fns/format";
+import { Badge } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
+import StarIcon from "../../icons/StarIcon";
+import EditIcon from "../../icons/EditIcon";
+import DeleteIcon from "../../icons/DeleteIcon";
 
 interface IProps {
 	item: IItem;
@@ -20,6 +22,11 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const type = item.type === 10 ? "Word" : "Phrase";
 	const starredClass = item.isStarred ? " active" : "";
 
+	const totalRepeatsCount =
+		item.totalRepeatsCount > 999 ? Math.floor(item.totalRepeatsCount / 1000) + "k" : item.totalRepeatsCount;
+	const correctAnswersCount =
+		item.correctRepeatsCount > 999 ? Math.floor(item.correctRepeatsCount / 1000) + "k" : item.correctRepeatsCount;
+
 	const date = format(new Date(item.creationDate.toString().split("T")[0]), "MM.dd.yyyy");
 
 	return (
@@ -27,7 +34,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			<div className="header-row row">
 				<Badge status={statusClass} className="status-badge" />
 				<span className="type">{type}</span>
-				<i className={"material-icons starred-icon" + starredClass}>star</i>
+				<StarIcon classNames={starredClass} />
 			</div>
 
 			<div className="item-row row">
@@ -37,7 +44,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					</TextEllipsis>
 				</div>
 
-				<Divider />
+				<div className="divider" />
 
 				<div className="translation-row text-row">
 					<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>
@@ -47,7 +54,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="definition-row row">
-				<TextEllipsis lines={4} tag="p" tagClass={"definition"}>
+				<TextEllipsis lines={3} tag="p" tagClass={"definition"}>
 					{item.definition}
 				</TextEllipsis>
 
@@ -55,9 +62,15 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="stats-row row">
-				<Statistic title="Total repeats" value={item.totalRepeatsCount} />
+				<div className="statistic">
+					<div className="title">Total repeats</div>
+					<div className="counter">{totalRepeatsCount}</div>
+				</div>
 
-				<Statistic title="Correct answers" value={item.correctRepeatsCount} />
+				<div className="statistic">
+					<div className="title">Correct answers</div>
+					<div className="counter">{correctAnswersCount}</div>
+				</div>
 			</div>
 
 			<div className="date-row row">
@@ -65,19 +78,17 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="actions-row row">
-				<Space size="large" className="actions-space">
-					<Button className="edit-btn actions-btn" onClick={openEditor}>
-						<i className="material-icons">edit</i>
-					</Button>
+				<button className="btn edit-btn round actions-btn" onClick={openEditor}>
+					<EditIcon />
+				</button>
 
-					<Button className="star-btn actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
-						<i className={"material-icons" + starredClass}>star</i>
-					</Button>
+				<button className="btn star-btn round actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
+					<StarIcon classNames={starredClass} />
+				</button>
 
-					<Button className="delete-btn actions-btn" onClick={deleteItem}>
-						<i className="material-icons">delete</i>
-					</Button>
-				</Space>
+				<button className="btn delete-btn round actions-btn" onClick={deleteItem}>
+					<DeleteIcon />
+				</button>
 			</div>
 		</div>
 	);

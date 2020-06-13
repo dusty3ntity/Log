@@ -3,6 +3,10 @@
 		background: rgba(0, 0, 0, 0.03);
 	}
 
+	.ant-drawer-body {
+		overflow: hidden;
+	}
+
 	&.no-shadow {
 		.ant-drawer-content-wrapper {
 			box-shadow: none;
@@ -12,23 +16,11 @@
 
 .item-filters-drawer {
 	.ant-drawer-content-wrapper {
-		width: 30% !important;
+		width: 23% !important;
 		box-shadow: 6px 0 16px -8px rgba(0, 0, 0, 0.08), 9px 0 28px 0 rgba(0, 0, 0, 0.05),
 			12px 0 18px 16px rgba(0, 0, 0, 0.03);
 	}
-
-	.ant-drawer-header {
-		border: none;
-		padding: 24px 16px 0 16px;
-	}
-
-	.ant-drawer-title {
-		font-family: @font-family;
-		color: @primary-color;
-		font-weight: 700;
-		font-size: 34px;
-	}
-
+	
 	.ant-drawer-body {
 		padding: 16px;
 	}
@@ -40,7 +32,7 @@
 
 .item-details-drawer {
 	.ant-drawer-content-wrapper {
-		width: 40% !important;
+		width: 45% !important;
 		box-shadow: -6px 0 16px -8px rgba(0, 0, 0, 0.08), -9px 0 28px 0 rgba(0, 0, 0, 0.05),
 			-12px 0 18px 16px rgba(0, 0, 0, 0.03);
 	}
@@ -56,14 +48,18 @@
 	#item-details {
 		width: 100% !important;
 		margin: 0 !important;
-		padding: 16px;
 		border-radius: 0;
+		padding: 16px;
+
+		.definition {
+			font-size: 1.1rem !important;
+		}
 	}
 }
 
 @media (min-width: 1100px) {
 	.item-filters-drawer .ant-drawer-content-wrapper {
-		width: 25% !important;
+		width: 20% !important;
 	}
 
 	.item-details-drawer .ant-drawer-content-wrapper {
