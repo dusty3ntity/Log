@@ -65,7 +65,7 @@ namespace Persistence.Migrations
                     IsStarred = table.Column<bool>(nullable: false),
                     IsLearned = table.Column<bool>(nullable: false),
                     TotalRepeatsCount = table.Column<int>(nullable: false),
-                    CorrectRepeatsCount = table.Column<int>(nullable: false),
+                    CorrectAnswersCount = table.Column<int>(nullable: false),
                     GoesForNextDay = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

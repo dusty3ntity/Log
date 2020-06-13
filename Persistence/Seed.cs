@@ -22,7 +22,7 @@ namespace Persistence
                     IsLearned = false,
                     IsStarred = false,
                     Type = ItemType.Word,
-                    CorrectRepeatsCount = 0,
+                    CorrectAnswersCount = 0,
                     TotalRepeatsCount = 0,
                     GoesForNextDay = false
                 };
@@ -35,7 +35,7 @@ namespace Persistence
                     IsLearned = false,
                     IsStarred = true,
                     Type = ItemType.Word,
-                    CorrectRepeatsCount = 1,
+                    CorrectAnswersCount = 1,
                     TotalRepeatsCount = 3,
                     GoesForNextDay = true
                 };
@@ -49,7 +49,7 @@ namespace Persistence
                     IsLearned = true,
                     IsStarred = false,
                     Type = ItemType.Phrase,
-                    CorrectRepeatsCount = 5,
+                    CorrectAnswersCount = 5,
                     TotalRepeatsCount = 5,
                     GoesForNextDay = false
                 };
@@ -64,7 +64,7 @@ namespace Persistence
                     IsLearned = false,
                     IsStarred = true,
                     Type = ItemType.Word,
-                    CorrectRepeatsCount = 0,
+                    CorrectAnswersCount = 0,
                     TotalRepeatsCount = 0,
                     GoesForNextDay = true
                 };
@@ -79,7 +79,7 @@ namespace Persistence
                     IsLearned = true,
                     IsStarred = false,
                     Type = ItemType.Word,
-                    CorrectRepeatsCount = 10,
+                    CorrectAnswersCount = 10,
                     TotalRepeatsCount = 11,
                     GoesForNextDay = false
                 };
@@ -94,7 +94,7 @@ namespace Persistence
                     IsLearned = true,
                     IsStarred = false,
                     Type = ItemType.Word,
-                    CorrectRepeatsCount = 1003,
+                    CorrectAnswersCount = 1003,
                     TotalRepeatsCount = 1123,
                     GoesForNextDay = false
                 };
@@ -109,7 +109,7 @@ namespace Persistence
                     IsLearned = false,
                     IsStarred = false,
                     Type = ItemType.Phrase,
-                    CorrectRepeatsCount = 13,
+                    CorrectAnswersCount = 13,
                     TotalRepeatsCount = 11333,
                     GoesForNextDay = false
                 };
@@ -123,7 +123,7 @@ namespace Persistence
                     IsLearned = false,
                     IsStarred = false,
                     Type = ItemType.Word,
-                    CorrectRepeatsCount = 13333,
+                    CorrectAnswersCount = 13333,
                     TotalRepeatsCount = 19333,
                     GoesForNextDay = false
                 };
@@ -138,7 +138,7 @@ namespace Persistence
                     IsLearned = true,
                     IsStarred = false,
                     Type = ItemType.Word,
-                    CorrectRepeatsCount = 133,
+                    CorrectAnswersCount = 133,
                     TotalRepeatsCount = 133,
                     GoesForNextDay = false
                 };

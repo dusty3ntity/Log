@@ -24,7 +24,7 @@ namespace Application.Utilities
                     ? item.Original[0]
                     : item.Translation[0],
                 IsStarred = item.IsStarred,
-                CorrectRepeatsCount = item.CorrectRepeatsCount
+                CorrectRepeatsCount = item.CorrectAnswersCount
             };
 
             return testItem;

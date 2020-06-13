@@ -98,7 +98,7 @@ namespace Application.Items
                     IsLearned = false,
                     IsStarred = request.IsStarred,
                     Type = request.Type,
-                    CorrectRepeatsCount = 0,
+                    CorrectAnswersCount = 0,
                     TotalRepeatsCount = 0,
                     GoesForNextDay = request.IsStarred
                 };
