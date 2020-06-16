@@ -1,12 +1,40 @@
-/*---------------------  xxs (480px)  ---------------------*/
+@xxs-end: 479px;
+
+@xs-start: 480px;
+@xs-end: 575px;
+
+@sm-start: 576px;
+@sm-end: 767px;
+
+@md-start: 768px;
+@md-end: 991px;
+
+@lg-start: 992px;
+@lg-end: 1199px;
+
+@mlg-start: 1200px;
+@mlg-end: 1399px;
+
+@xl-start: 1400px;
+@xl-end: 1599px;
+
+@xxl-start: 1600px;
+@xxl-end: 1899px;
+
+@xxxl-start: 1900px;
+
+
+
+
+/*---------------------  xs (480px - 575px)  ---------------------*/
 @media (max-width: 479px) {
-	.xxs-visible {
+	.xs-visible {
 		display: none !important; // <= 479px - hidden, >= 480px - visible
 	}
 }
 
 @media (min-width: 480px) {
-	.xxs-hidden {
+	.xs-hidden {
 		display: none !important; // <= 479px - visible, >= 480px hidden
 	}
 }
@@ -14,15 +42,15 @@
 
 
 
-/*---------------------  xs (576px)  ---------------------*/
+/*---------------------  sm (576px - 768px)  ---------------------*/
 @media (max-width: 575px) {
-	.xs-visible {
+	.sm-visible {
 		display: none !important; // <= 575px - hidden, >= 576px - visible
 	}
 }
 
 @media (min-width: 576px) {
-	.xs-hidden {
+	.sm-hidden {
 		display: none !important; // <= 575px - visible, >= 576px hidden
 	}
 }
@@ -30,15 +58,15 @@
 
 
 
-/*---------------------  sm (768px)  ---------------------*/
+/*---------------------  md (768px - 991px)  ---------------------*/
 @media (max-width: 767px) {
-	.sm-visible {
+	.md-visible {
 		display: none !important; // <= 767px - hidden, >= 768px visible
 	}
 }
 
 @media (min-width: 768px) {
-	.sm-hidden {
+	.md-hidden {
 		display: none !important; // <= 767px - visible, >= 768px hidden
 	}
 }
@@ -46,15 +74,15 @@
 
 
 
-/*---------------------  md (992px)  ---------------------*/
+/*---------------------  lg (992px - 1199px)  ---------------------*/
 @media (max-width: 991px) {
-	.md-visible {
+	.lg-visible {
 		display: none !important; // <= 991px - hidden, >= 992px visible
 	}
 }
 
 @media (min-width: 992px) {
-	.md-hidden {
+	.lg-hidden {
 		display: none !important; // <= 991px - visible, >= 992px hidden
 	}
 }
@@ -62,15 +90,15 @@
 
 
 
-/*---------------------  lg (1200px)  ---------------------*/
+/*---------------------  mlg (1200px - 1399px)  ---------------------*/
 @media (max-width: 1199px) {
-	.lg-visible {
+	.mlg-visible {
 		display: none !important; // <= 1199px - hidden, >= 1200px visible
 	}
 }
 
 @media (min-width: 1200px) {
-	.lg-hidden {
+	.mlg-hidden {
 		display: none !important; // <= 1199px - visible, >= 1200px hidden
 	}
 }
@@ -78,15 +106,15 @@
 
 
 
-/*---------------------  mlg (1400px)  ---------------------*/
+/*---------------------  xl (1400px - 1599px)  ---------------------*/
 @media (max-width: 1399px) {
-	.mlg-visible {
+	.xl-visible {
 		display: none !important; // <= 1399px - hidden, >= 1400px visible
 	}
 }
 
 @media (min-width: 1400px) {
-	.mlg-hidden {
+	.xl-hidden {
 		display: none !important; // <= 1399px - visible, >= 1400px hidden
 	}
 }
@@ -94,15 +122,15 @@
 
 
 
-/*---------------------  xl (1600px)  ---------------------*/
+/*---------------------  xxl (1600px - 1899px)  ---------------------*/
 @media (max-width: 1599px) {
-	.xl-visible {
+	.xxl-visible {
 		display: none !important; // <= 1599px - hidden, >= 1600px visible
 	}
 }
 
 @media (min-width: 1600px) {
-	.xl-hidden {
+	.xxl-hidden {
 		display: none !important; // <= 1599px - visible, >= 1600px hidden
 	}
 }
@@ -110,15 +138,15 @@
 
 
 
-/*---------------------  xxl (1900px)  ---------------------*/
+/*---------------------  xxxl (>=1900px)  ---------------------*/
 @media (max-width: 1899px) {
-	.xxl-visible {
+	.xxxl-visible {
 		display: none !important; // <= 1899px - hidden, >= 1900px visible
 	}
 }
 
 @media (min-width: 1900px) {
-	.xxl-hidden {
+	.xxxl-hidden {
 		display: none !important; // <= 1899px - visible, >= 1900px hidden
 	}
 }

@@ -16,7 +16,7 @@ const Header = () => {
 
 			<div className="buttons-container">
 				<button
-					className="btn header-btn filters-btn mlg-hidden"
+					className="btn header-btn filters-btn xl-hidden"
 					onClick={showFiltersDrawer}
 					disabled={filtersDrawerVisible}
 				>
