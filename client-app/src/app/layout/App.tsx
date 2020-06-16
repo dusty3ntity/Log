@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import "mobx-react-lite/batchingForReactDom";
 
@@ -17,21 +17,21 @@ function App() {
 			<Route
 				path={"/(.+)"}
 				render={() => (
-					<div id="main">
-						<Switch>
-							<Route path="/dashboard">
-								<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
-							</Route>
+					<Switch>
+						<Route path="/dashboard">
+							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
+						</Route>
 
-							<Route exact path="/new-item">
-								<Page title="New item" pageTitle="New item" component={<NewItem />} />
-							</Route>
+						<Route exact path="/new-item">
+							<Page title="New item" pageTitle="New item" component={<NewItem />} />
+						</Route>
 
-							<Route>
-								<Page title="Where am I?" pageTitle="404" component={<NotFound />} />
-							</Route>
-						</Switch>
-					</div>
+						<Route exact path="/404" component={NotFound} />
+
+						<Route>
+							<Redirect to="/404" />
+						</Route>
+					</Switch>
 				)}
 			/>
 		</Fragment>

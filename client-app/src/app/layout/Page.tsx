@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 import NavBar from "../../components/navbar/NavBar";
 import TopPanel from "../../components/top-panel/TopPanel";
@@ -13,13 +13,13 @@ const Page: React.FC<IProps> = ({ pageTitle, title, component }) => {
 	document.title = `${pageTitle} - Log`;
 
 	return (
-		<Fragment>
+		<div id="main">
 			<NavBar />
 			<div id="page-content">
 				<TopPanel title={title} />
 				{component}
 			</div>
-		</Fragment>
+		</div>
 	);
 };
 

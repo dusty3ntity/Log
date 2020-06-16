@@ -34,7 +34,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			<div className="header-row row">
 				<Badge status={statusClass} className="status-badge" />
 				<span className="type">{type}</span>
-				<StarIcon classNames={starredClass} />
+				<StarIcon className={starredClass} />
 			</div>
 
 			<div className="item-row row">
@@ -83,7 +83,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 				</button>
 
 				<button className="btn star-btn round actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
-					<StarIcon classNames={starredClass} />
+					<StarIcon className={starredClass} />
 				</button>
 
 				<button className="btn delete-btn round actions-btn" onClick={deleteItem}>
