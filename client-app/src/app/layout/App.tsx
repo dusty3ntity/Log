@@ -1,12 +1,11 @@
 import React, { Fragment } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import "mobx-react-lite/batchingForReactDom";
 
-import NavBar from "../../components/navbar/NavBar";
-import TopPanel from "../../components/top-panel/TopPanel";
-import Dashboard from "../../components/dashboard/Dashboard";
 import HomePage from "../../components/home/HomePage";
+import Page from "./Page";
+import Dashboard from "../../components/dashboard/Dashboard";
 import NewItem from "../../components/new-item/NewItem";
 import NotFound from "./NotFound";
 
@@ -18,18 +17,21 @@ function App() {
 			<Route
 				path={"/(.+)"}
 				render={() => (
-					<div id="main">
-						<NavBar />
-						<div id="page-content">
-							<TopPanel />
-							<Switch>
-								<Route path="/dashboard" component={Dashboard} />
-								<Route exact path="/new-item" component={NewItem} />
+					<Switch>
+						<Route path="/dashboard">
+							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
+						</Route>
 
-								<Route component={NotFound} />
-							</Switch>
-						</div>
-					</div>
+						<Route exact path="/new-item">
+							<Page title="New item" pageTitle="New item" component={<NewItem />} />
+						</Route>
+
+						<Route exact path="/404" component={NotFound} />
+
+						<Route>
+							<Redirect to="/404" />
+						</Route>
+					</Switch>
 				)}
 			/>
 		</Fragment>

@@ -5,11 +5,15 @@ import DictionarySelector from "./DictionarySelector";
 import LearningIcon from "../icons/LearningIcon";
 import PlusIcon from "../icons/PlusIcon";
 
-const TopPanel = () => {
+interface IProps {
+	title: string;
+}
+
+const TopPanel: React.FC<IProps> = ({ title }) => {
 	return (
 		<div id="top-panel">
 			<div id="title-col">
-				<h1 className="page-title">Dashboard</h1>
+				<h1 className="page-title">{title}</h1>
 			</div>
 
 			<div id="buttons-col">

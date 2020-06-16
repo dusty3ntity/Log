@@ -3,12 +3,15 @@ import React from "react";
 // star-black-24dp
 
 interface IProps {
-	classNames?: string;
+	className?: string;
+	active?: boolean;
 }
 
-const StarIcon: React.FC<IProps> = ({ classNames }) => {
+const StarIcon: React.FC<IProps> = ({ className, active }) => {
+	const classNames = "icon star-icon" + (className ? " " + className : "") + (active ? " active" : "");
+
 	return (
-		<svg className={"icon star-icon " + classNames} viewBox="0 0 24 24">
+		<svg className={classNames} viewBox="0 0 24 24">
 			<g>
 				<path d="M0,0h24v24H0V0z" fill="none" />
 				<path d="M0,0h24v24H0V0z" fill="none" />

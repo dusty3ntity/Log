@@ -38,7 +38,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 					className="btn star-btn round actions-btn"
 					onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
 				>
-					<StarIcon classNames={starredClass} />
+					<StarIcon className={starredClass} />
 				</button>
 			</div>
 		</div>
