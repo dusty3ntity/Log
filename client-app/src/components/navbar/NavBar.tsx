@@ -15,8 +15,8 @@ const NavBar = () => {
 		<div id="nav">
 			<div className="nav-header">
 				<Link to="/">
-					<img className="logo xl-hidden" src="/images/logo.svg" alt="Logo" />
-					<span className="title xl-visible">Log.</span>
+					<img className="logo xxl-hidden" src="/images/logo.svg" alt="Logo" />
+					<span className="title xxl-visible">Log.</span>
 				</Link>
 			</div>
 
@@ -39,8 +39,8 @@ const NavBar = () => {
 				<Link to="/profile" className="profile-link">
 					<Avatar className="avatar" src="/images/temp/avatar.png" alt={"Account name"} />
 				</Link>
-				<div className="username xl-visible">Vadym Ohyr</div>
-				<Link to="/" className="btn upgrade-btn xl-visible">
+				<div className="username xxl-visible">Vadym Ohyr</div>
+				<Link to="/" className="btn upgrade-btn xxl-visible">
 					Upgrade
 				</Link>
 			</div>

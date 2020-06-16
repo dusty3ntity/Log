@@ -18,7 +18,7 @@ const ItemsList = () => {
 			<Header />
 
 			<div id="content-container">
-				<ItemFilters classNames="mlg-visible" />
+				<ItemFilters classNames="xl-visible" />
 
 				<div id="list-container">
 					<ItemFiltersDrawer />

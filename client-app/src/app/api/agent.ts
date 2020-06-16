@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 import { IItem, IEditItem, INewItem } from "../models/item";
 
-axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/647014A4-1FE6-43A6-8689-A1B6C82761A4";
+axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/C44B9B6B-41AE-498A-970A-EB9E72D28841";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
