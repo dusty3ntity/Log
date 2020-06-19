@@ -31,7 +31,7 @@ const menu = (
 		</Menu.Item>
 
 		<div id="menu-actions">
-			<Link to="/dictionaries/new" className="btn actions-btn new-btn">
+			<Link to="/dictionaries/new" className="btn actions-btn new-btn primary">
 				<PlusIcon />
 			</Link>
 

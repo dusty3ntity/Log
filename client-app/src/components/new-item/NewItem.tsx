@@ -1,8 +1,7 @@
 import React from "react";
 import { Tabs } from "antd";
 
-import WordForm from "./WordForm";
-import PhraseForm from "./PhraseForm";
+import NewItemForm from "./NewItemForm";
 
 const { TabPane } = Tabs;
 
@@ -12,11 +11,11 @@ const NewItem = () => {
 			<div id="new-item">
 				<Tabs defaultActiveKey="10">
 					<TabPane tab="Word" key="10">
-						<WordForm />
+						<NewItemForm id="new-word-form" type={10} />
 					</TabPane>
 
 					<TabPane tab="Phrase" key="20">
-						<PhraseForm />
+						<NewItemForm id="new-phrase-form" type={10} />
 					</TabPane>
 				</Tabs>
 			</div>
