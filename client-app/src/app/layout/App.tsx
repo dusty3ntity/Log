@@ -7,6 +7,7 @@ import HomePage from "../../components/home/HomePage";
 import Page from "./Page";
 import Dashboard from "../../components/dashboard/Dashboard";
 import NewItem from "../../components/new-item/NewItem";
+import Learning from "../../components/learning/Learning";
 import NotFound from "./NotFound";
 
 function App() {
@@ -24,6 +25,10 @@ function App() {
 
 						<Route exact path="/new-item">
 							<Page title="New item" pageTitle="New item" component={<NewItem />} />
+						</Route>
+
+						<Route exact path="/learning">
+							<Page title="Learning" pageTitle="Learning" component={<Learning />} />
 						</Route>
 
 						<Route exact path="/404" component={NotFound} />

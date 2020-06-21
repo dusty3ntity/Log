@@ -20,7 +20,6 @@
 		"less-loader": "^5.0.0",
 		"mobx": "^5.15.4",
 		"mobx-react-lite": "^2.0.6",
-		"overlayscrollbars": "^1.12.0",
 		"react": "^16.13.1",
 		"react-app-rewired": "^2.1.6",
 		"react-dom": "^16.13.1",
