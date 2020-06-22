@@ -2,6 +2,7 @@ import React from "react";
 
 import LearningBackground from "./LearningBackground";
 import LearningCardFront from "./LearningCardFront";
+import LearningProgressBar from "./LearningProgressBar";
 
 const Learning = () => {
 	return (
@@ -15,6 +16,8 @@ const Learning = () => {
 
 				<LearningBackground className="right" />
 			</div>
+
+			<LearningProgressBar total={100} done={29} />
 		</div>
 	);
 };
