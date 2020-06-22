@@ -1,8 +1,22 @@
 .learning-card {
 	height: 100%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
+	padding: 2rem;
+	border-radius: 1.875rem;
 
+	background: @body-background;
+	box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+		3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+	position: absolute;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.learning-card-front {
 	.row {
 		width: 100%;
 		text-align: center;
@@ -17,7 +31,7 @@
 		.difficulty-indicator {
 			display: flex;
 			align-items: center;
-			
+
 			.icon {
 				height: 2rem;
 				width: 2rem;
@@ -127,7 +141,7 @@
 			overflow: hidden;
 
 			&.short {
-				font-size: 1.5rem;
+				font-size: 1.4rem;
 			}
 
 			&.medium {
@@ -187,6 +201,10 @@
 			width: 65%;
 		}
 	}
+}
+
+.learning-card-back {
+	transform: rotateY(180deg);
 }
 
 @media (max-width: 1450px) {

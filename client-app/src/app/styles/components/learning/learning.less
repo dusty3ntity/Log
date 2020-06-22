@@ -1,6 +1,8 @@
+@import "./learning-background";
 @import "./learning-card";
 
 #learning-container {
+	position: relative;
 	display: flex;
 	height: 100%;
 	justify-content: center;
@@ -14,27 +16,39 @@
 }
 
 #learning {
-	width: 45%;
+	width: 100%;
 	height: 92%;
+	position: relative;
 	display: flex;
-	flex-direction: column;
-	padding: 2rem;
-	border-radius: 1.875rem;
+	justify-content: center;
 
+	perspective: 1000px;
+}
 
-	box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
-		3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
-		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+#learning-content {
+	height: 100%;
+	width: 45%;
+	position: relative;
+	transition: transform 0.8s;
+	transform-style: preserve-3d;
+
+	&:hover {
+		transform: rotateY(180deg);
+	}
 }
 
 @media (max-width: @lg-end) {
-	#learning {
+	#learning-content {
 		padding: 1.3rem !important;
 	}
 }
 
 @media (max-width: 1099px) {
-	#learning {
+	#learning-content {
 		width: 100% !important;
+	}
+
+	.learning-background {
+		display: none;
 	}
 }

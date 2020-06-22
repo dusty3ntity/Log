@@ -6,7 +6,7 @@ import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
 import HintIcon from "../icons/HintIcon";
 
-const LearningCard = () => {
+const LearningCardFront = () => {
 	const learningItem = {
 		id: "96bb6bea-29c3-429d-9c6f-58ddca0237a7",
 		learningMode: 1,
@@ -18,7 +18,7 @@ const LearningCard = () => {
 			answerFirstLetter: "л",
 			definition: "Domesticated mammal used for riding and racing.",
 			// definition:
-				// "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+			// "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
 			itemType: 0,
 			isStarred: true,
 			correctRepeatsCount: 1,
@@ -30,10 +30,11 @@ const LearningCard = () => {
 	const starredClass = item.isStarred ? " active" : "";
 
 	const textSizeClass = item.item.length > 20 ? "long" : item.item.length > 10 ? "medium" : "short";
-	const definitionTextSizeClass = item.definition.length > 85 ? "long" : item.definition.length > 70 ? "medium" : "short";
+	const definitionTextSizeClass =
+		item.definition.length > 85 ? "long" : item.definition.length > 70 ? "medium" : "short";
 
 	return (
-		<div className="learning-card">
+		<div className="learning-card learning-card-front">
 			<div className="header-row row">
 				<DifficultyIndicator difficulty="low" />
 				<LearningItemProgress total={10} checked={6} />
@@ -72,4 +73,4 @@ const LearningCard = () => {
 	);
 };
 
-export default LearningCard;
+export default LearningCardFront;
