@@ -30,17 +30,36 @@
 	height: 100%;
 	width: 45%;
 	position: relative;
-	transition: transform 0.8s;
 	transform-style: preserve-3d;
 
-	&:hover {
-		transform: rotateY(180deg);
-	}
-}
+	animation: cardSpinBack 0.5s linear;
+	transform: rotateY(0deg);
 
-@media (max-width: @lg-end) {
-	.learning-card {
-		padding: 1.3rem !important;
+	&.initial {
+		animation: none;
+	}
+
+	&.showing-result {
+		animation: cardSpin 0.5s linear;
+		transform: rotateY(-180deg);
+	}
+
+	@keyframes cardSpin {
+		from {
+			transform: rotateY(0deg);
+		}
+		to {
+			transform: rotateY(-180deg);
+		}
+	}
+
+	@keyframes cardSpinBack {
+		from {
+			transform: rotateY(-180deg);
+		}
+		to {
+			transform: rotateY(-360deg);
+		}
 	}
 }
 

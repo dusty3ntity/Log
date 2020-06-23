@@ -6,25 +6,12 @@ import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
 import HintIcon from "../icons/HintIcon";
 
-const LearningCardFront = () => {
-	const learningItem = {
-		id: "96bb6bea-29c3-429d-9c6f-58ddca0237a7",
-		learningMode: 1,
-		numberInSequence: 1,
-		item: {
-			item: "horse",
-			// item: "awwwwwwwwwwwwwwwwwwwwwwwwwwwwa",
-			answerMask: "л_____",
-			answerFirstLetter: "л",
-			definition: "Domesticated mammal used for riding and racing.",
-			// definition:
-			// "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
-			itemType: 0,
-			isStarred: true,
-			correctRepeatsCount: 1,
-		},
-	};
+interface IProps {
+	learningItem: any;
+	onSubmit: () => void;
+}
 
+const LearningCardFront: React.FC<IProps> = ({ learningItem, onSubmit }) => {
 	const item = learningItem.item;
 
 	const starredClass = item.isStarred ? " active" : "";
@@ -43,7 +30,7 @@ const LearningCardFront = () => {
 
 			<div className="item-row row">
 				<div className="task-row">
-					<h1 className={`task ${textSizeClass}`}>{item.item}</h1>
+					<h1 className={`task text ${textSizeClass}`}>{item.item}</h1>
 				</div>
 
 				<div className="divider invisible" />
@@ -55,7 +42,7 @@ const LearningCardFront = () => {
 			</div>
 
 			<div className="definition-row row">
-				<TextEllipsis lines={3} tag="div" tagClass={`definition ${definitionTextSizeClass}`}>
+				<TextEllipsis lines={3} tag="div" tagClass={`definition text ${definitionTextSizeClass}`}>
 					{item.definition}
 				</TextEllipsis>
 			</div>
@@ -65,7 +52,7 @@ const LearningCardFront = () => {
 					<HintIcon />
 					<span>Hint</span>
 				</button>
-				<button className="btn actions-btn submit-btn primary" type="submit">
+				<button className="btn actions-btn submit-btn primary" type="button" onClick={onSubmit}>
 					Submit
 				</button>
 			</div>
