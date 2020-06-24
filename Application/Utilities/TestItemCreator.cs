@@ -14,7 +14,7 @@ namespace Application.Utilities
                 Item = learningItem.LearningMode == LearningMode.Primary
                     ? item.Translation
                     : item.Original,
-                ItemType = item.Type,
+                Type = item.Type,
                 Definition = item.Definition,
                 AnswerMask = learningItem.LearningMode == LearningMode.Primary
                     ? GenerateMask(item.Original)

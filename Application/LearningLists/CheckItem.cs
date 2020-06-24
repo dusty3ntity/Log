@@ -18,7 +18,7 @@ namespace Application.LearningLists
 {
     public class CheckItem
     {
-        public class Command : IRequest<LearningItemAnswer>
+        public class Command : IRequest<LearningItemResult>
         {
             public Guid DictionaryId { get; set; }
             public Guid LearningListId { get; set; }
@@ -39,7 +39,7 @@ namespace Application.LearningLists
             }
         }
 
-        public class Handler : IRequestHandler<Command, LearningItemAnswer>
+        public class Handler : IRequestHandler<Command, LearningItemResult>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -50,7 +50,7 @@ namespace Application.LearningLists
                 _mapper = mapper;
             }
 
-            public async Task<LearningItemAnswer> Handle(Command request,
+            public async Task<LearningItemResult> Handle(Command request,
                 CancellationToken cancellationToken)
             {
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
@@ -122,17 +122,17 @@ namespace Application.LearningLists
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
-                    return new LearningItemAnswer
+                    return new LearningItemResult
                     {
                         IsAnswerCorrect = isAnswerCorrect,
                         UserAnswer = request.Answer,
-                        Item = new AnswerItem
+                        Item = new TestItemAnswer
                         {
                           Item = learningItem.LearningMode == LearningMode.Primary ? item.Translation : item.Original,
                           Answer = learningItem.LearningMode == LearningMode.Primary ? item.Original : item.Translation,
                           Definition = item.Definition,
                           DefinitionOrigin = item.DefinitionOrigin,
-                          ItemType = item.Type,
+                          Type = item.Type,
                           IsStarred = item.IsStarred,
                           CorrectAnswersCount = item.CorrectAnswersCount
                         }

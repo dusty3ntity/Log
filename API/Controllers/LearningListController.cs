@@ -25,7 +25,7 @@ namespace API.Controllers
         }
 
         [HttpPost("{learningListId}/nextItem")]
-        public async Task<ActionResult<LearningItemAnswer>> CheckItem(Guid dictionaryId,
+        public async Task<ActionResult<LearningItemResult>> CheckItem(Guid dictionaryId,
             Guid learningListId,
             CheckItem.Command command)
         {

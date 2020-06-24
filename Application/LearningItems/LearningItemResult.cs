@@ -2,10 +2,10 @@
 
 namespace Application.LearningItems
 {
-    public class LearningItemAnswer
+    public class LearningItemResult
     {
         public bool IsAnswerCorrect { get; set; }
         public string UserAnswer { get; set; }
-        public AnswerItem Item { get; set; }
+        public TestItemAnswer Item { get; set; }
     }
 }
