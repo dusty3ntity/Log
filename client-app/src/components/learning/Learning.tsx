@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import LearningBackground from "./LearningBackground";
+import LearningStart from "./LearningStart";
 import LearningCardFront from "./LearningCardFront";
 import LearningCardBack from "./LearningCardBack";
 import LearningProgressBar from "./LearningProgressBar";
@@ -61,14 +62,16 @@ const Learning = () => {
 					id="learning-content"
 					className={`${showingResult ? "showing-result" : ""}${initial ? " initial" : ""}`}
 				>
-					<LearningCardFront learningItem={learningItem} onSubmit={onSubmit} />
-					<LearningCardBack learningItemResult={learningItemResult} onNext={onNext} />
+					{/* <LearningCardFront learningItem={learningItem} onSubmit={onSubmit} /> */}
+					{/* <LearningCardBack learningItemResult={learningItemResult} onNext={onNext} /> */}
+
+					<LearningStart />
 				</div>
 
 				<LearningBackground className="right" />
 			</div>
 
-			<LearningProgressBar total={100} done={29} />
+			{/* <LearningProgressBar total={100} done={29} /> */}
 		</div>
 	);
 };

@@ -1,0 +1,66 @@
+.learning-supporting-card {
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	border-radius: 1.875rem;
+
+	background: @body-background;
+	box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+		3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+	.row {
+		width: 100%;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+	}
+
+	.date-row {
+
+		span {
+			margin: 0 6px;
+		}
+
+		.date {
+			font-size: 2.25rem;
+			font-weight: 800;
+			color: @success-color;
+		}
+
+		.month {
+			font-size: 2.25rem;
+			font-weight: 600;
+		}
+
+		.year {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: @text-color-grey;
+		}
+	}
+
+	.divider {
+		margin: 1rem 0 3rem;
+	}
+
+	.learning-stats-row {
+		height: 40%;
+	}
+
+	.actions-row {
+		flex-grow: 2;
+		align-items: flex-end;
+
+		.btn {
+			width: 100%;
+			font-size: 1.5rem;
+			font-weight: 800;
+			padding: 0.5rem;
+			border-radius: 1.875rem;
+		}
+	}
+}

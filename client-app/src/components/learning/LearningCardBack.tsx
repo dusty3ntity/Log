@@ -5,6 +5,7 @@ import LearningItemProgress from "./LearningItemProgress";
 import SuccessIcon from "../icons/SuccessIcon";
 import FailIcon from "../icons/FailIcon";
 import StarIcon from "../icons/StarIcon";
+import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 
 interface IProps {
 	learningItemResult: any;
@@ -70,7 +71,10 @@ const LearningCardBack: React.FC<IProps> = ({ learningItemResult, onNext }) => {
 			</div>
 
 			<div className="actions-row row">
-				<button className="btn actions-btn next-btn primary" onClick={onNext}>Next</button>
+				<button className="btn actions-btn next-btn primary" onClick={onNext}>
+					<span>Next</span>
+					<ArrowForwardSmallIcon />
+				</button>
 			</div>
 		</div>
 	);

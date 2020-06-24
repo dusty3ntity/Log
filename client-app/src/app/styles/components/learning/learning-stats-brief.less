@@ -1,0 +1,65 @@
+.learning-stats-brief {
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+
+	.col {
+		height: 100%;
+		width: 50%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.cell {
+		width: 100%;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: @text-color-grey;
+	}
+
+	.value {
+		font-size: 3rem;
+		font-weight: 700;
+	}
+
+	.correct-answers .value {
+		color: @success-color;
+
+		&.zero {
+			color: @text-color-grey;
+		}
+	}
+
+	.productivity .value {
+		position: relative;
+		color: @text-color-grey;
+
+		&.low {
+			color: @error-color;
+		}
+
+		&.medium {
+			color: @warning-color;
+		}
+
+		&.high {
+			color: @success-color;
+		}
+
+		&::after {
+			position: absolute;
+			left: 104%;
+			bottom: 0.9rem;
+			content: "%";
+			font-size: 1.125rem;
+			font-weight: 700;
+			line-height: 1.125rem;
+			color: @text-color-grey;
+		}
+	}
+}
