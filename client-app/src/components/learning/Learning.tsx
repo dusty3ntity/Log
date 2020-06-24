@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
 import LearningBackground from "./LearningBackground";
-import LearningStart from "./LearningStart";
+import SupportingPage from "./SupportingPage";
 import LearningCardFront from "./LearningCardFront";
 import LearningCardBack from "./LearningCardBack";
 import LearningProgressBar from "./LearningProgressBar";
+import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
+import RefreshIcon from "../icons/RefreshIcon";
 
 const Learning = () => {
 	const [showingResult, setShowingResult] = useState(false);
@@ -53,6 +55,12 @@ const Learning = () => {
 		},
 	};
 
+	const learningStats = {
+		totalItems: 100,
+		completedItems: 100,
+		correctAnswers: 89,
+	};
+
 	return (
 		<div id="learning-container">
 			<div id="learning">
@@ -65,7 +73,54 @@ const Learning = () => {
 					{/* <LearningCardFront learningItem={learningItem} onSubmit={onSubmit} /> */}
 					{/* <LearningCardBack learningItemResult={learningItemResult} onNext={onNext} /> */}
 
-					<LearningStart />
+					{/* <SupportingPage
+						className="learning-start"
+						stats={learningStats}
+						button={
+							<button className="btn actions-btn start-btn primary">
+								<span>{learningStats.completedItems > 0 ? "Continue" : "Start"}</span>
+								<ArrowForwardSmallIcon />
+							</button>
+						}
+					/> */}
+
+					{/* <SupportingPage
+						className="learning-outdated"
+						stats={learningStats}
+						message="This training is outdated. Start the new one!"
+						messageType="warning"
+						button={
+							<button className="btn actions-btn start-btn primary">
+								<span>Start</span>
+								<ArrowForwardSmallIcon />
+							</button>
+						}
+					/> */}
+
+					{/* <SupportingPage
+						className="learning-final-end"
+						stats={learningStats}
+						message="You have completed the training 2 times today. Get some rest."
+						messageType="info"
+						button={
+							<a className="btn actions-btn return-btn" href="/dashboard">
+								Go to dashboard
+							</a>
+						}
+					/> */}
+
+					<SupportingPage
+						className="learning-end"
+						stats={learningStats}
+						message="The training is finally over. But you can complete it one more time!"
+						messageType="info"
+						button={
+							<button className="btn actions-btn start-btn primary">
+								<span>Start again</span>
+								<RefreshIcon />
+							</button>
+						}
+					/>
 				</div>
 
 				<LearningBackground className="right" />
