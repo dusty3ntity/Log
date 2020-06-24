@@ -57,7 +57,7 @@ namespace Application.LearningLists
                 var item = new LearningItem
                 {
                     Item = items[i],
-                    LearningMode = (LearningMode) _rand.Next(0, 2),
+                    LearningMode = _rand.Next(0, 2) == 0 ? LearningMode.Primary : LearningMode.Secondary,
                 };
 
                 list.Add(item);
