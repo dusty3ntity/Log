@@ -11,7 +11,7 @@ namespace API.Controllers
     public class LearningListController : BaseController
     {
         [HttpPost]
-        public async Task<ActionResult<Guid>> Create(Guid dictionaryId)
+        public async Task<ActionResult<LearningListDto>> Create(Guid dictionaryId)
         {
             return await Mediator.Send(new Create.Command {DictionaryId = dictionaryId});
         }
@@ -32,6 +32,13 @@ namespace API.Controllers
             command.DictionaryId = dictionaryId;
             command.LearningListId = learningListId;
             return await Mediator.Send(command);
+        }
+
+        [HttpPost("{learningListId}/start-over")]
+        public async Task<ActionResult<Unit>> StartOver(Guid dictionaryId, Guid learningListId)
+        {
+            return await Mediator.Send(new StartOver.Command
+                {DictionaryId = dictionaryId, LearningListId = learningListId});
         }
 
         // For testing purposes, should be deleted soon

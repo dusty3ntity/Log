@@ -16,7 +16,7 @@ namespace Persistence
                 {
                     Original = "house",
                     Translation = "дом",
-                    Definition = "A building for human habitation",
+                    Definition = "A building for human habitation.",
                     DefinitionOrigin = "Cambridge Dictionary",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
@@ -44,7 +44,7 @@ namespace Persistence
                 {
                     Original = "thank you",
                     Translation = "спасибо",
-                    Definition = "A polite expression used when acknowledging a gift, service, or compliment",
+                    Definition = "A polite expression used when acknowledging a gift, service, or compliment.",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
@@ -58,7 +58,7 @@ namespace Persistence
                 {
                     Original = "hospital",
                     Translation = "больница",
-                    Definition = "An institution providing medical and surgical treatment and nursing care",
+                    Definition = "An institution providing medical and surgical treatment and nursing care.",
                     DefinitionOrigin = "Cambridge Dictionary",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
@@ -73,7 +73,7 @@ namespace Persistence
                 {
                     Original = "to spill",
                     Translation = "пролить",
-                    Definition = "Cause (liquid) to flow over the edge of its container",
+                    Definition = "Cause (liquid) to flow over the edge of its container.",
                     DefinitionOrigin = "Cambridge Dictionary",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
@@ -86,9 +86,9 @@ namespace Persistence
 
                 var Item6 = new Item
                 {
-                    Original = "a spillwwwwwwwwwwwwwwwwwwwwwww",
-                    Translation = "пролитьффффффффффффффффффффффф",
-                    Definition = "Having a great deal to do very long description very long description very long description very lon",
+                    Original = "extraordinary",
+                    Translation = "необычнайный",
+                    Definition = "Very unusual or remarkable.",
                     DefinitionOrigin = "Cambridge Dictionary",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
@@ -98,13 +98,14 @@ namespace Persistence
                     TotalRepeatsCount = 1123,
                     GoesForNextDay = false
                 };
-                
+
                 var Item7 = new Item
                 {
-                    Original = "a spillwwwwwww wwwwwwwwwwwwwww",
-                    Translation = "пролить",
-                    Definition = "Having a great deal to do very long description very long description very long description very lon",
-                    DefinitionOrigin = "Oxford Dictionary",
+                    Original = "what's up?",
+                    Translation = "как дела?",
+                    Definition =
+                        "An annoying question that has replaced 'Hello' or 'Hi' as the most popular form of casual greeting.",
+                    DefinitionOrigin = "Urban Dictionary",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = false,
@@ -113,12 +114,13 @@ namespace Persistence
                     TotalRepeatsCount = 11333,
                     GoesForNextDay = false
                 };
-                
+
                 var Item8 = new Item
                 {
-                    Original = "abkfjdf",
-                    Translation = "пролитьффффффффффффффффффффффф",
-                    Definition = "Having a great deal to do very long description very long description very long description very lon",
+                    Original = "patient",
+                    Translation = "терпеливый",
+                    Definition =
+                        "Able to accept or tolerate delays, problems, or suffering without becoming annoyed or anxious.",
                     CreationDate = DateTime.Now,
                     IsLearned = false,
                     IsStarred = false,
@@ -127,13 +129,11 @@ namespace Persistence
                     TotalRepeatsCount = 19333,
                     GoesForNextDay = false
                 };
-                
+
                 var Item9 = new Item
                 {
-                    Original = "abkfjwwwwwwwwwwwwwwwwwwwwwwwww",
-                    Translation = "пролитьффффффффффффффффффффффф",
-                    Definition = "Having a great deal to do very long description very long description very long description very lon",
-                    DefinitionOrigin = "Urban Dictionary",
+                    Original = "consequences",
+                    Translation = "последствия",
                     CreationDate = DateTime.Now,
                     IsLearned = true,
                     IsStarred = false,
@@ -163,51 +163,6 @@ namespace Persistence
                     Items = new List<Item>
                     {
                         Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8, Item9
-                    },
-                    LearningList = new LearningList
-                    {
-                        CreationDate = DateTime.Now - TimeSpan.FromDays(2),
-                        Size = 6,
-                        CompletedItemsCount = 0,
-                        LearningItems = new List<LearningItem>
-                        {
-                            new LearningItem
-                            {
-                                LearningMode = LearningMode.Primary,
-                                NumberInSequence = 0,
-                                Item = Item6
-                            },
-                            new LearningItem
-                            {
-                                LearningMode = LearningMode.Secondary,
-                                NumberInSequence = 1,
-                                Item = Item1
-                            },
-                            new LearningItem
-                            {
-                                LearningMode = LearningMode.Primary,
-                                NumberInSequence = 2,
-                                Item = Item9
-                            },
-                            new LearningItem
-                            {
-                                LearningMode = LearningMode.Primary,
-                                NumberInSequence = 3,
-                                Item = Item2
-                            },
-                            new LearningItem
-                            {
-                                LearningMode = LearningMode.Primary,
-                                NumberInSequence = 4,
-                                Item = Item7
-                            },
-                            new LearningItem
-                            {
-                                LearningMode = LearningMode.Primary,
-                                NumberInSequence = 5,
-                                Item = Item8
-                            }
-                        }
                     }
                 };
 

@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200613182912_InitialCreateNew")]
+    [Migration("20200624190918_InitialCreateNew")]
     partial class InitialCreateNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,6 +162,9 @@ namespace Persistence.Migrations
                     b.Property<int>("CompletedItemsCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CorrectAnswersCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("TEXT");
 
@@ -172,6 +175,9 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Size")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TimesCompleted")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

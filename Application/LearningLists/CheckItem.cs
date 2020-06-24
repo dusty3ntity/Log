@@ -77,8 +77,12 @@ namespace Application.LearningLists
                 if (learningItem == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new {learningItem = "Not found."});
+                
+                var completedItemsCount = learningList.TimesCompleted == 0
+                    ? learningList.CompletedItemsCount
+                    : learningList.CompletedItemsCount - learningList.Size;
 
-                if (learningItem.NumberInSequence != learningList.CompletedItemsCount)
+                if (learningItem.NumberInSequence != completedItemsCount)
                     throw new RestException(HttpStatusCode.NotFound,
                         new {item = "Not found."});
 
@@ -87,8 +91,11 @@ namespace Application.LearningLists
                 item.TotalRepeatsCount++;
                 learningList.CompletedItemsCount++;
 
-                if (learningList.Size == learningList.CompletedItemsCount)
+                if (learningList.Size == completedItemsCount + 1)
+                {
                     learningList.IsCompleted = true;
+                    learningList.TimesCompleted++;
+                }
 
                 var isAnswerCorrect = learningItem.LearningMode == LearningMode.Primary
                     ? request.Answer.Equals(item.Original)
@@ -97,6 +104,7 @@ namespace Application.LearningLists
                 if (isAnswerCorrect)
                 {
                     item.CorrectAnswersCount++;
+                    learningList.CorrectAnswersCount++;
                     item.GoesForNextDay = false;
 
                     if (item.CorrectAnswersCount == 5) // Take this out somehow...
@@ -117,7 +125,17 @@ namespace Application.LearningLists
                     return new LearningItemAnswer
                     {
                         IsAnswerCorrect = isAnswerCorrect,
-                        Item = _mapper.Map<Item, ItemDto>(item)
+                        UserAnswer = request.Answer,
+                        Item = new AnswerItem
+                        {
+                          Item = learningItem.LearningMode == LearningMode.Primary ? item.Translation : item.Original,
+                          Answer = learningItem.LearningMode == LearningMode.Primary ? item.Original : item.Translation,
+                          Definition = item.Definition,
+                          DefinitionOrigin = item.DefinitionOrigin,
+                          ItemType = item.Type,
+                          IsStarred = item.IsStarred,
+                          CorrectAnswersCount = item.CorrectAnswersCount
+                        }
                     };
                 throw new Exception("Problem saving changes.");
             }

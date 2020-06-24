@@ -16,7 +16,6 @@ namespace Application.Utilities
                     : item.Original,
                 ItemType = item.Type,
                 Definition = item.Definition,
-                DefinitionOrigin = item.DefinitionOrigin,
                 AnswerMask = learningItem.LearningMode == LearningMode.Primary
                     ? GenerateMask(item.Original)
                     : GenerateMask(item.Translation),
@@ -24,7 +23,7 @@ namespace Application.Utilities
                     ? item.Original[0]
                     : item.Translation[0],
                 IsStarred = item.IsStarred,
-                CorrectRepeatsCount = item.CorrectAnswersCount
+                CorrectAnswersCount = item.CorrectAnswersCount
             };
 
             return testItem;

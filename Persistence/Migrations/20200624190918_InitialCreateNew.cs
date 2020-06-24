@@ -88,7 +88,9 @@ namespace Persistence.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     Size = table.Column<int>(nullable: false),
                     IsCompleted = table.Column<bool>(nullable: false),
-                    CompletedItemsCount = table.Column<int>(nullable: false)
+                    TimesCompleted = table.Column<int>(nullable: false),
+                    CompletedItemsCount = table.Column<int>(nullable: false),
+                    CorrectAnswersCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

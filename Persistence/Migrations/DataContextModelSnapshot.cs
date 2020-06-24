@@ -160,6 +160,9 @@ namespace Persistence.Migrations
                     b.Property<int>("CompletedItemsCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CorrectAnswersCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("TEXT");
 
@@ -170,6 +173,9 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Size")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TimesCompleted")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
