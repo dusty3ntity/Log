@@ -11,6 +11,9 @@ namespace Application.LearningItems
         public ItemType Type { get; set; }
 
         public bool IsStarred { get; set; }
-        public int CorrectAnswersCount { get; set; }
+        public bool IsLearned { get; set; }
+
+        public double Complexity { get; set; }
+        public int CorrectAnswersToCompletionCount { get; set; }
     }
 }

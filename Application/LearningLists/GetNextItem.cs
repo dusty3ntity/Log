@@ -82,8 +82,10 @@ namespace Application.LearningLists
                 var itemToReturn = new LearningItemDto
                 {
                     Id = learningItem.Id,
+                    
                     NumberInSequence = learningItem.NumberInSequence,
                     LearningMode = learningItem.LearningMode,
+                    
                     Item = TestItemCreator.Create(learningItem)
                 };
 

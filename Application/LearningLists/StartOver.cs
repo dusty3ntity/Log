@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -39,14 +41,21 @@ namespace Application.LearningLists
                     .Where(l => l.DictionaryId == request.DictionaryId)
                     .Include(l => l.LearningItems)
                     .FirstOrDefaultAsync();
-                
+
                 if (learningList == null)
                     throw new RestException(HttpStatusCode.NotFound, new {learningList = "Not found"});
 
+                if (learningList.TimesCompleted == 0 || !learningList.IsCompleted)
+                    throw new RestException(HttpStatusCode.BadRequest, new {learningList = "Isn't completed yet"});
+
                 if (learningList.TimesCompleted == 2)
-                    throw new RestException(HttpStatusCode.BadRequest, new {learningList = "Is already completed two times"});
-                
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        new {learningList = "Is already completed two times"});
+
                 learningList.IsCompleted = false;
+                
+                var learningItemsList = learningList.LearningItems.ToList();
+                LearningListShuffler.Shuffle(learningItemsList);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

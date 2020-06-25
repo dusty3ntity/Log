@@ -17,11 +17,13 @@ namespace Application.Items
         public class Command : IRequest<Guid>
         {
             public Guid DictionaryId { get; set; }
+
             public string Original { get; set; }
             public string Translation { get; set; }
             public string Definition { get; set; }
             public string DefinitionOrigin { get; set; }
             public ItemType Type { get; set; }
+
             public bool IsStarred { get; set; }
         }
 
@@ -31,19 +33,16 @@ namespace Application.Items
             {
                 RuleFor(i => i.Original)
                     .NotEmpty()
-                    .MinimumLength(2)
-                    .MaximumLength(30);
+                    .Length(2, 30);
                 RuleFor(i => i.Translation)
                     .NotEmpty()
-                    .MinimumLength(2)
-                    .MaximumLength(30)
-                    .NotEqual(i => i.Original);
+                    .Length(2, 30);
                 RuleFor(i => i.Definition)
-                    .MinimumLength(5)
-                    .MaximumLength(100);
+                    .Length(5, 100);
                 RuleFor(i => i.DefinitionOrigin)
-                    .MinimumLength(5)
-                    .MaximumLength(24);
+                    .Null().When(c => c.Definition == null)
+                    .WithMessage("Definition origin can't be provided without definition.")
+                    .Length(5, 24);
                 RuleFor(i => i.Type)
                     .NotEmpty()
                     .IsInEnum()
@@ -70,41 +69,34 @@ namespace Application.Items
                     throw new RestException(HttpStatusCode.NotFound,
                         new {dictionary = "Not found."});
 
-                request.Original = request.Original.ToLower();
-                request.Translation = request.Translation.ToLower();
+                var originalLower = request.Original.ToLower();
+                var translationLower = request.Translation.ToLower();
 
-                if (ItemChecker.AreEqual(request.Original, request.Translation))
+                if (ItemChecker.AreEqual(originalLower, translationLower))
                     throw new RestException(HttpStatusCode.BadRequest,
                         "Item's original and translation mustn't be equal or contain each other.");
 
                 if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
-                    request.Original,
-                    request.Translation))
+                    originalLower,
+                    translationLower))
                     throw new RestException(HttpStatusCode.BadRequest,
                         "Item's definition mustn't contain item's original or translation.");
 
-                if (request.DefinitionOrigin != null && request.Definition == null)
-                    throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's definition origin can't be provided without definition.");
-
                 var item = new Item
                 {
+                    Dictionary = dictionary,
+
                     Original = request.Original,
                     Translation = request.Translation,
                     Definition = request.Definition,
                     DefinitionOrigin = request.DefinitionOrigin,
-                    CreationDate = DateTime.Now,
-                    Dictionary = dictionary,
-                    IsLearned = false,
-                    IsStarred = request.IsStarred,
                     Type = request.Type,
-                    CorrectAnswersCount = 0,
-                    TotalRepeatsCount = 0,
-                    GoesForNextDay = request.IsStarred
-                };
+                    CreationDate = DateTime.Now,
 
-                if (await _duplicatesChecker.IsDuplicate(request.DictionaryId, item))
-                    throw new RestException(HttpStatusCode.BadRequest, "Duplicate item found.");
+                    IsStarred = request.IsStarred,
+
+                    GoesForNextDay = request.IsStarred,
+                };
 
                 if (item.Type == ItemType.Word)
                     dictionary.WordsCount++;

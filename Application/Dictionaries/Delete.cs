@@ -27,7 +27,7 @@ namespace Application.Dictionaries
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var dictionary = await _context.Dictionaries.FindAsync(request.Id);
-                
+
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound,
                         new {dictionary = "Not found"});

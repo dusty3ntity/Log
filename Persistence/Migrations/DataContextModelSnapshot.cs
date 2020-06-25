@@ -22,6 +22,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("CorrectAnswersToItemCompletion")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
@@ -62,6 +65,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CorrectAnswersCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CorrectAnswersToCompletionCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationDate")
@@ -161,6 +167,9 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CorrectAnswersCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CorrectAnswersToItemCompletion")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationDate")

@@ -24,7 +24,8 @@ namespace Persistence
                     Type = ItemType.Word,
                     CorrectAnswersCount = 0,
                     TotalRepeatsCount = 0,
-                    GoesForNextDay = false
+                    GoesForNextDay = false,
+                    CorrectAnswersToCompletionCount = 3
                 };
 
                 var Item2 = new Item
@@ -51,7 +52,8 @@ namespace Persistence
                     Type = ItemType.Phrase,
                     CorrectAnswersCount = 5,
                     TotalRepeatsCount = 5,
-                    GoesForNextDay = false
+                    GoesForNextDay = false,
+                    CorrectAnswersToCompletionCount = 5
                 };
 
                 var Item4 = new Item
@@ -66,7 +68,8 @@ namespace Persistence
                     Type = ItemType.Word,
                     CorrectAnswersCount = 0,
                     TotalRepeatsCount = 0,
-                    GoesForNextDay = true
+                    GoesForNextDay = true,
+                    CorrectAnswersToCompletionCount = 2
                 };
 
                 var Item5 = new Item
@@ -81,7 +84,8 @@ namespace Persistence
                     Type = ItemType.Word,
                     CorrectAnswersCount = 10,
                     TotalRepeatsCount = 11,
-                    GoesForNextDay = false
+                    GoesForNextDay = false,
+                    CorrectAnswersToCompletionCount = 5
                 };
 
                 var Item6 = new Item
@@ -96,7 +100,8 @@ namespace Persistence
                     Type = ItemType.Word,
                     CorrectAnswersCount = 1003,
                     TotalRepeatsCount = 1123,
-                    GoesForNextDay = false
+                    GoesForNextDay = false,
+                    CorrectAnswersToCompletionCount = 5
                 };
 
                 var Item7 = new Item
@@ -127,7 +132,8 @@ namespace Persistence
                     Type = ItemType.Word,
                     CorrectAnswersCount = 13333,
                     TotalRepeatsCount = 19333,
-                    GoesForNextDay = false
+                    GoesForNextDay = false,
+                    CorrectAnswersToCompletionCount = 4
                 };
 
                 var Item9 = new Item
@@ -140,7 +146,22 @@ namespace Persistence
                     Type = ItemType.Word,
                     CorrectAnswersCount = 133,
                     TotalRepeatsCount = 133,
-                    GoesForNextDay = false
+                    GoesForNextDay = false,
+                    CorrectAnswersToCompletionCount = 5
+                };
+
+                var Item10 = new Item
+                {
+                    Original = "workshop",
+                    Translation = "семинар",
+                    CreationDate = DateTime.Now,
+                    IsLearned = false,
+                    IsStarred = true,
+                    Type = ItemType.Word,
+                    CorrectAnswersCount = 12,
+                    TotalRepeatsCount = 13,
+                    GoesForNextDay = true,
+                    CorrectAnswersToCompletionCount = 1
                 };
 
                 var dictionary = new Dictionary
@@ -149,20 +170,21 @@ namespace Persistence
                     KnownLanguage = new Language
                     {
                         Name = "Русский",
-                        ISOCode = "ru"
+                        ISOCode = "rus"
                     },
                     LanguageToLearn = new Language
                     {
                         Name = "English",
-                        ISOCode = "en"
+                        ISOCode = "eng"
                     },
                     PhrasesCount = 2,
-                    WordsCount = 7,
+                    WordsCount = 8,
                     LearnedItemsCount = 4,
                     PreferredLearningListSize = 50,
+                    CorrectAnswersToItemCompletion = 5,
                     Items = new List<Item>
                     {
-                        Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8, Item9
+                        Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8, Item9, Item10
                     }
                 };
 

@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
-using Application.Utilities;
+using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -21,7 +21,10 @@ namespace Application.Dictionaries
         {
             public string KnownLanguageCode { get; set; }
             public string LanguageToLearnCode { get; set; }
+
             public int PreferredLearningListSize { get; set; }
+            public int CorrectAnswersToItemCompletion { get; set; }
+            public bool IsMain { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -29,26 +32,27 @@ namespace Application.Dictionaries
             public CommandValidator()
             {
                 RuleFor(d => d.KnownLanguageCode)
-                    .NotEmpty()
                     .Must(BeValidLangISOCode)
-                    .WithMessage("Please specify a valid ISO 639-1 language code.");
+                    .WithMessage("Please specify a valid ISO 639-2 language code.");
                 RuleFor(d => d.LanguageToLearnCode)
-                    .NotEmpty()
-                    .NotEqual(d => d.KnownLanguageCode)
                     .Must(BeValidLangISOCode)
-                    .WithMessage("Please specify a valid ISO 639-1 language code.");
+                    .WithMessage("Please specify a valid ISO 639-2 language code.")
+                    .NotEqual(d => d.KnownLanguageCode);
                 RuleFor(d => d.PreferredLearningListSize)
-                    .NotEmpty()
-                    .InclusiveBetween(20, 60)
+                    .InclusiveBetween(50, 100)
                     .WithMessage(
-                        "Preferred learning list size must be from 20 to 60 items inclusively.");
+                        "Preferred learning list size must be from 50 to 100 items inclusively.");
+                RuleFor(d => d.CorrectAnswersToItemCompletion)
+                    .InclusiveBetween(5, 10)
+                    .WithMessage(
+                        "Learning item's correct answers count to completion must be from 5 to 10 inclusively.");
             }
 
             private bool BeValidLangISOCode(string languageCode)
             {
                 if (languageCode == null)
                     return false;
-                if (languageCode.Length != 2)
+                if (languageCode.Length != 3)
                     return false;
                 return languageCode.All(c => c >= 'a' && c <= 'z');
             }
@@ -57,11 +61,13 @@ namespace Application.Dictionaries
         public class Handler : IRequestHandler<Command, Guid>
         {
             private readonly DataContext _context;
+            private readonly IMapper _mapper;
             private readonly IDuplicatesChecker _duplicatesChecker;
 
-            public Handler(DataContext context, IDuplicatesChecker duplicatesChecker)
+            public Handler(DataContext context, IMapper mapper, IDuplicatesChecker duplicatesChecker)
             {
                 _context = context;
+                _mapper = mapper;
                 _duplicatesChecker = duplicatesChecker;
             }
 
@@ -78,18 +84,31 @@ namespace Application.Dictionaries
 
                 var dictionaries = await _context.Dictionaries.ToListAsync();
 
+                var duplicate = await _duplicatesChecker.SearchForDuplicates(knownLanguage, languageToLearn);
+
+                if (duplicate != null)
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        new
+                        {
+                            message = "Duplicate dictionary found.",
+                            dictionary = _mapper.Map<Dictionary, DictionaryDto>(duplicate)
+                        });
+                
+                if (request.IsMain)
+                    foreach (var dict in dictionaries)
+                        dict.IsMain = false;
+
                 var dictionary = new Dictionary
                 {
-                    IsMain = false,
+                    IsMain = request.IsMain,
                     KnownLanguage = knownLanguage,
                     LanguageToLearn = languageToLearn,
-                    PreferredLearningListSize = request.PreferredLearningListSize,
-                    Items = new List<Item>(),
-                };
 
-                if (await _duplicatesChecker.IsDuplicate(dictionary))
-                    throw new RestException(HttpStatusCode.BadRequest,
-                        "Duplicate dictionary found.");
+                    PreferredLearningListSize = request.PreferredLearningListSize,
+                    CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion,
+
+                    Items = new List<Item>()
+                };
 
                 _context.Dictionaries.Add(dictionary);
 
