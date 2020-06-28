@@ -34,7 +34,7 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
-        [HttpPost("{learningListId}/start-over")]
+        [HttpPost("{learningListId}/startOver")]
         public async Task<ActionResult<Unit>> StartOver(Guid dictionaryId, Guid learningListId)
         {
             return await Mediator.Send(new StartOver.Command

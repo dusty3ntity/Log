@@ -6,13 +6,25 @@ import InfoIcon from "../icons/InfoIcon";
 
 interface IProps {
 	className: string;
-	stats: any;
+	itemsCount: number;
+	completedItemsCount: number;
+	correctAnswersCount: number;
 	message?: string;
 	messageType?: "info" | "warning";
 	button: JSX.Element;
+	isFlipped: boolean;
 }
 
-const SupportingPage: React.FC<IProps> = ({ className, stats, message, messageType, button }) => {
+const SupportingPage: React.FC<IProps> = ({
+	className,
+	itemsCount,
+	completedItemsCount,
+	correctAnswersCount,
+	message,
+	messageType,
+	button,
+	isFlipped,
+}) => {
 	const date = new Date();
 
 	const getMonth = () => {
@@ -45,7 +57,7 @@ const SupportingPage: React.FC<IProps> = ({ className, stats, message, messageTy
 	};
 
 	return (
-		<div className={`learning-supporting-card ${className}`}>
+		<div className={`learning-supporting-card ${className} ${isFlipped ? "flipped" : ""}`}>
 			<div className="date-row row">
 				<span className="date">{date.getDate()}</span>
 				<span className="month">{getMonth()}</span>
@@ -55,7 +67,11 @@ const SupportingPage: React.FC<IProps> = ({ className, stats, message, messageTy
 			<div className="divider" />
 
 			<div className="learning-stats-row row">
-				<LearningStatsBrief learningStats={stats} />
+				<LearningStatsBrief
+					itemsCount={itemsCount}
+					completedItemsCount={completedItemsCount}
+					correctAnswersCount={correctAnswersCount}
+				/>
 			</div>
 
 			<div className="bottom-row row">

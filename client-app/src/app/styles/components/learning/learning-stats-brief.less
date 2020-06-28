@@ -31,24 +31,36 @@
 		color: @success-color;
 
 		&.zero {
-			color: @text-color-grey;
+			color: @body-background-darker;
 		}
 	}
 
 	.productivity .value {
 		position: relative;
-		color: @text-color-grey;
+		color: @body-background-darker;
 
 		&.low {
 			color: @error-color;
+
+			&::after {
+				color: @text-color-grey;
+			}
 		}
 
 		&.medium {
 			color: @warning-color;
+			
+			&::after {
+				color: @text-color-grey;
+			}
 		}
 
 		&.high {
 			color: @success-color;
+			
+			&::after {
+				color: @text-color-grey;
+			}
 		}
 
 		&::after {
@@ -59,7 +71,7 @@
 			font-size: 1.125rem;
 			font-weight: 700;
 			line-height: 1.125rem;
-			color: @text-color-grey;
+			color: @body-background-darker;
 		}
 	}
 }

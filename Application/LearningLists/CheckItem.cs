@@ -112,6 +112,7 @@ namespace Application.LearningLists
                     {
                         IsAnswerCorrect = isAnswerCorrect,
                         UserAnswer = request.Answer,
+                        NumberInSequence = learningItem.NumberInSequence,
 
                         Item = new TestItemAnswer
                         {

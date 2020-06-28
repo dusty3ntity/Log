@@ -5,7 +5,7 @@ import format from "date-fns/format";
 import { Badge } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import { IItem } from "../../../app/models/item";
+import { IItem, ItemType } from "../../../app/models/item";
 import StarIcon from "../../icons/StarIcon";
 import EditIcon from "../../icons/EditIcon";
 import DeleteIcon from "../../icons/DeleteIcon";
@@ -18,8 +18,8 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { deleteItem, starItem, unstarItem, openEditor } = rootStore.itemStore;
 
-	const statusClass = item.isLearned ? "success" : item.totalRepeatsCount > 0 ? "warning" : "default";
-	const type = item.type === 10 ? "Word" : "Phrase";
+	const statusClass = item.isLearned ? "success" : item.correctAnswersToCompletionCount > 0 ? "warning" : "default";
+	const type = item.type === ItemType.Word ? "Word" : "Phrase";
 	const starredClass = item.isStarred ? " active" : "";
 
 	const totalRepeatsCount =

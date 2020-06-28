@@ -34,15 +34,15 @@
 	position: relative;
 	transform-style: preserve-3d;
 
-	animation: cardSpinBack 0.5s linear;
+	animation: cardSpinBack 1s linear;
 	transform: rotateY(0deg);
 
 	&.initial {
 		animation: none;
 	}
 
-	&.showing-result {
-		animation: cardSpin 0.5s linear;
+	&.flipped {
+		animation: cardSpin 1s linear;
 		transform: rotateY(-180deg);
 	}
 

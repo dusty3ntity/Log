@@ -6,6 +6,7 @@ namespace Application.LearningItems
     {
         public bool IsAnswerCorrect { get; set; }
         public string UserAnswer { get; set; }
+        public int NumberInSequence { get; set; }
         
         public TestItemAnswer Item { get; set; }
     }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Tabs } from "antd";
 
+import { ItemType } from "../../app/models/item";
 import NewItemForm from "./NewItemForm";
 
 const { TabPane } = Tabs;
@@ -9,13 +10,13 @@ const NewItem = () => {
 	return (
 		<div id="new-item-container">
 			<div id="new-item">
-				<Tabs defaultActiveKey="10">
-					<TabPane tab="Word" key="10">
-						<NewItemForm id="new-word-form" type={10} />
+				<Tabs defaultActiveKey={ItemType.Word + ""}>
+					<TabPane tab="Word" key={ItemType.Word + ""}>
+						<NewItemForm id="new-word-form" type={ItemType.Word} />
 					</TabPane>
 
-					<TabPane tab="Phrase" key="20">
-						<NewItemForm id="new-phrase-form" type={10} />
+					<TabPane tab="Phrase" key={ItemType.Phrase + ""}>
+						<NewItemForm id="new-phrase-form" type={ItemType.Phrase} />
 					</TabPane>
 				</Tabs>
 			</div>

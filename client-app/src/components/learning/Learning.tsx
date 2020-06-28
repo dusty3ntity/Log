@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useContext } from "react";
+import { observer } from "mobx-react-lite";
 
+import { RootStoreContext } from "../../app/stores/rootStore";
 import LearningBackground from "./LearningBackground";
 import SupportingPage from "./SupportingPage";
 import LearningCardFront from "./LearningCardFront";
@@ -9,57 +11,36 @@ import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 import RefreshIcon from "../icons/RefreshIcon";
 
 const Learning = () => {
-	const [showingResult, setShowingResult] = useState(false);
-	const [initial, setInitial] = useState(true);
+	const rootStore = useContext(RootStoreContext);
+	const {
+		status,
+		isFlipped,
 
-	const onSubmit = () => {
-		setShowingResult(true);
-		setInitial(false);
-	};
+		isLearningStartFlipped,
+		isItemInputFlipped,
+		isItemResultFlipped,
+		isLearningStartOverFlipped,
+		isLearningEndFlipped,
+		isLearningOutdatedFlipped,
 
-	const onNext = () => {
-		setShowingResult(false);
-	};
+		onInitialLoad,
+		onStart,
+		onStartOver,
+		onItemSubmit,
+		onNextItem,
+		onOutdatedStart,
 
-	const learningItem = {
-		id: "96bb6bea-29c3-429d-9c6f-58ddca0237a7",
-		learningMode: 1,
-		numberInSequence: 1,
-		item: {
-			item: "horse",
-			answerMask: "л_____",
-			answerFirstLetter: "л",
-			definition: "Domesticated mammal used for riding and racing.",
-			itemType: 0,
-			isStarred: true,
-			correctRepeatsCount: 1,
-		},
-	};
+		learningList,
+		learningItem,
+		learningItemResult,
 
-	const learningItemResult = {
-		isAnswerCorrect: false,
-		userAnswer: "собака",
-		item: {
-			id: "1b8adf7f-1236-49d8-a77a-f137c439377a",
-			item: "horse",
-			answer: "лошадь",
-			definition: "Domesticated mammal used for riding and racing.",
-			definitionOrigin: "Cambridge Dictionary",
-			type: 0,
-			creationDate: "2020-03-26T11:45:20.305337",
-			isStarred: true,
-			isLearned: false,
-			totalRepeatsCount: 4,
-			correctRepeatsCount: 2,
-			goesForNextDay: false,
-		},
-	};
+		loadingInitial,
+	} = rootStore.learningStore;
 
-	const learningStats = {
-		totalItems: 100,
-		completedItems: 100,
-		correctAnswers: 89,
-	};
+	useEffect(() => {
+		onInitialLoad();
+	}, [onInitialLoad]);
+
 
 	return (
 		<div id="learning-container">
@@ -68,67 +49,105 @@ const Learning = () => {
 
 				<div
 					id="learning-content"
-					className={`${showingResult ? "showing-result" : ""}${initial ? " initial" : ""}`}
+					className={`${isFlipped ? "flipped" : ""} ${
+						status === 1 || status === 4 || status === 5 ? " initial" : ""
+					}`}
 				>
-					{/* <LearningCardFront learningItem={learningItem} onSubmit={onSubmit} /> */}
-					{/* <LearningCardBack learningItemResult={learningItemResult} onNext={onNext} /> */}
+					{(status % 10 === 2 || Math.floor(status / 10) === 2) && (
+						<LearningCardFront
+							correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
+							learningItem={learningItem!}
+							onSubmit={onItemSubmit}
+							isFlipped={isItemInputFlipped}
+						/>
+					)}
+					{(status % 10 === 3 || Math.floor(status / 10) === 3) && (
+						<LearningCardBack
+							correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
+							learningItemResult={learningItemResult!}
+							onNext={onNextItem}
+							isFlipped={isItemResultFlipped}
+						/>
+					)}
 
-					{/* <SupportingPage
-						className="learning-start"
-						stats={learningStats}
-						button={
-							<button className="btn actions-btn start-btn primary">
-								<span>{learningStats.completedItems > 0 ? "Continue" : "Start"}</span>
-								<ArrowForwardSmallIcon />
-							</button>
-						}
-					/> */}
+					{(status % 10 === 1 || Math.floor(status / 10) === 1) && (
+						<SupportingPage
+							className="learning-start"
+							itemsCount={learningList!.size}
+							completedItemsCount={learningList!.completedItemsCount}
+							correctAnswersCount={learningList!.correctAnswersCount}
+							button={
+								<button className="btn actions-btn start-btn primary" onClick={onStart}>
+									<span>{learningList!.completedItemsCount > 0 ? "Continue" : "Start"}</span>
+									<ArrowForwardSmallIcon />
+								</button>
+							}
+							isFlipped={isLearningStartFlipped}
+						/>
+					)}
 
-					{/* <SupportingPage
-						className="learning-outdated"
-						stats={learningStats}
-						message="This training is outdated. Start the new one!"
-						messageType="warning"
-						button={
-							<button className="btn actions-btn start-btn primary">
-								<span>Start</span>
-								<ArrowForwardSmallIcon />
-							</button>
-						}
-					/> */}
+					{(status % 10 === 6 || Math.floor(status / 10) === 6) && (
+						<SupportingPage
+							className="learning-outdated"
+							itemsCount={learningList!.size}
+							completedItemsCount={learningList!.completedItemsCount}
+							correctAnswersCount={learningList!.correctAnswersCount}
+							message="This training is outdated. Start the new one!"
+							messageType="warning"
+							button={
+								<button className="btn actions-btn start-btn primary" onClick={onOutdatedStart}>
+									<span>Start</span>
+									<ArrowForwardSmallIcon />
+								</button>
+							}
+							isFlipped={isLearningOutdatedFlipped}
+						/>
+					)}
 
-					{/* <SupportingPage
-						className="learning-final-end"
-						stats={learningStats}
-						message="You have completed the training 2 times today. Get some rest."
-						messageType="info"
-						button={
-							<a className="btn actions-btn return-btn" href="/dashboard">
-								Go to dashboard
-							</a>
-						}
-					/> */}
+					{(status % 10 === 4 || Math.floor(status / 10) === 4) && (
+						<SupportingPage
+							className="learning-end"
+							itemsCount={learningList!.size}
+							completedItemsCount={learningList!.completedItemsCount}
+							correctAnswersCount={learningList!.correctAnswersCount}
+							message="The training is over. But you can complete it one more time!"
+							messageType="info"
+							button={
+								<button className="btn actions-btn start-btn primary" onClick={onStartOver}>
+									<span>Start again</span>
+									<RefreshIcon />
+								</button>
+							}
+							isFlipped={isLearningStartOverFlipped}
+						/>
+					)}
 
-					<SupportingPage
-						className="learning-end"
-						stats={learningStats}
-						message="The training is finally over. But you can complete it one more time!"
-						messageType="info"
-						button={
-							<button className="btn actions-btn start-btn primary">
-								<span>Start again</span>
-								<RefreshIcon />
-							</button>
-						}
-					/>
+					{(status % 10 === 5 || Math.floor(status / 10) === 5) && (
+						<SupportingPage
+							className="learning-final-end"
+							itemsCount={learningList!.size}
+							completedItemsCount={learningList!.completedItemsCount}
+							correctAnswersCount={learningList!.correctAnswersCount}
+							message="You have completed the training 2 times today. Get some rest."
+							messageType="info"
+							button={
+								<a className="btn actions-btn return-btn" href="/dashboard">
+									Go to dashboard
+								</a>
+							}
+							isFlipped={isLearningEndFlipped}
+						/>
+					)}
 				</div>
 
 				<LearningBackground className="right" />
 			</div>
 
-			{/* <LearningProgressBar total={100} done={29} /> */}
+			{learningItem && (
+				<LearningProgressBar total={learningList!.size} done={learningItem.numberInSequence + 1} />
+			)}
 		</div>
 	);
 };
 
-export default Learning;
+export default observer(Learning);

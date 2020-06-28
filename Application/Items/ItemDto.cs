@@ -19,5 +19,6 @@ namespace Application.Items
 
         public int TotalRepeatsCount { get; set; }
         public int CorrectAnswersCount { get; set; }
+        public int CorrectAnswersToCompletionCount { get; set; }
     }
 }

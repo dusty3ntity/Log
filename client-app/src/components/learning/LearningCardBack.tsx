@@ -1,6 +1,7 @@
 import React from "react";
 import TextEllipsis from "react-text-ellipsis";
 
+import { ILearningItemResult } from "../../app/models/learning";
 import LearningItemProgress from "./LearningItemProgress";
 import SuccessIcon from "../icons/SuccessIcon";
 import FailIcon from "../icons/FailIcon";
@@ -8,11 +9,18 @@ import StarIcon from "../icons/StarIcon";
 import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 
 interface IProps {
-	learningItemResult: any;
+	correctAnswersToItemCompletion: number;
+	learningItemResult: ILearningItemResult;
 	onNext: () => void;
+	isFlipped: boolean;
 }
 
-const LearningCardBack: React.FC<IProps> = ({ learningItemResult, onNext }) => {
+const LearningCardBack: React.FC<IProps> = ({
+	correctAnswersToItemCompletion,
+	learningItemResult,
+	onNext,
+	isFlipped,
+}) => {
 	const item = learningItemResult.item;
 
 	const starredClass = item.isStarred ? " active" : "";
@@ -25,18 +33,19 @@ const LearningCardBack: React.FC<IProps> = ({ learningItemResult, onNext }) => {
 			: learningItemResult.userAnswer.length > 10
 			? "medium"
 			: "short";
-	const definitionTextSizeClass =
-		item.definition.length > 85 ? "long" : item.definition.length > 70 ? "medium" : "short";
 
 	return (
-		<div className="learning-card learning-card-back">
+		<div className={`learning-card learning-card-back ${isFlipped ? "flipped" : ""}`}>
 			<div className="header-row row">
 				{learningItemResult.isAnswerCorrect ? (
 					<SuccessIcon className="answer-icon" />
 				) : (
 					<FailIcon className="answer-icon" />
 				)}
-				<LearningItemProgress total={10} checked={5} />
+				<LearningItemProgress
+					total={correctAnswersToItemCompletion}
+					checked={item.correctAnswersToCompletionCount}
+				/>
 				<StarIcon className={starredClass} />
 			</div>
 
@@ -63,9 +72,17 @@ const LearningCardBack: React.FC<IProps> = ({ learningItemResult, onNext }) => {
 			</div>
 
 			<div className="definition-row row">
-				<TextEllipsis lines={3} tag="div" tagClass={`definition text ${definitionTextSizeClass}`}>
-					{item.definition}
-				</TextEllipsis>
+				{item.definition && (
+					<TextEllipsis
+						lines={3}
+						tag="div"
+						tagClass={`definition text ${
+							item.definition.length > 85 ? "long" : item.definition.length > 70 ? "medium" : "short"
+						}`}
+					>
+						{item.definition}
+					</TextEllipsis>
+				)}
 
 				<h3 className="definition-origin">{item.definitionOrigin}</h3>
 			</div>
