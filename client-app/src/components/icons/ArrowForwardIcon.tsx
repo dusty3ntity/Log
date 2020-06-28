@@ -6,7 +6,7 @@ interface IProps {
 	classNames?: string;
 }
 
-const ArrowForward: React.FC<IProps> = ({ classNames }) => {
+const ArrowForwardIcon: React.FC<IProps> = ({ classNames }) => {
 	return (
 		<svg className={"icon arrow-forward-icon " + classNames} viewBox="0 0 24 24">
 			<path d="M0 0h24v24H0V0z" fill="none" />
@@ -15,4 +15,4 @@ const ArrowForward: React.FC<IProps> = ({ classNames }) => {
 	);
 };
 
-export default ArrowForward;
+export default ArrowForwardIcon;

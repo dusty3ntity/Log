@@ -16,7 +16,9 @@ namespace Application.Items
 
         public bool IsStarred { get; set; }
         public bool IsLearned { get; set; }
+
         public int TotalRepeatsCount { get; set; }
         public int CorrectAnswersCount { get; set; }
+        public int CorrectAnswersToCompletionCount { get; set; }
     }
 }

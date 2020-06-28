@@ -4,10 +4,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
-using Application.Items;
 using Application.LearningItems;
 using Application.Utilities;
-using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -18,12 +16,15 @@ namespace Application.LearningLists
 {
     public class CheckItem
     {
-        public class Command : IRequest<LearningItemAnswer>
+        public class Command : IRequest<LearningItemResult>
         {
             public Guid DictionaryId { get; set; }
             public Guid LearningListId { get; set; }
+
             public Guid LearningItemId { get; set; }
+
             public string Answer { get; set; }
+            public int HintsUsed { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -34,24 +35,22 @@ namespace Application.LearningLists
                     .NotEmpty();
                 RuleFor(i => i.Answer)
                     .NotEmpty()
-                    .MinimumLength(2)
-                    .MaximumLength(30);
+                    .Length(2, 30);
+                RuleFor(i => i.HintsUsed)
+                    .InclusiveBetween(0, 2);
             }
         }
 
-        public class Handler : IRequestHandler<Command, LearningItemAnswer>
+        public class Handler : IRequestHandler<Command, LearningItemResult>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
-            public async Task<LearningItemAnswer> Handle(Command request,
-                CancellationToken cancellationToken)
+            public async Task<LearningItemResult> Handle(Command request, CancellationToken cancellationToken)
             {
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
@@ -78,46 +77,57 @@ namespace Application.LearningLists
                     throw new RestException(HttpStatusCode.NotFound,
                         new {learningItem = "Not found."});
 
-                if (learningItem.NumberInSequence != learningList.CompletedItemsCount)
+                var completedItemsCount = learningList.TimesCompleted == 0
+                    ? learningList.CompletedItemsCount
+                    : learningList.CompletedItemsCount - learningList.Size;
+
+                if (learningItem.NumberInSequence != completedItemsCount)
                     throw new RestException(HttpStatusCode.NotFound,
                         new {item = "Not found."});
 
+                var answer = request.Answer.ToLower();
                 var item = learningItem.Item;
 
-                item.TotalRepeatsCount++;
-                learningList.CompletedItemsCount++;
-
-                if (learningList.Size == learningList.CompletedItemsCount)
-                    learningList.IsCompleted = true;
-
                 var isAnswerCorrect = learningItem.LearningMode == LearningMode.Primary
-                    ? request.Answer.Equals(item.Original)
-                    : request.Answer.Equals(item.Translation);
+                    ? answer.ToLower().Equals(item.Original.ToLower())
+                    : answer.ToLower().Equals(item.Translation.ToLower());
 
                 if (isAnswerCorrect)
-                {
-                    item.CorrectAnswersCount++;
-                    item.GoesForNextDay = false;
+                    learningList.CorrectAnswersCount++;
 
-                    if (item.CorrectAnswersCount == 5) // Take this out somehow...
-                    {
-                        item.IsLearned = true;
-                        item.IsStarred = false;
-                    }
-                }
-                else
+                ItemAnswerProcessor.ProcessItemAnswer(learningList, learningItem, isAnswerCorrect);
+                
+                learningList.CompletedItemsCount++;
+
+                if (learningList.Size == completedItemsCount + 1)
                 {
-                    item.GoesForNextDay = true;
-                    item.IsLearned = false;
+                    learningList.IsCompleted = true;
+                    learningList.TimesCompleted++;
                 }
 
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
-                    return new LearningItemAnswer
+                    return new LearningItemResult
                     {
                         IsAnswerCorrect = isAnswerCorrect,
-                        Item = _mapper.Map<Item, ItemDto>(item)
+                        UserAnswer = request.Answer,
+                        NumberInSequence = learningItem.NumberInSequence,
+
+                        Item = new TestItemAnswer
+                        {
+                            Item = learningItem.LearningMode == LearningMode.Primary ? item.Translation : item.Original,
+                            Answer = learningItem.LearningMode == LearningMode.Primary
+                                ? item.Original
+                                : item.Translation,
+                            Definition = item.Definition,
+                            DefinitionOrigin = item.DefinitionOrigin,
+                            Type = item.Type,
+
+                            IsStarred = item.IsStarred,
+                            IsLearned = item.IsLearned,
+                            CorrectAnswersToCompletionCount = item.CorrectAnswersToCompletionCount
+                        }
                     };
                 throw new Exception("Problem saving changes.");
             }

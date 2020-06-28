@@ -14,7 +14,11 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { selectItem, starItemById, unstarItemById, activeItem } = rootStore.itemStore;
 
-	const progressClass = item.isLearned ? "learned" : item.totalRepeatsCount > 0 ? "in-progress" : "untouched";
+	const progressClass = item.isLearned
+		? "learned"
+		: item.correctAnswersToCompletionCount > 0
+		? "in-progress"
+		: "untouched";
 	const starredClass = item.isStarred ? " active" : "";
 	const focusClass = item === activeItem ? " active" : "";
 

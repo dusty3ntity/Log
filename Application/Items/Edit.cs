@@ -17,6 +17,7 @@ namespace Application.Items
         {
             public Guid DictionaryId { get; set; }
             public Guid ItemId { get; set; }
+
             public string Original { get; set; }
             public string Translation { get; set; }
             public string Definition { get; set; }
@@ -28,17 +29,17 @@ namespace Application.Items
             public CommandValidator()
             {
                 RuleFor(i => i.Original)
-                    .MinimumLength(2)
-                    .MaximumLength(30);
+                    .NotEmpty()
+                    .Length(2, 30);
                 RuleFor(i => i.Translation)
-                    .MinimumLength(2)
-                    .MaximumLength(30);
+                    .NotEmpty()
+                    .Length(2, 30);
                 RuleFor(i => i.Definition)
-                    .MinimumLength(5)
-                    .MaximumLength(100);
+                    .Length(5, 100);
                 RuleFor(i => i.DefinitionOrigin)
-                    .MinimumLength(5)
-                    .MaximumLength(24);
+                    .Null().When(c => c.Definition == null)
+                    .WithMessage("Definition origin can't be provided without definition.")
+                    .Length(5, 24);
             }
         }
 
@@ -55,12 +56,6 @@ namespace Application.Items
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (request.Original == null &&
-                    request.Translation == null &&
-                    request.Definition == null)
-                    throw new RestException(HttpStatusCode.BadRequest,
-                        "At least one property must be provided to edit.");
-
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
@@ -73,35 +68,29 @@ namespace Application.Items
                     throw new RestException(HttpStatusCode.NotFound,
                         new {item = "Not found."});
 
-                var newOriginal = request.Original?.ToLower() ?? item.Original;
-                var newTranslation = request.Translation?.ToLower() ?? item.Translation;
+                var originalLower = request.Original.ToLower();
+                var translationLower = request.Translation.ToLower();
 
-                if (request.Original != null || request.Translation != null)
-                    if (await _duplicatesChecker.IsDuplicate(request.DictionaryId, newOriginal,
-                        newTranslation))
-                        throw new RestException(HttpStatusCode.BadRequest, "Duplicate item found.");
-
-                if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
-                    newOriginal,
-                    newTranslation))
+                if (ItemChecker.DoesDefinitionContainItem(request.Definition,
+                    originalLower,
+                    translationLower))
                     throw new RestException(HttpStatusCode.BadRequest,
                         "Item's definition mustn't contain item's original or translation.");
-                
-                if (request.DefinitionOrigin != null && request.Definition == null)
-                    throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's definition origin can't be provided without definition.");
 
-                item.Original = newOriginal;
-                item.Translation = newTranslation;
-                item.Definition = request.Definition ?? item.Definition;
-                if (request.Original != null || request.Translation != null)
+                if (!item.Original.ToLower().Equals(originalLower) ||
+                    !item.Translation.ToLower().Equals(translationLower))
                 {
                     if (item.IsLearned)
                         dictionary.LearnedItemsCount--;
                     item.IsLearned = false;
-                    item.CorrectAnswersCount = 0;
+                    item.CorrectAnswersToCompletionCount = 0;
                     item.CreationDate = DateTime.Now;
                 }
+
+                item.Original = request.Original;
+                item.Translation = request.Translation;
+                item.Definition = request.Definition;
+                item.DefinitionOrigin = request.DefinitionOrigin;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

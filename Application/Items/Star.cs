@@ -43,6 +43,7 @@ namespace Application.Items
                     return Unit.Value;
 
                 item.IsStarred = true;
+                item.GoesForNextDay = true;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

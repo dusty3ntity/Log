@@ -8,10 +8,12 @@ namespace Application.LearningItems
         public string AnswerMask { get; set; }
         public char AnswerFirstLetter { get; set; }
         public string Definition { get; set; }
-        public string DefinitionOrigin { get; set; }
-        public ItemType ItemType { get; set; }
+        public ItemType Type { get; set; }
 
         public bool IsStarred { get; set; }
-        public int CorrectRepeatsCount { get; set; }
+        public bool IsLearned { get; set; }
+
+        public double Complexity { get; set; }
+        public int CorrectAnswersToCompletionCount { get; set; }
     }
 }

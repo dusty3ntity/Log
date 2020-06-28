@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using Application.Utilities;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -14,24 +15,26 @@ namespace Application.LearningLists
     public class LearningListGenerator : ILearningListGenerator
     {
         private readonly DataContext _context;
+        private static Random _rand;
 
         public LearningListGenerator(DataContext context)
         {
             _context = context;
+            _rand = new Random();
         }
 
-        public async Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize)
+        public async Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize,
+            int correctAnswersToItemCompletion)
         {
             var items = await _context.Items
                 .Where(i => i.DictionaryId == dictionaryId)
                 .ToListAsync();
 
-            if (items.Count == 0)
+            if (items.Count < 10)
                 throw new RestException(HttpStatusCode.BadRequest,
-                    "Too few items for generating learning list.");
+                    "Minimum 10 items are needed to create a learning list.");
 
             var list = new List<LearningItem>();
-            var random = new Random();
 
             for (int i = 0;
                 i < Math.Min(preferredLearningListSize, items.Count);
@@ -40,19 +43,23 @@ namespace Application.LearningLists
                 var item = new LearningItem
                 {
                     Item = items[i],
-                    LearningMode = (LearningMode) random.Next(0, 2),
-                    NumberInSequence = i
+                    LearningMode = _rand.Next(2) == 0 ? LearningMode.Primary : LearningMode.Secondary,
                 };
 
                 list.Add(item);
             }
 
+            LearningListShuffler.Shuffle(list);
+
             var learningList = new LearningList
             {
                 DictionaryId = dictionaryId,
+
                 Size = list.Count,
                 CreationDate = DateTime.Now,
-                CompletedItemsCount = 0,
+
+                CorrectAnswersToItemCompletion = correctAnswersToItemCompletion,
+                
                 LearningItems = list
             };
 

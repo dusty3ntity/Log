@@ -33,6 +33,7 @@ namespace Persistence.Migrations
                     PhrasesCount = table.Column<int>(nullable: false),
                     LearnedItemsCount = table.Column<int>(nullable: false),
                     PreferredLearningListSize = table.Column<int>(nullable: false),
+                    CorrectAnswersToItemCompletion = table.Column<int>(nullable: false),
                     LearningListId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -66,6 +67,7 @@ namespace Persistence.Migrations
                     IsLearned = table.Column<bool>(nullable: false),
                     TotalRepeatsCount = table.Column<int>(nullable: false),
                     CorrectAnswersCount = table.Column<int>(nullable: false),
+                    CorrectAnswersToCompletionCount = table.Column<int>(nullable: false),
                     GoesForNextDay = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -85,10 +87,13 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     DictionaryId = table.Column<Guid>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
                     Size = table.Column<int>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false),
                     IsCompleted = table.Column<bool>(nullable: false),
-                    CompletedItemsCount = table.Column<int>(nullable: false)
+                    TimesCompleted = table.Column<int>(nullable: false),
+                    CorrectAnswersToItemCompletion = table.Column<int>(nullable: false),
+                    CompletedItemsCount = table.Column<int>(nullable: false),
+                    CorrectAnswersCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

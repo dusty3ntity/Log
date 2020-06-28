@@ -14,6 +14,8 @@ namespace Application.Dictionaries
         public int WordsCount { get; set; }
         public int PhrasesCount { get; set; }
         public int LearnedItemsCount { get; set; }
+        
         public int PreferredLearningListSize { get; set; }
+        public int CorrectAnswersToItemCompletion { get; set; }
     }
 }

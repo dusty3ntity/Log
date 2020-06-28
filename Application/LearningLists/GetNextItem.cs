@@ -51,10 +51,14 @@ namespace Application.LearningLists
                 if (learningList.IsCompleted)
                     return null;
 
+                var completedItemsCount = learningList.TimesCompleted == 0
+                    ? learningList.CompletedItemsCount
+                    : learningList.CompletedItemsCount - learningList.Size;
+
                 var learningItem = await _context.LearningItems
                     .Where(i =>
                         i.LearningListId == learningList.Id &&
-                        i.NumberInSequence == learningList.CompletedItemsCount)
+                        i.NumberInSequence == completedItemsCount)
                     .Include(i => i.Item)
                     .FirstAsync();
 
@@ -67,15 +71,21 @@ namespace Application.LearningLists
                     if (!success)
                         throw new Exception("Problem saving changes.");
 
-                    throw new RestException(HttpStatusCode.Gone,
-                        "Item has been removed. Try again to get the next item.");
+                    learningItem = await _context.LearningItems
+                        .Where(i =>
+                            i.LearningListId == learningList.Id &&
+                            i.NumberInSequence == completedItemsCount + 1)
+                        .Include(i => i.Item)
+                        .FirstAsync();
                 }
 
                 var itemToReturn = new LearningItemDto
                 {
                     Id = learningItem.Id,
+                    
                     NumberInSequence = learningItem.NumberInSequence,
                     LearningMode = learningItem.LearningMode,
+                    
                     Item = TestItemCreator.Create(learningItem)
                 };
 

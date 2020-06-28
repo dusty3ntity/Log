@@ -14,7 +14,9 @@ namespace Application.Dictionaries
         public class Command : IRequest
         {
             public Guid Id { get; set; }
+            
             public int PreferredLearningListSize { get; set; }
+            public int CorrectAnswersToItemCompletion { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -22,10 +24,13 @@ namespace Application.Dictionaries
             public CommandValidator()
             {
                 RuleFor(d => d.PreferredLearningListSize)
-                    .NotEmpty()
-                    .InclusiveBetween(20, 60)
+                    .InclusiveBetween(50, 100)
                     .WithMessage(
-                        "Preferred learning list size must be from 20 to 60 items inclusively.");
+                        "Preferred learning list size must be from 50 to 100 items inclusively.");
+                RuleFor(d => d.CorrectAnswersToItemCompletion)
+                    .InclusiveBetween(5, 10)
+                    .WithMessage(
+                        "Learning item's correct answers count to completion must be from 5 to 10 inclusively.");
             }
         }
 
@@ -40,6 +45,10 @@ namespace Application.Dictionaries
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                if (request.PreferredLearningListSize == 0 && request.CorrectAnswersToItemCompletion == 0)
+                    throw new RestException(HttpStatusCode.BadRequest,
+                        "At least one property must be provided to edit.");
+
                 var dictionary = await _context.Dictionaries.FindAsync(request.Id);
 
                 if (dictionary == null)
@@ -50,6 +59,9 @@ namespace Application.Dictionaries
                     request.PreferredLearningListSize != 0
                         ? request.PreferredLearningListSize
                         : dictionary.PreferredLearningListSize;
+                dictionary.CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion != 0
+                    ? request.CorrectAnswersToItemCompletion
+                    : dictionary.CorrectAnswersToItemCompletion;
 
                 var success = await _context.SaveChangesAsync() > 0;
 
