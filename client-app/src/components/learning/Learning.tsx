@@ -41,7 +41,6 @@ const Learning = () => {
 		onInitialLoad();
 	}, [onInitialLoad]);
 
-
 	return (
 		<div id="learning-container">
 			<div id="learning">
@@ -92,7 +91,7 @@ const Learning = () => {
 							itemsCount={learningList!.size}
 							completedItemsCount={learningList!.completedItemsCount}
 							correctAnswersCount={learningList!.correctAnswersCount}
-							message="This training is outdated. Start the new one!"
+							message="That training is outdated. Start the new one!"
 							messageType="warning"
 							button={
 								<button className="btn actions-btn start-btn primary" onClick={onOutdatedStart}>
@@ -143,8 +142,8 @@ const Learning = () => {
 				<LearningBackground className="right" />
 			</div>
 
-			{learningItem && (
-				<LearningProgressBar total={learningList!.size} done={learningItem.numberInSequence + 1} />
+			{(status === 2 || status === 3 || status === 23 || status === 32) && (
+				<LearningProgressBar total={learningList!.size} done={learningItem!.numberInSequence + 1} />
 			)}
 		</div>
 	);

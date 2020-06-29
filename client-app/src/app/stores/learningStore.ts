@@ -33,11 +33,14 @@ export default class LearningStore {
 		this.loadingInitial = true;
 		await this.loadLearningList();
 		runInAction("loading learning list and setting the card", () => {
-			if (!this.learningList!.isCompleted) {
+			if (!this.learningList) {
+				console.log("no connection");
+			}
+			else if (!this.learningList.isCompleted) {
 				this.status = LearningStatus.LearningStart;
-			} else if (this.learningList!.timesCompleted === 1) {
+			} else if (this.learningList.timesCompleted === 1) {
 				this.status = LearningStatus.LearningStartOver;
-			} else if (this.learningList!.timesCompleted === 2) {
+			} else if (this.learningList.timesCompleted === 2) {
 				this.status = LearningStatus.LearningEnd;
 			}
 			this.loadingInitial = false;

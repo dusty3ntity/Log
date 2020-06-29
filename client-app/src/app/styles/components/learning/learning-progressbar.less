@@ -4,6 +4,17 @@
 	margin-top: 1.3rem;
 	z-index: -1;
 
+	@keyframes scale-up-hor-center {
+		0% {
+			transform: scaleX(0.4);
+		}
+		100% {
+			transform: scaleX(1);
+		}
+	}
+
+	animation: scale-up-hor-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+
 	#progressbar-track {
 		height: 100%;
 		width: 100%;
@@ -20,6 +31,7 @@
 		height: 100%;
 		position: relative;
 		border-radius: 10px;
+		transition: all 1s ease;
 
 		background: @processing-color;
 		box-shadow: 1px 1px 3px rgba(77, 184, 218, 0.9), -1px -1px 2px rgba(95, 224, 255, 0.9),
