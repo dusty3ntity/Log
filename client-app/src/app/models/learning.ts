@@ -63,7 +63,7 @@ export interface ILearningList {
 
 export interface ILearningItemAnswer {
 	learningItemId: string;
-	answer: string;
+	answer: string | null;
 }
 
 export enum LearningStatus {
@@ -75,6 +75,7 @@ export enum LearningStatus {
 	LearningStartOver = 4,
 	LearningEnd = 5,
 	LearningOutdated = 6,
+	NotEnoughItems = 7,
 
 	LearningStartItemInput = 12,
 	ItemInputItemResult = 23,

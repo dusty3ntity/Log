@@ -34,8 +34,7 @@ namespace Application.LearningLists
                 RuleFor(i => i.LearningItemId)
                     .NotEmpty();
                 RuleFor(i => i.Answer)
-                    .NotEmpty()
-                    .Length(2, 30);
+                    .MaximumLength(30);
                 RuleFor(i => i.HintsUsed)
                     .InclusiveBetween(0, 2);
             }
@@ -87,6 +86,7 @@ namespace Application.LearningLists
 
                 var answer = request.Answer.ToLower();
                 var item = learningItem.Item;
+                var correctAnswersToCompletionCount = item.CorrectAnswersToCompletionCount;
 
                 var isAnswerCorrect = learningItem.LearningMode == LearningMode.Primary
                     ? answer.ToLower().Equals(item.Original.ToLower())
@@ -96,7 +96,7 @@ namespace Application.LearningLists
                     learningList.CorrectAnswersCount++;
 
                 ItemAnswerProcessor.ProcessItemAnswer(learningList, learningItem, isAnswerCorrect);
-                
+
                 learningList.CompletedItemsCount++;
 
                 if (learningList.Size == completedItemsCount + 1)
@@ -111,7 +111,7 @@ namespace Application.LearningLists
                     return new LearningItemResult
                     {
                         IsAnswerCorrect = isAnswerCorrect,
-                        UserAnswer = request.Answer,
+                        UserAnswer = request.Answer ?? "",
                         NumberInSequence = learningItem.NumberInSequence,
 
                         Item = new TestItemAnswer
@@ -126,7 +126,7 @@ namespace Application.LearningLists
 
                             IsStarred = item.IsStarred,
                             IsLearned = item.IsLearned,
-                            CorrectAnswersToCompletionCount = item.CorrectAnswersToCompletionCount
+                            CorrectAnswersToCompletionCount = correctAnswersToCompletionCount,
                         }
                     };
                 throw new Exception("Problem saving changes.");

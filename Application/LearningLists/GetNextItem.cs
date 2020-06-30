@@ -64,28 +64,40 @@ namespace Application.LearningLists
 
                 if (learningItem.Item == null)
                 {
-                    learningList.CompletedItemsCount++;
+                    while (learningItem.Item == null)
+                    {
+                        learningList.CompletedItemsCount++;
+                        completedItemsCount = learningList.TimesCompleted == 0
+                            ? learningList.CompletedItemsCount
+                            : learningList.CompletedItemsCount - learningList.Size;
+                        if (completedItemsCount == learningList.Size)
+                        {
+                            learningList.IsCompleted = true;
+                            learningList.TimesCompleted++;
+                            return null;
+                        }
+
+                        learningItem = await _context.LearningItems
+                            .Where(i =>
+                                i.LearningListId == learningList.Id &&
+                                i.NumberInSequence == completedItemsCount)
+                            .Include(i => i.Item)
+                            .FirstAsync();
+                    }
 
                     var success = await _context.SaveChangesAsync() > 0;
 
                     if (!success)
                         throw new Exception("Problem saving changes.");
-
-                    learningItem = await _context.LearningItems
-                        .Where(i =>
-                            i.LearningListId == learningList.Id &&
-                            i.NumberInSequence == completedItemsCount + 1)
-                        .Include(i => i.Item)
-                        .FirstAsync();
                 }
 
                 var itemToReturn = new LearningItemDto
                 {
                     Id = learningItem.Id,
-                    
+
                     NumberInSequence = learningItem.NumberInSequence,
                     LearningMode = learningItem.LearningMode,
-                    
+
                     Item = TestItemCreator.Create(learningItem)
                 };
 

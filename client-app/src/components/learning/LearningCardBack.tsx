@@ -2,7 +2,7 @@ import React from "react";
 import TextEllipsis from "react-text-ellipsis";
 
 import { ILearningItemResult } from "../../app/models/learning";
-import LearningItemProgress from "./LearningItemProgress";
+import LearningItemProgressAnimated from "./LearningItemProgressAnimated";
 import SuccessIcon from "../icons/SuccessIcon";
 import FailIcon from "../icons/FailIcon";
 import StarIcon from "../icons/StarIcon";
@@ -13,6 +13,8 @@ interface IProps {
 	learningItemResult: ILearningItemResult;
 	onNext: () => void;
 	isFlipped: boolean;
+	progressAnimated: boolean;
+	secondTraining: boolean;
 }
 
 const LearningCardBack: React.FC<IProps> = ({
@@ -20,6 +22,8 @@ const LearningCardBack: React.FC<IProps> = ({
 	learningItemResult,
 	onNext,
 	isFlipped,
+	progressAnimated,
+	secondTraining
 }) => {
 	const item = learningItemResult.item;
 
@@ -42,9 +46,13 @@ const LearningCardBack: React.FC<IProps> = ({
 				) : (
 					<FailIcon className="answer-icon" />
 				)}
-				<LearningItemProgress
+				<LearningItemProgressAnimated
 					total={correctAnswersToItemCompletion}
 					checked={item.correctAnswersToCompletionCount}
+					mode="difficult"
+					answerCorrect={learningItemResult.isAnswerCorrect}
+					animated={progressAnimated}
+					secondTraining={secondTraining}
 				/>
 				<StarIcon className={starredClass} />
 			</div>

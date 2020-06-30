@@ -43,7 +43,7 @@ namespace Application.LearningLists
                 var item = new LearningItem
                 {
                     Item = items[i],
-                    LearningMode = _rand.Next(2) == 0 ? LearningMode.Primary : LearningMode.Secondary,
+                    LearningMode = _rand.Next(9) > 2 ? LearningMode.Primary : LearningMode.Secondary,
                 };
 
                 list.Add(item);

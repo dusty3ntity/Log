@@ -11,6 +11,17 @@ namespace Application.Utilities
         {
             var item = learningItem.Item;
 
+            double complexity = 0;
+            if (item.TotalRepeatsCount > 0)
+            {
+                if (item.CorrectAnswersCount == 0)
+                    complexity = 1;
+                else if (item.CorrectAnswersCount == item.TotalRepeatsCount)
+                    complexity = 0.1;
+                else
+                    complexity = Math.Round(1 - (double) item.CorrectAnswersCount / item.TotalRepeatsCount, 2);
+            }
+
             var testItem = new TestItem
             {
                 Item = learningItem.LearningMode == LearningMode.Primary
@@ -28,9 +39,7 @@ namespace Application.Utilities
                 IsStarred = item.IsStarred,
                 IsLearned = item.IsLearned,
 
-                Complexity = item.TotalRepeatsCount != 0
-                    ? Math.Round(1 - (double) item.CorrectAnswersCount / item.TotalRepeatsCount, 2)
-                    : 0,
+                Complexity = complexity,
                 CorrectAnswersToCompletionCount = item.CorrectAnswersToCompletionCount
             };
 

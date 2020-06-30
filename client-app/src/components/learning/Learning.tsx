@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import LearningBackground from "./LearningBackground";
 import SupportingPage from "./SupportingPage";
+import NotEnoughItems from "./NotEnoughItems";
 import LearningCardFront from "./LearningCardFront";
 import LearningCardBack from "./LearningCardBack";
 import LearningProgressBar from "./LearningProgressBar";
@@ -41,7 +42,6 @@ const Learning = () => {
 		onInitialLoad();
 	}, [onInitialLoad]);
 
-
 	return (
 		<div id="learning-container">
 			<div id="learning">
@@ -50,7 +50,7 @@ const Learning = () => {
 				<div
 					id="learning-content"
 					className={`${isFlipped ? "flipped" : ""} ${
-						status === 1 || status === 4 || status === 5 ? " initial" : ""
+						status === 1 || status === 4 || status === 5 || status === 7 ? " initial" : ""
 					}`}
 				>
 					{(status % 10 === 2 || Math.floor(status / 10) === 2) && (
@@ -59,6 +59,7 @@ const Learning = () => {
 							learningItem={learningItem!}
 							onSubmit={onItemSubmit}
 							isFlipped={isItemInputFlipped}
+							secondTraining={learningList!.timesCompleted > 0}
 						/>
 					)}
 					{(status % 10 === 3 || Math.floor(status / 10) === 3) && (
@@ -67,6 +68,8 @@ const Learning = () => {
 							learningItemResult={learningItemResult!}
 							onNext={onNextItem}
 							isFlipped={isItemResultFlipped}
+							progressAnimated={status === 3 || Math.floor(status / 10) === 3}
+							secondTraining={learningList!.timesCompleted > 0}
 						/>
 					)}
 
@@ -92,7 +95,7 @@ const Learning = () => {
 							itemsCount={learningList!.size}
 							completedItemsCount={learningList!.completedItemsCount}
 							correctAnswersCount={learningList!.correctAnswersCount}
-							message="This training is outdated. Start the new one!"
+							message="That training is outdated. Start the new one!"
 							messageType="warning"
 							button={
 								<button className="btn actions-btn start-btn primary" onClick={onOutdatedStart}>
@@ -138,13 +141,18 @@ const Learning = () => {
 							isFlipped={isLearningEndFlipped}
 						/>
 					)}
+
+					{status === 7 && <NotEnoughItems />}
 				</div>
 
 				<LearningBackground className="right" />
 			</div>
 
-			{learningItem && (
-				<LearningProgressBar total={learningList!.size} done={learningItem.numberInSequence + 1} />
+			{(status === 2 || status === 3 || status === 23 || status === 32) && (
+				<LearningProgressBar
+					total={learningList!.size}
+					done={learningItem ? learningItem.numberInSequence + 1 : learningItemResult!.numberInSequence + 1}
+				/>
 			)}
 		</div>
 	);

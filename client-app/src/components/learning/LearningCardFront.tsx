@@ -1,29 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 import TextEllipsis from "react-text-ellipsis";
+import { useForm } from "react-hook-form";
 
 import { ILearningItem } from "../../app/models/learning";
 import ComplexityIndicator from "./ComplexityIndicator";
 import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
-import HintIcon from "../icons/HintIcon";
+// import HintIcon from "../icons/HintIcon";
+import { hasTrailingWhitespaces } from "../../app/common/forms/formValidators";
+import ValidationMessage from "../new-item/ValidationMessage";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
 	learningItem: ILearningItem;
 	onSubmit: (answer: string) => void;
 	isFlipped: boolean;
+	secondTraining: boolean;
 }
 
-const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, learningItem, onSubmit, isFlipped }) => {
-	const [answer, setAnswer] = useState("");
-	const handleChange = (event: any) => {
-		setAnswer(event.target.value);
-	};
+interface FormData {
+	answer: string;
+}
 
+const LearningCardFront: React.FC<IProps> = ({
+	correctAnswersToItemCompletion,
+	learningItem,
+	onSubmit,
+	isFlipped,
+	secondTraining,
+}) => {
 	const item = learningItem.item;
 
 	const starredClass = item.isStarred ? " active" : "";
 	const textSizeClass = item.item.length > 20 ? "long" : item.item.length > 10 ? "medium" : "short";
+
+	const { register, handleSubmit, errors, formState } = useForm<FormData>();
+
+	const submit = (data: any) => {
+		onSubmit(data.answer);
+	};
 
 	return (
 		<div className={`learning-card learning-card-front ${isFlipped ? "flipped" : ""}`}>
@@ -32,6 +47,7 @@ const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, l
 				<LearningItemProgress
 					total={correctAnswersToItemCompletion}
 					checked={item.correctAnswersToCompletionCount}
+					secondTraining={secondTraining}
 				/>
 				<StarIcon className={starredClass} />
 			</div>
@@ -45,14 +61,22 @@ const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, l
 
 				<div className="answer-row">
 					<label htmlFor="answer">Your answer:</label>
+
+					<ValidationMessage name="answer" errors={errors} />
+
 					<textarea
 						name="answer"
 						className="text-input text-area answer"
-						value={answer}
-						onChange={handleChange}
 						rows={2}
-						maxLength={30}
+						maxLength={100}
 						autoFocus
+						ref={register({
+							validate: {
+								trailingWhitespaces: (value) => {
+									return hasTrailingWhitespaces(value) ? "Please remove trailing whitespaces." : true;
+								},
+							},
+						})}
 					/>
 				</div>
 			</div>
@@ -72,19 +96,19 @@ const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, l
 			)}
 
 			<div className="actions-row row">
-				<button className="btn actions-btn hint-btn">
+				{/* <button className="btn actions-btn hint-btn">
 					<HintIcon />
 					<span>Hint</span>
-				</button>
-				<button
-					className="btn actions-btn submit-btn primary"
-					type="button"
-					onClick={() => {
-						onSubmit(answer);
-					}}
-				>
-					Submit
-				</button>
+				</button> */}
+				<form className="learning-answer-form" onSubmit={handleSubmit(submit)}>
+					<button
+						className="btn actions-btn submit-btn primary"
+						type="submit"
+						disabled={formState.submitCount > 0 && !formState.isValid}
+					>
+						Submit
+					</button>
+				</form>
 			</div>
 		</div>
 	);

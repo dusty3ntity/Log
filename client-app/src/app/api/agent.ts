@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { IItem, IEditItem, INewItem } from "../models/item";
 import { ILearningList, ILearningItem, ILearningItemAnswer, ILearningItemResult } from "./../models/learning";
 
-axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/0F582AB4-36E6-4C4A-BC04-DC1BFC253659";
+axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/a7f1a555-e4cd-47cc-b501-b04a282ddded";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -26,8 +26,7 @@ const Items = {
 
 const LearningLists = {
 	get: (): Promise<ILearningList> => axios.post("/learningList/").then(responseBody),
-	getNextItem: (id: string): Promise<ILearningItem> =>
-		axios.get(`/learningList/${id}/nextItem`).then(responseBody),
+	getNextItem: (id: string): Promise<ILearningItem> => axios.get(`/learningList/${id}/nextItem`).then(responseBody),
 	checkItem: (id: string, answer: ILearningItemAnswer): Promise<ILearningItemResult> =>
 		axios.post(`/learningList/${id}/nextItem`, answer).then(responseBody),
 	startOver: (id: string) => axios.post(`/learningList/${id}/startOver`),
