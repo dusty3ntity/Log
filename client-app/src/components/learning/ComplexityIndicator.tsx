@@ -8,9 +8,12 @@ interface IProps {
 }
 
 const ComplexityIndicator: React.FC<IProps> = ({ complexity }) => {
+	console.log(complexity)
 	return (
 		<div className="difficulty-indicator">
-			{complexity > 0.8 ? <UnhappySmileIcon /> : complexity > 0.4 ? <NeutralSmileIcon /> : <HappySmileIcon />}
+			{complexity < 0.4 && <HappySmileIcon />}
+			{complexity >= 0.4 && complexity < 0.8 && <NeutralSmileIcon />}
+			{complexity >= 0.8 && <UnhappySmileIcon />}
 		</div>
 	);
 };

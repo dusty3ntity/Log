@@ -148,7 +148,7 @@ const Learning = () => {
 			{(status === 2 || status === 3 || status === 23 || status === 32) && (
 				<LearningProgressBar
 					total={learningList!.size}
-					done={learningItem ? learningItem.numberInSequence + 1 : learningItemResult!.numberInSequence}
+					done={learningItem ? learningItem.numberInSequence + 1 : learningItemResult!.numberInSequence + 1}
 				/>
 			)}
 		</div>
