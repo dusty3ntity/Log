@@ -58,6 +58,7 @@ const Learning = () => {
 							learningItem={learningItem!}
 							onSubmit={onItemSubmit}
 							isFlipped={isItemInputFlipped}
+							secondTraining={learningList!.timesCompleted === 1}
 						/>
 					)}
 					{(status % 10 === 3 || Math.floor(status / 10) === 3) && (
@@ -66,6 +67,8 @@ const Learning = () => {
 							learningItemResult={learningItemResult!}
 							onNext={onNextItem}
 							isFlipped={isItemResultFlipped}
+							progressAnimated={status === 3 || Math.floor(status / 10) === 3}
+							secondTraining={learningList!.timesCompleted === 1}
 						/>
 					)}
 

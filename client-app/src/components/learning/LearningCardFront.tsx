@@ -12,9 +12,16 @@ interface IProps {
 	learningItem: ILearningItem;
 	onSubmit: (answer: string) => void;
 	isFlipped: boolean;
+	secondTraining: boolean;
 }
 
-const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, learningItem, onSubmit, isFlipped }) => {
+const LearningCardFront: React.FC<IProps> = ({
+	correctAnswersToItemCompletion,
+	learningItem,
+	onSubmit,
+	isFlipped,
+	secondTraining,
+}) => {
 	const [answer, setAnswer] = useState("");
 	const handleChange = (event: any) => {
 		setAnswer(event.target.value);
@@ -32,6 +39,7 @@ const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, l
 				<LearningItemProgress
 					total={correctAnswersToItemCompletion}
 					checked={item.correctAnswersToCompletionCount}
+					secondTraining={secondTraining}
 				/>
 				<StarIcon className={starredClass} />
 			</div>

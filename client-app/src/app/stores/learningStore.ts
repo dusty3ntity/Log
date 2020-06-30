@@ -108,7 +108,7 @@ export default class LearningStore {
 			this.isFlipped = !this.isFlipped;
 			setTimeout(() => {
 				if (this.learningItem) {
-					this.status = LearningStatus.ItemInput;
+					// this.status = LearningStatus.ItemInput;
 				} else if (this.learningItem === null && this.learningList!.timesCompleted === 1) {
 					this.status = LearningStatus.LearningStartOver;
 				} else if (this.learningItem === null && this.learningList!.timesCompleted === 2) {
