@@ -34,8 +34,7 @@ namespace Application.LearningLists
                 RuleFor(i => i.LearningItemId)
                     .NotEmpty();
                 RuleFor(i => i.Answer)
-                    .NotEmpty()
-                    .Length(2, 30);
+                    .MaximumLength(30);
                 RuleFor(i => i.HintsUsed)
                     .InclusiveBetween(0, 2);
             }
@@ -112,7 +111,7 @@ namespace Application.LearningLists
                     return new LearningItemResult
                     {
                         IsAnswerCorrect = isAnswerCorrect,
-                        UserAnswer = request.Answer,
+                        UserAnswer = request.Answer ?? "",
                         NumberInSequence = learningItem.NumberInSequence,
 
                         Item = new TestItemAnswer
