@@ -25,7 +25,7 @@ export default class LearningStore {
 
 	@observable loadingInitial = false;
 	@observable loading = false;
-	@observable learningList: ILearningList | null = null;
+	@observable learningList: ILearningList | null | undefined = undefined;
 	@observable learningItem: ILearningItem | null | undefined = undefined;
 	@observable learningItemResult: ILearningItemResult | undefined = undefined;
 
@@ -45,7 +45,11 @@ export default class LearningStore {
 		await this.loadLearningList();
 		runInAction("loading learning list and setting the card", () => {
 			if (!this.learningList) {
-				console.log("no connection");
+				if (this.learningList === null) {
+					this.status = LearningStatus.NotEnoughItems;
+				} else {
+					console.log("no connection");
+				}
 			} else if (!this.learningList.isCompleted) {
 				this.status = LearningStatus.LearningStart;
 			} else if (this.learningList.timesCompleted === 1) {
@@ -118,7 +122,7 @@ export default class LearningStore {
 			this.isFlipped = !this.isFlipped;
 			setTimeout(() => {
 				if (this.learningItem) {
-					// this.status = LearningStatus.ItemInput;
+					this.status = LearningStatus.ItemInput;
 				} else if (this.learningItem === null && this.learningList!.timesCompleted === 1) {
 					this.status = LearningStatus.LearningStartOver;
 				} else if (this.learningItem === null && this.learningList!.timesCompleted === 2) {
@@ -173,6 +177,10 @@ export default class LearningStore {
 			});
 		} catch (err) {
 			console.log(err);
+			if (err.response.status === 400) this.learningList = null;
+			else {
+				this.learningList = undefined;
+			}
 		} finally {
 			runInAction("loading learning list", () => {
 				this.loading = false;

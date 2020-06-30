@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import LearningBackground from "./LearningBackground";
 import SupportingPage from "./SupportingPage";
+import NotEnoughItems from "./NotEnoughItems";
 import LearningCardFront from "./LearningCardFront";
 import LearningCardBack from "./LearningCardBack";
 import LearningProgressBar from "./LearningProgressBar";
@@ -49,7 +50,7 @@ const Learning = () => {
 				<div
 					id="learning-content"
 					className={`${isFlipped ? "flipped" : ""} ${
-						status === 1 || status === 4 || status === 5 ? " initial" : ""
+						status === 1 || status === 4 || status === 5 || status === 7 ? " initial" : ""
 					}`}
 				>
 					{(status % 10 === 2 || Math.floor(status / 10) === 2) && (
@@ -140,6 +141,8 @@ const Learning = () => {
 							isFlipped={isLearningEndFlipped}
 						/>
 					)}
+
+					{status === 7 && <NotEnoughItems />}
 				</div>
 
 				<LearningBackground className="right" />
