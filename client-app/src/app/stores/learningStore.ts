@@ -29,14 +29,24 @@ export default class LearningStore {
 	@observable learningItem: ILearningItem | null | undefined = undefined;
 	@observable learningItemResult: ILearningItemResult | undefined = undefined;
 
+	@action setDefaults = () => {
+		this.isFlipped = false;
+		this.isLearningStartFlipped = false;
+		this.isItemInputFlipped = false;
+		this.isItemResultFlipped = false;
+		this.isLearningStartOverFlipped = false;
+		this.isLearningEndFlipped = false;
+		this.isLearningOutdatedFlipped = false;
+	};
+
 	@action onInitialLoad = async () => {
+		this.setDefaults();
 		this.loadingInitial = true;
 		await this.loadLearningList();
 		runInAction("loading learning list and setting the card", () => {
 			if (!this.learningList) {
 				console.log("no connection");
-			}
-			else if (!this.learningList.isCompleted) {
+			} else if (!this.learningList.isCompleted) {
 				this.status = LearningStatus.LearningStart;
 			} else if (this.learningList.timesCompleted === 1) {
 				this.status = LearningStatus.LearningStartOver;

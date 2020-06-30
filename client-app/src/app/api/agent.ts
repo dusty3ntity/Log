@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { IItem, IEditItem, INewItem } from "../models/item";
 import { ILearningList, ILearningItem, ILearningItemAnswer, ILearningItemResult } from "./../models/learning";
 
-axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/1B44E314-477B-4475-A789-C2A789FF1168";
+axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/a7f1a555-e4cd-47cc-b501-b04a282ddded";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
