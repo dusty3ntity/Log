@@ -1,14 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import TextEllipsis from "react-text-ellipsis";
-import { useForm } from "react-hook-form";
 
 import { ILearningItem } from "../../app/models/learning";
 import ComplexityIndicator from "./ComplexityIndicator";
 import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
 // import HintIcon from "../icons/HintIcon";
-import { hasTrailingWhitespaces } from "../../app/common/forms/formValidators";
-import ValidationMessage from "../new-item/ValidationMessage";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
@@ -16,10 +13,6 @@ interface IProps {
 	onSubmit: (answer: string) => void;
 	isFlipped: boolean;
 	secondTraining: boolean;
-}
-
-interface FormData {
-	answer: string;
 }
 
 const LearningCardFront: React.FC<IProps> = ({
@@ -34,10 +27,9 @@ const LearningCardFront: React.FC<IProps> = ({
 	const starredClass = item.isStarred ? " active" : "";
 	const textSizeClass = item.item.length > 20 ? "long" : item.item.length > 10 ? "medium" : "short";
 
-	const { register, handleSubmit, errors, formState } = useForm<FormData>();
-
-	const submit = (data: any) => {
-		onSubmit(data.answer);
+	const [answer, setAnswer] = useState("");
+	const handleInputChange = (event: any) => {
+		setAnswer(event.target.value);
 	};
 
 	return (
@@ -62,21 +54,14 @@ const LearningCardFront: React.FC<IProps> = ({
 				<div className="answer-row">
 					<label htmlFor="answer">Your answer:</label>
 
-					<ValidationMessage name="answer" errors={errors} />
-
 					<textarea
 						name="answer"
 						className="text-input text-area answer"
 						rows={2}
 						maxLength={100}
 						autoFocus
-						ref={register({
-							validate: {
-								trailingWhitespaces: (value) => {
-									return hasTrailingWhitespaces(value) ? "Please remove trailing whitespaces." : true;
-								},
-							},
-						})}
+						value={answer}
+						onChange={handleInputChange}
 					/>
 				</div>
 			</div>
@@ -100,15 +85,15 @@ const LearningCardFront: React.FC<IProps> = ({
 					<HintIcon />
 					<span>Hint</span>
 				</button> */}
-				<form className="learning-answer-form" onSubmit={handleSubmit(submit)}>
-					<button
-						className="btn actions-btn submit-btn primary"
-						type="submit"
-						disabled={formState.submitCount > 0 && !formState.isValid}
-					>
-						Submit
-					</button>
-				</form>
+
+				<button
+					className="btn actions-btn submit-btn primary"
+					onClick={() => {
+						onSubmit(answer.replace(/\s+/g, " ").trim());
+					}}
+				>
+					Submit
+				</button>
 			</div>
 		</div>
 	);
