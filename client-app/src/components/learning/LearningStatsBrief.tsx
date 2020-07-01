@@ -9,7 +9,7 @@ interface IProps {
 const LearningStatsBrief: React.FC<IProps> = ({ itemsCount, completedItemsCount, correctAnswersCount }) => {
 	let productivity = 0;
 	if (completedItemsCount > 0) {
-		if (correctAnswersCount != 0) {
+		if (correctAnswersCount !== 0) {
 			productivity = (correctAnswersCount / completedItemsCount) * 100;
 		} else {
 			productivity = 0.01;
