@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TextEllipsis from "react-text-ellipsis";
 
-import { ILearningItem } from "../../app/models/learning";
+import { ILearningItem, LearningMode } from "../../app/models/learning";
 import ComplexityIndicator from "./ComplexityIndicator";
 import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
@@ -51,14 +51,19 @@ const LearningCardFront: React.FC<IProps> = ({
 
 				<div className="divider invisible" />
 
-				<div className="answer-row">
-					<label htmlFor="answer">Your answer:</label>
+				<div className="answer-row form-item">
+					<label htmlFor="answer">
+						<span className="label-text">Translation:</span>
+						<span className="language-badge">
+							{learningItem.learningMode === LearningMode.Primary ? "eng" : "rus"}
+						</span>
+					</label>
 
 					<textarea
 						name="answer"
 						className="text-input text-area answer"
 						rows={2}
-						maxLength={100}
+						maxLength={30}
 						autoFocus
 						value={answer}
 						onChange={handleInputChange}
