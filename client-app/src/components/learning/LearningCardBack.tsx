@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import TextEllipsis from "react-text-ellipsis";
 
+import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILearningItemResult } from "../../app/models/learning";
 import LearningItemProgressAnimated from "./LearningItemProgressAnimated";
 import SuccessIcon from "../icons/SuccessIcon";
@@ -11,8 +12,6 @@ import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 interface IProps {
 	correctAnswersToItemCompletion: number;
 	learningItemResult: ILearningItemResult;
-	onNext: () => void;
-	isFlipped: boolean;
 	progressAnimated: boolean;
 	secondTraining: boolean;
 }
@@ -20,11 +19,12 @@ interface IProps {
 const LearningCardBack: React.FC<IProps> = ({
 	correctAnswersToItemCompletion,
 	learningItemResult,
-	onNext,
-	isFlipped,
 	progressAnimated,
-	secondTraining
+	secondTraining,
 }) => {
+	const rootStore = useContext(RootStoreContext);
+	const { status, isItemResultFlipped, onNextItem } = rootStore.learningStore;
+
 	const item = learningItemResult.item;
 
 	const starredClass = item.isStarred ? " active" : "";
@@ -39,7 +39,7 @@ const LearningCardBack: React.FC<IProps> = ({
 			: "short";
 
 	return (
-		<div className={`learning-card learning-card-back ${isFlipped ? "flipped" : ""}`}>
+		<div className={`learning-card learning-card-back ${isItemResultFlipped ? "flipped" : ""}`}>
 			<div className="header-row row">
 				{learningItemResult.isAnswerCorrect ? (
 					<SuccessIcon className="answer-icon" />
@@ -96,7 +96,11 @@ const LearningCardBack: React.FC<IProps> = ({
 			</div>
 
 			<div className="actions-row row">
-				<button className="btn actions-btn next-btn primary" onClick={onNext}>
+				<button
+					className="btn actions-btn next-btn primary no-disabled-styles"
+					onClick={onNextItem}
+					disabled={status > 9}
+				>
 					<span>Next</span>
 					<ArrowForwardSmallIcon />
 				</button>

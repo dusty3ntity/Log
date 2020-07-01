@@ -7,7 +7,7 @@
 		height: 10px;
 		top: unset;
 	}
-	
+
 	.ant-badge-status-text {
 		margin: 0;
 	}
@@ -29,4 +29,50 @@
 	&.invisible {
 		visibility: hidden;
 	}
+}
+
+.simplebar-vertical {
+	margin: 1rem 0 !important;
+	width: 20px !important;
+	overflow: visible !important;
+}
+
+.simplebar-track::before {
+	content: "";
+	display: block;
+	position: absolute;
+
+	height: calc(100% - 8px);
+	width: 8px;
+	top: 0;
+	left: 30%;
+	margin: 4px 0;
+	border-radius: 10px;
+	box-shadow: inset -1px -1px 2px rgba(255, 255, 255, 0.75), inset 1px 1px 2px rgba(111, 140, 176, 0.41);
+}
+
+.simplebar-scrollbar::before {
+	z-index: -1;
+	width: 16px;
+	background: @body-background-darker !important;
+	box-shadow: 2px 2px 5px rgba(145, 163, 181, 0.5), -2px -2px 10px rgba(250, 251, 252, 0.5) !important;
+	border-radius: 6px;
+	opacity: 1 !important;
+	transition: none;
+}
+
+.simplebar-scrollbar::after {
+	content: "‎";
+	position: absolute;
+	background-image: url("/images/scroll.svg");
+	background-repeat: no-repeat;
+	width: 10px;
+	height: 16px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.simplebar-placeholder {
+	width: auto !important;
 }

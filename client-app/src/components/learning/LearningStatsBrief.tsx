@@ -7,10 +7,19 @@ interface IProps {
 }
 
 const LearningStatsBrief: React.FC<IProps> = ({ itemsCount, completedItemsCount, correctAnswersCount }) => {
-	const productivity = completedItemsCount > 0 ? Math.ceil((correctAnswersCount / completedItemsCount) * 100) : 0;
+	let productivity = 0;
+	if (completedItemsCount > 0) {
+		if (correctAnswersCount !== 0) {
+			productivity = (correctAnswersCount / completedItemsCount) * 100;
+		} else {
+			productivity = 0.01;
+		}
+	}
 
 	const productivityColorClass =
-		productivity > 80 ? "high" : productivity > 40 ? "medium" : productivity > 0 ? "low" : "";
+		productivity > 80 ? "high" : productivity > 40 ? "medium" : productivity > 0.001 ? "low" : "";
+
+	productivity = Math.floor(productivity);
 
 	return (
 		<div className="learning-stats-brief">

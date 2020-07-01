@@ -1,47 +1,35 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import TextEllipsis from "react-text-ellipsis";
-import { useForm } from "react-hook-form";
 
-import { ILearningItem } from "../../app/models/learning";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import { ILearningItem, LearningMode } from "../../app/models/learning";
 import ComplexityIndicator from "./ComplexityIndicator";
 import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
 // import HintIcon from "../icons/HintIcon";
-import { hasTrailingWhitespaces } from "../../app/common/forms/formValidators";
-import ValidationMessage from "../new-item/ValidationMessage";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
 	learningItem: ILearningItem;
-	onSubmit: (answer: string) => void;
-	isFlipped: boolean;
 	secondTraining: boolean;
 }
 
-interface FormData {
-	answer: string;
-}
+const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, learningItem, secondTraining }) => {
+	const rootStore = useContext(RootStoreContext);
+	const { status, isItemInputFlipped, onItemSubmit } = rootStore.learningStore;
 
-const LearningCardFront: React.FC<IProps> = ({
-	correctAnswersToItemCompletion,
-	learningItem,
-	onSubmit,
-	isFlipped,
-	secondTraining,
-}) => {
 	const item = learningItem.item;
 
 	const starredClass = item.isStarred ? " active" : "";
 	const textSizeClass = item.item.length > 20 ? "long" : item.item.length > 10 ? "medium" : "short";
 
-	const { register, handleSubmit, errors, formState } = useForm<FormData>();
-
-	const submit = (data: any) => {
-		onSubmit(data.answer);
+	const [answer, setAnswer] = useState("");
+	const handleInputChange = (event: any) => {
+		setAnswer(event.target.value);
 	};
 
 	return (
-		<div className={`learning-card learning-card-front ${isFlipped ? "flipped" : ""}`}>
+		<div className={`learning-card learning-card-front ${isItemInputFlipped ? "flipped" : ""}`}>
 			<div className="header-row row">
 				<ComplexityIndicator complexity={item.complexity} />
 				<LearningItemProgress
@@ -59,24 +47,22 @@ const LearningCardFront: React.FC<IProps> = ({
 
 				<div className="divider invisible" />
 
-				<div className="answer-row">
-					<label htmlFor="answer">Your answer:</label>
-
-					<ValidationMessage name="answer" errors={errors} />
+				<div className="answer-row form-item">
+					<label htmlFor="answer">
+						<span className="label-text">Translation:</span>
+						<span className="language-badge">
+							{learningItem.learningMode === LearningMode.Primary ? "eng" : "rus"}
+						</span>
+					</label>
 
 					<textarea
 						name="answer"
 						className="text-input text-area answer"
 						rows={2}
-						maxLength={100}
+						maxLength={30}
 						autoFocus
-						ref={register({
-							validate: {
-								trailingWhitespaces: (value) => {
-									return hasTrailingWhitespaces(value) ? "Please remove trailing whitespaces." : true;
-								},
-							},
-						})}
+						value={answer}
+						onChange={handleInputChange}
 					/>
 				</div>
 			</div>
@@ -100,15 +86,16 @@ const LearningCardFront: React.FC<IProps> = ({
 					<HintIcon />
 					<span>Hint</span>
 				</button> */}
-				<form className="learning-answer-form" onSubmit={handleSubmit(submit)}>
-					<button
-						className="btn actions-btn submit-btn primary"
-						type="submit"
-						disabled={formState.submitCount > 0 && !formState.isValid}
-					>
-						Submit
-					</button>
-				</form>
+
+				<button
+					className="btn actions-btn submit-btn primary no-disabled-styles"
+					onClick={() => {
+						onItemSubmit(answer.replace(/\s+/g, " ").trim());
+					}}
+					disabled={status > 9}
+				>
+					Submit
+				</button>
 			</div>
 		</div>
 	);

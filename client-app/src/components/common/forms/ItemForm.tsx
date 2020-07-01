@@ -1,50 +1,51 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { INewItem } from "../../app/models/item";
-import PlusIcon from "../icons/PlusIcon";
-import StarIcon from "../icons/StarIcon";
-import MinusIcon from "../icons/MinusIcon";
+import { IItem, INewItem, ItemType } from "../../../app/models/item";
+import { hasTrailingWhitespaces, minLength, maxLength, includes } from "../../../app/common/forms/formValidators";
 import ValidationMessage from "./ValidationMessage";
-import { hasTrailingWhitespaces, minLength, maxLength, includes } from "../../app/common/forms/formValidators";
+import PlusIcon from "../../icons/PlusIcon";
+import StarIcon from "../../icons/StarIcon";
+import MinusIcon from "../../icons/MinusIcon";
 
 interface IProps {
-	type: number;
+	type: ItemType;
 	id: string;
+	item?: IItem;
+	onSubmit: (item: INewItem) => void;
 }
 
 interface FormData {
 	original: string;
 	translation: string;
-	definition?: string | undefined;
+	definition?: string | null;
+	definitionOrigin?: string | null;
 }
 
-const NewItemForm: React.FC<IProps> = ({ type, id }) => {
-	const rootStore = useContext(RootStoreContext);
-	const { createItem } = rootStore.itemStore;
-
+const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 	const [definitionActivated, setDefinition] = useState(false);
 	const [starred, setStarred] = useState(false);
 
-	const { register, handleSubmit, errors, getValues, formState, reset } = useForm<FormData>();
+	const { register, handleSubmit, errors, getValues, formState, reset } = useForm<FormData>({
+		defaultValues: item,
+	});
 
-	const onSubmit = (data: any) => {
+	const submit = (data: FormData) => {
 		let newItem: INewItem = {
 			original: data.original,
 			translation: data.translation,
-			definition: definitionActivated && data.definition.length > 4 ? data.definition : null,
-			definitionOrigin: null,
+			definition: definitionActivated ? data.definition! : null,
+			definitionOrigin: data.definitionOrigin!,
 			type: type,
 			isStarred: starred,
 		};
 
-		createItem(newItem);
+		onSubmit(newItem);
 		reset();
 	};
 
 	return (
-		<form id={id} className="new-item-form" onSubmit={handleSubmit(onSubmit)}>
+		<form id={id} className="new-item-form" onSubmit={handleSubmit(submit)}>
 			<div className="original-input form-item">
 				<label htmlFor="original">
 					<span className="label-text">Original</span>
@@ -116,25 +117,40 @@ const NewItemForm: React.FC<IProps> = ({ type, id }) => {
 
 			<div className="definition-actions">
 				<button
-					className="btn definition-actions-btn add-definition-btn"
-					type="button"
+					className="btn definition-actions-btn reset-form-btn"
 					onClick={() => {
-						definitionActivated ? setDefinition(false) : setDefinition(true);
+						if (!item) {
+							reset();
+						} else {
+							reset(item);
+						}
 					}}
 				>
-					{definitionActivated ? <MinusIcon /> : <PlusIcon />}
-					<span>Definition</span>
+					Reset
 				</button>
 
-				<button
-					className="btn definition-actions-btn star-btn round"
-					type="button"
-					onClick={() => {
-						starred ? setStarred(false) : setStarred(true);
-					}}
-				>
-					<StarIcon active={starred} />
-				</button>
+				<div className="right-container">
+					<button
+						className="btn definition-actions-btn add-definition-btn"
+						type="button"
+						onClick={() => {
+							definitionActivated ? setDefinition(false) : setDefinition(true);
+						}}
+					>
+						{definitionActivated ? <MinusIcon /> : <PlusIcon />}
+						<span>Definition</span>
+					</button>
+
+					<button
+						className="btn definition-actions-btn star-btn round"
+						type="button"
+						onClick={() => {
+							starred ? setStarred(false) : setStarred(true);
+						}}
+					>
+						<StarIcon active={starred} />
+					</button>
+				</div>
 			</div>
 
 			{definitionActivated && (
