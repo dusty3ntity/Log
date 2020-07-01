@@ -34,34 +34,37 @@
 	position: relative;
 	transform-style: preserve-3d;
 
-	animation: cardSpinBack 1s linear;
-	transform: rotateY(0deg);
+	will-change: transform;
+	transition: all 1s linear;
+}
 
-	&.initial {
-		animation: none;
-	}
+.learning-card,
+.learning-supporting-card {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	border-radius: 1.875rem;
+
+	position: absolute;
+	backface-visibility: hidden;
+	transform: rotateX(0);
+
+	background: @body-background;
+	box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+		3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 
 	&.flipped {
-		animation: cardSpin 1s linear;
-		transform: rotateY(-180deg);
+		transform: rotateY(180deg);
 	}
 
-	@keyframes cardSpin {
-		from {
-			transform: rotateY(0deg);
-		}
-		to {
-			transform: rotateY(-180deg);
-		}
-	}
-
-	@keyframes cardSpinBack {
-		from {
-			transform: rotateY(-180deg);
-		}
-		to {
-			transform: rotateY(-360deg);
-		}
+	.row {
+		width: 100%;
+		text-align: center;
+		display: flex;
+		justify-content: center;
 	}
 }
 

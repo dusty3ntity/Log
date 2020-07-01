@@ -14,7 +14,7 @@ export default class LearningStore {
 	animationTimeout = 1000;
 
 	@observable status = LearningStatus.Initial;
-	@observable isFlipped = false;
+	@observable flipCounter = 0;
 
 	@observable isLearningStartFlipped = false;
 	@observable isItemInputFlipped = false;
@@ -30,7 +30,7 @@ export default class LearningStore {
 	@observable learningItemResult: ILearningItemResult | undefined = undefined;
 
 	@action setDefaults = () => {
-		this.isFlipped = false;
+		this.flipCounter = 0;
 		this.isLearningStartFlipped = false;
 		this.isItemInputFlipped = false;
 		this.isItemResultFlipped = false;
@@ -71,14 +71,14 @@ export default class LearningStore {
 				this.isLearningOutdatedFlipped = !this.isLearningStartFlipped;
 				this.status = LearningStatus.LearningStartLearningOutdated;
 			}
-			this.isFlipped = !this.isFlipped;
+			this.flipCounter++;
 			setTimeout(() => {
 				if (this.learningItem) {
 					this.status = LearningStatus.ItemInput;
 				} else {
 					this.status = LearningStatus.LearningOutdated;
 				}
-			}, this.animationTimeout);
+			}, this.animationTimeout + 30); // fucking firefox
 		});
 	};
 
@@ -92,7 +92,7 @@ export default class LearningStore {
 				this.isLearningOutdatedFlipped = !this.isItemInputFlipped;
 				this.status = LearningStatus.ItemInputLearningOutdated;
 			}
-			this.isFlipped = !this.isFlipped;
+			this.flipCounter++;
 			setTimeout(() => {
 				if (this.learningItemResult) {
 					this.status = LearningStatus.ItemResult;
@@ -119,7 +119,7 @@ export default class LearningStore {
 				this.isLearningOutdatedFlipped = !this.isItemResultFlipped;
 				this.status = LearningStatus.ItemResultLearningOutdated;
 			}
-			this.isFlipped = !this.isFlipped;
+			this.flipCounter++;
 			setTimeout(() => {
 				if (this.learningItem) {
 					this.status = LearningStatus.ItemInput;
@@ -144,7 +144,7 @@ export default class LearningStore {
 				this.isLearningOutdatedFlipped = !this.isLearningStartOverFlipped;
 				this.status = LearningStatus.LearningStartOverLearningOutdated;
 			}
-			this.isFlipped = !this.isFlipped;
+			this.flipCounter++;
 			setTimeout(() => {
 				if (this.learningItem) {
 					this.status = LearningStatus.ItemInput;
@@ -161,7 +161,7 @@ export default class LearningStore {
 		runInAction("loading learning item and flipping the card", () => {
 			this.isItemInputFlipped = !this.isLearningOutdatedFlipped;
 			this.status = LearningStatus.LearningOutdatedItemInput;
-			this.isFlipped = !this.isFlipped;
+			this.flipCounter++;
 			setTimeout(() => {
 				this.status = LearningStatus.ItemInput;
 			}, this.animationTimeout);

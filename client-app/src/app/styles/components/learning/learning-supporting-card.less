@@ -1,29 +1,4 @@
 .learning-supporting-card {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-
-	display: flex;
-	flex-direction: column;
-	padding: 2rem;
-	border-radius: 1.875rem;
-
-	background: @body-background;
-	box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
-		3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
-		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
-
-	&.flipped {
-		transform: rotateY(180deg);
-	}
-
-	.row {
-		width: 100%;
-		text-align: center;
-		display: flex;
-		justify-content: center;
-	}
-
 	.date-row {
 		span {
 			margin: 0 6px;
@@ -58,7 +33,7 @@
 	.bottom-row {
 		flex-grow: 2;
 		flex-direction: column;
-		justify-content: flex-end;
+		justify-content: flex-end !important;
 	}
 
 	.message-row {
@@ -112,12 +87,12 @@
 			flex-direction: column;
 			align-items: center;
 			height: 50%;
-	
+
 			.icon {
 				height: 120px;
 				width: 120px;
 			}
-	
+
 			.message {
 				font-size: 2rem;
 				font-weight: 700;

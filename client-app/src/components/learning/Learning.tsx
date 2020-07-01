@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, Fragment } from "react";
+import React, { useEffect, useContext, Fragment, useState } from "react";
 import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
@@ -13,7 +13,7 @@ const Learning = () => {
 	const rootStore = useContext(RootStoreContext);
 	const {
 		status,
-		isFlipped,
+		flipCounter,
 
 		isLearningStartFlipped,
 		isItemInputFlipped,
@@ -45,12 +45,7 @@ const Learning = () => {
 			<div id="learning">
 				<LearningBackground className="left" />
 
-				<div
-					id="learning-content"
-					className={`${isFlipped ? "flipped" : ""} ${
-						status === 1 || status === 4 || status === 5 || status === 7 ? " initial" : ""
-					}`}
-				>
+				<div id="learning-content" style={{ transform: `rotateY(-${flipCounter / 2}turn)` }}>
 					{(status % 10 === 2 || Math.floor(status / 10) === 2) && (
 						<LearningCardFront
 							correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
