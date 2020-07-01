@@ -1,15 +1,13 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
 import LearningBackground from "./LearningBackground";
 import SupportingPage from "./SupportingPage";
-import NotEnoughItems from "./NotEnoughItems";
+import WarningIcon from "../icons/WarningIcon";
 import LearningCardFront from "./LearningCardFront";
 import LearningCardBack from "./LearningCardBack";
 import LearningProgressBar from "./LearningProgressBar";
-import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
-import RefreshIcon from "../icons/RefreshIcon";
 
 const Learning = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -76,15 +74,9 @@ const Learning = () => {
 					{(status % 10 === 1 || Math.floor(status / 10) === 1) && (
 						<SupportingPage
 							className="learning-start"
-							itemsCount={learningList!.size}
-							completedItemsCount={learningList!.completedItemsCount}
-							correctAnswersCount={learningList!.correctAnswersCount}
-							button={
-								<button className="btn actions-btn start-btn primary" onClick={onStart}>
-									<span>{learningList!.completedItemsCount > 0 ? "Continue" : "Start"}</span>
-									<ArrowForwardSmallIcon />
-								</button>
-							}
+							learningList={learningList!}
+							buttonType="start"
+							onClick={onStart}
 							isFlipped={isLearningStartFlipped}
 						/>
 					)}
@@ -92,17 +84,11 @@ const Learning = () => {
 					{(status % 10 === 6 || Math.floor(status / 10) === 6) && (
 						<SupportingPage
 							className="learning-outdated"
-							itemsCount={learningList!.size}
-							completedItemsCount={learningList!.completedItemsCount}
-							correctAnswersCount={learningList!.correctAnswersCount}
-							message="That training is outdated. Start the new one!"
+							learningList={learningList!}
 							messageType="warning"
-							button={
-								<button className="btn actions-btn start-btn primary" onClick={onOutdatedStart}>
-									<span>Start</span>
-									<ArrowForwardSmallIcon />
-								</button>
-							}
+							message="That training is outdated. Start the new one!"
+							buttonType="start"
+							onClick={onOutdatedStart}
 							isFlipped={isLearningOutdatedFlipped}
 						/>
 					)}
@@ -110,17 +96,11 @@ const Learning = () => {
 					{(status % 10 === 4 || Math.floor(status / 10) === 4) && (
 						<SupportingPage
 							className="learning-end"
-							itemsCount={learningList!.size}
-							completedItemsCount={learningList!.completedItemsCount}
-							correctAnswersCount={learningList!.correctAnswersCount}
-							message="The training is over. But you can complete it one more time!"
+							learningList={learningList!}
 							messageType="info"
-							button={
-								<button className="btn actions-btn start-btn primary" onClick={onStartOver}>
-									<span>Start again</span>
-									<RefreshIcon />
-								</button>
-							}
+							message="The training is over. But you can complete it one more time!"
+							buttonType="start-over"
+							onClick={onStartOver}
 							isFlipped={isLearningStartOverFlipped}
 						/>
 					)}
@@ -128,21 +108,28 @@ const Learning = () => {
 					{(status % 10 === 5 || Math.floor(status / 10) === 5) && (
 						<SupportingPage
 							className="learning-final-end"
-							itemsCount={learningList!.size}
-							completedItemsCount={learningList!.completedItemsCount}
-							correctAnswersCount={learningList!.correctAnswersCount}
-							message="You have completed the training 2 times today. Get some rest."
+							learningList={learningList!}
 							messageType="info"
-							button={
-								<a className="btn actions-btn return-btn" href="/dashboard">
-									Go to dashboard
-								</a>
-							}
+							message="You have completed the training 2 times today. Get some rest."
+							buttonType="dashboard"
 							isFlipped={isLearningEndFlipped}
 						/>
 					)}
 
-					{status === 7 && <NotEnoughItems />}
+					{status === 7 && (
+						<SupportingPage
+							className="not-enough-items"
+							content={
+								<Fragment>
+									<WarningIcon />
+									<div className="message">
+										Minimum 10 items are required for generating a training.
+									</div>
+								</Fragment>
+							}
+							buttonType="dashboard"
+						/>
+					)}
 				</div>
 
 				<LearningBackground className="right" />

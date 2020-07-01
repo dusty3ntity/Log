@@ -1,28 +1,34 @@
 import React from "react";
 
+import { ILearningList } from "../../app/models/learning";
 import LearningStatsBrief from "./LearningStatsBrief";
 import WarningIcon from "../icons/WarningIcon";
 import InfoIcon from "../icons/InfoIcon";
+import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
+import RefreshIcon from "../icons/RefreshIcon";
 
 interface IProps {
 	className: string;
-	itemsCount: number;
-	completedItemsCount: number;
-	correctAnswersCount: number;
+
+	content?: JSX.Element;
+	learningList?: ILearningList;
+
 	message?: string;
 	messageType?: "info" | "warning";
-	button: JSX.Element;
-	isFlipped: boolean;
+
+	buttonType: "start" | "start-over" | "continue" | "dashboard";
+	onClick?: () => void;
+	isFlipped?: boolean;
 }
 
 const SupportingPage: React.FC<IProps> = ({
 	className,
-	itemsCount,
-	completedItemsCount,
-	correctAnswersCount,
+	content,
+	learningList,
 	message,
 	messageType,
-	button,
+	buttonType,
+	onClick,
 	isFlipped,
 }) => {
 	const date = new Date();
@@ -56,6 +62,15 @@ const SupportingPage: React.FC<IProps> = ({
 		}
 	};
 
+	if (!content)
+		content = (
+			<LearningStatsBrief
+				itemsCount={learningList!.size}
+				completedItemsCount={learningList!.completedItemsCount}
+				correctAnswersCount={learningList!.correctAnswersCount}
+			/>
+		);
+
 	return (
 		<div className={`learning-supporting-card ${className} ${isFlipped ? "flipped" : ""}`}>
 			<div className="date-row row">
@@ -66,13 +81,7 @@ const SupportingPage: React.FC<IProps> = ({
 
 			<div className="divider" />
 
-			<div className="learning-stats-row row">
-				<LearningStatsBrief
-					itemsCount={itemsCount}
-					completedItemsCount={completedItemsCount}
-					correctAnswersCount={correctAnswersCount}
-				/>
-			</div>
+			<div className="content-row row">{content}</div>
 
 			<div className="bottom-row row">
 				<div className="message-row row">
@@ -80,7 +89,34 @@ const SupportingPage: React.FC<IProps> = ({
 					<span>{message}</span>
 				</div>
 
-				<div className="actions-row row">{button}</div>
+				<div className="actions-row row">
+					{buttonType === "start" && (
+						<button className="btn actions-btn start-btn primary" onClick={onClick}>
+							<span>Start</span>
+							<ArrowForwardSmallIcon />
+						</button>
+					)}
+
+					{buttonType === "continue" && (
+						<button className="btn actions-btn start-btn primary" onClick={onClick}>
+							<span>Continue</span>
+							<ArrowForwardSmallIcon />
+						</button>
+					)}
+
+					{buttonType === "start-over" && (
+						<button className="btn actions-btn start-btn primary" onClick={onClick}>
+							<span>Start over</span>
+							<RefreshIcon />
+						</button>
+					)}
+
+					{buttonType === "dashboard" && (
+						<a className="btn actions-btn return-btn" href="/dashboard">
+							Go to dashboard
+						</a>
+					)}
+				</div>
 			</div>
 		</div>
 	);
