@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TextEllipsis from "react-text-ellipsis";
 
+import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILearningItem, LearningMode } from "../../app/models/learning";
 import ComplexityIndicator from "./ComplexityIndicator";
 import LearningItemProgress from "./LearningItemProgress";
@@ -10,18 +11,13 @@ import StarIcon from "../icons/StarIcon";
 interface IProps {
 	correctAnswersToItemCompletion: number;
 	learningItem: ILearningItem;
-	onSubmit: (answer: string) => void;
-	isFlipped: boolean;
 	secondTraining: boolean;
 }
 
-const LearningCardFront: React.FC<IProps> = ({
-	correctAnswersToItemCompletion,
-	learningItem,
-	onSubmit,
-	isFlipped,
-	secondTraining,
-}) => {
+const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, learningItem, secondTraining }) => {
+	const rootStore = useContext(RootStoreContext);
+	const { status, isItemInputFlipped, onItemSubmit } = rootStore.learningStore;
+
 	const item = learningItem.item;
 
 	const starredClass = item.isStarred ? " active" : "";
@@ -33,7 +29,7 @@ const LearningCardFront: React.FC<IProps> = ({
 	};
 
 	return (
-		<div className={`learning-card learning-card-front ${isFlipped ? "flipped" : ""}`}>
+		<div className={`learning-card learning-card-front ${isItemInputFlipped ? "flipped" : ""}`}>
 			<div className="header-row row">
 				<ComplexityIndicator complexity={item.complexity} />
 				<LearningItemProgress
@@ -92,10 +88,11 @@ const LearningCardFront: React.FC<IProps> = ({
 				</button> */}
 
 				<button
-					className="btn actions-btn submit-btn primary"
+					className="btn actions-btn submit-btn primary no-disabled-styles"
 					onClick={() => {
-						onSubmit(answer.replace(/\s+/g, " ").trim());
+						onItemSubmit(answer.replace(/\s+/g, " ").trim());
 					}}
+					disabled={status > 9}
 				>
 					Submit
 				</button>
