@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
 import LearningStatsBrief from "./LearningStatsBrief";
@@ -125,9 +126,9 @@ const SupportingPage: React.FC<IProps> = ({
 					)}
 
 					{buttonType === "dashboard" && (
-						<a className="btn actions-btn return-btn" href="/dashboard">
+						<Link className="btn actions-btn return-btn" to="/dashboard">
 							Go to dashboard
-						</a>
+						</Link>
 					)}
 				</div>
 			</div>

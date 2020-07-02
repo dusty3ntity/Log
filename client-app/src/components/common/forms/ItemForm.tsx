@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 
 import { IItem, INewItem, ItemType } from "../../../app/models/item";
 import { hasTrailingWhitespaces, minLength, maxLength, includes } from "../../../app/common/forms/formValidators";
@@ -208,9 +209,9 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 					{item ? "Edit" : "Add"}
 				</button>
 
-				<a className="btn cancel-btn form-actions-btn" href="/dashboard">
+				<Link className="btn cancel-btn form-actions-btn" to="/dashboard">
 					Cancel
-				</a>
+				</Link>
 			</div>
 		</form>
 	);
