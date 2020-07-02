@@ -7,6 +7,7 @@ import HomePage from "../../components/home/HomePage";
 import Page from "./Page";
 import Dashboard from "../../components/dashboard/Dashboard";
 import NewItem from "../../components/new-item/NewItem";
+import EditItem from "../../components/new-item/EditItem";
 import Learning from "../../components/learning/Learning";
 import NotFound from "./NotFound";
 
@@ -25,6 +26,10 @@ function App() {
 
 						<Route exact path="/new-item">
 							<Page title="New item" pageTitle="New item" component={<NewItem />} />
+						</Route>
+
+						<Route exact path="/edit-item">
+							<Page title="Edit item" pageTitle="Edit item" component={<EditItem />} />
 						</Route>
 
 						<Route exact path="/learning">

@@ -71,7 +71,7 @@ namespace Application.Items
                 var originalLower = request.Original.ToLower();
                 var translationLower = request.Translation.ToLower();
 
-                if (ItemChecker.DoesDefinitionContainItem(request.Definition,
+                if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
                     originalLower,
                     translationLower))
                     throw new RestException(HttpStatusCode.BadRequest,

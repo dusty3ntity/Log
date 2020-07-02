@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { observer } from "mobx-react-lite";
 
 import { IItem, INewItem, ItemType } from "../../../app/models/item";
 import { hasTrailingWhitespaces, minLength, maxLength, includes } from "../../../app/common/forms/formValidators";
@@ -23,29 +24,37 @@ interface FormData {
 }
 
 const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
-	const [definitionActivated, setDefinition] = useState(false);
-	const [starred, setStarred] = useState(false);
+	const [definitionActivated, setDefinitionActivated] = useState(item?.definition ? true : false);
+	const [isStarred, setStarred] = useState(item?.isStarred ? true : false);
 
-	const { register, handleSubmit, errors, getValues, formState, reset } = useForm<FormData>({
+	const { register, handleSubmit, errors, getValues, formState, reset, setValue } = useForm<FormData>({
 		defaultValues: item,
 	});
+
+	const handleDefinitionButton = () => {
+		setValue("definition", null);
+		setDefinitionActivated(!definitionActivated);
+	};
 
 	const submit = (data: FormData) => {
 		let newItem: INewItem = {
 			original: data.original,
 			translation: data.translation,
-			definition: definitionActivated ? data.definition! : null,
-			definitionOrigin: data.definitionOrigin!,
+			definition: definitionActivated && data.definition!.length > 0 ? data.definition! : null,
+			definitionOrigin: null,
 			type: type,
-			isStarred: starred,
+			isStarred: isStarred,
 		};
 
 		onSubmit(newItem);
-		reset();
+
+		if (!item) {
+			reset();
+		}
 	};
 
 	return (
-		<form id={id} className="new-item-form" onSubmit={handleSubmit(submit)}>
+		<form id={id} className="item-form" onSubmit={handleSubmit(submit)}>
 			<div className="original-input form-item">
 				<label htmlFor="original">
 					<span className="label-text">Original</span>
@@ -80,7 +89,6 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 					})}
 				/>
 			</div>
-
 			<div className="translation-input form-item">
 				<label htmlFor="translation">
 					<span className="label-text">Translation</span>
@@ -114,17 +122,20 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 					})}
 				/>
 			</div>
-
 			<div className="definition-actions">
 				<button
 					className="btn definition-actions-btn reset-form-btn"
+					type="button"
 					onClick={() => {
 						if (!item) {
+							setStarred(false);
 							reset();
 						} else {
+							setDefinitionActivated(item.definition ? true : false);
 							reset(item);
 						}
 					}}
+					disabled={!formState.dirty}
 				>
 					Reset
 				</button>
@@ -133,62 +144,60 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 					<button
 						className="btn definition-actions-btn add-definition-btn"
 						type="button"
-						onClick={() => {
-							definitionActivated ? setDefinition(false) : setDefinition(true);
-						}}
+						onClick={handleDefinitionButton}
 					>
 						{definitionActivated ? <MinusIcon /> : <PlusIcon />}
 						<span>Definition</span>
 					</button>
 
-					<button
-						className="btn definition-actions-btn star-btn round"
-						type="button"
-						onClick={() => {
-							starred ? setStarred(false) : setStarred(true);
-						}}
-					>
-						<StarIcon active={starred} />
-					</button>
+					{!item && (
+						<button
+							className="btn definition-actions-btn star-btn round"
+							type="button"
+							onClick={() => {
+								setStarred(!isStarred);
+							}}
+						>
+							<StarIcon active={isStarred} />
+						</button>
+					)}
 				</div>
 			</div>
 
-			{definitionActivated && (
-				<div className="definition form-item">
-					<label htmlFor="definition">Definition</label>
+			<div className={`definition form-item ${!definitionActivated ? "disabled" : ""}`}>
+				<label htmlFor="definition">Definition</label>
 
-					<ValidationMessage name="definition" errors={errors} />
+				<ValidationMessage name="definition" errors={errors} />
 
-					<textarea
-						name="definition"
-						className="text-input text-area definition"
-						rows={2}
-						maxLength={100}
-						ref={register({
-							validate: {
-								trailingWhitespaces: (value) => {
-									return hasTrailingWhitespaces(value) ? "Please remove trailing whitespaces." : true;
-								},
-								minLength: (value: string) => {
-									if (value.length > 0)
-										return minLength(value, 5) ? "Definition must be at least 5 characters." : true;
-									return true;
-								},
-								includesOriginal: (value: string) => {
-									return includes(value, getValues("original"))
-										? "Definition mustn't contain original."
-										: true;
-								},
-								includesTranslation: (value: string) => {
-									return includes(value, getValues("translation"))
-										? "Definition mustn't contain translation."
-										: true;
-								},
+				<textarea
+					name="definition"
+					className="text-input text-area definition"
+					rows={2}
+					maxLength={100}
+					ref={register({
+						validate: {
+							trailingWhitespaces: (value) => {
+								return hasTrailingWhitespaces(value) ? "Please remove trailing whitespaces." : true;
 							},
-						})}
-					/>
-				</div>
-			)}
+							minLength: (value: string) => {
+								if (value.length > 0)
+									return minLength(value, 5) ? "Definition must be at least 5 characters." : true;
+								return true;
+							},
+							includesOriginal: (value: string) => {
+								return includes(value, getValues("original"))
+									? "Definition mustn't contain original."
+									: true;
+							},
+							includesTranslation: (value: string) => {
+								return includes(value, getValues("translation"))
+									? "Definition mustn't contain translation."
+									: true;
+							},
+						},
+					})}
+				/>
+			</div>
 
 			<div className="form-actions">
 				<button
@@ -196,7 +205,7 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 					type="submit"
 					disabled={!formState.dirty || (formState.submitCount > 0 && !formState.isValid)}
 				>
-					Add
+					{item ? "Edit" : "Add"}
 				</button>
 
 				<a className="btn cancel-btn form-actions-btn" href="/dashboard">
@@ -207,4 +216,4 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 	);
 };
 
-export default NewItemForm;
+export default observer(NewItemForm);

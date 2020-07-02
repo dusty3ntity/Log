@@ -85,31 +85,24 @@ export default class ItemStore {
 			runInAction("creating item", () => (this.loading = false));
 		}
 	};
-
+	
 	@action editItem = async (id: string, editItem: IEditItem) => {
 		this.loading = true;
 		try {
 			await agent.Items.update(id, editItem);
 			runInAction("updating item", () => {
-				this.activeItem!.original = editItem.original ?? this.activeItem!.original;
-				this.activeItem!.translation = editItem.translation ?? this.activeItem!.translation;
-				this.activeItem!.definition = editItem.definition ?? this.activeItem!.definition;
-				this.activeItem!.definitionOrigin = editItem.definitionOrigin ?? null;
+				this.activeItem!.original = editItem.original;
+				this.activeItem!.translation = editItem.translation;
+				this.activeItem!.definition = editItem.definition;
+				this.activeItem!.definitionOrigin = editItem.definitionOrigin;
 				this.editing = false;
+				console.log("item has been edited")
 			});
 		} catch (err) {
 			console.log(err.response);
 		} finally {
 			runInAction("updating item", () => (this.loading = false));
 		}
-	};
-
-	@action openEditor = () => {
-		this.editing = true;
-	};
-
-	@action closeEditor = () => {
-		this.editing = false;
 	};
 
 	@action deleteItem = async () => {
