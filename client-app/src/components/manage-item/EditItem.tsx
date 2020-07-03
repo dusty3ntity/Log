@@ -15,7 +15,6 @@ const EditItem = () => {
 			definition: item.definition,
 			definitionOrigin: item.definitionOrigin,
 		};
-
 		editItem(activeItem!.id, editedItem);
 	};
 
