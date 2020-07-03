@@ -89,10 +89,13 @@ export default class ItemStore {
 		try {
 			await agent.Items.create(item);
 			createNotification(NotificationType.Success, { message: "Item created successfully!" });
+			return true;
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
-				return;
-			} else if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
+				return false;
+			}
+
+			if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
@@ -107,6 +110,8 @@ export default class ItemStore {
 			} else {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+			
+			return false;
 		} finally {
 			runInAction("creating item", () => (this.loading = false));
 		}
@@ -125,10 +130,13 @@ export default class ItemStore {
 				history.push("/dashboard");
 				createNotification(NotificationType.Success, { message: "Item edited successfully!" });
 			});
+			return true;
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
-				return;
-			} else if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
+				return false;
+			}
+
+			if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
@@ -143,6 +151,8 @@ export default class ItemStore {
 			} else {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			return false;
 		} finally {
 			runInAction("updating item", () => (this.loading = false));
 		}

@@ -15,9 +15,26 @@
 		outline: none;
 	}
 
+	&:hover {
+		background: linear-gradient(135deg, #d8e1e9 0%, #eef9ff 100%);
+	}
+
+	&:active {
+		background: @body-background;
+	}
+
 	&:not(.no-disabled-styles):disabled {
-		background: @text-color-grey;
+		background: #d8e4ee;
+		box-shadow: 1px 1px 3px rgba(190, 201, 211, 0.9), -1px -1px 2px rgba(232, 245, 255, 0.6),
+			1px -1px 2px rgba(190, 201, 211, 0.2), -1px 1px 2px rgba(190, 201, 211, 0.2),
+			inset -1px -1px 2px rgba(190, 201, 211, 0.5), inset 1px 1px 2px rgba(232, 245, 255, 0.3) !important;
+
 		cursor: not-allowed;
+		color: #c1c7cd;
+
+		.icon {
+			fill: #c1c7cd;
+		}
 	}
 }
 
@@ -27,31 +44,42 @@
 
 .btn.primary {
 	background: @primary-color;
-	color: @body-background;
+	box-shadow: -3px -3px 8px #ffffff, 3px 3px 8px #4a63a3, inset 1px 1px 4px rgba(255, 255, 255, 0.5),
+		inset -1px -1px 4px #416bd4;
 
-	box-shadow: 1px 1px 4px rgba(110, 132, 185, 0.9), -1px -1px 4px rgba(245, 248, 255, 0.9),
-		1px -1px 2px rgba(242, 246, 255, 0.2), -1px 1px 2px rgba(233, 239, 255, 0.2),
-		0.5px 0.5px 2px rgba(62, 72, 95, 0.25), inset -1px -1px 2px rgba(84, 99, 135, 0.5),
-		inset 1px 1px 2px rgba(247, 249, 255, 0.3);
+	color: @body-background;
 
 	.icon {
 		fill: @body-background;
 	}
 
 	&:hover {
-		background: linear-gradient(163.78deg, #3d64c1 0%, #5184ff 100%);
+		background: linear-gradient(120.8deg, #3e66cb -11.91%, #6292ff 113.56%);
+		box-shadow: -3px -3px 8px #ffffff, 3px 3px 8px #4a63a3, inset 1px 1px 4px rgba(255, 255, 255, 0.5),
+			inset -1px -1px 4px #416bd4;
 	}
 
 	&:active {
-		box-shadow: -1px -1px 2px rgba(193, 201, 207, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3),
-			inset 1px 1px 3px rgba(193, 201, 207, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.9),
-			inset 1px -1px 2px rgba(193, 201, 207, 0.2), inset -1px 1px 2px rgba(193, 201, 207, 0.2);
+		background: #406de0;
+		box-shadow: inset -2px -2px 6px #ffffff, inset 2px 2px 6px #4a63a3;
 	}
 
 	&:not(.no-disabled-styles):disabled {
-		background: @text-color-grey;
-		box-shadow: 6px 6px 20px rgba(111, 140, 176, 0.45), -6px -6px 20px #ffffff, 2px 2px 4px rgba(0, 0, 0, 0.25);
+		background: #bfd1f0;
+		box-shadow: -3px -3px 8px rgba(255, 255, 255, 0.5), 3px 3px 8px rgba(126, 138, 158, 0.75),
+			inset 1px 1px 4px rgba(255, 255, 255, 0.5), inset -1px -1px 4px rgba(126, 138, 158, 0.75);
+
+		cursor: not-allowed;
+		color: rgba(93, 115, 136, 0.5);
+
+		.icon {
+			fill: rgba(93, 115, 136, 0.5);
+		}
 	}
+}
+
+.btn.no-disabled-styles:disabled {
+	cursor: not-allowed;
 }
 
 a {

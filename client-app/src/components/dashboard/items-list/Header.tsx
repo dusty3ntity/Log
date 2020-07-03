@@ -12,7 +12,10 @@ const Header = () => {
 
 	return (
 		<div id="header-container">
-			<h2 className="items-list-title">Items</h2>
+			<div className="items-list-title">
+				<span className="title">Items</span>
+				<span className="items-counter">4932</span>
+			</div>
 
 			<div className="buttons-container">
 				<button

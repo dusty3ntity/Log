@@ -14,7 +14,7 @@ interface IProps {
 	type: ItemType;
 	id: string;
 	item?: IItem;
-	onSubmit: (item: INewItem) => void;
+	onSubmit: (item: INewItem, resetForm: () => void) => void;
 }
 
 interface FormData {
@@ -47,11 +47,7 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 			isStarred: isStarred,
 		};
 
-		onSubmit(newItem);
-
-		if (!item) {
-			reset();
-		}
+		onSubmit(newItem, reset);
 	};
 
 	return (

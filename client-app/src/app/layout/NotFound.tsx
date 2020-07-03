@@ -1,17 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-import { Button } from "antd";
+import { history } from "../..";
 
 const NotFound = () => {
 	document.title = "404 - Log";
 
 	return (
-		<div>
-			Nothing here...
-			<Button>
-				<Link to={"/dashboard"}>Return to dashboard</Link>
-			</Button>
+		<div className="not-found">
+			<div className="error-code">404</div>
+
+			<div className="content">
+				<div className="title">Nothing here... Yet.</div>
+
+				<button className="btn default" onClick={() => history.goBack()}>
+					Go back
+				</button>
+			</div>
 		</div>
 	);
 };
