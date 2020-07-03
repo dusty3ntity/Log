@@ -47,7 +47,10 @@ const Learning = () => {
 							<LearningCardFront
 								correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
 								learningItem={learningItem!}
-								secondTraining={learningList!.timesCompleted > 0}
+								secondTraining={
+									(learningList!.timesCompleted === 1 && !learningList!.isCompleted) ||
+									(learningList!.timesCompleted === 2 && learningList!.isCompleted)
+								}
 							/>
 						)}
 
@@ -56,7 +59,10 @@ const Learning = () => {
 								correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
 								learningItemResult={learningItemResult!}
 								progressAnimated={status === 3 || Math.floor(status / 10) === 3}
-								secondTraining={learningList!.timesCompleted > 0}
+								secondTraining={
+									(learningList!.timesCompleted === 1 && !learningList!.isCompleted) ||
+									(learningList!.timesCompleted === 2 && learningList!.isCompleted)
+								}
 							/>
 						)}
 

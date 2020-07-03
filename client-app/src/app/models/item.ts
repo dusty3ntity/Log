@@ -24,8 +24,8 @@ export interface IItem {
 export interface IEditItem {
 	original: string;
 	translation: string;
-	definition: string;
-	definitionOrigin: string;
+	definition: string | null;
+	definitionOrigin: string | null;
 }
 
 export interface INewItem {

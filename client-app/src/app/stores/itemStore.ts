@@ -1,8 +1,11 @@
-import { observable, action, runInAction, toJS, computed } from "mobx";
+import { observable, action, runInAction, computed } from "mobx";
 
 import { IItem, IEditItem, INewItem } from "./../models/item";
 import { RootStore } from "./rootStore";
 import agent from "../api/agent";
+import { createNotification } from "../common/util/notifications";
+import { NotificationType, ErrorType } from "./../models/error";
+import { history } from "../..";
 
 export default class ItemStore {
 	rootStore: RootStore;
@@ -27,7 +30,11 @@ export default class ItemStore {
 				});
 			});
 		} catch (err) {
-			console.log(err);
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
 		} finally {
 			runInAction("loading items", () => {
 				this.loadingInitial = false;
@@ -40,7 +47,6 @@ export default class ItemStore {
 		let item = this.getItem(id);
 		if (item) {
 			this.activeItem = item;
-			return toJS(item);
 		} else {
 			try {
 				item = await agent.Items.details(id);
@@ -50,7 +56,11 @@ export default class ItemStore {
 				});
 				return item;
 			} catch (err) {
-				console.log(err);
+				if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+					return;
+				} else {
+					createNotification(NotificationType.UnknownError, { errors: err.body });
+				}
 			} finally {
 				runInAction("loading item", () => {
 					this.loadingInitial = false;
@@ -78,9 +88,25 @@ export default class ItemStore {
 		this.loading = true;
 		try {
 			await agent.Items.create(item);
-			console.log("Item created");
+			createNotification(NotificationType.Success, { message: "Item created successfully!" });
 		} catch (err) {
-			console.log(err.response);
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			} else if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
+				createNotification(NotificationType.Error, {
+					message:
+						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
+					errors: err.body,
+				});
+			} else if (err.code === ErrorType.ItemDefinitionContainsOriginalOrTranslation) {
+				createNotification(NotificationType.Error, {
+					message:
+						"Item's definition contains either original or translation. Contact the administrator if I'm wrong.",
+					errors: err.body,
+				});
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
 		} finally {
 			runInAction("creating item", () => (this.loading = false));
 		}
@@ -91,25 +117,35 @@ export default class ItemStore {
 		try {
 			await agent.Items.update(id, editItem);
 			runInAction("updating item", () => {
-				this.activeItem!.original = editItem.original ?? this.activeItem!.original;
-				this.activeItem!.translation = editItem.translation ?? this.activeItem!.translation;
-				this.activeItem!.definition = editItem.definition ?? this.activeItem!.definition;
-				this.activeItem!.definitionOrigin = editItem.definitionOrigin ?? null;
+				this.activeItem!.original = editItem.original;
+				this.activeItem!.translation = editItem.translation;
+				this.activeItem!.definition = editItem.definition;
+				this.activeItem!.definitionOrigin = editItem.definitionOrigin;
 				this.editing = false;
+				history.push("/dashboard");
+				createNotification(NotificationType.Success, { message: "Item edited successfully!" });
 			});
 		} catch (err) {
-			console.log(err.response);
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			} else if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
+				createNotification(NotificationType.Error, {
+					message:
+						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
+					errors: err.body,
+				});
+			} else if (err.code === ErrorType.ItemDefinitionContainsOriginalOrTranslation) {
+				createNotification(NotificationType.Error, {
+					message:
+						"Item's definition contains either original or translation. Contact the administrator if I'm wrong.",
+					errors: err.body,
+				});
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
 		} finally {
 			runInAction("updating item", () => (this.loading = false));
 		}
-	};
-
-	@action openEditor = () => {
-		this.editing = true;
-	};
-
-	@action closeEditor = () => {
-		this.editing = false;
 	};
 
 	@action deleteItem = async () => {
@@ -121,7 +157,11 @@ export default class ItemStore {
 				this.clearActiveItem();
 			});
 		} catch (err) {
-			console.log(err);
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
 		} finally {
 			runInAction("deleting item", () => (this.loading = false));
 		}
@@ -139,7 +179,11 @@ export default class ItemStore {
 				this.itemRegistry.get(id).isStarred = true;
 			});
 		} catch (err) {
-			console.log(err);
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
 		} finally {
 			runInAction("starring item", () => (this.loading = false));
 		}
@@ -157,7 +201,11 @@ export default class ItemStore {
 				this.itemRegistry.get(id).isStarred = false;
 			});
 		} catch (err) {
-			console.log(err);
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
 		} finally {
 			runInAction("unstarring item", () => (this.loading = false));
 		}

@@ -42,8 +42,7 @@ namespace Application.LearningLists
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var learningList = await _context.LearningLists
                     .Where(l => l.DictionaryId == request.DictionaryId)
@@ -66,7 +65,7 @@ namespace Application.LearningLists
 
                 if (success)
                     return _mapper.Map<LearningList, LearningListDto>(learningList);
-                throw new Exception("Problem saving learning list.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

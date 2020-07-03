@@ -1,4 +1,4 @@
-.new-item-form {
+.item-form {
 	height: 100%;
 	flex-direction: column;
 
@@ -14,7 +14,11 @@
 		color: @body-background;
 	}
 
-	.text-input.translation {
+	.form-item.definition.disabled {
+		display: none;
+	}
+
+	.text-input.translation, .text-area.definition {
 		color: @text-color-grey;
 	}
 
@@ -110,7 +114,7 @@
 }
 
 @media (max-width: @lg-end) {
-	#new-item .definition-actions {
+	.manage-item .definition-actions {
 		margin-bottom: 1rem !important;
 	}
 }

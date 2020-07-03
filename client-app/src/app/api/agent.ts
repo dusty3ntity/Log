@@ -1,9 +1,82 @@
 import axios, { AxiosResponse } from "axios";
+import { history } from "../..";
 
 import { IItem, IEditItem, INewItem } from "../models/item";
 import { ILearningList, ILearningItem, ILearningItemAnswer, ILearningItemResult } from "./../models/learning";
+import { CustomError, ErrorType } from "./../models/error";
+import { createNotification } from "../common/util/notifications";
+import { NotificationType } from "./../models/error";
+import { isBadId, injectErrorCode } from "./../common/util/errorTypeResolver";
 
-axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/a7f1a555-e4cd-47cc-b501-b04a282ddded";
+axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/A7F1A555-E4CD-47CC-B501-B04A282DDDED";
+
+axios.interceptors.response.use(undefined, (error) => {
+	console.log(error.response);
+
+	if (error.message === "Network Error" && !error.response) {
+		createNotification(NotificationType.Error, {
+			title: "Network error!",
+			message: "The server isn't responding... Check your internet connection or contact the administrator.",
+		});
+		throw new CustomError(error.response, ErrorType.ConnectionRefused);
+	} else if (error.response.status === 400 && !error.response.data.errors.code) {
+		if (isBadId(error.response)) {
+			injectErrorCode(error.response, ErrorType.BadId);
+			history.push("/404");
+			createNotification(NotificationType.Error, {
+				title: "Wrong id!",
+				message: "Please, check the id in the address bar or contact the administrator.",
+				errors: error.response,
+			});
+		} else {
+			injectErrorCode(error.response, ErrorType.DefaultValidationError);
+			createNotification(NotificationType.UnknownError, {
+				title: "Validation error!",
+				errors: error.response,
+			});
+		}
+		throw new CustomError(error.response, error.response.data.errors.code);
+	} else if (error.response.status === 404) {
+		if (!error.response.data.errors.code) {
+			injectErrorCode(error.response, ErrorType.DefaultNotFound);
+		}
+		const code = error.response.data.errors.code;
+		if (code === ErrorType.LearningListNotFound && code === ErrorType.LearningItemNotFound) {
+			throw new CustomError(error.response, error.response.data.errors.code);
+		}
+		if (code === ErrorType.DictionaryNotFound) {
+			createNotification(NotificationType.Error, {
+				title: "Not found!",
+				message: "Dictionary not found! Please, refresh the page or contact the administrator.",
+				errors: error.response,
+			});
+		} else if (code === ErrorType.ItemNotFound) {
+			createNotification(NotificationType.Error, {
+				title: "Not found!",
+				message: "Item not found! Please, refresh the page or contact the administrator.",
+				errors: error.response,
+			});
+		} else {
+			createNotification(NotificationType.UnknownError, {
+				title: "Not found!",
+				errors: error.response,
+			});
+		}
+		history.push("/404");
+		throw new CustomError(error.response, error.response.data.errors.code);
+	} else if (error.response.status === 500) {
+		if (!error.response.data.errors.code) {
+			injectErrorCode(error.response, ErrorType.DefaultServerError);
+		}
+		createNotification(NotificationType.Error, {
+			title: "Server error!",
+			message: "A server error occurred. Contact the administrator and make him do something!",
+		});
+		throw new CustomError(error.response, error.response.data.errors.code);
+	}
+
+	throw new CustomError(error.response, error.response.data.errors.code ?? ErrorType.Unknown);
+});
 
 const responseBody = (response: AxiosResponse) => response.data;
 

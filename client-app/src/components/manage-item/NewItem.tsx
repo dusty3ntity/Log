@@ -12,8 +12,8 @@ const NewItem = () => {
 	const { createItem } = rootStore.itemStore;
 
 	return (
-		<div id="new-item-container">
-			<div id="new-item">
+		<div id="new-item-container" className="manage-item-container">
+			<div id="new-item" className="manage-item">
 				<Tabs defaultActiveKey={ItemType.Word + ""}>
 					<TabPane tab="Word" key={ItemType.Word + ""}>
 						<ItemForm id="new-word-form" type={ItemType.Word} onSubmit={createItem} />

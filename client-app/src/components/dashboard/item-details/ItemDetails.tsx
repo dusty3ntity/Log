@@ -11,12 +11,12 @@ interface IProps {
 
 const ItemDetails: React.FC<IProps> = ({ classNames }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { activeItem, editing } = rootStore.itemStore;
+	const { activeItem } = rootStore.itemStore;
 
 	return (
 		<div id="item-details" className={classNames}>
 			{!activeItem && <Empty description="Select an item" />}
-			{activeItem && !editing && <ItemDetailsContent item={activeItem} />}
+			{activeItem && <ItemDetailsContent item={activeItem} />}
 		</div>
 	);
 };

@@ -54,18 +54,15 @@ namespace Application.LearningLists
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var learningList = await _context.LearningLists.FindAsync(request.LearningListId);
 
                 if (learningList == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {learningList = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.LearningListNotFound);
 
                 if (DateChecker.IsLearningListOutdated(learningList))
-                    throw new RestException(HttpStatusCode.Gone,
-                        "Learning list is outdated. Try generating a new one.");
+                    throw new RestException(HttpStatusCode.Gone, ErrorType.LearningListOutdated);
 
                 var learningItem = await _context.LearningItems
                     .Where(i => i.Id == request.LearningItemId)
@@ -73,16 +70,14 @@ namespace Application.LearningLists
                     .FirstOrDefaultAsync();
 
                 if (learningItem == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {learningItem = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.LearningItemNotFound);
 
                 var completedItemsCount = learningList.TimesCompleted == 0
                     ? learningList.CompletedItemsCount
                     : learningList.CompletedItemsCount - learningList.Size;
 
                 if (learningItem.NumberInSequence != completedItemsCount)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {item = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.LearningItemNotFound);
 
                 var answer = request.Answer.ToLower();
                 var item = learningItem.Item;
@@ -129,7 +124,7 @@ namespace Application.LearningLists
                             CorrectAnswersToCompletionCount = correctAnswersToCompletionCount,
                         }
                     };
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

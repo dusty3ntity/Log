@@ -1,18 +1,28 @@
 import React, { Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { ToastContainer } from "react-toastify";
 import "mobx-react-lite/batchingForReactDom";
 
 import HomePage from "../../components/home/HomePage";
 import Page from "./Page";
 import Dashboard from "../../components/dashboard/Dashboard";
-import NewItem from "../../components/new-item/NewItem";
+import NewItem from "../../components/manage-item/NewItem";
+import EditItem from "../../components/manage-item/EditItem";
 import Learning from "../../components/learning/Learning";
 import NotFound from "./NotFound";
 
 function App() {
 	return (
 		<Fragment>
+			<ToastContainer
+				position="bottom-right"
+				limit={3}
+				draggable={false}
+				hideProgressBar
+				closeOnClick={false}
+				autoClose={5000}
+			/>
 			<Route exact path="/" component={HomePage} />
 
 			<Route
@@ -25,6 +35,10 @@ function App() {
 
 						<Route exact path="/new-item">
 							<Page title="New item" pageTitle="New item" component={<NewItem />} />
+						</Route>
+
+						<Route exact path="/edit-item">
+							<Page title="Edit item" pageTitle="Edit item" component={<EditItem />} />
 						</Route>
 
 						<Route exact path="/learning">

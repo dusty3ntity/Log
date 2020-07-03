@@ -31,8 +31,7 @@ namespace Application.LearningLists
                 .ToListAsync();
 
             if (items.Count < 10)
-                throw new RestException(HttpStatusCode.BadRequest,
-                    "Minimum 10 items are needed to create a learning list.");
+                throw new RestException(HttpStatusCode.BadRequest, ErrorType.NotEnoughItemsForLearningListGeneration);
 
             var list = new List<LearningItem>();
 
@@ -59,7 +58,7 @@ namespace Application.LearningLists
                 CreationDate = DateTime.Now,
 
                 CorrectAnswersToItemCompletion = correctAnswersToItemCompletion,
-                
+
                 LearningItems = list
             };
 

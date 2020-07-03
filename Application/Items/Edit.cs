@@ -59,27 +59,29 @@ namespace Application.Items
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var item = await _context.Items.FindAsync(request.ItemId);
 
                 if (item == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {item = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.ItemNotFound);
 
                 var originalLower = request.Original.ToLower();
                 var translationLower = request.Translation.ToLower();
 
-                if (ItemChecker.DoesDefinitionContainItem(request.Definition,
+                if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
                     originalLower,
                     translationLower))
                     throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's definition mustn't contain item's original or translation.");
+                        ErrorType.ItemDefinitionContainsOriginalOrTranslation);
 
                 if (!item.Original.ToLower().Equals(originalLower) ||
                     !item.Translation.ToLower().Equals(translationLower))
                 {
+                    if (ItemChecker.AreEqual(originalLower, translationLower))
+                        throw new RestException(HttpStatusCode.BadRequest,
+                            ErrorType.ItemOriginalOrTranslationContainEachOther);
+
                     if (item.IsLearned)
                         dictionary.LearnedItemsCount--;
                     item.IsLearned = false;
@@ -96,7 +98,7 @@ namespace Application.Items
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

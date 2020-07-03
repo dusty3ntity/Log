@@ -1,20 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
 
 import * as serviceWorker from "./serviceWorker";
 
-
+import "react-toastify/dist/ReactToastify.min.css";
+import "simplebar/dist/simplebar.min.css";
 import "./app/styles/style.less";
+
 import App from "./app/layout/App";
 
-import "simplebar/dist/simplebar.min.css";
+export const history = createBrowserHistory();
 
 ReactDOM.render(
 	//   <React.StrictMode>
-	<BrowserRouter>
+	<Router history={history}>
 		<App />
-	</BrowserRouter>,
+	</Router>,
 	//   </React.StrictMode>,
 	document.getElementById("root")
 );

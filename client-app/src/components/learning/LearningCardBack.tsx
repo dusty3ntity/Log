@@ -5,7 +5,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILearningItemResult } from "../../app/models/learning";
 import LearningItemProgressAnimated from "./LearningItemProgressAnimated";
 import SuccessIcon from "../icons/SuccessIcon";
-import FailIcon from "../icons/FailIcon";
+import ErrorIcon from "../icons/ErrorIcon";
 import StarIcon from "../icons/StarIcon";
 import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 
@@ -44,7 +44,7 @@ const LearningCardBack: React.FC<IProps> = ({
 				{learningItemResult.isAnswerCorrect ? (
 					<SuccessIcon className="answer-icon" />
 				) : (
-					<FailIcon className="answer-icon" />
+					<ErrorIcon className="answer-icon" />
 				)}
 				<LearningItemProgressAnimated
 					total={correctAnswersToItemCompletion}

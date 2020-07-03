@@ -6,12 +6,13 @@ namespace Application.Errors
     public class RestException : Exception
     {
         public HttpStatusCode StatusCode { get; }
+        public ErrorType ErrorCode { get; }
         public object Errors { get; }
 
-        public RestException(HttpStatusCode statusCode, object errors = null)
+        public RestException(HttpStatusCode statusCode, ErrorType errorCode, object errors = null)
         {
             StatusCode = statusCode;
-            Errors = errors;
+            Errors = new {code = errorCode, body = errors};
         }
     }
 }

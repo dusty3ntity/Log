@@ -77,6 +77,7 @@ export enum LearningStatus {
 	LearningOutdated = 6,
 	NotEnoughItems = 7,
 
+	LearningStartLearningEnd = 15,
 	LearningStartItemInput = 12,
 	ItemInputItemResult = 23,
 	ItemResultItemInput = 32,
@@ -92,4 +93,6 @@ export enum LearningStatus {
 	LearningStartOverLearningOutdated = 46,
 
 	LearningOutdatedItemInput = 62,
+	LearningOutdatedLearningStartOver = 64,
+	LearningOutdatedLearningEnd = 65,
 }

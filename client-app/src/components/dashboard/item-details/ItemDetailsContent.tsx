@@ -9,6 +9,7 @@ import { IItem, ItemType } from "../../../app/models/item";
 import StarIcon from "../../icons/StarIcon";
 import EditIcon from "../../icons/EditIcon";
 import DeleteIcon from "../../icons/DeleteIcon";
+import { Link } from "react-router-dom";
 
 interface IProps {
 	item: IItem;
@@ -16,7 +17,7 @@ interface IProps {
 
 const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { deleteItem, starItem, unstarItem, openEditor } = rootStore.itemStore;
+	const { deleteItem, starItem, unstarItem } = rootStore.itemStore;
 
 	const statusClass = item.isLearned ? "success" : item.correctAnswersToCompletionCount > 0 ? "warning" : "default";
 	const type = item.type === ItemType.Word ? "Word" : "Phrase";
@@ -78,9 +79,9 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="actions-row row">
-				<button className="btn edit-btn round actions-btn" onClick={openEditor}>
+				<Link className="btn edit-btn round actions-btn" to="/edit-item">
 					<EditIcon />
-				</button>
+				</Link>
 
 				<button className="btn star-btn round actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
 					<StarIcon className={starredClass} />

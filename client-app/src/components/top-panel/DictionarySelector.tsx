@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 
 import ArrowForwardIcon from "../icons/ArrowForwardIcon";
@@ -31,13 +31,13 @@ const menu = (
 		</Menu.Item>
 
 		<div id="menu-actions">
-			<Link to="/dictionaries/new" className="btn actions-btn new-btn primary">
+			<NavLink to="/dictionaries/new" className="btn actions-btn new-btn primary">
 				<PlusIcon />
-			</Link>
+			</NavLink>
 
-			<Link to="/dictionaries" className="btn actions-btn edit-btn">
+			<NavLink to="/dictionaries" className="btn actions-btn edit-btn">
 				<EditIcon />
-			</Link>
+			</NavLink>
 		</div>
 	</Menu>
 );
