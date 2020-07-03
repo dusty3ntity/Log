@@ -1,0 +1,83 @@
+.Toastify {
+	.Toastify__toast-container {
+		width: 360px;
+	}
+
+	.Toastify__toast {
+		padding: 1rem 1.3rem 1rem 1rem;
+
+		background: @body-background;
+		box-shadow: 5px 5px 13px rgba(204, 213, 222, 0.9), -5px -5px 10px rgba(250, 255, 255, 0.9),
+			5px -5px 10px rgba(204, 213, 222, 0.2), -5px 5px 10px rgba(204, 213, 222, 0.2),
+			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+		border-radius: 1.875rem;
+	}
+
+	.Toastify__toast-body {
+		margin: 0;
+	}
+
+	.Toastify__close-button {
+		position: absolute;
+		right: 1.3rem;
+		top: 1.5rem;
+		opacity: 1;
+		
+		svg {
+			fill: @primary-color;
+		}
+	}
+}
+
+.notification {
+	height: 100%;
+	width: 100%;
+	display: flex;
+
+	font-family: @font-family;
+
+	&.info .title {
+		color: @primary-color;
+	}
+	
+	&.success .title {
+		color: @success-color;
+	}
+	
+	&.warning .title {
+		color: @warning-color;
+	}
+
+	&.error .title {
+		color: @error-color;
+	}
+
+	.icon-container {
+		width: 20%;
+		display: flex;
+		align-items: center;
+
+		.icon {
+			height: 48px;
+			width: 48px;
+		}
+	}
+
+	.content-container {
+		width: 80%;
+
+		.title {
+			font-size: 1.25rem;
+			font-weight: 700;
+			margin-bottom: 4px;
+		}
+
+		.message {
+			font-size: 14px;
+			font-weight: 700;
+			color: @text-color-grey;
+			text-align: justify;
+		}
+
+	}
+}

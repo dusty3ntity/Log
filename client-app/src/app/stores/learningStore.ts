@@ -3,6 +3,8 @@ import { observable, action, runInAction } from "mobx";
 import { ILearningList, ILearningItem, ILearningItemResult, LearningStatus } from "../models/learning";
 import { RootStore } from "./rootStore";
 import agent from "../api/agent";
+import { ErrorType, NotificationType } from "../models/error";
+import { createNotification } from "./../common/util/notifications";
 
 export default class LearningStore {
 	rootStore: RootStore;
@@ -24,9 +26,9 @@ export default class LearningStore {
 	@observable isLearningOutdatedFlipped = false;
 
 	@observable loading = false;
-	@observable learningList: ILearningList | null | undefined = undefined;
-	@observable learningItem: ILearningItem | null | undefined = undefined;
-	@observable learningItemResult: ILearningItemResult | undefined = undefined;
+	@observable learningList: ILearningList | undefined;
+	@observable learningItem: ILearningItem | undefined;
+	@observable learningItemResult: ILearningItemResult | undefined;
 
 	@action reset = () => {
 		this.status = LearningStatus.Initial;
@@ -40,129 +42,232 @@ export default class LearningStore {
 	};
 
 	@action onInitialLoad = async () => {
-		await this.loadLearningList();
-		runInAction("loading learning list and setting the card", () => {
-			if (!this.learningList) {
-				if (this.learningList === null) {
-					this.status = LearningStatus.NotEnoughItems;
-				} else {
-					console.log("no connection");
+		try {
+			await this.loadLearningList();
+			runInAction("onInitialLoad", () => {
+				if (!this.learningList!.isCompleted) {
+					this.status = LearningStatus.LearningStart;
+				} else if (this.learningList!.timesCompleted === 1) {
+					this.status = LearningStatus.LearningStartOver;
+				} else if (this.learningList!.timesCompleted === 2) {
+					this.status = LearningStatus.LearningEnd;
 				}
-			} else if (!this.learningList.isCompleted) {
-				this.status = LearningStatus.LearningStart;
-			} else if (this.learningList.timesCompleted === 1) {
-				this.status = LearningStatus.LearningStartOver;
-			} else if (this.learningList.timesCompleted === 2) {
-				this.status = LearningStatus.LearningEnd;
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
 			}
-		});
+
+			if (err.code === ErrorType.NotEnoughItemsForLearningListGeneration) {
+				this.status = LearningStatus.NotEnoughItems;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
+		}
 	};
 
 	@action onStart = async () => {
-		await this.loadLearningItem();
-		runInAction("loading learning item and flipping the card", () => {
-			if (this.learningItem) {
-				this.isItemInputFlipped = !this.isLearningStartFlipped;
-				this.status = LearningStatus.LearningStartItemInput;
-			} else {
+		let nextStatus: LearningStatus | undefined;
+		try {
+			await this.loadLearningItem();
+			runInAction("onStart", () => {
+				if (this.learningItem) {
+					this.isItemInputFlipped = !this.isLearningStartFlipped;
+					this.status = LearningStatus.LearningStartItemInput;
+					nextStatus = LearningStatus.ItemInput;
+				} else {
+					createNotification(NotificationType.Error, {
+						message: "Synchronization error! Please, reload the page.",
+					});
+				}
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.code === ErrorType.LearningListOutdated) {
 				this.isLearningOutdatedFlipped = !this.isLearningStartFlipped;
 				this.status = LearningStatus.LearningStartLearningOutdated;
+				nextStatus = LearningStatus.LearningOutdated;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
-			this.flipCounter-=0.5;
-			setTimeout(() => {
-				if (this.learningItem) {
-					this.status = LearningStatus.ItemInput;
-				} else {
-					this.status = LearningStatus.LearningOutdated;
-				}
-			}, this.animationTimeout + 30); // fucking firefox
-		});
+		} finally {
+			if (!nextStatus) {
+				return;
+			}
+			runInAction("onStart", () => {
+				this.flipCounter -= 0.5;
+				setTimeout(() => {
+					this.status = nextStatus!;
+				}, this.animationTimeout + 30); // fucking firefox
+			});
+		}
 	};
 
 	@action onItemSubmit = async (answer: string) => {
-		await this.checkAnswer(answer);
-		runInAction("checking learning item and flipping the card", () => {
-			if (this.learningItemResult) {
+		let nextStatus: LearningStatus | undefined;
+		try {
+			await this.checkAnswer(answer);
+			runInAction("onItemSubmit", () => {
 				this.isItemResultFlipped = !this.isItemInputFlipped;
 				this.status = LearningStatus.ItemInputItemResult;
-			} else {
+				nextStatus = LearningStatus.ItemResult;
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.code === ErrorType.LearningListOutdated) {
 				this.isLearningOutdatedFlipped = !this.isItemInputFlipped;
 				this.status = LearningStatus.ItemInputLearningOutdated;
+				nextStatus = LearningStatus.LearningOutdated;
+			} else if (err.code === ErrorType.LearningItemNotFound) {
+				createNotification(NotificationType.Error, {
+					message: "Item not found! Please, reload the page or contact the administrator.",
+					errors: err.body,
+				});
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
-			this.flipCounter-=0.5;
-			setTimeout(() => {
-				if (this.learningItemResult) {
-					this.status = LearningStatus.ItemResult;
-				} else {
-					this.status = LearningStatus.LearningOutdated;
-				}
-			}, this.animationTimeout);
-		});
+		} finally {
+			if (!nextStatus) {
+				return;
+			}
+			runInAction("onItemSubmit", () => {
+				this.flipCounter -= 0.5;
+				setTimeout(() => {
+					this.status = nextStatus!;
+				}, this.animationTimeout);
+			});
+		}
 	};
 
 	@action onNextItem = async () => {
-		await this.loadLearningItem();
-		runInAction("loading next learning item and flipping the card", () => {
-			if (this.learningItem) {
-				this.isItemInputFlipped = !this.isItemResultFlipped;
-				this.status = LearningStatus.ItemResultItemInput;
-			} else if (this.learningItem === null && this.learningList!.timesCompleted === 1) {
-				this.isLearningStartOverFlipped = !this.isItemResultFlipped;
-				this.status = LearningStatus.ItemResultLearningStartOver;
-			} else if (this.learningItem === null && this.learningList!.timesCompleted === 2) {
-				this.isLearningEndFlipped = !this.isItemResultFlipped;
-				this.status = LearningStatus.ItemResultLearningEnd;
-			} else {
+		console.log("kek, ", this.learningList!.isCompleted, " ", this.learningList!.timesCompleted);
+		let nextStatus: LearningStatus | undefined;
+		try {
+			await this.loadLearningItem();
+			runInAction("onNextItem", () => {
+				if (this.learningItem) {
+					this.isItemInputFlipped = !this.isItemResultFlipped;
+					this.status = LearningStatus.ItemResultItemInput;
+					nextStatus = LearningStatus.ItemInput;
+				} else if (this.learningList!.timesCompleted === 1) {
+					this.isLearningStartOverFlipped = !this.isItemResultFlipped;
+					this.status = LearningStatus.ItemResultLearningStartOver;
+					nextStatus = LearningStatus.LearningStartOver;
+				} else if (this.learningList!.timesCompleted === 2) {
+					this.isLearningEndFlipped = !this.isItemResultFlipped;
+					this.status = LearningStatus.ItemResultLearningEnd;
+					nextStatus = LearningStatus.LearningEnd;
+				}
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.code === ErrorType.LearningListOutdated) {
 				this.isLearningOutdatedFlipped = !this.isItemResultFlipped;
 				this.status = LearningStatus.ItemResultLearningOutdated;
+				nextStatus = LearningStatus.LearningOutdated;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
-			this.flipCounter-=0.5;
-			setTimeout(() => {
-				if (this.learningItem) {
-					this.status = LearningStatus.ItemInput;
-				} else if (this.learningItem === null && this.learningList!.timesCompleted === 1) {
-					this.status = LearningStatus.LearningStartOver;
-				} else if (this.learningItem === null && this.learningList!.timesCompleted === 2) {
-					this.status = LearningStatus.LearningEnd;
-				} else {
-					this.status = LearningStatus.LearningOutdated;
-				}
-			}, this.animationTimeout);
-		});
+		} finally {
+			if (!nextStatus) {
+				return;
+			}
+			runInAction("onNextItem", () => {
+				this.flipCounter -= 0.5;
+				setTimeout(() => {
+					this.status = nextStatus!;
+				}, this.animationTimeout);
+			});
+		}
 	};
 
 	@action onStartOver = async () => {
-		await this.startOver();
-		runInAction("loading learning item and flipping the card (start over)", () => {
-			if (this.learningItem) {
-				this.isItemInputFlipped = !this.isLearningStartOverFlipped;
-				this.status = LearningStatus.LearningStartOverItemInput;
-			} else {
+		let nextStatus: LearningStatus | undefined;
+		try {
+			await this.startOver();
+			runInAction("onStartOver", () => {
+				if (this.learningItem) {
+					this.isItemInputFlipped = !this.isLearningStartOverFlipped;
+					this.status = LearningStatus.LearningStartOverItemInput;
+					nextStatus = LearningStatus.ItemInput;
+				} else {
+					createNotification(NotificationType.Error, {
+						message: "Synchronization error! Please, reload the page.",
+					});
+				}
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.code === ErrorType.LearningListOutdated) {
 				this.isLearningOutdatedFlipped = !this.isLearningStartOverFlipped;
 				this.status = LearningStatus.LearningStartOverLearningOutdated;
+				nextStatus = LearningStatus.LearningOutdated;
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
-			this.flipCounter-=0.5;
+		} finally {
+			if (!nextStatus) {
+				return;
+			}
+			this.flipCounter -= 0.5;
 			setTimeout(() => {
-				if (this.learningItem) {
-					this.status = LearningStatus.ItemInput;
-				} else {
-					this.status = LearningStatus.LearningOutdated;
-				}
+				this.status = nextStatus!;
 			}, this.animationTimeout);
-		});
+		}
 	};
 
 	@action onOutdatedStart = async () => {
-		await this.loadLearningList();
-		await this.loadLearningItem();
-		runInAction("loading learning item and flipping the card", () => {
-			this.isItemInputFlipped = !this.isLearningOutdatedFlipped;
-			this.status = LearningStatus.LearningOutdatedItemInput;
-			this.flipCounter-=0.5;
-			setTimeout(() => {
-				this.status = LearningStatus.ItemInput;
-			}, this.animationTimeout);
-		});
+		let nextStatus: LearningStatus | undefined;
+		try {
+			await this.loadLearningList();
+			await this.loadLearningItem();
+			runInAction("onOutdatedStart", () => {
+				if (this.learningItem) {
+					this.isItemInputFlipped = !this.isLearningOutdatedFlipped;
+					this.status = LearningStatus.LearningOutdatedItemInput;
+					nextStatus = LearningStatus.ItemInput;
+				} else {
+					createNotification(NotificationType.Error, {
+						message: "Synchronization error! Please, reload the page.",
+					});
+				}
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.code === ErrorType.LearningListOutdated) {
+				createNotification(NotificationType.Error, {
+					message: "Training is outdated again! Press the button one more time or reload the page.",
+					errors: err.body,
+				});
+			} else {
+				createNotification(NotificationType.UnknownError, { errors: err.body });
+			}
+		} finally {
+			if (!nextStatus) {
+				return;
+			}
+			runInAction("onOutdatedStart", () => {
+				this.flipCounter -= 0.5;
+				setTimeout(() => {
+					this.status = nextStatus!;
+				}, this.animationTimeout);
+			});
+		}
 	};
 
 	@action loadLearningList = async () => {
@@ -173,11 +278,8 @@ export default class LearningStore {
 				this.learningList = learningList;
 			});
 		} catch (err) {
-			console.log(err);
-			if (err.response.status === 400) this.learningList = null;
-			else {
-				this.learningList = undefined;
-			}
+			this.learningList = undefined;
+			throw err;
 		} finally {
 			runInAction("loading learning list", () => {
 				this.loading = false;
@@ -193,14 +295,14 @@ export default class LearningStore {
 				if (typeof learningItem === "string") {
 					this.learningList!.isCompleted = true;
 					this.learningList!.timesCompleted++;
-					this.learningItem = null;
+					this.learningItem = undefined;
 				} else {
 					this.learningItem = learningItem;
 				}
 			});
 		} catch (err) {
-			console.log(err);
 			this.learningItem = undefined;
+			throw err;
 		} finally {
 			runInAction("loading learning item", () => {
 				this.loading = false;
@@ -215,18 +317,15 @@ export default class LearningStore {
 				learningItemId: this.learningItem!.id,
 				answer: answer,
 			};
-			const learningItemResult: ILearningItemResult = await agent.LearningLists.checkItem(
-				this.learningList!.id,
-				learningItemAnswer
-			);
+			const learningItemResult = await agent.LearningLists.checkItem(this.learningList!.id, learningItemAnswer);
 			runInAction("checking learning item", () => {
 				this.learningItemResult = learningItemResult;
 				this.learningList!.completedItemsCount++;
 				if (learningItemResult.isAnswerCorrect) this.learningList!.correctAnswersCount++;
 			});
 		} catch (err) {
-			console.log(err);
 			this.learningItemResult = undefined;
+			throw err;
 		} finally {
 			runInAction("checking learning item", () => {
 				this.loading = false;
@@ -239,9 +338,12 @@ export default class LearningStore {
 		try {
 			await agent.LearningLists.startOver(this.learningList!.id);
 			await this.loadLearningItem();
+			runInAction("starting over", () => {
+				this.learningList!.isCompleted = false;
+			});
 		} catch (err) {
-			console.log(err);
 			this.learningItem = undefined;
+			throw err;
 		} finally {
 			runInAction("starting over", () => {
 				this.loading = false;

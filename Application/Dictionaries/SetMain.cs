@@ -29,8 +29,7 @@ namespace Application.Dictionaries
                 var dictionary = await _context.Dictionaries.FindAsync(request.Id);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 dictionary.IsMain = true;
 
@@ -38,7 +37,7 @@ namespace Application.Dictionaries
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

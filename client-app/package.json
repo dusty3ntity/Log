@@ -3,14 +3,6 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"@testing-library/jest-dom": "^4.2.4",
-		"@testing-library/react": "^9.5.0",
-		"@testing-library/user-event": "^7.2.1",
-		"@types/jest": "^24.9.1",
-		"@types/node": "^12.12.38",
-		"@types/react": "^16.9.34",
-		"@types/react-dom": "^16.9.7",
-		"@types/react-router-dom": "^5.1.5",
 		"antd": "^4.2.0",
 		"axios": "^0.19.2",
 		"babel-plugin-import": "^1.13.0",
@@ -28,8 +20,8 @@
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.4.1",
 		"react-text-ellipsis": "^1.6.0",
-		"simplebar-react": "^2.2.0",
-		"typescript": "^3.8.3"
+		"react-toastify": "^6.0.6",
+		"simplebar-react": "^2.2.0"
 	},
 	"scripts": {
 		"start": "react-app-rewired start",
@@ -53,6 +45,15 @@
 		]
 	},
 	"devDependencies": {
-		"@types/react-infinite-scroller": "^1.2.1"
+		"@testing-library/jest-dom": "^4.2.4",
+		"@testing-library/react": "^9.5.0",
+		"@testing-library/user-event": "^7.2.1",
+		"@types/jest": "^24.9.1",
+		"@types/node": "^12.12.38",
+		"@types/react": "^16.9.34",
+		"@types/react-dom": "^16.9.7",
+		"@types/react-router-dom": "^5.1.5",
+		"@types/react-infinite-scroller": "^1.2.1",
+		"typescript": "^3.8.3"
 	}
 }

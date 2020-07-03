@@ -1,19 +1,28 @@
 import React, { Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { ToastContainer } from "react-toastify";
 import "mobx-react-lite/batchingForReactDom";
 
 import HomePage from "../../components/home/HomePage";
 import Page from "./Page";
 import Dashboard from "../../components/dashboard/Dashboard";
-import NewItem from "../../components/new-item/NewItem";
-import EditItem from "../../components/new-item/EditItem";
+import NewItem from "../../components/manage-item/NewItem";
+import EditItem from "../../components/manage-item/EditItem";
 import Learning from "../../components/learning/Learning";
 import NotFound from "./NotFound";
 
 function App() {
 	return (
 		<Fragment>
+			<ToastContainer
+				position="bottom-right"
+				limit={3}
+				draggable={false}
+				hideProgressBar
+				closeOnClick={false}
+				autoClose={5000}
+			/>
 			<Route exact path="/" component={HomePage} />
 
 			<Route

@@ -66,21 +66,20 @@ namespace Application.Items
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var originalLower = request.Original.ToLower();
                 var translationLower = request.Translation.ToLower();
 
                 if (ItemChecker.AreEqual(originalLower, translationLower))
                     throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's original and translation mustn't be equal or contain each other.");
+                        ErrorType.ItemOriginalOrTranslationContainEachOther);
 
                 if (request.Definition != null && ItemChecker.DoesDefinitionContainItem(request.Definition,
                     originalLower,
                     translationLower))
                     throw new RestException(HttpStatusCode.BadRequest,
-                        "Item's definition mustn't contain item's original or translation.");
+                        ErrorType.ItemDefinitionContainsOriginalOrTranslation);
 
                 var item = new Item
                 {
@@ -109,7 +108,7 @@ namespace Application.Items
 
                 if (success)
                     return item.Id;
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

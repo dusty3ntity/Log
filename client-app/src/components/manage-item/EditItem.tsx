@@ -9,8 +9,6 @@ const EditItem = () => {
 	const { activeItem, editItem } = rootStore.itemStore;
 
 	const onSubmit = (item: INewItem) => {
-		console.log(item);
-
 		const editedItem: IEditItem = {
 			original: item.original,
 			translation: item.translation,

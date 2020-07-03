@@ -14,7 +14,7 @@ namespace Application.Dictionaries
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            
+
             public int PreferredLearningListSize { get; set; }
             public int CorrectAnswersToItemCompletion { get; set; }
         }
@@ -46,14 +46,12 @@ namespace Application.Dictionaries
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (request.PreferredLearningListSize == 0 && request.CorrectAnswersToItemCompletion == 0)
-                    throw new RestException(HttpStatusCode.BadRequest,
-                        "At least one property must be provided to edit.");
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.NoPropsForEditProvided);
 
                 var dictionary = await _context.Dictionaries.FindAsync(request.Id);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 dictionary.PreferredLearningListSize =
                     request.PreferredLearningListSize != 0
@@ -67,7 +65,7 @@ namespace Application.Dictionaries
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

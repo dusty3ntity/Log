@@ -34,8 +34,7 @@ namespace Application.LearningLists
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var learningList = await _context.LearningLists
                     .Where(l => l.DictionaryId == request.DictionaryId)
@@ -43,17 +42,19 @@ namespace Application.LearningLists
                     .FirstOrDefaultAsync();
 
                 if (learningList == null)
-                    throw new RestException(HttpStatusCode.NotFound, new {learningList = "Not found"});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.LearningListNotFound);
+
+				if (DateChecker.IsLearningListOutdated(learningList))
+                    throw new RestException(HttpStatusCode.Gone, ErrorType.LearningListOutdated);
 
                 if (learningList.TimesCompleted == 0 || !learningList.IsCompleted)
-                    throw new RestException(HttpStatusCode.BadRequest, new {learningList = "Isn't completed yet"});
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.LearningListNotCompleted);
 
                 if (learningList.TimesCompleted == 2)
-                    throw new RestException(HttpStatusCode.BadRequest,
-                        new {learningList = "Is already completed two times"});
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.LearningListCompletedTwoTimes);
 
                 learningList.IsCompleted = false;
-                
+
                 var learningItemsList = learningList.LearningItems.ToList();
                 LearningListShuffler.Shuffle(learningItemsList);
 
@@ -61,7 +62,7 @@ namespace Application.LearningLists
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

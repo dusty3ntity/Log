@@ -79,21 +79,19 @@ namespace Application.Dictionaries
                     .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.LanguageToLearnCode));
 
                 if (knownLanguage == null || languageToLearn == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {language = "Not found"});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.LanguageNotFound);
 
                 var dictionaries = await _context.Dictionaries.ToListAsync();
 
                 var duplicate = await _duplicatesChecker.SearchForDuplicates(knownLanguage, languageToLearn);
 
                 if (duplicate != null)
-                    throw new RestException(HttpStatusCode.BadRequest,
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.DuplicateDictionaryFound,
                         new
                         {
-                            message = "Duplicate dictionary found.",
                             dictionary = _mapper.Map<Dictionary, DictionaryDto>(duplicate)
                         });
-                
+
                 if (request.IsMain)
                     foreach (var dict in dictionaries)
                         dict.IsMain = false;
@@ -116,7 +114,7 @@ namespace Application.Dictionaries
 
                 if (success)
                     return dictionary.Id;
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }
