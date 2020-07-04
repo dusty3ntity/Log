@@ -56,9 +56,11 @@ export interface ILearningList {
 	isCompleted: boolean;
 	timesCompleted: number;
 	correctAnswersToItemCompletion: number;
+	isHardModeEnabled: boolean;
 
 	completedItemsCount: number;
 	correctAnswersCount: number;
+	totalCompletedItemsCount: number;
 }
 
 export interface ILearningItemAnswer {

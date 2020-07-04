@@ -146,7 +146,6 @@ export default class LearningStore {
 	};
 
 	@action onNextItem = async () => {
-		console.log("kek, ", this.learningList!.isCompleted, " ", this.learningList!.timesCompleted);
 		let nextStatus: LearningStatus | undefined;
 		try {
 			await this.loadLearningItem();
@@ -320,6 +319,7 @@ export default class LearningStore {
 			const learningItemResult = await agent.LearningLists.checkItem(this.learningList!.id, learningItemAnswer);
 			runInAction("checking learning item", () => {
 				this.learningItemResult = learningItemResult;
+				this.learningList!.totalCompletedItemsCount++;
 				this.learningList!.completedItemsCount++;
 				if (learningItemResult.isAnswerCorrect) this.learningList!.correctAnswersCount++;
 			});

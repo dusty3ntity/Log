@@ -91,7 +91,7 @@ namespace Persistence
                 var Item6 = new Item
                 {
                     Original = "extraordinary",
-                    Translation = "необычнайный",
+                    Translation = "необычайный",
                     Definition = "Very unusual or remarkable.",
                     DefinitionOrigin = "Cambridge Dictionary",
                     CreationDate = DateTime.Now,
@@ -182,6 +182,7 @@ namespace Persistence
                     LearnedItemsCount = 4,
                     PreferredLearningListSize = 50,
                     CorrectAnswersToItemCompletion = 5,
+                    IsHardModeEnabled = true,
                     Items = new List<Item>
                     {
                         Item1, Item2, Item3, Item4, Item5, Item6, Item7, Item8, Item9, Item10

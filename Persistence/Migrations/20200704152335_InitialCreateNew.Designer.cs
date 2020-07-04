@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200625130146_InitialCreateNew")]
+    [Migration("20200704152335_InitialCreateNew")]
     partial class InitialCreateNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CorrectAnswersToItemCompletion")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsHardModeEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsMain")
@@ -183,10 +186,16 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsHardModeEnabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Size")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TimesCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TotalCompletedItemsCount")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

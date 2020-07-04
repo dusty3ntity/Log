@@ -24,7 +24,7 @@ namespace Application.LearningLists
         }
 
         public async Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize,
-            int correctAnswersToItemCompletion)
+            int correctAnswersToItemCompletion, bool isHardModeEnabled)
         {
             var items = await _context.Items
                 .Where(i => i.DictionaryId == dictionaryId)
@@ -58,6 +58,7 @@ namespace Application.LearningLists
                 CreationDate = DateTime.Now,
 
                 CorrectAnswersToItemCompletion = correctAnswersToItemCompletion,
+                IsHardModeEnabled = isHardModeEnabled,
 
                 LearningItems = list
             };

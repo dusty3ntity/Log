@@ -72,11 +72,7 @@ namespace Application.LearningLists
                 if (learningItem == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.LearningItemNotFound);
 
-                var completedItemsCount = learningList.TimesCompleted == 0
-                    ? learningList.CompletedItemsCount
-                    : learningList.CompletedItemsCount - learningList.Size;
-
-                if (learningItem.NumberInSequence != completedItemsCount)
+                if (learningItem.NumberInSequence != learningList.CompletedItemsCount)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.LearningItemNotFound);
 
                 var answer = request.Answer.ToLower();
@@ -93,9 +89,11 @@ namespace Application.LearningLists
                 ItemAnswerProcessor.ProcessItemAnswer(learningList, learningItem, isAnswerCorrect);
 
                 learningList.CompletedItemsCount++;
+                learningList.TotalCompletedItemsCount++;
 
-                if (learningList.Size == completedItemsCount + 1)
+                if (learningList.Size == learningList.CompletedItemsCount)
                 {
+                    learningList.CompletedItemsCount = 0;
                     learningList.IsCompleted = true;
                     learningList.TimesCompleted++;
                 }

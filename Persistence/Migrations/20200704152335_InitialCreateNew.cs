@@ -34,6 +34,7 @@ namespace Persistence.Migrations
                     LearnedItemsCount = table.Column<int>(nullable: false),
                     PreferredLearningListSize = table.Column<int>(nullable: false),
                     CorrectAnswersToItemCompletion = table.Column<int>(nullable: false),
+                    IsHardModeEnabled = table.Column<bool>(nullable: false),
                     LearningListId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -92,7 +93,9 @@ namespace Persistence.Migrations
                     IsCompleted = table.Column<bool>(nullable: false),
                     TimesCompleted = table.Column<int>(nullable: false),
                     CorrectAnswersToItemCompletion = table.Column<int>(nullable: false),
+                    IsHardModeEnabled = table.Column<bool>(nullable: false),
                     CompletedItemsCount = table.Column<int>(nullable: false),
+                    TotalCompletedItemsCount = table.Column<int>(nullable: false),
                     CorrectAnswersCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

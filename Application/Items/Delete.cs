@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Items
@@ -44,6 +46,39 @@ namespace Application.Items
                     dictionary.PhrasesCount--;
 
                 _context.Items.Remove(item);
+
+                var learningList = await _context.LearningLists.Where(l => l.DictionaryId == request.DictionaryId)
+                    .FirstOrDefaultAsync();
+
+                if (learningList != null)
+                {
+                    learningList = await _context.LearningLists.Where(l => l.Id == learningList.Id)
+                        .Include(l => l.LearningItems).FirstOrDefaultAsync();
+
+                    LearningItem currentItem = null;
+
+                    foreach (var i in learningList.LearningItems)
+                    {
+                        if (i.ItemId == request.ItemId)
+                            currentItem = i;
+                    }
+
+                    if (currentItem != null)
+                    {
+                        foreach (var i in learningList.LearningItems)
+                        {
+                            if (i.NumberInSequence > currentItem.NumberInSequence)
+                                i.NumberInSequence--;
+                        }
+
+                        if (currentItem.NumberInSequence <= learningList.CompletedItemsCount &&
+                            learningList.CompletedItemsCount > 0)
+                            learningList.CompletedItemsCount--;
+
+                        learningList.Size--;
+                        _context.LearningItems.Remove(currentItem);
+                    }
+                }
 
                 var success = await _context.SaveChangesAsync() > 0;
 
