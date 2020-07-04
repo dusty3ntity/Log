@@ -54,6 +54,7 @@ namespace Application.LearningLists
                     throw new RestException(HttpStatusCode.BadRequest, ErrorType.LearningListCompletedTwoTimes);
 
                 learningList.IsCompleted = false;
+                learningList.CompletedItemsCount = 0;
 
                 var learningItemsList = learningList.LearningItems.ToList();
                 LearningListShuffler.Shuffle(learningItemsList);

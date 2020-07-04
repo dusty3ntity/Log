@@ -25,6 +25,9 @@ namespace Persistence.Migrations
                     b.Property<int>("CorrectAnswersToItemCompletion")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsHardModeEnabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
@@ -181,10 +184,16 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsHardModeEnabled")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Size")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TimesCompleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TotalCompletedItemsCount")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

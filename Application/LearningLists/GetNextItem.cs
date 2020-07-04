@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Errors;
 using Application.LearningItems;
 using Application.Utilities;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -48,45 +49,12 @@ namespace Application.LearningLists
                 if (learningList.IsCompleted)
                     return null;
 
-                var completedItemsCount = learningList.TimesCompleted == 0
-                    ? learningList.CompletedItemsCount
-                    : learningList.CompletedItemsCount - learningList.Size;
-
                 var learningItem = await _context.LearningItems
                     .Where(i =>
                         i.LearningListId == learningList.Id &&
-                        i.NumberInSequence == completedItemsCount)
+                        i.NumberInSequence == learningList.CompletedItemsCount)
                     .Include(i => i.Item)
                     .FirstAsync();
-
-                if (learningItem.Item == null)
-                {
-                    while (learningItem.Item == null)
-                    {
-                        learningList.CompletedItemsCount++;
-                        completedItemsCount = learningList.TimesCompleted == 0
-                            ? learningList.CompletedItemsCount
-                            : learningList.CompletedItemsCount - learningList.Size;
-                        if (completedItemsCount == learningList.Size)
-                        {
-                            learningList.IsCompleted = true;
-                            learningList.TimesCompleted++;
-                            return null;
-                        }
-
-                        learningItem = await _context.LearningItems
-                            .Where(i =>
-                                i.LearningListId == learningList.Id &&
-                                i.NumberInSequence == completedItemsCount)
-                            .Include(i => i.Item)
-                            .FirstAsync();
-                    }
-
-                    var success = await _context.SaveChangesAsync() > 0;
-
-                    if (!success)
-                        throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
-                }
 
                 var itemToReturn = new LearningItemDto
                 {

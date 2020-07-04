@@ -6,11 +6,14 @@
         ConnectionRefused = 1,
 
         DefaultNotFound = 11,
+        DictionaryNotFound = 12,
+        ItemNotFound = 13,
 
         DefaultServerError = 51,
         SavingChangesError = 52,
 
         DefaultValidationError = 101,
+        BadId = 102,
         DefaultErrorsBlockEnd = 199,
 
         ValidationBlockStart = 400,
@@ -25,11 +28,9 @@
         ValidationBlockEnd = 599,
 
         CustomNotFoundBlockStart = 600,
-        DictionaryNotFound = 601,
-        ItemNotFound = 602,
-        LearningListNotFound = 603,
-        LearningItemNotFound = 604,
-        LanguageNotFound = 605,
+        LearningListNotFound = 601,
+        LearningItemNotFound = 602,
+        LanguageNotFound = 603,
         CustomNotFoundBlockEnd = 699,
 
         NotEnoughItemsForLearningListGeneration = 701,

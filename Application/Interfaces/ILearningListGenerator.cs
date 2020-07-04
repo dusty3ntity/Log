@@ -7,6 +7,6 @@ namespace Application.Interfaces
     public interface ILearningListGenerator
     {
         Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize,
-            int correctAnswersToItemCompletion);
+            int correctAnswersToItemCompletion, bool isHardModeActivated);
     }
 }

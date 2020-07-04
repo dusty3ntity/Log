@@ -68,7 +68,7 @@ const SupportingPage: React.FC<IProps> = ({
 		content = (
 			<LearningStatsBrief
 				itemsCount={learningList!.size}
-				completedItemsCount={learningList!.completedItemsCount}
+				completedItemsCount={learningList!.totalCompletedItemsCount}
 				correctAnswersCount={learningList!.correctAnswersCount}
 			/>
 		);
@@ -98,7 +98,7 @@ const SupportingPage: React.FC<IProps> = ({
 							onClick={onClick}
 							disabled={status > 9}
 						>
-							<span>Start</span>
+							<span>{learningList?.completedItemsCount === 0 ? "Start" : "Continue"}</span>
 							<ArrowForwardSmallIcon />
 						</button>
 					)}

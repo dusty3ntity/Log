@@ -20,6 +20,7 @@ namespace Domain
         
         public int PreferredLearningListSize { get; set; }
         public int CorrectAnswersToItemCompletion { get; set; }
+        public bool IsHardModeEnabled { get; set; }
 
         public ICollection<Item> Items { get; set; }
 

@@ -17,5 +17,6 @@ namespace Application.Dictionaries
         
         public int PreferredLearningListSize { get; set; }
         public int CorrectAnswersToItemCompletion { get; set; }
+        public bool IsHardModeEnabled { get; set; }
     }
 }

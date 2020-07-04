@@ -33,7 +33,10 @@ namespace Application.Utilities
             {
                 item.GoesForNextDay = true;
                 item.IsLearned = false;
-                item.CorrectAnswersToCompletionCount = 0;
+                if (list.IsHardModeEnabled)
+                    item.CorrectAnswersToCompletionCount = 0;
+                else
+                    item.CorrectAnswersToCompletionCount--;
             }
         }
     }
