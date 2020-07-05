@@ -8,7 +8,7 @@ import { createNotification } from "../common/util/notifications";
 import { NotificationType } from "./../models/error";
 import { isBadId, injectErrorCode } from "./../common/util/errorTypeResolver";
 
-axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/5F15A492-601B-4D6A-8933-939806C07717";
+axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/194E070D-F83A-4E56-A664-B774243F3C8A";
 
 axios.interceptors.response.use(undefined, (error) => {
 	console.log(error.response);

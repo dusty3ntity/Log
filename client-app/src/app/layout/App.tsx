@@ -10,6 +10,7 @@ import Dashboard from "../../components/dashboard/Dashboard";
 import NewItem from "../../components/manage-item/NewItem";
 import EditItem from "../../components/manage-item/EditItem";
 import Learning from "../../components/learning/Learning";
+import NewDictionary from "../../components/dictionaries/NewDictionary";
 import NotFound from "./NotFound";
 
 function App() {
@@ -31,6 +32,10 @@ function App() {
 					<Switch>
 						<Route path="/dashboard">
 							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
+						</Route>
+
+						<Route path="/new-dictionary">
+							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
 						</Route>
 
 						<Route exact path="/new-item">
