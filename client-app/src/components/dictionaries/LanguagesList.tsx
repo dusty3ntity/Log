@@ -26,7 +26,7 @@ const LanguagesList: React.FC<IProps> = ({ id, type }) => {
 		{ id: 16, name: "English", ISOCode: "eng" },
 	];
 
-	const title = type === "known-language" ? "Known language" : "Language to learn";
+	const title = type === "known-language" ? "I know:" : "I learn:";
 
 	return (
 		<div id={id} className="languages-list">
