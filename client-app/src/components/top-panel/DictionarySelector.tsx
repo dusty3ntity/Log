@@ -11,7 +11,9 @@ const menu = (
 	<Menu>
 		<Menu.Item key="0" className="menu-item">
 			<img className="flag lang-from" src="/images/flags/ukr.png" alt="Lang from" />
+
 			<ArrowForwardIcon />
+
 			<img className="flag lang-to" src="/images/flags/eng.png" alt="Lang to" />
 
 			<div className="divider vertical menu-divider" />
@@ -23,6 +25,7 @@ const menu = (
 			<img className="flag lang-from" src="/images/flags/eng.png" alt="Lang to" />
 
 			<ArrowForwardIcon />
+
 			<img className="flag lang-to" src="/images/flags/rus.png" alt="Lang from" />
 
 			<div className="divider vertical menu-divider" />
@@ -52,7 +55,9 @@ const DictionarySelector = () => {
 		>
 			<div className="dictionary-selector btn">
 				<img className="flag lang-from" src="/images/flags/rus.png" alt="Lang from" />
+
 				<ArrowForwardIcon />
+				
 				<img className="flag lang-to" src="/images/flags/eng.png" alt="Lang to" />
 
 				<DropdownIcon />

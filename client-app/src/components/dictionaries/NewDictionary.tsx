@@ -3,15 +3,38 @@ import { Link } from "react-router-dom";
 import { Slider, Switch } from "antd";
 
 import LanguagesList from "./LanguagesList";
+import LanguagesListDrawer from "./drawers/LanguagesListDrawer";
 
 const NewDictionary = () => {
+	const [isLeftDrawerVisible, setLeftDrawerVisible] = useState(false);
+	const [isRightDrawerVisible, setRightDrawerVisible] = useState(false);
+
 	const [preferredLearningListSize, setPreferredLearningListSize] = useState(50);
 	const [requiredCorrectAnswersNumber, setRequiredCorrectAnswersNumber] = useState(5);
 	const [isHardModeEnabled, setHardModeEnabled] = useState(false);
 	const [isMain, setMain] = useState(false);
 
+	const onLeftDrawerClick = () => {
+		setRightDrawerVisible(false);
+		setLeftDrawerVisible(!isLeftDrawerVisible);
+	};
+
+	const onRightDrawerClick = () => {
+		setLeftDrawerVisible(false);
+		setRightDrawerVisible(!isRightDrawerVisible);
+	};
+
 	return (
 		<div id="new-dictionary-container" className="manage-dictionary-container">
+			<LanguagesListDrawer
+				listId="language-list-from"
+				listType="known-language"
+				className="lang-from"
+				position="left"
+				isVisible={isLeftDrawerVisible}
+				onClose={() => setLeftDrawerVisible(false)}
+			/>
+
 			<LanguagesList id="language-list-from" type="known-language" />
 
 			<div id="new-dictionary">
@@ -19,17 +42,25 @@ const NewDictionary = () => {
 					<div className="lang-container known-lang-container">
 						<span className="title">I know</span>
 
-						<button className="btn flag-btn known-lang-btn no-disabled-styles" disabled>
+						<button className="btn flag-btn known-lang-btn" onClick={onLeftDrawerClick}>
 							<img src="/images/flags/ukr.png" alt="ukr" />
 						</button>
+
+						<div className="flag">
+							<img src="/images/flags/ukr.png" className="flag" alt="ukr" />
+						</div>
 					</div>
 
 					<div className="lang-container lang-to-learn-container">
 						<span className="title">I learn</span>
 
-						<button className="btn flag-btn lang-to-learn-btn no-disabled-styles" disabled>
+						<button className="btn flag-btn lang-to-learn-btn" onClick={onRightDrawerClick}>
 							<img src="/images/flags/eng.png" alt="eng" />
 						</button>
+
+						<div className="flag">
+							<img src="/images/flags/eng.png" className="flag" alt="eng" />
+						</div>
 					</div>
 				</div>
 
@@ -90,6 +121,15 @@ const NewDictionary = () => {
 			</div>
 
 			<LanguagesList id="language-list-to" type="language-to-learn" />
+
+			<LanguagesListDrawer
+				listId="language-list-to"
+				listType="language-to-learn"
+				className="lang-to"
+				position="right"
+				isVisible={isRightDrawerVisible}
+				onClose={() => setRightDrawerVisible(false)}
+			/>
 		</div>
 	);
 };

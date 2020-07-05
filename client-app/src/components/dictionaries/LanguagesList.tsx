@@ -4,9 +4,10 @@ import SimpleBar from "simplebar-react";
 interface IProps {
 	id: string;
 	type: "known-language" | "language-to-learn";
+	className?: string;
 }
 
-const LanguagesList: React.FC<IProps> = ({ id, type }) => {
+const LanguagesList: React.FC<IProps> = ({ id, type, className }) => {
 	const languages = [
 		{ id: 1, name: "English", ISOCode: "eng" },
 		{ id: 2, name: "English", ISOCode: "eng" },
@@ -29,7 +30,7 @@ const LanguagesList: React.FC<IProps> = ({ id, type }) => {
 	const title = type === "known-language" ? "I know:" : "I learn:";
 
 	return (
-		<div id={id} className="languages-list">
+		<div id={id} className={`languages-list ${className ? className : ""}`}>
 			<div className="title">{title}</div>
 
 			<div className="list-container">
