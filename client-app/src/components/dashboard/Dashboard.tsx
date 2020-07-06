@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
 import ItemDetails from "./item-details/ItemDetails";
@@ -22,4 +23,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default observer(Dashboard);

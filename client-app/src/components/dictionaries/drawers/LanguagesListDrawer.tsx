@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Drawer } from "antd";
 
 import LanguagesList from "../LanguagesList";

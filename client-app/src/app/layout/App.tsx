@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
@@ -12,8 +12,18 @@ import EditItem from "../../components/manage-item/EditItem";
 import Learning from "../../components/learning/Learning";
 import NewDictionary from "../../components/dictionaries/NewDictionary";
 import NotFound from "./NotFound";
+import { RootStoreContext } from "../stores/rootStore";
 
 function App() {
+	const rootStore = useContext(RootStoreContext);
+	const { loadDictionaries, loadingInitial } = rootStore.dictionariesStore;
+
+	useEffect(() => {
+		loadDictionaries();
+	}, [loadDictionaries]);
+
+	if (loadingInitial) return <div></div>;
+
 	return (
 		<Fragment>
 			<ToastContainer

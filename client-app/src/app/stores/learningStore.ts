@@ -42,6 +42,7 @@ export default class LearningStore {
 	};
 
 	@action onInitialLoad = async () => {
+		this.reset();
 		try {
 			await this.loadLearningList();
 			runInAction("onInitialLoad", () => {
@@ -272,7 +273,7 @@ export default class LearningStore {
 	@action loadLearningList = async () => {
 		this.loading = true;
 		try {
-			const learningList = await agent.LearningLists.get();
+			const learningList = await agent.LearningLists.get(this.rootStore.dictionariesStore.activeDictionaryId!);
 			runInAction("loading learning list", () => {
 				this.learningList = learningList;
 			});
@@ -289,7 +290,10 @@ export default class LearningStore {
 	@action loadLearningItem = async () => {
 		this.loading = true;
 		try {
-			let learningItem = await agent.LearningLists.getNextItem(this.learningList!.id);
+			let learningItem = await agent.LearningLists.getNextItem(
+				this.rootStore.dictionariesStore.activeDictionaryId!,
+				this.learningList!.id
+			);
 			runInAction("loading learning item", () => {
 				if (typeof learningItem === "string") {
 					this.learningList!.isCompleted = true;
@@ -316,12 +320,18 @@ export default class LearningStore {
 				learningItemId: this.learningItem!.id,
 				answer: answer,
 			};
-			const learningItemResult = await agent.LearningLists.checkItem(this.learningList!.id, learningItemAnswer);
+			const learningItemResult = await agent.LearningLists.checkItem(
+				this.rootStore.dictionariesStore.activeDictionaryId!,
+				this.learningList!.id,
+				learningItemAnswer
+			);
 			runInAction("checking learning item", () => {
 				this.learningItemResult = learningItemResult;
 				this.learningList!.totalCompletedItemsCount++;
 				this.learningList!.completedItemsCount++;
-				if (learningItemResult.isAnswerCorrect) this.learningList!.correctAnswersCount++;
+				if (learningItemResult.isAnswerCorrect) {
+					this.learningList!.correctAnswersCount++;
+				}
 			});
 		} catch (err) {
 			this.learningItemResult = undefined;
@@ -336,7 +346,10 @@ export default class LearningStore {
 	@action startOver = async () => {
 		this.loading = true;
 		try {
-			await agent.LearningLists.startOver(this.learningList!.id);
+			await agent.LearningLists.startOver(
+				this.rootStore.dictionariesStore.activeDictionaryId!,
+				this.learningList!.id
+			);
 			await this.loadLearningItem();
 			runInAction("starting over", () => {
 				this.learningList!.isCompleted = false;

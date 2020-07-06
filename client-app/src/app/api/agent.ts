@@ -1,3 +1,4 @@
+import { IDictionary } from "./../models/dictionary";
 import axios, { AxiosResponse } from "axios";
 import { history } from "../..";
 
@@ -8,7 +9,7 @@ import { createNotification } from "../common/util/notifications";
 import { NotificationType } from "./../models/error";
 import { isBadId, injectErrorCode } from "./../common/util/errorTypeResolver";
 
-axios.defaults.baseURL = "http://localhost:5000/api/dictionaries/194E070D-F83A-4E56-A664-B774243F3C8A";
+axios.defaults.baseURL = "http://localhost:5000/api";
 
 axios.interceptors.response.use(undefined, (error) => {
 	console.log(error.response);
@@ -87,25 +88,45 @@ const requests = {
 	del: (url: string) => axios.delete(url).then(responseBody),
 };
 
+const Dictionaries = {
+	list: (): Promise<IDictionary[]> => axios.get("/dictionaries/").then(responseBody),
+	details: (id: string): Promise<IDictionary> => axios.get(`/dictionaries/${id}`).then(responseBody),
+	delete: (id: string) => requests.del(`/dictionaries/${id}`),
+	setMain: (id: string) => requests.post(`/dictionaries/${id}/setMain`),
+};
+
 const Items = {
-	list: (): Promise<IItem[]> => axios.get("/items").then(responseBody),
-	details: (id: string): Promise<IItem> => requests.get(`/items/${id}`).then(responseBody),
-	create: (item: INewItem) => requests.post("/items", item).then(responseBody),
-	update: (id: string, item: IEditItem) => requests.put(`/items/${id}`, item),
-	delete: (id: string) => requests.del(`/items/${id}`),
-	star: (id: string) => requests.post(`/items/${id}/star`),
-	unstar: (id: string) => requests.post(`/items/${id}/unstar`),
+	list: (dictionaryId: string): Promise<IItem[]> =>
+		axios.get(`/dictionaries/${dictionaryId}/items`).then(responseBody),
+	details: (dictionaryId: string, itemId: string): Promise<IItem> =>
+		requests.get(`/dictionaries/${dictionaryId}/items/${itemId}`).then(responseBody),
+	create: (dictionaryId: string, item: INewItem) =>
+		requests.post(`/dictionaries/${dictionaryId}/items`, item).then(responseBody),
+	update: (dictionaryId: string, itemId: string, item: IEditItem) =>
+		requests.put(`/dictionaries/${dictionaryId}/items/${itemId}`, item),
+	delete: (dictionaryId: string, itemId: string) => requests.del(`/dictionaries/${dictionaryId}/items/${itemId}`),
+	star: (dictionaryId: string, itemId: string) => requests.post(`/dictionaries/${dictionaryId}/items/${itemId}/star`),
+	unstar: (dictionaryId: string, itemId: string) =>
+		requests.post(`/dictionaries/${dictionaryId}/items/${itemId}/unstar`),
 };
 
 const LearningLists = {
-	get: (): Promise<ILearningList> => axios.post("/learningList/").then(responseBody),
-	getNextItem: (id: string): Promise<ILearningItem> => axios.get(`/learningList/${id}/nextItem`).then(responseBody),
-	checkItem: (id: string, answer: ILearningItemAnswer): Promise<ILearningItemResult> =>
-		axios.post(`/learningList/${id}/nextItem`, answer).then(responseBody),
-	startOver: (id: string) => axios.post(`/learningList/${id}/startOver`),
+	get: (dictionaryId: string): Promise<ILearningList> =>
+		axios.post(`/dictionaries/${dictionaryId}/learningList/`).then(responseBody),
+	getNextItem: (dictionaryId: string, learningListId: string): Promise<ILearningItem> =>
+		axios.get(`/dictionaries/${dictionaryId}/learningList/${learningListId}/nextItem`).then(responseBody),
+	checkItem: (
+		dictionaryId: string,
+		learningListId: string,
+		answer: ILearningItemAnswer
+	): Promise<ILearningItemResult> =>
+		axios.post(`/dictionaries/${dictionaryId}/learningList/${learningListId}/nextItem`, answer).then(responseBody),
+	startOver: (dictionaryId: string, learningListId: string) =>
+		axios.post(`/dictionaries/${dictionaryId}/learningList/${learningListId}/startOver`),
 };
 
 export default {
+	Dictionaries,
 	Items,
 	LearningLists,
 };

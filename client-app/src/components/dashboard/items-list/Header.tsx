@@ -9,12 +9,13 @@ import CalendarIcon from "../../icons/CalendarIcon";
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { showFiltersDrawer, filtersDrawerVisible } = rootStore.itemStore;
+	const { activeDictionary } = rootStore.dictionariesStore;
 
 	return (
 		<div id="header-container">
 			<div className="items-list-title">
 				<span className="title">Items</span>
-				<span className="items-counter">4932</span>
+				<span className="items-counter">{activeDictionary!.wordsCount + activeDictionary!.phrasesCount}</span>
 			</div>
 
 			<div className="buttons-container">
