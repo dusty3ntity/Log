@@ -31,6 +31,9 @@ namespace Application.Dictionaries
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
+                if (dictionary.IsMain)
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.MainDictionaryDeletion);
+
                 _context.Dictionaries.Remove(dictionary);
 
                 var success = await _context.SaveChangesAsync() > 0;

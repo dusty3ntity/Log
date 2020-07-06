@@ -27,6 +27,7 @@ export enum ErrorType {
 	ValidationBlockStart = 400,
 	CustomValidationError = 410,
 	NoPropsForEditProvided = 411,
+	MainDictionaryDeletion = 412,
 
 	ItemOriginalOrTranslationContainEachOther = 421,
 	ItemDefinitionContainsOriginalOrTranslation = 422,
