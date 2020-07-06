@@ -4,7 +4,8 @@ namespace Application.Utilities
 {
     public static class ItemAnswerProcessor
     {
-        public static void ProcessItemAnswer(LearningList list, LearningItem learningItem, bool isAnswerCorrect)
+        public static void ProcessItemAnswer(Dictionary dictionary, LearningList list, LearningItem learningItem,
+            bool isAnswerCorrect)
         {
             var item = learningItem.Item;
             item.TotalRepeatsCount++;
@@ -27,6 +28,11 @@ namespace Application.Utilities
                 {
                     item.IsLearned = true;
                     item.IsStarred = false;
+
+                    if (item.Type == ItemType.Word)
+                        dictionary.LearnedWordsCount++;
+                    else
+                        dictionary.LearnedPhrasesCount++;
                 }
             }
             else

@@ -86,7 +86,7 @@ namespace Application.LearningLists
                 if (isAnswerCorrect)
                     learningList.CorrectAnswersCount++;
 
-                ItemAnswerProcessor.ProcessItemAnswer(learningList, learningItem, isAnswerCorrect);
+                ItemAnswerProcessor.ProcessItemAnswer(dictionary, learningList, learningItem, isAnswerCorrect);
 
                 learningList.CompletedItemsCount++;
                 learningList.TotalCompletedItemsCount++;

@@ -45,6 +45,14 @@ namespace Application.Items
                 else
                     dictionary.PhrasesCount--;
 
+                if (item.IsLearned)
+                {
+                    if (item.Type == ItemType.Word)
+                        dictionary.LearnedWordsCount--;
+                    else
+                        dictionary.LearnedPhrasesCount--;
+                }
+
                 _context.Items.Remove(item);
 
                 var learningList = await _context.LearningLists.Where(l => l.DictionaryId == request.DictionaryId)
