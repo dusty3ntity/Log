@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { observer } from "mobx-react-lite";
 
 import { IDictionary } from "../../app/models/dictionary";
 import SuccessIcon from "../icons/SuccessIcon";
@@ -7,10 +8,10 @@ interface IProps {
 	dictionary: IDictionary;
 	isActive: boolean;
 	onClick: (dictionary: IDictionary) => void;
-	onDelete: (dictionary: IDictionary) => void;
+	onSetMain: (dictionary: IDictionary) => void;
 }
 
-const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick, onDelete }) => {
+const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick, onSetMain }) => {
 	return (
 		<div className={`list-item ${isActive ? "active" : ""}`}>
 			<button className="btn item-btn" onClick={() => onClick(dictionary)}>
@@ -99,8 +100,8 @@ const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick,
 					)}
 
 					{!dictionary.isMain && (
-						<button className="btn delete-btn" onClick={() => onDelete(dictionary)}>
-							Delete
+						<button className="btn set-main-btn" onClick={() => onSetMain(dictionary)}>
+							Set main
 						</button>
 					)}
 				</div>
@@ -109,4 +110,4 @@ const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick,
 	);
 };
 
-export default DictionariesListItem;
+export default observer(DictionariesListItem);

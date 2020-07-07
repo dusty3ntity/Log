@@ -28,7 +28,7 @@ export default class DictionaryStore {
 
 	@observable loadingInitial = true;
 	@observable loading = false;
-	@observable dictionariesRegistry = new Map();
+	@observable dictionariesRegistry = new Map<string, IDictionary>();
 	@observable activeDictionary: IDictionary | undefined;
 
 	@computed get activeDictionaryId() {
@@ -69,6 +69,10 @@ export default class DictionaryStore {
 		try {
 			const id = await agent.Dictionaries.create(dictionary);
 			runInAction("creating dictionary", () => {
+				if (dictionary.isMain) {
+					this.dictionariesRegistry.forEach((dictionary) => (dictionary.isMain = false));
+				}
+
 				const newDictionary: IDictionary = {
 					id: id,
 
@@ -119,7 +123,72 @@ export default class DictionaryStore {
 		}
 	};
 
-	@action editDictionary = async (id: string, dictionary: IEditDictionary) => {};
+	@action editDictionary = async (id: string, dictionary: IEditDictionary) => {
+		this.loading = true;
+		try {
+			await agent.Dictionaries.update(id, dictionary);
+			runInAction("editing dictionary", () => {
+				const editedDictionary = this.dictionariesRegistry.get(id)!;
+				editedDictionary.preferredLearningListSize = dictionary.preferredLearningListSize;
+				editedDictionary.correctAnswersToItemCompletion = dictionary.correctAnswersToItemCompletion;
+				editedDictionary.isHardModeEnabled = dictionary.isHardModeEnabled;
+				createNotification(NotificationType.Success, { message: "Dictionary updated successfully!" });
+			});
+			return true;
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
 
-	@action deleteDictionary = async (id: string) => {};
+			createNotification(NotificationType.UnknownError, { errors: err.body });
+
+			return false;
+		} finally {
+			runInAction("editing dictionary", () => {
+				this.loading = false;
+			});
+		}
+	};
+
+	@action deleteDictionary = async (id: string) => {
+		this.loading = true;
+		try {
+			await agent.Dictionaries.delete(id);
+			runInAction("deleting dictionary", () => {
+				this.dictionariesRegistry.delete(id);
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
+		} finally {
+			runInAction("deleting dictionary", () => {
+				this.loading = false;
+			});
+		}
+	};
+
+	@action setMainDictionary = async (id: string) => {
+		this.loading = true;
+		try {
+			await agent.Dictionaries.setMain(id);
+			runInAction("setting main dictionary", () => {
+				this.dictionariesRegistry.forEach((dictionary) => (dictionary.isMain = false));
+				this.dictionariesRegistry.get(id)!.isMain = true;
+				this.activeDictionary = this.dictionariesRegistry.get(id);
+			});
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
+		} finally {
+			runInAction("setting main dictionary", () => {
+				this.loading = false;
+			});
+		}
+	};
 }

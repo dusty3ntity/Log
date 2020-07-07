@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Slider, Switch } from "antd";
 
-import { ILanguage, INewDictionary, IDictionary } from "../../app/models/dictionary";
+import { ILanguage, INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
 
 interface IProps {
 	id: string;
@@ -16,7 +16,8 @@ interface IProps {
 	onKnownLanguageButtonClick?: () => void;
 	onLanguageToLearnButtonClick?: () => void;
 
-	onSubmit: (formData: any) => void;
+	onSubmit: any;
+	onDelete?: () => void;
 }
 
 const DictionaryForm: React.FC<IProps> = ({
@@ -28,23 +29,44 @@ const DictionaryForm: React.FC<IProps> = ({
 	onKnownLanguageButtonClick,
 	onLanguageToLearnButtonClick,
 	onSubmit,
+	onDelete,
 }) => {
-	const [preferredLearningListSize, setPreferredLearningListSize] = useState(50);
-	const [requiredCorrectAnswersNumber, setRequiredCorrectAnswersNumber] = useState(5);
-	const [isHardModeEnabled, setHardModeEnabled] = useState(false);
+	const [preferredLearningListSize, setPreferredLearningListSize] = useState(
+		dictionary ? dictionary.preferredLearningListSize : 50
+	);
+	const [requiredCorrectAnswersNumber, setRequiredCorrectAnswersNumber] = useState(
+		dictionary ? dictionary.correctAnswersToItemCompletion : 5
+	);
+	const [isHardModeEnabled, setHardModeEnabled] = useState(dictionary ? dictionary.isHardModeEnabled : false);
 	const [isMain, setMain] = useState(false);
 
-	const onFormSubmit = () => {
-		const newDictionary: INewDictionary = {
-			knownLanguageCode: knownLanguage!.isoCode,
-			languageToLearnCode: languageToLearn!.isoCode,
-			preferredLearningListSize: preferredLearningListSize,
-			correctAnswersToItemCompletion: requiredCorrectAnswersNumber,
-			isMain: isMain,
-			isHardModeEnabled: isHardModeEnabled,
-		};
+	const [isDirty, setDirty] = useState(false);
 
-		onSubmit(newDictionary);
+	const onFormSubmit = async () => {
+		if (!dictionary) {
+			const newDictionary: INewDictionary = {
+				knownLanguageCode: knownLanguage!.isoCode,
+				languageToLearnCode: languageToLearn!.isoCode,
+				preferredLearningListSize: preferredLearningListSize,
+				correctAnswersToItemCompletion: requiredCorrectAnswersNumber,
+				isMain: isMain,
+				isHardModeEnabled: isHardModeEnabled,
+			};
+
+			await onSubmit(newDictionary);
+		} else {
+			const editDictionary: IEditDictionary = {
+				preferredLearningListSize: preferredLearningListSize,
+				correctAnswersToItemCompletion: requiredCorrectAnswersNumber,
+				isHardModeEnabled: isHardModeEnabled,
+			};
+
+			const success = await onSubmit(dictionary.id, editDictionary);
+
+			if (success) {
+				setDirty(false);
+			}
+		}
 	};
 
 	return (
@@ -124,9 +146,17 @@ const DictionaryForm: React.FC<IProps> = ({
 						min={50}
 						max={100}
 						step={10}
-						defaultValue={50}
+						value={preferredLearningListSize}
 						tooltipVisible={false}
-						onChange={(value: any) => setPreferredLearningListSize(value)}
+						onChange={(value: any) => {
+							setDirty(
+								value !== dictionary?.preferredLearningListSize
+									? true
+									: requiredCorrectAnswersNumber !== dictionary?.correctAnswersToItemCompletion ||
+											isHardModeEnabled !== dictionary?.isHardModeEnabled
+							);
+							setPreferredLearningListSize(value);
+						}}
 					/>
 				</div>
 
@@ -140,37 +170,67 @@ const DictionaryForm: React.FC<IProps> = ({
 						className="slider"
 						min={5}
 						max={10}
-						defaultValue={5}
+						value={requiredCorrectAnswersNumber}
 						tooltipVisible={false}
-						onChange={(value: any) => setRequiredCorrectAnswersNumber(value)}
+						onChange={(value: any) => {
+							setDirty(
+								value !== dictionary?.correctAnswersToItemCompletion
+									? true
+									: preferredLearningListSize !== dictionary?.preferredLearningListSize ||
+											isHardModeEnabled !== dictionary?.isHardModeEnabled
+							);
+							setRequiredCorrectAnswersNumber(value);
+						}}
 					/>
 				</div>
 
 				<div className="is-hardmode-enabled toggle-item form-item">
 					<label>Is hardmode enabled:</label>
 
-					<Switch className="toggle" onChange={setHardModeEnabled} />
+					<Switch
+						className="toggle"
+						checked={isHardModeEnabled}
+						onChange={(value) => {
+							setDirty(
+								value !== dictionary?.isHardModeEnabled
+									? true
+									: preferredLearningListSize !== dictionary?.preferredLearningListSize ||
+											requiredCorrectAnswersNumber !== dictionary.correctAnswersToItemCompletion
+							);
+							setHardModeEnabled(value);
+						}}
+					/>
 				</div>
 
-				<div className="is-main toggle-item form-item">
-					<label>Is this my main dictionary:</label>
+				{!dictionary && (
+					<div className="is-main toggle-item form-item">
+						<label>Is this my main dictionary:</label>
 
-					<Switch className="toggle" onChange={setMain} />
-				</div>
+						<Switch className="toggle" onChange={setMain} />
+					</div>
+				)}
 			</div>
 
 			<div className="actions-row">
 				<button
 					className="btn actions-btn primary add-btn"
-					disabled={!knownLanguage || !languageToLearn}
+					disabled={!dictionary ? !knownLanguage || !languageToLearn : !isDirty}
 					onClick={onFormSubmit}
 				>
-					{!dictionary ? "Create" : "Save"}
+					{!dictionary ? "Create" : "Edit"}
 				</button>
 
-				<Link className="btn actions-btn cancel-btn" to="/dashboard">
-					Cancel
-				</Link>
+				{!dictionary && (
+					<Link className="btn actions-btn cancel-btn" to="/dashboard">
+						Cancel
+					</Link>
+				)}
+
+				{dictionary && (
+					<button className="btn actions-btn delete-btn" onClick={onDelete} disabled={dictionary.isMain}>
+						Delete
+					</button>
+				)}
 			</div>
 		</div>
 	);

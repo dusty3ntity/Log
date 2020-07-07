@@ -30,7 +30,6 @@ export interface IEditDictionary {
 	preferredLearningListSize: number;
 	correctAnswersToItemCompletion: number;
 
-	isMain: boolean;
 	isHardModeEnabled: boolean;
 }
 

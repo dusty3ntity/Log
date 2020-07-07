@@ -10,13 +10,11 @@ import { IDictionary } from "../../app/models/dictionary";
 
 const DictionariesSettings = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { dictionariesRegistry, activeDictionary, deleteDictionary } = rootStore.dictionaryStore;
+	const { dictionariesRegistry, editDictionary, deleteDictionary, setMainDictionary } = rootStore.dictionaryStore;
 
 	const [selectedDictionary, selectDictionary] = useState<IDictionary | undefined>(undefined);
 
 	const [isDrawerVisible, setDrawerVisible] = useState(false);
-
-	const onFormSubmit = (formData: any) => {};
 
 	return (
 		<div id="dictionaries-settings-container" className="manage-dictionary-container">
@@ -35,7 +33,7 @@ const DictionariesSettings = () => {
 										selectDictionary(dictionary);
 										setDrawerVisible(true);
 									}}
-									onDelete={(dictionary: IDictionary) => deleteDictionary(dictionary.id)}
+									onSetMain={(dictionary: IDictionary) => setMainDictionary(dictionary.id)}
 								/>
 							))}
 						</div>
@@ -44,7 +42,18 @@ const DictionariesSettings = () => {
 			</div>
 
 			<div id="edit-dictionary">
-				<DictionaryForm id="edit-dictionary-form" dictionary={activeDictionary!} onSubmit={onFormSubmit} />
+				{selectedDictionary && (
+					<DictionaryForm
+						key={selectedDictionary.id}
+						id="edit-dictionary-form"
+						dictionary={selectedDictionary}
+						onSubmit={editDictionary}
+						onDelete={() => {
+							selectDictionary(undefined);
+							deleteDictionary(selectedDictionary.id);
+						}}
+					/>
+				)}
 			</div>
 
 			<Drawer
@@ -59,8 +68,8 @@ const DictionariesSettings = () => {
 				<DictionaryForm
 					id="edit-dictionary-form"
 					className="drawer-content"
-					dictionary={activeDictionary!}
-					onSubmit={onFormSubmit}
+					dictionary={selectedDictionary}
+					onSubmit={editDictionary}
 				/>
 			</Drawer>
 		</div>

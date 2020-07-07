@@ -4,7 +4,7 @@ import LanguagesList from "./LanguagesList";
 import LanguagesListDrawer from "./drawers/LanguagesListDrawer";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import DictionaryForm from "./DictionaryForm";
-import { INewDictionary, ILanguage, IDictionary } from "../../app/models/dictionary";
+import { ILanguage, IDictionary } from "../../app/models/dictionary";
 import { languagesList } from "../../app/models/languages";
 
 const NewDictionary = () => {
@@ -33,7 +33,7 @@ const NewDictionary = () => {
 	const handleKnownLanguageSelection = (language: ILanguage) => {
 		const disabledLanguagesCodes = [language.isoCode];
 
-		Array.from(dictionariesRegistry.values()).forEach((dictionary: IDictionary) => {
+		dictionariesRegistry.forEach((dictionary: IDictionary) => {
 			if (dictionary.knownLanguage.isoCode === language.isoCode) {
 				disabledLanguagesCodes.push(dictionary.languageToLearn.isoCode);
 			}
@@ -51,7 +51,7 @@ const NewDictionary = () => {
 	const handleLanguageToLearnSelection = (language: ILanguage) => {
 		const disabledLanguagesCodes = [language.isoCode];
 
-		Array.from(dictionariesRegistry.values()).forEach((dictionary: IDictionary) => {
+		dictionariesRegistry.forEach((dictionary: IDictionary) => {
 			if (dictionary.languageToLearn.isoCode === language.isoCode) {
 				disabledLanguagesCodes.push(dictionary.knownLanguage.isoCode);
 			}
@@ -74,10 +74,6 @@ const NewDictionary = () => {
 	const resetLanguageToLearn = () => {
 		setDisabledKnownLanguagesList([]);
 		selectLanguageToLearn(undefined);
-	};
-
-	const onFormSubmit = async (dictionary: INewDictionary) => {
-		await createDictionary(dictionary);
 	};
 
 	return (
@@ -111,7 +107,7 @@ const NewDictionary = () => {
 					languageToLearn={selectedLanguageToLearn}
 					onKnownLanguageButtonClick={onLeftDrawerClick}
 					onLanguageToLearnButtonClick={onRightDrawerClick}
-					onSubmit={onFormSubmit}
+					onSubmit={createDictionary}
 				/>
 			</div>
 

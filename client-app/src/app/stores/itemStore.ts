@@ -140,7 +140,7 @@ export default class ItemStore {
 				this.activeItem!.definitionOrigin = editItem.definitionOrigin;
 				this.editing = false;
 				history.push("/dashboard");
-				createNotification(NotificationType.Success, { message: "Item edited successfully!" });
+				createNotification(NotificationType.Success, { message: "Item updated successfully!" });
 			});
 			return true;
 		} catch (err) {
