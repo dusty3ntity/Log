@@ -11,6 +11,7 @@ import NewItem from "../../components/manage-item/NewItem";
 import EditItem from "../../components/manage-item/EditItem";
 import Learning from "../../components/learning/Learning";
 import NewDictionary from "../../components/dictionaries/NewDictionary";
+import DictionariesSettings from "../../components/dictionaries/DictionariesSettings";
 import NotFound from "./NotFound";
 import { RootStoreContext } from "../stores/rootStore";
 
@@ -46,6 +47,10 @@ function App() {
 
 						<Route path="/new-dictionary">
 							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
+						</Route>
+
+						<Route path="/dictionaries">
+							<Page title="Dictionaries" pageTitle="Dictionaries" component={<DictionariesSettings />} />
 						</Route>
 
 						<Route exact path="/new-item">

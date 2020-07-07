@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Slider, Switch } from "antd";
 
-import { ILanguage, INewDictionary } from "../../app/models/dictionary";
+import { ILanguage, INewDictionary, IDictionary } from "../../app/models/dictionary";
 
 interface IProps {
 	id: string;
+
+	dictionary?: IDictionary;
 
 	knownLanguage?: ILanguage | undefined;
 	languageToLearn?: ILanguage | undefined;
@@ -18,6 +20,7 @@ interface IProps {
 
 const DictionaryForm: React.FC<IProps> = ({
 	id,
+	dictionary,
 	knownLanguage,
 	languageToLearn,
 	onKnownLanguageButtonClick,
@@ -48,23 +51,27 @@ const DictionaryForm: React.FC<IProps> = ({
 				<div className="lang-container known-lang-container">
 					<span className="title">I know</span>
 
-					{!knownLanguage && <div className="flag-placeholder" />}
+					{!knownLanguage && !dictionary && <div className="flag-placeholder" />}
 
-					<button
-						className={`btn ${knownLanguage ? "flag-btn" : "flag-placeholder-btn"} known-lang-btn`}
-						onClick={onKnownLanguageButtonClick}
-					>
-						{knownLanguage && (
-							<img src={`/images/flags/${knownLanguage.isoCode}.png`} alt={knownLanguage.isoCode} />
-						)}
-					</button>
+					{!dictionary && (
+						<button
+							className={`btn ${knownLanguage ? "flag-btn" : "flag-placeholder-btn"} known-lang-btn`}
+							onClick={onKnownLanguageButtonClick}
+						>
+							{knownLanguage && (
+								<img src={`/images/flags/${knownLanguage.isoCode}.png`} alt={knownLanguage.isoCode} />
+							)}
+						</button>
+					)}
 
-					{knownLanguage && (
+					{(knownLanguage || dictionary) && (
 						<div className="flag">
 							<img
-								src={`/images/flags/${knownLanguage.isoCode}.png`}
+								src={`/images/flags/${
+									knownLanguage ? knownLanguage.isoCode : dictionary!.knownLanguage.isoCode
+								}.png`}
 								className="flag"
-								alt={knownLanguage.isoCode}
+								alt={knownLanguage ? knownLanguage.isoCode : dictionary!.knownLanguage.isoCode}
 							/>
 						</div>
 					)}
@@ -73,23 +80,30 @@ const DictionaryForm: React.FC<IProps> = ({
 				<div className="lang-container lang-to-learn-container">
 					<span className="title">I learn</span>
 
-					{!languageToLearn && <div className="flag-placeholder" />}
+					{!languageToLearn && !dictionary && <div className="flag-placeholder" />}
 
-					<button
-						className={`btn ${languageToLearn ? "flag-btn" : "flag-placeholder-btn"} lang-to-learn-btn`}
-						onClick={onLanguageToLearnButtonClick}
-					>
-						{languageToLearn && (
-							<img src={`/images/flags/${languageToLearn.isoCode}.png`} alt={languageToLearn.isoCode} />
-						)}
-					</button>
+					{!dictionary && (
+						<button
+							className={`btn ${languageToLearn ? "flag-btn" : "flag-placeholder-btn"} lang-to-learn-btn`}
+							onClick={onLanguageToLearnButtonClick}
+						>
+							{languageToLearn && (
+								<img
+									src={`/images/flags/${languageToLearn.isoCode}.png`}
+									alt={languageToLearn.isoCode}
+								/>
+							)}
+						</button>
+					)}
 
-					{languageToLearn && (
+					{(languageToLearn || dictionary) && (
 						<div className="flag">
 							<img
-								src={`/images/flags/${languageToLearn.isoCode}.png`}
+								src={`/images/flags/${
+									languageToLearn ? languageToLearn.isoCode : dictionary!.languageToLearn.isoCode
+								}.png`}
 								className="flag"
-								alt={languageToLearn.isoCode}
+								alt={languageToLearn ? languageToLearn.isoCode : dictionary!.languageToLearn.isoCode}
 							/>
 						</div>
 					)}
@@ -149,7 +163,7 @@ const DictionaryForm: React.FC<IProps> = ({
 					disabled={!knownLanguage || !languageToLearn}
 					onClick={onFormSubmit}
 				>
-					Create
+					{!dictionary ? "Create" : "Save"}
 				</button>
 
 				<Link className="btn actions-btn cancel-btn" to="/dashboard">

@@ -2,8 +2,7 @@ import { observable, action, runInAction, computed, reaction } from "mobx";
 import { history } from "../..";
 
 import { RootStore } from "./rootStore";
-import { INewDictionary } from "./../models/dictionary";
-import { IDictionary } from "../models/dictionary";
+import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
 import agent from "../api/agent";
 import { ErrorType, NotificationType } from "../models/error";
 import { createNotification } from "../common/util/notifications";
@@ -119,4 +118,8 @@ export default class DictionaryStore {
 			});
 		}
 	};
+
+	@action editDictionary = async (id: string, dictionary: IEditDictionary) => {};
+
+	@action deleteDictionary = async (id: string) => {};
 }

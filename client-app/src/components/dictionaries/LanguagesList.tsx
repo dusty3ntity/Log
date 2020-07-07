@@ -30,7 +30,7 @@ const LanguagesList: React.FC<IProps> = ({ id, type, className, disabledItems, s
 
 			<div className="list-container">
 				<SimpleBar style={{ height: "100%" }} autoHide={false} forceVisible="y" scrollbarMinSize={36}>
-					<div id="list">
+					<div className="list">
 						{languagesList.map((item) => (
 							<button
 								className={`btn list-item ${selectedItem?.isoCode === item.isoCode ? "active" : ""}`}

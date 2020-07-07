@@ -6,8 +6,8 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import DropdownIcon from "../icons/DropdownIcon";
-import EditIcon from "../icons/EditIcon";
 import PlusIcon from "../icons/PlusIcon";
+import SettingsIcon from "../icons/SettingsIcon";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -50,8 +50,8 @@ const DictionarySelector = () => {
 					<PlusIcon />
 				</NavLink>
 
-				<NavLink exact to="/dictionaries" className="btn actions-btn edit-btn">
-					<EditIcon />
+				<NavLink exact to="/dictionaries" className="btn actions-btn settings-btn">
+					<SettingsIcon />
 				</NavLink>
 			</div>
 		</Menu>

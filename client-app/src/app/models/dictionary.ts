@@ -16,14 +16,22 @@ export interface IDictionary {
 }
 
 export interface INewDictionary {
-	knownLanguageCode: string,
-	languageToLearnCode: string,
+	knownLanguageCode: string;
+	languageToLearnCode: string;
 
-	preferredLearningListSize: number,
-	correctAnswersToItemCompletion: number,
+	preferredLearningListSize: number;
+	correctAnswersToItemCompletion: number;
 
-	isMain: boolean,
-	isHardModeEnabled: boolean
+	isMain: boolean;
+	isHardModeEnabled: boolean;
+}
+
+export interface IEditDictionary {
+	preferredLearningListSize: number;
+	correctAnswersToItemCompletion: number;
+
+	isMain: boolean;
+	isHardModeEnabled: boolean;
 }
 
 export interface ILanguage {
