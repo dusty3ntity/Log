@@ -21,6 +21,9 @@ export default class DictionaryStore {
 					await rootStore.itemStore.loadItems();
 				} else if (history.location.pathname.includes("/learning")) {
 					await rootStore.learningStore.onInitialLoad();
+				} else if (history.location.pathname.includes("/edit-item")) {
+					rootStore.itemStore.activeItem = undefined;
+					history.push("/dashboard");
 				}
 			}
 		);
