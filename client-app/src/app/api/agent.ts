@@ -1,4 +1,4 @@
-import { IDictionary } from "./../models/dictionary";
+import { IDictionary, INewDictionary } from "./../models/dictionary";
 import axios, { AxiosResponse } from "axios";
 import { history } from "../..";
 
@@ -91,6 +91,7 @@ const requests = {
 const Dictionaries = {
 	list: (): Promise<IDictionary[]> => axios.get("/dictionaries/").then(responseBody),
 	details: (id: string): Promise<IDictionary> => axios.get(`/dictionaries/${id}`).then(responseBody),
+	create: (dictionary: INewDictionary) => axios.post("/dictionaries/", dictionary).then(responseBody),
 	delete: (id: string) => requests.del(`/dictionaries/${id}`),
 	setMain: (id: string) => requests.post(`/dictionaries/${id}/setMain`),
 };

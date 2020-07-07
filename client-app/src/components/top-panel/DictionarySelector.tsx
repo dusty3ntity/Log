@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { Dropdown, Menu } from "antd";
 import { observer } from "mobx-react-lite";
@@ -11,7 +11,7 @@ import PlusIcon from "../icons/PlusIcon";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { activeDictionary, selectDictionary, dictionariesRegistry } = rootStore.dictionariesStore;
+	const { activeDictionary, selectDictionary, dictionariesRegistry } = rootStore.dictionaryStore;
 
 	const menu = (
 		<Menu className="menu">

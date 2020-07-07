@@ -9,7 +9,7 @@ import CalendarIcon from "../../icons/CalendarIcon";
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { showFiltersDrawer, filtersDrawerVisible } = rootStore.itemStore;
-	const { activeDictionary } = rootStore.dictionariesStore;
+	const { activeDictionary } = rootStore.dictionaryStore;
 
 	return (
 		<div id="header-container">

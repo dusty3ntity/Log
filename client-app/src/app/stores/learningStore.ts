@@ -273,7 +273,7 @@ export default class LearningStore {
 	@action loadLearningList = async () => {
 		this.loading = true;
 		try {
-			const learningList = await agent.LearningLists.get(this.rootStore.dictionariesStore.activeDictionaryId!);
+			const learningList = await agent.LearningLists.get(this.rootStore.dictionaryStore.activeDictionaryId!);
 			runInAction("loading learning list", () => {
 				this.learningList = learningList;
 			});
@@ -291,7 +291,7 @@ export default class LearningStore {
 		this.loading = true;
 		try {
 			let learningItem = await agent.LearningLists.getNextItem(
-				this.rootStore.dictionariesStore.activeDictionaryId!,
+				this.rootStore.dictionaryStore.activeDictionaryId!,
 				this.learningList!.id
 			);
 			runInAction("loading learning item", () => {
@@ -321,7 +321,7 @@ export default class LearningStore {
 				answer: answer,
 			};
 			const learningItemResult = await agent.LearningLists.checkItem(
-				this.rootStore.dictionariesStore.activeDictionaryId!,
+				this.rootStore.dictionaryStore.activeDictionaryId!,
 				this.learningList!.id,
 				learningItemAnswer
 			);
@@ -347,7 +347,7 @@ export default class LearningStore {
 		this.loading = true;
 		try {
 			await agent.LearningLists.startOver(
-				this.rootStore.dictionariesStore.activeDictionaryId!,
+				this.rootStore.dictionaryStore.activeDictionaryId!,
 				this.learningList!.id
 			);
 			await this.loadLearningItem();

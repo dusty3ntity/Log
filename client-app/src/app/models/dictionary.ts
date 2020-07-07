@@ -12,7 +12,18 @@ export interface IDictionary {
 
 	preferredLearningListSize: number;
 	correctAnswersToItemCompletion: number;
-	isHardModeEnabled: number;
+	isHardModeEnabled: boolean;
+}
+
+export interface INewDictionary {
+	knownLanguageCode: string,
+	languageToLearnCode: string,
+
+	preferredLearningListSize: number,
+	correctAnswersToItemCompletion: number,
+
+	isMain: boolean,
+	isHardModeEnabled: boolean
 }
 
 export interface ILanguage {

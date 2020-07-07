@@ -16,7 +16,7 @@ import { RootStoreContext } from "../stores/rootStore";
 
 function App() {
 	const rootStore = useContext(RootStoreContext);
-	const { loadDictionaries, loadingInitial } = rootStore.dictionariesStore;
+	const { loadDictionaries, loadingInitial } = rootStore.dictionaryStore;
 
 	useEffect(() => {
 		loadDictionaries();

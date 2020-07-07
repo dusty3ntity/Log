@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Slider, Switch } from "antd";
+import React, { useState, useContext } from "react";
 
 import LanguagesList from "./LanguagesList";
 import LanguagesListDrawer from "./drawers/LanguagesListDrawer";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import DictionaryForm from "./DictionaryForm";
+import { INewDictionary, ILanguage, IDictionary } from "../../app/models/dictionary";
+import { languagesList } from "../../app/models/languages";
 
 const NewDictionary = () => {
+	const rootStore = useContext(RootStoreContext);
+	const { dictionariesRegistry, createDictionary } = rootStore.dictionaryStore;
+
 	const [isLeftDrawerVisible, setLeftDrawerVisible] = useState(false);
 	const [isRightDrawerVisible, setRightDrawerVisible] = useState(false);
-
-	const [preferredLearningListSize, setPreferredLearningListSize] = useState(50);
-	const [requiredCorrectAnswersNumber, setRequiredCorrectAnswersNumber] = useState(5);
-	const [isHardModeEnabled, setHardModeEnabled] = useState(false);
-	const [isMain, setMain] = useState(false);
 
 	const onLeftDrawerClick = () => {
 		setRightDrawerVisible(false);
@@ -24,111 +24,117 @@ const NewDictionary = () => {
 		setRightDrawerVisible(!isRightDrawerVisible);
 	};
 
+	const [selectedKnownLanguage, selectKnownLanguage] = useState<ILanguage | undefined>(undefined);
+	const [selectedLanguageToLearn, selectLanguageToLearn] = useState<ILanguage | undefined>(undefined);
+
+	const [disabledKnownLanguagesList, setDisabledKnownLanguagesList] = useState<ILanguage[]>([]);
+	const [disabledLanguagesToLearnList, setDisabledLanguagesToLearnList] = useState<ILanguage[]>([]);
+
+	const handleKnownLanguageSelection = (language: ILanguage) => {
+		const disabledLanguagesCodes = [language.isoCode];
+
+		Array.from(dictionariesRegistry.values()).forEach((dictionary: IDictionary) => {
+			if (dictionary.knownLanguage.isoCode === language.isoCode) {
+				disabledLanguagesCodes.push(dictionary.languageToLearn.isoCode);
+			}
+		});
+
+		setDisabledLanguagesToLearnList(
+			languagesList.filter((language) => {
+				return disabledLanguagesCodes.includes(language.isoCode);
+			})
+		);
+
+		selectKnownLanguage(language);
+	};
+
+	const handleLanguageToLearnSelection = (language: ILanguage) => {
+		const disabledLanguagesCodes = [language.isoCode];
+
+		Array.from(dictionariesRegistry.values()).forEach((dictionary: IDictionary) => {
+			if (dictionary.languageToLearn.isoCode === language.isoCode) {
+				disabledLanguagesCodes.push(dictionary.knownLanguage.isoCode);
+			}
+		});
+
+		setDisabledKnownLanguagesList(
+			languagesList.filter((language) => {
+				return disabledLanguagesCodes.includes(language.isoCode);
+			})
+		);
+
+		selectLanguageToLearn(language);
+	};
+
+	const resetKnownLanguage = () => {
+		setDisabledLanguagesToLearnList([]);
+		selectKnownLanguage(undefined);
+	};
+
+	const resetLanguageToLearn = () => {
+		setDisabledKnownLanguagesList([]);
+		selectLanguageToLearn(undefined);
+	};
+
+	const onFormSubmit = async (dictionary: INewDictionary) => {
+		await createDictionary(dictionary);
+	};
+
 	return (
 		<div id="new-dictionary-container" className="manage-dictionary-container">
 			<LanguagesListDrawer
 				listId="language-list-from"
 				listType="known-language"
+				selectedItem={selectedKnownLanguage}
+				disabledItems={disabledKnownLanguagesList}
 				className="lang-from"
 				position="left"
 				isVisible={isLeftDrawerVisible}
 				onClose={() => setLeftDrawerVisible(false)}
+				onItemSelect={handleKnownLanguageSelection}
+				reset={resetKnownLanguage}
 			/>
 
-			<LanguagesList id="language-list-from" type="known-language" />
+			<LanguagesList
+				id="language-list-from"
+				type="known-language"
+				disabledItems={disabledKnownLanguagesList}
+				selectedItem={selectedKnownLanguage}
+				onItemSelect={handleKnownLanguageSelection}
+				reset={resetKnownLanguage}
+			/>
 
 			<div id="new-dictionary">
-				<div className="flags-row">
-					<div className="lang-container known-lang-container">
-						<span className="title">I know</span>
-
-						<button className="btn flag-btn known-lang-btn" onClick={onLeftDrawerClick}>
-							<img src="/images/flags/ukr.png" alt="ukr" />
-						</button>
-
-						<div className="flag">
-							<img src="/images/flags/ukr.png" className="flag" alt="ukr" />
-						</div>
-					</div>
-
-					<div className="lang-container lang-to-learn-container">
-						<span className="title">I learn</span>
-
-						<button className="btn flag-btn lang-to-learn-btn" onClick={onRightDrawerClick}>
-							<img src="/images/flags/eng.png" alt="eng" />
-						</button>
-
-						<div className="flag">
-							<img src="/images/flags/eng.png" className="flag" alt="eng" />
-						</div>
-					</div>
-				</div>
-
-				<div className="settings-row">
-					<div className="preferred-list-size form-item">
-						<label>
-							<span className="title">Preferred training size:</span>
-							<span className="slider-value">{preferredLearningListSize} items</span>
-						</label>
-
-						<Slider
-							className="slider"
-							min={50}
-							max={100}
-							step={10}
-							defaultValue={50}
-							tooltipVisible={false}
-							onChange={(value: any) => setPreferredLearningListSize(value)}
-						/>
-					</div>
-
-					<div className="required-correct-answers form-item">
-						<label>
-							<span className="title">Required correct answers:</span>
-							<span className="slider-value">{requiredCorrectAnswersNumber} answers</span>
-						</label>
-
-						<Slider
-							className="slider"
-							min={5}
-							max={10}
-							defaultValue={5}
-							tooltipVisible={false}
-							onChange={(value: any) => setRequiredCorrectAnswersNumber(value)}
-						/>
-					</div>
-
-					<div className="is-hardmode-enabled toggle-item form-item">
-						<label>Is hardmode enabled:</label>
-
-						<Switch className="toggle" onChange={setHardModeEnabled} />
-					</div>
-
-					<div className="is-main toggle-item form-item">
-						<label>Is this my main dictionary:</label>
-
-						<Switch className="toggle" onChange={setMain} />
-					</div>
-				</div>
-
-				<div className="actions-row">
-					<button className="btn actions-btn primary add-btn">Add</button>
-
-					<Link className="btn actions-btn cancel-btn" to="/dashboard">
-						Cancel
-					</Link>
-				</div>
+				<DictionaryForm
+					id="new-dictionary-form"
+					knownLanguage={selectedKnownLanguage}
+					languageToLearn={selectedLanguageToLearn}
+					onKnownLanguageButtonClick={onLeftDrawerClick}
+					onLanguageToLearnButtonClick={onRightDrawerClick}
+					onSubmit={onFormSubmit}
+				/>
 			</div>
 
-			<LanguagesList id="language-list-to" type="language-to-learn" />
+			<LanguagesList
+				id="language-list-to"
+				type="language-to-learn"
+				disabledItems={disabledLanguagesToLearnList}
+				selectedItem={selectedLanguageToLearn}
+				onItemSelect={handleLanguageToLearnSelection}
+				reset={resetLanguageToLearn}
+			/>
 
 			<LanguagesListDrawer
 				listId="language-list-to"
 				listType="language-to-learn"
+				disabledItems={disabledLanguagesToLearnList}
+				selectedItem={selectedLanguageToLearn}
 				className="lang-to"
 				position="right"
 				isVisible={isRightDrawerVisible}
 				onClose={() => setRightDrawerVisible(false)}
+				onItemSelect={handleLanguageToLearnSelection}
+				reset={resetLanguageToLearn}
 			/>
 		</div>
 	);

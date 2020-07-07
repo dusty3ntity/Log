@@ -23,7 +23,7 @@ export default class ItemStore {
 	@action loadItems = async () => {
 		this.loadingInitial = true;
 		try {
-			const items = await agent.Items.list(this.rootStore.dictionariesStore.activeDictionaryId!);
+			const items = await agent.Items.list(this.rootStore.dictionaryStore.activeDictionaryId!);
 			runInAction("loading items", () => {
 				this.itemRegistry = new Map();
 				items.forEach((item) => {
@@ -50,7 +50,7 @@ export default class ItemStore {
 			this.activeItem = item;
 		} else {
 			try {
-				item = await agent.Items.details(this.rootStore.dictionariesStore.activeDictionaryId!, id);
+				item = await agent.Items.details(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 				runInAction("getting item", () => {
 					this.activeItem = item;
 					this.itemRegistry.set(item.id, item);
@@ -88,13 +88,15 @@ export default class ItemStore {
 	@action createItem = async (item: INewItem) => {
 		this.loading = true;
 		try {
-			await agent.Items.create(this.rootStore.dictionariesStore.activeDictionaryId!, item);
-			if (item.type === ItemType.Word) {
-				this.rootStore.dictionariesStore.activeDictionary!.wordsCount++;
-			} else {
-				this.rootStore.dictionariesStore.activeDictionary!.phrasesCount++;
-			}
-			createNotification(NotificationType.Success, { message: "Item created successfully!" });
+			await agent.Items.create(this.rootStore.dictionaryStore.activeDictionaryId!, item);
+			runInAction("creating item", () => {
+				if (item.type === ItemType.Word) {
+					this.rootStore.dictionaryStore.activeDictionary!.wordsCount++;
+				} else {
+					this.rootStore.dictionaryStore.activeDictionary!.phrasesCount++;
+				}
+				createNotification(NotificationType.Success, { message: "Item created successfully!" });
+			});
 			return true;
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -126,7 +128,7 @@ export default class ItemStore {
 	@action editItem = async (id: string, editItem: IEditItem) => {
 		this.loading = true;
 		try {
-			await agent.Items.update(this.rootStore.dictionariesStore.activeDictionaryId!, id, editItem);
+			await agent.Items.update(this.rootStore.dictionaryStore.activeDictionaryId!, id, editItem);
 			runInAction("updating item", () => {
 				this.activeItem!.original = editItem.original;
 				this.activeItem!.translation = editItem.translation;
@@ -167,12 +169,12 @@ export default class ItemStore {
 	@action deleteItem = async () => {
 		this.loading = true;
 		try {
-			await agent.Items.delete(this.rootStore.dictionariesStore.activeDictionaryId!, this.activeItem!.id);
+			await agent.Items.delete(this.rootStore.dictionaryStore.activeDictionaryId!, this.activeItem!.id);
 			runInAction("deleting item", () => {
 				if (this.activeItem!.type === ItemType.Word) {
-					this.rootStore.dictionariesStore.activeDictionary!.wordsCount--;
+					this.rootStore.dictionaryStore.activeDictionary!.wordsCount--;
 				} else {
-					this.rootStore.dictionariesStore.activeDictionary!.phrasesCount--;
+					this.rootStore.dictionaryStore.activeDictionary!.phrasesCount--;
 				}
 				this.itemRegistry.delete(this.activeItem!.id);
 				this.clearActiveItem();
@@ -195,7 +197,7 @@ export default class ItemStore {
 	@action starItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.star(this.rootStore.dictionariesStore.activeDictionaryId!, id);
+			await agent.Items.star(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("starring item", () => {
 				this.itemRegistry.get(id).isStarred = true;
 			});
@@ -217,7 +219,7 @@ export default class ItemStore {
 	@action unstarItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.unstar(this.rootStore.dictionariesStore.activeDictionaryId!, id);
+			await agent.Items.unstar(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("unstarring item", () => {
 				this.itemRegistry.get(id).isStarred = false;
 			});

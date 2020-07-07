@@ -24,7 +24,9 @@ namespace Application.Dictionaries
 
             public int PreferredLearningListSize { get; set; }
             public int CorrectAnswersToItemCompletion { get; set; }
+			
             public bool IsMain { get; set; }
+            public bool IsHardModeEnabled { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -104,6 +106,7 @@ namespace Application.Dictionaries
 
                     PreferredLearningListSize = request.PreferredLearningListSize,
                     CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion,
+                    IsHardModeEnabled = request.IsHardModeEnabled,
 
                     Items = new List<Item>()
                 };
