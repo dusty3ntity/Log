@@ -6,6 +6,7 @@ import { ILanguage, INewDictionary, IDictionary } from "../../app/models/diction
 
 interface IProps {
 	id: string;
+	className?: string;
 
 	dictionary?: IDictionary;
 
@@ -20,6 +21,7 @@ interface IProps {
 
 const DictionaryForm: React.FC<IProps> = ({
 	id,
+	className,
 	dictionary,
 	knownLanguage,
 	languageToLearn,
@@ -46,7 +48,7 @@ const DictionaryForm: React.FC<IProps> = ({
 	};
 
 	return (
-		<div className="dictionary-form" id={id}>
+		<div className={`dictionary-form ${className ? className : ""}`} id={id}>
 			<div className="flags-row">
 				<div className="lang-container known-lang-container">
 					<span className="title">I know</span>

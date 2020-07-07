@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import SimpleBar from "simplebar-react";
+import { observer } from "mobx-react-lite";
+import { Drawer } from "antd";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
 import DictionaryForm from "./DictionaryForm";
@@ -11,6 +13,8 @@ const DictionariesSettings = () => {
 	const { dictionariesRegistry, activeDictionary, deleteDictionary } = rootStore.dictionaryStore;
 
 	const [selectedDictionary, selectDictionary] = useState<IDictionary | undefined>(undefined);
+
+	const [isDrawerVisible, setDrawerVisible] = useState(false);
 
 	const onFormSubmit = (formData: any) => {};
 
@@ -27,7 +31,10 @@ const DictionariesSettings = () => {
 									key={dictionary.id}
 									dictionary={dictionary}
 									isActive={selectedDictionary?.id === dictionary.id}
-									onClick={(dictionary: IDictionary) => selectDictionary(dictionary)}
+									onClick={(dictionary: IDictionary) => {
+										selectDictionary(dictionary);
+										setDrawerVisible(true);
+									}}
 									onDelete={(dictionary: IDictionary) => deleteDictionary(dictionary.id)}
 								/>
 							))}
@@ -39,8 +46,25 @@ const DictionariesSettings = () => {
 			<div id="edit-dictionary">
 				<DictionaryForm id="edit-dictionary-form" dictionary={activeDictionary!} onSubmit={onFormSubmit} />
 			</div>
+
+			<Drawer
+				className={`drawer dictionaries-settings-drawer ${!isDrawerVisible ? " no-shadow" : ""}`}
+				placement="right"
+				closable={false}
+				visible={isDrawerVisible}
+				onClose={() => setDrawerVisible(false)}
+				getContainer={false}
+				style={{ position: "absolute" }}
+			>
+				<DictionaryForm
+					id="edit-dictionary-form"
+					className="drawer-content"
+					dictionary={activeDictionary!}
+					onSubmit={onFormSubmit}
+				/>
+			</Drawer>
 		</div>
 	);
 };
 
-export default DictionariesSettings;
+export default observer(DictionariesSettings);
