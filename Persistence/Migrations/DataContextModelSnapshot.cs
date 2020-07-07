@@ -37,7 +37,10 @@ namespace Persistence.Migrations
                     b.Property<int>("LanguageToLearnId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LearnedItemsCount")
+                    b.Property<int>("LearnedPhrasesCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LearnedWordsCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid?>("LearningListId")

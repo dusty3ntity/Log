@@ -24,7 +24,9 @@ namespace Application.Dictionaries
 
             public int PreferredLearningListSize { get; set; }
             public int CorrectAnswersToItemCompletion { get; set; }
+			
             public bool IsMain { get; set; }
+            public bool IsHardModeEnabled { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -82,6 +84,9 @@ namespace Application.Dictionaries
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.LanguageNotFound);
 
                 var dictionaries = await _context.Dictionaries.ToListAsync();
+                
+                if (dictionaries.Count == 4)
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.DictionariesLimitReached);
 
                 var duplicate = await _duplicatesChecker.SearchForDuplicates(knownLanguage, languageToLearn);
 
@@ -104,6 +109,7 @@ namespace Application.Dictionaries
 
                     PreferredLearningListSize = request.PreferredLearningListSize,
                     CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion,
+                    IsHardModeEnabled = request.IsHardModeEnabled,
 
                     Items = new List<Item>()
                 };

@@ -20,7 +20,6 @@ const Learning = () => {
 		isLearningEndFlipped,
 		isLearningOutdatedFlipped,
 
-		reset,
 		onInitialLoad,
 		onStart,
 		onStartOver,
@@ -32,9 +31,8 @@ const Learning = () => {
 	} = rootStore.learningStore;
 
 	useEffect(() => {
-		reset();
 		onInitialLoad();
-	}, [reset, onInitialLoad]);
+	}, [onInitialLoad]);
 
 	return (
 		<div id="learning-container">

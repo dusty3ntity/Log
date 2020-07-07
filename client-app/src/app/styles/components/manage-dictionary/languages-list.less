@@ -1,5 +1,7 @@
 .languages-list {
-	width: 22%;
+	height: 100%;
+	width: 24%;
+	flex-grow: 2;
 	padding: 1rem;
 	border-radius: 1.875rem;
 	display: flex;
@@ -9,16 +11,46 @@
 		3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
 		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 
-	.title {
+	.title-container {
 		padding: 1rem 1rem 0;
-		margin-bottom: 1rem;
-		font-size: 30px;
-		font-weight: 700;
-		text-align: center;
+		margin-bottom: 0.5rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.title {
+			font-size: 1.875rem;
+			font-weight: 700;
+		}
+
+		.reset-btn {
+			margin-left: 1rem;
+			padding: 4px;
+
+			.icon {
+				height: 1.8rem;
+				width: 1.8rem;
+			}
+
+			box-shadow: 1px 1px 3px rgba(204, 213, 222, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
+				1px -1px 2px rgba(204, 213, 222, 0.2), -1px 1px 2px rgba(204, 213, 222, 0.2),
+				inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			&:hover {
+				background: linear-gradient(135deg, #d8e1eb 0%, #eef9ff 100%);
+			}
+
+			&:active {
+				background: @body-background;
+				box-shadow: -1px -1px 2px rgba(204, 213, 221, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+					inset 1px 1px 3px rgba(204, 213, 221, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+					inset 1px -1px 2px rgba(204, 213, 221, 0.2), inset -1px 1px 2px rgba(204, 213, 221, 0.2);
+			}
+		}
 	}
 
 	.list-container {
-		height: 100%;
+		flex-grow: 2;
 		position: relative;
 		overflow: hidden;
 	}
@@ -52,16 +84,18 @@
 				inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 		}
 
-		&:active {
-			background: @body-background-darker;
+		&:active,
+		&.active {
+			background: #bfd1f0;
+
 			box-shadow: -1px -1px 2px rgba(204, 213, 221, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
 				inset 1px 1px 3px rgba(204, 213, 221, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
 				inset 1px -1px 2px rgba(204, 213, 221, 0.2), inset -1px 1px 2px rgba(204, 213, 221, 0.2);
 		}
 
 		img {
-			height: 30px;
-			width: 40px;
+			height: 1.875rem;
+			width: 2.5rem;
 
 			box-shadow: -1px -1px 2px rgba(91, 95, 98, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3),
 				inset 1px 1px 3px rgba(91, 95, 98, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.9),
@@ -70,9 +104,36 @@
 		}
 
 		span {
-			margin-left: 24px;
-			font-size: 20px;
+			margin-left: 1rem;
+			font-size: 1.25rem;
 			font-weight: 600;
 		}
+
+		&:disabled {
+			
+			img {
+				opacity: 0.5;
+			}
+
+			span {
+				color: @text-color-grey;
+			}
+		}
+	}
+
+	&.drawer-content {
+		box-shadow: none;
+	}
+}
+
+@media (max-width: @xl-end) {
+	.languages-list {
+		padding: 0;
+	}
+}
+
+@media (max-width: 1099px) {
+	.languages-list:not(.drawer-content) {
+		display: none;
 	}
 }

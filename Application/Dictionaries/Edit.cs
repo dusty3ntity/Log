@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Errors;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Dictionaries
@@ -17,6 +18,9 @@ namespace Application.Dictionaries
 
             public int PreferredLearningListSize { get; set; }
             public int CorrectAnswersToItemCompletion { get; set; }
+
+			public bool IsMain { get; set; }
+            public bool IsHardModeEnabled { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -53,13 +57,16 @@ namespace Application.Dictionaries
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
-                dictionary.PreferredLearningListSize =
-                    request.PreferredLearningListSize != 0
-                        ? request.PreferredLearningListSize
-                        : dictionary.PreferredLearningListSize;
-                dictionary.CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion != 0
-                    ? request.CorrectAnswersToItemCompletion
-                    : dictionary.CorrectAnswersToItemCompletion;
+				if (request.IsMain) {
+					var dictionaries = await _context.Dictionaries.ToListAsync();
+					
+                    foreach (var dict in dictionaries)
+                        dict.IsMain = false;
+				}
+
+                dictionary.PreferredLearningListSize = request.PreferredLearningListSize;
+                dictionary.CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion;
+				dictionary.IsHardModeEnabled = request.IsHardModeEnabled;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

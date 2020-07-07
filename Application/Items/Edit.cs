@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
 using Application.Utilities;
+using Domain;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -83,7 +84,13 @@ namespace Application.Items
                             ErrorType.ItemOriginalOrTranslationContainEachOther);
 
                     if (item.IsLearned)
-                        dictionary.LearnedItemsCount--;
+                    {
+                        if (item.Type == ItemType.Word)
+                            dictionary.LearnedWordsCount--;
+                        else
+                            dictionary.LearnedPhrasesCount--;
+                    }
+
                     item.IsLearned = false;
                     item.CorrectAnswersToCompletionCount = 0;
                     item.CreationDate = DateTime.Now;

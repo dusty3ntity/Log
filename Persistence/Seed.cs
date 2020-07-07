@@ -12,6 +12,25 @@ namespace Persistence
         {
             if (!context.Dictionaries.Any())
             {
+                var languages = new List<Language>
+                {
+                    new Language
+                    {
+                        Name = "English",
+                        ISOCode = "eng"
+                    },
+                    new Language
+                    {
+                        Name = "Русский",
+                        ISOCode = "rus"
+                    },
+                    new Language
+                    {
+                        Name = "Українська",
+                        ISOCode = "ukr"
+                    },
+                };
+
                 var Item1 = new Item
                 {
                     Original = "house",
@@ -167,19 +186,12 @@ namespace Persistence
                 var dictionary = new Dictionary
                 {
                     IsMain = true,
-                    KnownLanguage = new Language
-                    {
-                        Name = "Русский",
-                        ISOCode = "rus"
-                    },
-                    LanguageToLearn = new Language
-                    {
-                        Name = "English",
-                        ISOCode = "eng"
-                    },
+                    KnownLanguage = languages[1],
+                    LanguageToLearn = languages[0],
                     PhrasesCount = 2,
                     WordsCount = 8,
-                    LearnedItemsCount = 4,
+                    LearnedWordsCount = 3,
+                    LearnedPhrasesCount = 1,
                     PreferredLearningListSize = 50,
                     CorrectAnswersToItemCompletion = 5,
                     IsHardModeEnabled = true,
@@ -189,6 +201,7 @@ namespace Persistence
                     }
                 };
 
+                await context.Languages.AddRangeAsync(languages);
                 await context.Dictionaries.AddAsync(dictionary);
                 await context.SaveChangesAsync();
             }

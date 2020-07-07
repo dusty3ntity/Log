@@ -1,7 +1,7 @@
 import { observable, action, runInAction, computed } from "mobx";
 
-import { IItem, IEditItem, INewItem } from "./../models/item";
 import { RootStore } from "./rootStore";
+import { IItem, IEditItem, INewItem, ItemType } from "./../models/item";
 import agent from "../api/agent";
 import { createNotification } from "../common/util/notifications";
 import { NotificationType, ErrorType } from "./../models/error";
@@ -23,8 +23,9 @@ export default class ItemStore {
 	@action loadItems = async () => {
 		this.loadingInitial = true;
 		try {
-			const items = await agent.Items.list();
+			const items = await agent.Items.list(this.rootStore.dictionaryStore.activeDictionaryId!);
 			runInAction("loading items", () => {
+				this.itemRegistry = new Map();
 				items.forEach((item) => {
 					this.itemRegistry.set(item.id, item);
 				});
@@ -32,9 +33,9 @@ export default class ItemStore {
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("loading items", () => {
 				this.loadingInitial = false;
@@ -49,7 +50,7 @@ export default class ItemStore {
 			this.activeItem = item;
 		} else {
 			try {
-				item = await agent.Items.details(id);
+				item = await agent.Items.details(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 				runInAction("getting item", () => {
 					this.activeItem = item;
 					this.itemRegistry.set(item.id, item);
@@ -58,9 +59,9 @@ export default class ItemStore {
 			} catch (err) {
 				if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 					return;
-				} else {
-					createNotification(NotificationType.UnknownError, { errors: err.body });
 				}
+
+				createNotification(NotificationType.UnknownError, { errors: err.body });
 			} finally {
 				runInAction("loading item", () => {
 					this.loadingInitial = false;
@@ -87,15 +88,26 @@ export default class ItemStore {
 	@action createItem = async (item: INewItem) => {
 		this.loading = true;
 		try {
-			await agent.Items.create(item);
-			createNotification(NotificationType.Success, { message: "Item created successfully!" });
+			await agent.Items.create(this.rootStore.dictionaryStore.activeDictionaryId!, item);
+			runInAction("creating item", () => {
+				if (item.type === ItemType.Word) {
+					this.rootStore.dictionaryStore.activeDictionary!.wordsCount++;
+				} else {
+					this.rootStore.dictionaryStore.activeDictionary!.phrasesCount++;
+				}
+				createNotification(NotificationType.Success, { message: "Item created successfully!" });
+			});
 			return true;
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return false;
 			}
 
-			if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
+			if (err.code === ErrorType.ItemsLimitReached) {
+				createNotification(NotificationType.Error, {
+					message: "Items limit has been reached! Maximum items number is 8000.",
+				});
+			} else if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
@@ -110,7 +122,7 @@ export default class ItemStore {
 			} else {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
-			
+
 			return false;
 		} finally {
 			runInAction("creating item", () => (this.loading = false));
@@ -120,7 +132,7 @@ export default class ItemStore {
 	@action editItem = async (id: string, editItem: IEditItem) => {
 		this.loading = true;
 		try {
-			await agent.Items.update(id, editItem);
+			await agent.Items.update(this.rootStore.dictionaryStore.activeDictionaryId!, id, editItem);
 			runInAction("updating item", () => {
 				this.activeItem!.original = editItem.original;
 				this.activeItem!.translation = editItem.translation;
@@ -128,7 +140,7 @@ export default class ItemStore {
 				this.activeItem!.definitionOrigin = editItem.definitionOrigin;
 				this.editing = false;
 				history.push("/dashboard");
-				createNotification(NotificationType.Success, { message: "Item edited successfully!" });
+				createNotification(NotificationType.Success, { message: "Item updated successfully!" });
 			});
 			return true;
 		} catch (err) {
@@ -161,17 +173,22 @@ export default class ItemStore {
 	@action deleteItem = async () => {
 		this.loading = true;
 		try {
-			await agent.Items.delete(this.activeItem!.id);
+			await agent.Items.delete(this.rootStore.dictionaryStore.activeDictionaryId!, this.activeItem!.id);
 			runInAction("deleting item", () => {
+				if (this.activeItem!.type === ItemType.Word) {
+					this.rootStore.dictionaryStore.activeDictionary!.wordsCount--;
+				} else {
+					this.rootStore.dictionaryStore.activeDictionary!.phrasesCount--;
+				}
 				this.itemRegistry.delete(this.activeItem!.id);
 				this.clearActiveItem();
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("deleting item", () => (this.loading = false));
 		}
@@ -184,16 +201,16 @@ export default class ItemStore {
 	@action starItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.star(id);
+			await agent.Items.star(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("starring item", () => {
 				this.itemRegistry.get(id).isStarred = true;
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("starring item", () => (this.loading = false));
 		}
@@ -206,16 +223,16 @@ export default class ItemStore {
 	@action unstarItemById = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Items.unstar(id);
+			await agent.Items.unstar(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("unstarring item", () => {
 				this.itemRegistry.get(id).isStarred = false;
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("unstarring item", () => (this.loading = false));
 		}

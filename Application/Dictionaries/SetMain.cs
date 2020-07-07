@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Dictionaries
@@ -30,6 +31,11 @@ namespace Application.Dictionaries
 
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
+
+                var dictionaries = await _context.Dictionaries.ToListAsync();
+
+                foreach (var dict in dictionaries)
+                    dict.IsMain = false;
 
                 dictionary.IsMain = true;
 

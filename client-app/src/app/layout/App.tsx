@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
@@ -11,9 +11,20 @@ import NewItem from "../../components/manage-item/NewItem";
 import EditItem from "../../components/manage-item/EditItem";
 import Learning from "../../components/learning/Learning";
 import NewDictionary from "../../components/dictionaries/NewDictionary";
+import DictionariesSettings from "../../components/dictionaries/DictionariesSettings";
 import NotFound from "./NotFound";
+import { RootStoreContext } from "../stores/rootStore";
 
 function App() {
+	const rootStore = useContext(RootStoreContext);
+	const { loadDictionaries, loadingInitial } = rootStore.dictionaryStore;
+
+	useEffect(() => {
+		loadDictionaries();
+	}, [loadDictionaries]);
+
+	if (loadingInitial) return <div></div>;
+
 	return (
 		<Fragment>
 			<ToastContainer
@@ -36,6 +47,10 @@ function App() {
 
 						<Route path="/new-dictionary">
 							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
+						</Route>
+
+						<Route path="/dictionaries">
+							<Page title="Dictionaries" pageTitle="Dictionaries" component={<DictionariesSettings />} />
 						</Route>
 
 						<Route exact path="/new-item">
