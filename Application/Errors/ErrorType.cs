@@ -26,6 +26,9 @@
 
         DuplicateDictionaryFound = 431,
         DuplicateItemFound = 432,
+        
+        DictionariesLimitReached = 451,
+        ItemsLimitReached = 452,
         ValidationBlockEnd = 599,
 
         CustomNotFoundBlockStart = 600,

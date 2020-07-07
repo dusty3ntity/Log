@@ -51,9 +51,9 @@ export default class DictionaryStore {
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("loading dictionaries", () => {
 				this.loadingInitial = false;
@@ -98,6 +98,12 @@ export default class DictionaryStore {
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
+			}
+
+			if (err.code === ErrorType.DictionariesLimitReached) {
+				createNotification(NotificationType.Error, {
+					message: "Dictionaries limit has been reached! Maximum dictionaries number is 4.",
+				});
 			} else if (err.code === ErrorType.DuplicateDictionaryFound) {
 				createNotification(NotificationType.Error, {
 					title: "Validation error!",

@@ -68,6 +68,9 @@ namespace Application.Items
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
+                if (dictionary.WordsCount + dictionary.PhrasesCount == 8000)
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.ItemsLimitReached);
+
                 var originalLower = request.Original.ToLower();
                 var translationLower = request.Translation.ToLower();
 

@@ -33,9 +33,9 @@ export default class ItemStore {
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("loading items", () => {
 				this.loadingInitial = false;
@@ -59,9 +59,9 @@ export default class ItemStore {
 			} catch (err) {
 				if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 					return;
-				} else {
-					createNotification(NotificationType.UnknownError, { errors: err.body });
 				}
+
+				createNotification(NotificationType.UnknownError, { errors: err.body });
 			} finally {
 				runInAction("loading item", () => {
 					this.loadingInitial = false;
@@ -103,7 +103,11 @@ export default class ItemStore {
 				return false;
 			}
 
-			if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
+			if (err.code === ErrorType.ItemsLimitReached) {
+				createNotification(NotificationType.Error, {
+					message: "Items limit has been reached! Maximum items number is 8000.",
+				});
+			} else if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
@@ -182,9 +186,9 @@ export default class ItemStore {
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("deleting item", () => (this.loading = false));
 		}
@@ -204,9 +208,9 @@ export default class ItemStore {
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("starring item", () => (this.loading = false));
 		}
@@ -226,9 +230,9 @@ export default class ItemStore {
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
-			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
+
+			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("unstarring item", () => (this.loading = false));
 		}

@@ -84,6 +84,9 @@ namespace Application.Dictionaries
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.LanguageNotFound);
 
                 var dictionaries = await _context.Dictionaries.ToListAsync();
+                
+                if (dictionaries.Count == 4)
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.DictionariesLimitReached);
 
                 var duplicate = await _duplicatesChecker.SearchForDuplicates(knownLanguage, languageToLearn);
 
