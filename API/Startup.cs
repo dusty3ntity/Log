@@ -4,10 +4,12 @@ using Application.Interfaces;
 using Application.LearningLists;
 using Application.Utilities;
 using AutoMapper;
+using Domain;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,6 +58,23 @@ namespace API
                     cfg.RegisterValidatorsFromAssemblyContaining<Application.Dictionaries.Create
                     >();
                 });
+            
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 1;
+            });
+
+            var builder = services.AddIdentityCore<AppUser>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<DataContext>();
+            identityBuilder.AddSignInManager<SignInManager<AppUser>>();
+            
+            services.AddAuthentication();
 
             services.AddScoped<ILearningListGenerator, LearningListGenerator>();
             services.AddScoped<ILearningListRemover, LearningListRemover>();
