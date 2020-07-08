@@ -41,7 +41,8 @@
         LearningListNotCompleted = 702,
         LearningListCompletedTwoTimes = 703,
         LearningListOutdated = 704,
-
+        
+        Unauthorized = 901,
         Unknown = 9999,
     }
 }
