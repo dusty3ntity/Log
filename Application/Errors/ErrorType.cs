@@ -43,6 +43,8 @@
         LearningListOutdated = 704,
         
         Unauthorized = 901,
+        DuplicateEmailFound = 902,
+        DuplicateUsernameFound = 903,
         Unknown = 9999,
     }
 }
