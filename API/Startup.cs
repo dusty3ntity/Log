@@ -10,9 +10,11 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,14 +55,19 @@ namespace API
             services.AddMediatR(typeof(Details));
             services.AddAutoMapper(typeof(Details));
 
-            services.AddControllers().AddNewtonsoftJson(opt =>
+            services.AddControllers(opt =>
+                    {
+                        var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                        opt.Filters.Add(new AuthorizeFilter(policy));
+                    }
+                ).AddNewtonsoftJson(opt =>
+                {
                     opt.SerializerSettings.ReferenceLoopHandling =
-                        Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                )
+                        Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
                 .AddFluentValidation(cfg =>
                 {
-                    cfg.RegisterValidatorsFromAssemblyContaining<Application.Dictionaries.Create
-                    >();
+                    cfg.RegisterValidatorsFromAssemblyContaining<Application.Dictionaries.Create>();
                 });
 
             services.Configure<IdentityOptions>(options =>
@@ -78,6 +85,13 @@ namespace API
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("IsDictionaryOwner",
+                    policy => { policy.Requirements.Add(new IsDictionaryOwnerRequirement()); });
+            });
+            services.AddTransient<IAuthorizationHandler, IsDictionaryOwnerRequirementHandler>();
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {
@@ -91,9 +105,9 @@ namespace API
             });
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<ILearningListGenerator, LearningListGenerator>();
             services.AddScoped<ILearningListRemover, LearningListRemover>();
-            services.AddScoped<IDuplicatesChecker, DuplicatesChecker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

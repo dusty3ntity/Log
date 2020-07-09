@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain
 {
     public class AppUser : IdentityUser
     {
         public string DisplayName { get; set; }
+
+        public ICollection<Dictionary> Dictionaries { get; set; }
     }
 }

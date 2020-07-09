@@ -6,6 +6,10 @@ namespace Domain
     public class Dictionary
     {
         public Guid Id { get; set; }
+
+        public string UserId { get; set; }
+        public AppUser User { get; set; }
+        
         public bool IsMain { get; set; }
 
         public int KnownLanguageId { get; set; }

@@ -11,9 +11,11 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
+            List<AppUser> users = new List<AppUser>();
+            
             if (!userManager.Users.Any())
             {
-                var users = new List<AppUser>
+                users = new List<AppUser>
                 {
                     new AppUser
                     {
@@ -40,7 +42,7 @@ namespace Persistence
                     await userManager.CreateAsync(user, "123asd123");
                 }
             }
-            
+
             if (!context.Dictionaries.Any())
             {
                 var languages = new List<Language>
@@ -216,6 +218,7 @@ namespace Persistence
 
                 var dictionary = new Dictionary
                 {
+                    User = users[0],
                     IsMain = true,
                     KnownLanguage = languages[1],
                     LanguageToLearn = languages[0],

@@ -19,7 +19,7 @@ namespace Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+
             SetupDictionaries(builder);
             SetupLearningLists(builder);
             SetupItems(builder);
@@ -30,15 +30,19 @@ namespace Persistence
         private static void SetupDictionaries(ModelBuilder builder)
         {
             builder.Entity<Dictionary>()
-                .HasOne(d => d.LearningList)
-                .WithOne(l => l.Dictionary)
-                .HasForeignKey<LearningList>(l => l.DictionaryId);
+                .HasOne(d => d.User)
+                .WithMany(u => u.Dictionaries)
+                .HasForeignKey(d => d.UserId);
 
             builder.Entity<Dictionary>()
                 .HasMany(d => d.Items)
                 .WithOne(i => i.Dictionary)
                 .HasForeignKey(i => i.DictionaryId);
 
+            builder.Entity<Dictionary>()
+                .HasOne(d => d.LearningList)
+                .WithOne(l => l.Dictionary)
+                .HasForeignKey<LearningList>(l => l.DictionaryId);
 
             builder.Entity<Dictionary>()
                 .HasOne(d => d.KnownLanguage)

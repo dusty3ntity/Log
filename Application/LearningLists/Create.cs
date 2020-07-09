@@ -56,9 +56,7 @@ namespace Application.LearningLists
                     await _learningListRemover.Remove(learningList);
                 }
 
-                learningList = await _learningListGenerator.Generate(dictionary.Id,
-                    dictionary.PreferredLearningListSize, dictionary.CorrectAnswersToItemCompletion,
-                    dictionary.IsHardModeEnabled);
+                learningList = await _learningListGenerator.Generate(dictionary);
 
                 _context.LearningLists.Add(learningList);
 

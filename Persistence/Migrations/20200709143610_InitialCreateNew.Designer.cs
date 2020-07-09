@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200708134536_IdentityInitial")]
-    partial class IdentityInitial
+    [Migration("20200709143610_InitialCreateNew")]
+    partial class InitialCreateNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,6 +121,9 @@ namespace Persistence.Migrations
                     b.Property<int>("PreferredLearningListSize")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("WordsCount")
                         .HasColumnType("INTEGER");
 
@@ -129,6 +132,8 @@ namespace Persistence.Migrations
                     b.HasIndex("KnownLanguageId");
 
                     b.HasIndex("LanguageToLearnId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Dictionaries");
                 });
@@ -417,6 +422,10 @@ namespace Persistence.Migrations
                         .HasForeignKey("LanguageToLearnId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithMany("Dictionaries")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Domain.Item", b =>
