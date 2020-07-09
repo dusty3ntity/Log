@@ -1,3 +1,4 @@
+import { IUser, ILoginUser } from './../models/user';
 import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
 import axios, { AxiosResponse } from "axios";
 import { history } from "../..";
@@ -124,8 +125,15 @@ const LearningLists = {
 		requests.post(`/dictionaries/${dictionaryId}/learningList/${learningListId}/startOver`),
 };
 
+const Users = {
+	current: (): Promise<IUser> => requests.get("/user"),
+	login: (user: ILoginUser): Promise<IUser> => requests.post("/user/login", user),
+	register: (user: ILoginUser): Promise<IUser> => requests.post("/user/register", user),
+}
+
 export default {
 	Dictionaries,
 	Items,
 	LearningLists,
+	Users,
 };
