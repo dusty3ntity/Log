@@ -1,29 +1,20 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Interfaces;
 using Domain;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace Application.Utilities
 {
-    public class DuplicatesChecker : IDuplicatesChecker
+    public static class DuplicatesChecker
     {
-        private readonly DataContext _context;
-
-        public DuplicatesChecker(DataContext context)
+        public static Dictionary SearchForDuplicates(List<Dictionary> dictionaries, Language knownLanguage,
+            Language languageToLearn)
         {
-            _context = context;
-        }
+            foreach (var dictionary in dictionaries)
+                if (dictionary.KnownLanguageId == knownLanguage.Id &&
+                    dictionary.LanguageToLearnId == languageToLearn.Id)
+                    return dictionary;
 
-        public async Task<Dictionary> SearchForDuplicates(Language knownLanguage, Language languageToLearn)
-        {
-            var duplicate = await _context.Dictionaries
-                .Where(d => d.KnownLanguageId == knownLanguage.Id
-                            && d.LanguageToLearnId == languageToLearn.Id)
-                .FirstOrDefaultAsync();
-
-            return duplicate;
+            return null;
         }
     }
 }

@@ -3,13 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace Persistence
 {
     public static class Seed
     {
-        public static async Task SeedData(DataContext context)
+        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
+            List<AppUser> users = new List<AppUser>();
+            
+            if (!userManager.Users.Any())
+            {
+                users = new List<AppUser>
+                {
+                    new AppUser
+                    {
+                        DisplayName = "Kek",
+                        UserName = "kek",
+                        Email = "kek@ohyr.dev"
+                    },
+                    new AppUser
+                    {
+                        DisplayName = "Bob",
+                        UserName = "bob",
+                        Email = "bob@ohyr.dev"
+                    },
+                    new AppUser
+                    {
+                        DisplayName = "Log",
+                        UserName = "log",
+                        Email = "log@ohyr.dev"
+                    },
+                };
+
+                foreach (var user in users)
+                {
+                    await userManager.CreateAsync(user, "123asd123");
+                }
+            }
+
             if (!context.Dictionaries.Any())
             {
                 var languages = new List<Language>
@@ -185,6 +218,7 @@ namespace Persistence
 
                 var dictionary = new Dictionary
                 {
+                    User = users[0],
                     IsMain = true,
                     KnownLanguage = languages[1],
                     LanguageToLearn = languages[0],

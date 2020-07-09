@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Dictionaries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -15,10 +16,11 @@ namespace API.Controllers
             return await Mediator.Send(new List.Query());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DictionaryDto>> Details(Guid id)
+        [HttpGet("{dictionaryId}")]
+        [Authorize(Policy = "IsDictionaryOwner")]
+        public async Task<ActionResult<DictionaryDto>> Details(Guid dictionaryId)
         {
-            return await Mediator.Send(new Details.Query {Id = id});
+            return await Mediator.Send(new Details.Query {Id = dictionaryId});
         }
 
         [HttpPost]
@@ -27,23 +29,26 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
+        [HttpPut("{dictionaryId}")]
+        [Authorize(Policy = "IsDictionaryOwner")]
+        public async Task<ActionResult<Unit>> Edit(Guid dictionaryId, Edit.Command command)
         {
-            command.Id = id;
+            command.Id = dictionaryId;
             return await Mediator.Send(command);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Delete(Guid id)
+        [HttpDelete("{dictionaryId}")]
+        [Authorize(Policy = "IsDictionaryOwner")]
+        public async Task<ActionResult<Unit>> Delete(Guid dictionaryId)
         {
-            return await Mediator.Send(new Delete.Command {Id = id});
+            return await Mediator.Send(new Delete.Command {Id = dictionaryId});
         }
 
-        [HttpPost("{id}/setMain")]
-        public async Task<ActionResult<Unit>> SetMain(Guid id)
+        [HttpPost("{dictionaryId}/setMain")]
+        [Authorize(Policy = "IsDictionaryOwner")]
+        public async Task<ActionResult<Unit>> SetMain(Guid dictionaryId)
         {
-            return await Mediator.Send(new SetMain.Command {Id = id});
+            return await Mediator.Send(new SetMain.Command {Id = dictionaryId});
         }
     }
 }

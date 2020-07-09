@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Items;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/dictionaries/{dictionaryId}/[controller]")]
+    [Authorize(Policy = "IsDictionaryOwner")]
     public class ItemsController : BaseController
     {
         [HttpGet]

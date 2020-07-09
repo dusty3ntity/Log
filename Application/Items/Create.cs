@@ -53,12 +53,10 @@ namespace Application.Items
         public class Handler : IRequestHandler<Command, Guid>
         {
             private readonly DataContext _context;
-            private readonly IDuplicatesChecker _duplicatesChecker;
 
-            public Handler(DataContext context, IDuplicatesChecker duplicatesChecker)
+            public Handler(DataContext context)
             {
                 _context = context;
-                _duplicatesChecker = duplicatesChecker;
             }
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)

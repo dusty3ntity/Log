@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using Application.Utilities;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -24,7 +25,7 @@ namespace Application.Dictionaries
 
             public int PreferredLearningListSize { get; set; }
             public int CorrectAnswersToItemCompletion { get; set; }
-			
+
             public bool IsMain { get; set; }
             public bool IsHardModeEnabled { get; set; }
         }
@@ -64,13 +65,13 @@ namespace Application.Dictionaries
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            private readonly IDuplicatesChecker _duplicatesChecker;
+            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IMapper mapper, IDuplicatesChecker duplicatesChecker)
+            public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
             {
                 _context = context;
                 _mapper = mapper;
-                _duplicatesChecker = duplicatesChecker;
+                _userAccessor = userAccessor;
             }
 
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
@@ -83,12 +84,15 @@ namespace Application.Dictionaries
                 if (knownLanguage == null || languageToLearn == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.LanguageNotFound);
 
-                var dictionaries = await _context.Dictionaries.ToListAsync();
-                
+                var user = await _context.Users
+                    .SingleOrDefaultAsync(x => x.UserName.Equals(_userAccessor.GetCurrentUsername()));
+
+                var dictionaries = await _context.Dictionaries.Where(d => d.UserId == user.Id).ToListAsync();
+
                 if (dictionaries.Count == 4)
                     throw new RestException(HttpStatusCode.BadRequest, ErrorType.DictionariesLimitReached);
 
-                var duplicate = await _duplicatesChecker.SearchForDuplicates(knownLanguage, languageToLearn);
+                var duplicate = DuplicatesChecker.SearchForDuplicates(dictionaries, knownLanguage, languageToLearn);
 
                 if (duplicate != null)
                     throw new RestException(HttpStatusCode.BadRequest, ErrorType.DuplicateDictionaryFound,
@@ -103,6 +107,7 @@ namespace Application.Dictionaries
 
                 var dictionary = new Dictionary
                 {
+                    User = user,
                     IsMain = request.IsMain,
                     KnownLanguage = knownLanguage,
                     LanguageToLearn = languageToLearn,

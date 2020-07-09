@@ -23,11 +23,10 @@ namespace Application.LearningLists
             _rand = new Random();
         }
 
-        public async Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize,
-            int correctAnswersToItemCompletion, bool isHardModeEnabled)
+        public async Task<LearningList> Generate(Dictionary dictionary)
         {
             var items = await _context.Items
-                .Where(i => i.DictionaryId == dictionaryId)
+                .Where(i => i.DictionaryId == dictionary.Id)
                 .ToListAsync();
 
             if (items.Count < 10)
@@ -36,7 +35,7 @@ namespace Application.LearningLists
             var list = new List<LearningItem>();
 
             for (int i = 0;
-                i < Math.Min(preferredLearningListSize, items.Count);
+                i < Math.Min(dictionary.PreferredLearningListSize, items.Count);
                 i++)
             {
                 var item = new LearningItem
@@ -52,13 +51,13 @@ namespace Application.LearningLists
 
             var learningList = new LearningList
             {
-                DictionaryId = dictionaryId,
+                DictionaryId = dictionary.Id,
 
                 Size = list.Count,
                 CreationDate = DateTime.Now,
 
-                CorrectAnswersToItemCompletion = correctAnswersToItemCompletion,
-                IsHardModeEnabled = isHardModeEnabled,
+                CorrectAnswersToItemCompletion = dictionary.CorrectAnswersToItemCompletion,
+                IsHardModeEnabled = dictionary.IsHardModeEnabled,
 
                 LearningItems = list
             };
