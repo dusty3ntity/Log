@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
 import "mobx-react-lite/batchingForReactDom";
 
+import LoginPage from "../../components/users/LoginPage";
 import HomePage from "../../components/home/HomePage";
 import Page from "./Page";
 import Dashboard from "../../components/dashboard/Dashboard";
@@ -19,11 +20,11 @@ function App() {
 	const rootStore = useContext(RootStoreContext);
 	const { loadDictionaries, loadingInitial } = rootStore.dictionaryStore;
 
-	useEffect(() => {
-		loadDictionaries();
-	}, [loadDictionaries]);
+	// useEffect(() => {
+	// 	loadDictionaries();
+	// }, [loadDictionaries]);
 
-	if (loadingInitial) return <div></div>;
+	// if (loadingInitial) return <div></div>;
 
 	return (
 		<Fragment>
@@ -41,6 +42,8 @@ function App() {
 				path={"/(.+)"}
 				render={() => (
 					<Switch>
+						<Route exact path="/login" component={LoginPage} />
+
 						<Route path="/dashboard">
 							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
 						</Route>
