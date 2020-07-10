@@ -1,18 +1,30 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
 interface IProps {
-	link: string;
+	link?: string;
+	button?: boolean;
+	onClick?: () => void;
 	name: string;
 	icon: JSX.Element;
 }
 
-const NavItem: React.FC<IProps> = ({ name, icon, link }) => {
+const NavItem: React.FC<IProps> = ({ name, button, onClick, icon, link }) => {
 	return (
-		<NavLink to={link} exact className="nav-item">
-			{icon}
-			<span className="item-name xxl-visible">{name}</span>
-		</NavLink>
+		<Fragment>
+			{link && (
+				<NavLink to={link} exact className="nav-item">
+					{icon}
+					<span className="item-name xxl-visible">{name}</span>
+				</NavLink>
+			)}
+			{button && (
+				<button className="nav-item nav-item-btn" onClick={onClick}>
+					{icon}
+					<span className="item-name xxl-visible">{name}</span>
+				</button>
+			)}
+		</Fragment>
 	);
 };
 

@@ -6,6 +6,11 @@
 	margin-bottom: 0;
 }
 
+.nav-item-btn {
+	background: none;
+	border: none;
+}
+
 .nav-item {
 	width: 100%;
 	display: inline-flex;
@@ -22,14 +27,18 @@
 			fill: @body-background;
 		}
 
-		background: linear-gradient(167.01deg, #D8E1E8 0%, #EEF9FF 100%);
-		box-shadow: 1px 1px 3px rgba(225, 235, 242, 0.9), -1px -1px 2px rgba(229, 239, 246, 0.9), 1px -1px 2px rgba(225, 235, 242, 0.2), -1px 1px 2px rgba(225, 235, 242, 0.2), inset -1px -1px 2px rgba(225, 235, 242, 0.5), inset 1px 1px 2px rgba(229, 239, 246, 0.3);
+		background: linear-gradient(167.01deg, #d8e1e8 0%, #eef9ff 100%);
+		box-shadow: 1px 1px 3px rgba(225, 235, 242, 0.9), -1px -1px 2px rgba(229, 239, 246, 0.9),
+			1px -1px 2px rgba(225, 235, 242, 0.2), -1px 1px 2px rgba(225, 235, 242, 0.2),
+			inset -1px -1px 2px rgba(225, 235, 242, 0.5), inset 1px 1px 2px rgba(229, 239, 246, 0.3);
 		color: unset;
 	}
 
 	&:active {
 		color: unset;
-		box-shadow: -1px -1px 2px rgba(225, 235, 242, 0.5), 1px 1px 2px rgba(229, 239, 246, 0.3), inset 1px 1px 3px rgba(225, 235, 242, 0.9), inset -1px -1px 2px rgba(229, 239, 246, 0.9), inset 1px -1px 2px rgba(225, 235, 242, 0.2), inset -1px 1px 2px rgba(225, 235, 242, 0.2);
+		box-shadow: -1px -1px 2px rgba(225, 235, 242, 0.5), 1px 1px 2px rgba(229, 239, 246, 0.3),
+			inset 1px 1px 3px rgba(225, 235, 242, 0.9), inset -1px -1px 2px rgba(229, 239, 246, 0.9),
+			inset 1px -1px 2px rgba(225, 235, 242, 0.2), inset -1px 1px 2px rgba(225, 235, 242, 0.2);
 	}
 
 	.item-name {
@@ -41,7 +50,9 @@
 .nav-item.active {
 	background: @body-background;
 	color: @primary-color;
-	box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3), inset 1px 1px 3px rgba(204, 213, 222, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9), inset 1px -1px 2px rgba(204, 213, 222, 0.2), inset -1px 1px 2px rgba(204, 213, 222, 0.2);
+	box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+		inset 1px 1px 3px rgba(204, 213, 222, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+		inset 1px -1px 2px rgba(204, 213, 222, 0.2), inset -1px 1px 2px rgba(204, 213, 222, 0.2);
 
 	.nav-icon {
 		background: @primary-color;
@@ -54,9 +65,6 @@
 	border-radius: 50%;
 	padding: 4px;
 }
-
-
-
 
 /*---------------------  Breakpoints  ---------------------*/
 

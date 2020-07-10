@@ -22,7 +22,7 @@ namespace Application.Users
         {
             public QueryValidator()
             {
-                RuleFor(x => x.Email).NotEmpty().MaximumLength(20).EmailAddress();
+                RuleFor(x => x.Email).NotEmpty().MaximumLength(30).EmailAddress();
                 RuleFor(x => x.Password).NotEmpty().MinimumLength(8).MaximumLength(20);
             }
         }

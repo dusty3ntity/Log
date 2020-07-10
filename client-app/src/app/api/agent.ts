@@ -1,4 +1,4 @@
-import { IUser, ILoginUser } from './../models/user';
+import { IUser, ILoginUser } from "./../models/user";
 import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
 import axios, { AxiosResponse } from "axios";
 import { history } from "../..";
@@ -11,6 +11,19 @@ import { NotificationType } from "./../models/error";
 import { isBadId, injectErrorCode } from "./../common/util/errorTypeResolver";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
+
+axios.interceptors.request.use(
+	(config) => {
+		const token = window.localStorage.getItem("jwt");
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	}
+);
 
 axios.interceptors.response.use(undefined, (error) => {
 	console.log(error.response);
@@ -129,7 +142,7 @@ const Users = {
 	current: (): Promise<IUser> => requests.get("/user"),
 	login: (user: ILoginUser): Promise<IUser> => requests.post("/user/login", user),
 	register: (user: ILoginUser): Promise<IUser> => requests.post("/user/register", user),
-}
+};
 
 export default {
 	Dictionaries,

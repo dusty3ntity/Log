@@ -15,16 +15,26 @@ import NewDictionary from "../../components/dictionaries/NewDictionary";
 import DictionariesSettings from "../../components/dictionaries/DictionariesSettings";
 import NotFound from "./NotFound";
 import { RootStoreContext } from "../stores/rootStore";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
 	const rootStore = useContext(RootStoreContext);
-	const { loadDictionaries, loadingInitial } = rootStore.dictionaryStore;
+	const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
+	const { getUser } = rootStore.userStore;
 
-	// useEffect(() => {
-	// 	loadDictionaries();
-	// }, [loadDictionaries]);
+	useEffect(() => {
+		if (token) {
+			getUser().finally(() => {
+				setAppLoaded();
+			});
+		} else {
+			setAppLoaded();
+		}
+	}, [getUser, token, setAppLoaded]);
 
-	// if (loadingInitial) return <div></div>;
+	if (!appLoaded) {
+		return <div></div>;
+	}
 
 	return (
 		<Fragment>
@@ -44,29 +54,46 @@ function App() {
 					<Switch>
 						<Route exact path="/login" component={LoginPage} />
 
-						<Route path="/dashboard">
-							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
-						</Route>
+						<PrivateRoute
+							path="/dashboard"
+							component={<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />}
+						/>
 
-						<Route path="/new-dictionary">
-							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
-						</Route>
+						<PrivateRoute
+							path="/new-dictionary"
+							component={
+								<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
+							}
+						/>
 
-						<Route path="/dictionaries">
-							<Page title="Dictionaries" pageTitle="Dictionaries" component={<DictionariesSettings />} />
-						</Route>
+						<PrivateRoute
+							path="/dictionaries"
+							component={
+								<Page
+									title="Dictionaries"
+									pageTitle="Dictionaries"
+									component={<DictionariesSettings />}
+								/>
+							}
+						/>
 
-						<Route exact path="/new-item">
-							<Page title="New item" pageTitle="New item" component={<NewItem />} />
-						</Route>
+						<PrivateRoute
+							exact
+							path="/new-item"
+							component={<Page title="New item" pageTitle="New item" component={<NewItem />} />}
+						/>
 
-						<Route exact path="/edit-item">
-							<Page title="Edit item" pageTitle="Edit item" component={<EditItem />} />
-						</Route>
+						<PrivateRoute
+							exact
+							path="/edit-item"
+							component={<Page title="Edit item" pageTitle="Edit item" component={<EditItem />} />}
+						/>
 
-						<Route exact path="/learning">
-							<Page title="Learning" pageTitle="Learning" component={<Learning />} />
-						</Route>
+						<PrivateRoute
+							exact
+							path="/learning"
+							component={<Page title="Learning" pageTitle="Learning" component={<Learning />} />}
+						/>
 
 						<Route exact path="/404" component={NotFound} />
 
