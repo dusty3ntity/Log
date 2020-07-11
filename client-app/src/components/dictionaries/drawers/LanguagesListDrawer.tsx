@@ -6,7 +6,7 @@ import { ILanguage } from "../../../app/models/dictionary";
 
 interface IProps {
 	listId: string;
-	listType: "known-language" | "language-to-learn";
+	listTitle: string;
 	disabledItems: ILanguage[];
 	selectedItem: ILanguage | undefined;
 	className: string;
@@ -19,7 +19,7 @@ interface IProps {
 
 const LanguagesListDrawer: React.FC<IProps> = ({
 	listId,
-	listType,
+	listTitle,
 	className,
 	position,
 	isVisible,
@@ -44,7 +44,7 @@ const LanguagesListDrawer: React.FC<IProps> = ({
 			<LanguagesList
 				id={listId}
 				className="drawer-content"
-				type={listType}
+				title={listTitle}
 				reset={reset}
 				disabledItems={disabledItems}
 				selectedItem={selectedItem}

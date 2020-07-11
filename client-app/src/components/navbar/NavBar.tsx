@@ -41,9 +41,9 @@ const NavBar = () => {
 
 			<div className="nav-user-area">
 				<Link to="/profile" className="profile-link">
-					<Avatar className="avatar" src="/images/temp/avatar.png" alt={user!.displayName} />
+					<Avatar className="avatar" src="/images/temp/avatar.png" alt={user!.username} />
 				</Link>
-				<div className="username xxl-visible">{user!.displayName}</div>
+				<div className="username xxl-visible">{user!.username}</div>
 				<Link to="/" className="btn upgrade-btn xxl-visible">
 					Upgrade
 				</Link>

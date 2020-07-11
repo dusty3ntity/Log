@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "mobx-react-lite/batchingForReactDom";
 
 import LoginPage from "../../components/users/LoginPage";
+import RegistrationPage from "../../components/users/RegistrationPage";
 import HomePage from "../../components/home/HomePage";
 import Page from "./Page";
 import Dashboard from "../../components/dashboard/Dashboard";
@@ -53,6 +54,7 @@ function App() {
 				render={() => (
 					<Switch>
 						<Route exact path="/login" component={LoginPage} />
+						<Route exact path="/registration" component={RegistrationPage} />
 
 						<PrivateRoute
 							path="/dashboard"

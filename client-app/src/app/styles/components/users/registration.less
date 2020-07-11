@@ -1,0 +1,163 @@
+#registration-page {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	#registration-form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		overflow: hidden;
+		padding: 2rem;
+		border-radius: 1.875rem;
+
+		box-shadow: 5px 5px 13px rgba(200, 209, 217, 0.9), -5px -5px 10px rgba(254, 255, 255, 0.9),
+			5px -5px 10px rgba(200, 209, 217, 0.2), -5px 5px 10px rgba(200, 209, 217, 0.2),
+			inset -1px -1px 2px rgba(200, 209, 217, 0.5), inset 1px 1px 2px rgba(254, 255, 255, 0.3);
+
+		.tabs-container {
+			flex-grow: 2;
+			position: relative;
+		}
+
+		.tab {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			display: flex;
+			transition: transform 0.5s ease;
+		}
+
+		.first-tab.hidden {
+			transform: translate(-110%, 0);
+		}
+
+		.second-tab.hidden {
+			transform: translate(110%, 0);
+		}
+
+		.languages-list {
+			box-shadow: none;
+			padding: 0;
+
+			.title {
+				font-size: 1.5rem;
+				font-weight: 800;
+				color: #88878b;
+			}
+		}
+
+		.row {
+			width: 100%;
+		}
+
+		.title {
+			font-size: 2.25rem;
+			font-weight: 800;
+			text-align: center;
+		}
+
+		label {
+			font-size: 1.375rem;
+			font-weight: 800;
+			color: #88878b;
+		}
+
+		.text-input {
+			border-radius: 15px;
+			font-size: 1.75rem;
+			padding: 4px 0;
+			font-weight: 700;
+			border-top-color: #cdd9e4;
+			border-left-color: #cdd9e4;
+
+			background: #dce7f1;
+			box-shadow: -1px -1px 2px rgba(190, 201, 211, 0.5), 1px 1px 2px rgba(232, 245, 255, 0.3),
+				inset 2px 2px 5px rgba(190, 201, 211, 0.9), inset -2px -2px 4px rgba(232, 245, 255, 0.9),
+				inset 2px -2px 4px rgba(190, 201, 211, 0.2), inset -2px 2px 4px rgba(190, 201, 211, 0.2);
+
+			&:hover,
+			&:focus {
+				border: 1px solid @primary-color;
+			}
+		}
+
+		.actions-container {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+
+			.tab-btn {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 0.5625rem;
+				border-radius: 0.9375rem;
+
+				background: @body-background;
+				box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+					3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+					inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+				&.active {
+					background: #d3dfea;
+					box-shadow: -1px -1px 2px rgba(190, 201, 211, 0.5), 1px 1px 2px rgba(232, 245, 255, 0.3),
+						inset 3px 3px 8px rgba(190, 201, 211, 0.9), inset -3px -3px 6px rgba(232, 245, 255, 0.9),
+						inset 3px -3px 6px rgba(190, 201, 211, 0.2), inset -3px 3px 6px rgba(190, 201, 211, 0.2);
+
+					.icon {
+						fill: #857a8b;
+					}
+				}
+
+				.icon {
+					height: 1.8rem;
+					width: 1.8rem;
+					fill: #88878b;
+				}
+			}
+
+			.first-tab-btn {
+				margin-right: 2rem;
+			}
+
+			.tab-btns-container,
+			.buttons-container {
+				width: 50%;
+				display: flex;
+			}
+
+			.buttons-container {
+				justify-content: flex-end;
+			}
+
+			.back-btn {
+				color: #88878b;
+				margin-right: 2rem;
+
+				box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+					3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+					inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+				&:active {
+					background: @body-background;
+
+					box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+						inset 3px 3px 8px rgba(204, 213, 222, 0.9), inset -3px -3px 6px rgba(250, 255, 255, 0.9),
+						inset 3px -3px 6px rgba(204, 213, 222, 0.2), inset -3px 3px 6px rgba(204, 213, 222, 0.2);
+				}
+			}
+
+			.actions-btn {
+				width: 45%;
+				padding: 6px 0;
+				border-radius: 0.9375rem;
+
+				font-size: 1.375rem;
+				font-weight: 800;
+			}
+		}
+	}
+}

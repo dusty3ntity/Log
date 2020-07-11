@@ -19,10 +19,18 @@ export const includes = (a: string, b: string): string => {
 	return "";
 };
 
-export const isEmail = (value: string): string => {
+export const isValidEmail = (value: string): string => {
 	const re = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	const result = re.test(value);
 
 	if (result) return "";
 	else return "Email is not valid";
+};
+
+export const isValidPassword = (value: string): string => {
+	const re = /[0-9]/;
+	const result = re.test(value);
+
+	if (result) return "";
+	else return "Password is not valid";
 };

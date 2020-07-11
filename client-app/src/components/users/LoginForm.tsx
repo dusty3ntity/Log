@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import ValidationMessage from "../common/forms/ValidationMessage";
 import { ILoginUser } from "../../app/models/user";
-import { minLength, maxLength, isEmail } from "../../app/common/forms/formValidators";
+import { minLength, maxLength, isValidEmail } from "../../app/common/forms/formValidators";
 
 interface IProps {
 	onSubmit: (user: ILoginUser) => void;
@@ -35,7 +35,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit }) => {
 								required: "Email is required.",
 								validate: {
 									email: (value: string) => {
-										return isEmail(value) ? "Your email is not valid." : true;
+										return isValidEmail(value) ? "Your email is not valid." : true;
 									},
 								},
 							})}
@@ -69,11 +69,13 @@ const LoginForm: React.FC<IProps> = ({ onSubmit }) => {
 
 				{/* <div className="divider" />
 
-			<div className="external-providers-container row">
-				<button className="btn google-btn">Log in with Google</button>
+				<div className="external-providers-container row">
+					<button className="btn google-btn">Log in with Google</button>
 
-				<button className="btn facebook-btn">Log in with Facebook</button>
-			</div> */}
+					<button className="btn facebook-btn">Log in with Facebook</button>
+				</div> */}
+
+				<div className="divider invisible" />
 
 				<div className="additional-actions-container row"></div>
 
@@ -81,8 +83,8 @@ const LoginForm: React.FC<IProps> = ({ onSubmit }) => {
 					<div className="registration-container row">
 						<span className="prompt">Don't have an account?</span>
 
-						<Link className="registration-link" to="/register">
-							Register
+						<Link className="registration-link" to="/registration">
+							Registration
 						</Link>
 					</div>
 
