@@ -43,6 +43,7 @@ const LanguagesList: React.FC<IProps> = ({
 							<button
 								className={`btn list-item ${selectedItem?.isoCode === item.isoCode ? "active" : ""}`}
 								key={`${item.id}-${title}`}
+								type="button"
 								onClick={() => onItemSelect(item)}
 								disabled={disabledItems.includes(item)}
 							>

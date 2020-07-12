@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import RegistrationForm from "./RegistrationForm";
-import { IRegisterUser } from "../../app/models/user";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const RegistrationPage = () => {
-	const onSubmit = (user: IRegisterUser) => {
-		console.log(user);
-	};
+	const rootStore = useContext(RootStoreContext);
+	const { register } = rootStore.userStore;
 
 	return (
 		<div id="registration-page" className="sign-page">
-			<RegistrationForm onSubmit={onSubmit} />
+			<RegistrationForm onSubmit={register} />
 		</div>
 	);
 };

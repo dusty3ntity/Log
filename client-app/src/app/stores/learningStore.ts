@@ -60,7 +60,7 @@ export default class LearningStore {
 			}
 
 			if (err.code === ErrorType.NotEnoughItemsForLearningListGeneration) {
-				this.status = LearningStatus.NotEnoughItems;
+				runInAction("onInitialLoad", () => (this.status = LearningStatus.NotEnoughItems));
 			} else {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
@@ -88,9 +88,11 @@ export default class LearningStore {
 			}
 
 			if (err.code === ErrorType.LearningListOutdated) {
-				this.isLearningOutdatedFlipped = !this.isLearningStartFlipped;
-				this.status = LearningStatus.LearningStartLearningOutdated;
-				nextStatus = LearningStatus.LearningOutdated;
+				runInAction("onStart", () => {
+					this.isLearningOutdatedFlipped = !this.isLearningStartFlipped;
+					this.status = LearningStatus.LearningStartLearningOutdated;
+					nextStatus = LearningStatus.LearningOutdated;
+				});
 			} else {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
@@ -101,7 +103,7 @@ export default class LearningStore {
 			runInAction("onStart", () => {
 				this.flipCounter -= 0.5;
 				setTimeout(() => {
-					this.status = nextStatus!;
+					runInAction("onStart", () => (this.status = nextStatus!));
 				}, this.animationTimeout + 30); // fucking firefox
 			});
 		}
@@ -122,9 +124,11 @@ export default class LearningStore {
 			}
 
 			if (err.code === ErrorType.LearningListOutdated) {
-				this.isLearningOutdatedFlipped = !this.isItemInputFlipped;
-				this.status = LearningStatus.ItemInputLearningOutdated;
-				nextStatus = LearningStatus.LearningOutdated;
+				runInAction("onItemSubmit", () => {
+					this.isLearningOutdatedFlipped = !this.isItemInputFlipped;
+					this.status = LearningStatus.ItemInputLearningOutdated;
+					nextStatus = LearningStatus.LearningOutdated;
+				});
 			} else if (err.code === ErrorType.LearningItemNotFound) {
 				createNotification(NotificationType.Error, {
 					message: "Item not found! Please, reload the page or contact the administrator.",
@@ -140,7 +144,7 @@ export default class LearningStore {
 			runInAction("onItemSubmit", () => {
 				this.flipCounter -= 0.5;
 				setTimeout(() => {
-					this.status = nextStatus!;
+					runInAction("onItemSubmit", () => (this.status = nextStatus!));
 				}, this.animationTimeout);
 			});
 		}
@@ -171,9 +175,11 @@ export default class LearningStore {
 			}
 
 			if (err.code === ErrorType.LearningListOutdated) {
-				this.isLearningOutdatedFlipped = !this.isItemResultFlipped;
-				this.status = LearningStatus.ItemResultLearningOutdated;
-				nextStatus = LearningStatus.LearningOutdated;
+				runInAction("onNextItem", () => {
+					this.isLearningOutdatedFlipped = !this.isItemResultFlipped;
+					this.status = LearningStatus.ItemResultLearningOutdated;
+					nextStatus = LearningStatus.LearningOutdated;
+				});
 			} else {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
@@ -184,7 +190,7 @@ export default class LearningStore {
 			runInAction("onNextItem", () => {
 				this.flipCounter -= 0.5;
 				setTimeout(() => {
-					this.status = nextStatus!;
+					runInAction("onNextItem", () => (this.status = nextStatus!));
 				}, this.animationTimeout);
 			});
 		}
@@ -211,9 +217,11 @@ export default class LearningStore {
 			}
 
 			if (err.code === ErrorType.LearningListOutdated) {
-				this.isLearningOutdatedFlipped = !this.isLearningStartOverFlipped;
-				this.status = LearningStatus.LearningStartOverLearningOutdated;
-				nextStatus = LearningStatus.LearningOutdated;
+				runInAction("onStartOver", () => {
+					this.isLearningOutdatedFlipped = !this.isLearningStartOverFlipped;
+					this.status = LearningStatus.LearningStartOverLearningOutdated;
+					nextStatus = LearningStatus.LearningOutdated;
+				});
 			} else {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			}
@@ -221,10 +229,10 @@ export default class LearningStore {
 			if (!nextStatus) {
 				return;
 			}
-			this.flipCounter -= 0.5;
-			setTimeout(() => {
-				this.status = nextStatus!;
-			}, this.animationTimeout);
+			runInAction("onStartOver", () => {
+				this.flipCounter -= 0.5;
+				setTimeout(() => runInAction("onStartOver", () => (this.status = nextStatus!)), this.animationTimeout);
+			});
 		}
 	};
 
@@ -264,7 +272,7 @@ export default class LearningStore {
 			runInAction("onOutdatedStart", () => {
 				this.flipCounter -= 0.5;
 				setTimeout(() => {
-					this.status = nextStatus!;
+					runInAction("onOutdatedStart", () => (this.status = nextStatus!));
 				}, this.animationTimeout);
 			});
 		}
@@ -278,7 +286,9 @@ export default class LearningStore {
 				this.learningList = learningList;
 			});
 		} catch (err) {
-			this.learningList = undefined;
+			runInAction("loading learning list", () => {
+				this.learningList = undefined;
+			});
 			throw err;
 		} finally {
 			runInAction("loading learning list", () => {
@@ -304,7 +314,7 @@ export default class LearningStore {
 				}
 			});
 		} catch (err) {
-			this.learningItem = undefined;
+			runInAction("loading learning item", () => (this.learningItem = undefined));
 			throw err;
 		} finally {
 			runInAction("loading learning item", () => {
@@ -334,7 +344,7 @@ export default class LearningStore {
 				}
 			});
 		} catch (err) {
-			this.learningItemResult = undefined;
+			runInAction("checking learning item", () => (this.learningItemResult = undefined));
 			throw err;
 		} finally {
 			runInAction("checking learning item", () => {
@@ -355,7 +365,7 @@ export default class LearningStore {
 				this.learningList!.isCompleted = false;
 			});
 		} catch (err) {
-			this.learningItem = undefined;
+			runInAction("starting over", () => (this.learningItem = undefined));
 			throw err;
 		} finally {
 			runInAction("starting over", () => {

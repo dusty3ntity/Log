@@ -21,9 +21,20 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit }) => {
 	const [selectedNativeLanguage, selectNativeLanguage] = useState<ILanguage | undefined>(undefined);
 	const [selectedForeignLanguage, selectForeignLanguage] = useState<ILanguage | undefined>(undefined);
 
+	const submit = (user: IRegisterUser) => {
+		if (selectedTab === 0) {
+			selectTab(1);
+		} else {
+			user.nativeLanguageCode = selectedNativeLanguage!.isoCode;
+			user.languageToLearnCode = selectedForeignLanguage!.isoCode;
+			user.displayName = user.username;
+			onSubmit(user);
+		}
+	};
+
 	return (
 		<div id="registration-form" className="user-form">
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form onSubmit={handleSubmit(submit)}>
 				<div className="title row">Registration</div>
 
 				<div className="divider" />
@@ -163,15 +174,12 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit }) => {
 
 						<button
 							className="btn primary actions-btn next-btn"
-							type={selectedTab === 0 ? "button" : "submit"}
+							type="submit"
 							disabled={
 								selectedTab === 0
 									? !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
 									: !selectedNativeLanguage || !selectedForeignLanguage
 							}
-							onClick={() => {
-								if (selectedTab === 0) selectTab(1);
-							}}
 						>
 							{selectedTab === 0 ? "Next" : "Register"}
 						</button>
