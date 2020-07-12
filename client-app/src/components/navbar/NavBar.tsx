@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "antd";
 
@@ -9,8 +9,12 @@ import CommunityIcon from "../icons/CommunityIcon";
 import MyPacksIcon from "../icons/MyPacksIcon";
 import SettingsIcon from "../icons/SettingsIcon";
 import LogoutIcon from "../icons/LogoutIcon";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 const NavBar = () => {
+	const rootStore = useContext(RootStoreContext);
+	const { user, logout } = rootStore.userStore;
+
 	return (
 		<div id="nav">
 			<div className="nav-header">
@@ -32,14 +36,14 @@ const NavBar = () => {
 				<div className="divider invisible nav-divider" />
 
 				<NavItem link="/settings" name="Settings" icon={<SettingsIcon classNames="nav-icon" />} />
-				<NavItem link="/logout" name="Logout" icon={<LogoutIcon classNames="nav-icon" />} />
+				<NavItem button onClick={logout} name="Logout" icon={<LogoutIcon classNames="nav-icon" />} />
 			</div>
 
 			<div className="nav-user-area">
 				<Link to="/profile" className="profile-link">
-					<Avatar className="avatar" src="/images/temp/avatar.png" alt={"Account name"} />
+					<Avatar className="avatar" src="/images/temp/avatar.png" alt={user!.username} />
 				</Link>
-				<div className="username xxl-visible">Vadym Ohyr</div>
+				<div className="username xxl-visible">{user!.username}</div>
 				<Link to="/" className="btn upgrade-btn xxl-visible">
 					Upgrade
 				</Link>

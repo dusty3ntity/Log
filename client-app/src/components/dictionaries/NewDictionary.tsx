@@ -80,7 +80,7 @@ const NewDictionary = () => {
 		<div id="new-dictionary-container" className="manage-dictionary-container">
 			<LanguagesListDrawer
 				listId="language-list-from"
-				listType="known-language"
+				listTitle="I know:"
 				selectedItem={selectedKnownLanguage}
 				disabledItems={disabledKnownLanguagesList}
 				className="lang-from"
@@ -93,7 +93,7 @@ const NewDictionary = () => {
 
 			<LanguagesList
 				id="language-list-from"
-				type="known-language"
+				title="I know:"
 				disabledItems={disabledKnownLanguagesList}
 				selectedItem={selectedKnownLanguage}
 				onItemSelect={handleKnownLanguageSelection}
@@ -113,7 +113,7 @@ const NewDictionary = () => {
 
 			<LanguagesList
 				id="language-list-to"
-				type="language-to-learn"
+				title="I learn:"
 				disabledItems={disabledLanguagesToLearnList}
 				selectedItem={selectedLanguageToLearn}
 				onItemSelect={handleLanguageToLearnSelection}
@@ -122,7 +122,7 @@ const NewDictionary = () => {
 
 			<LanguagesListDrawer
 				listId="language-list-to"
-				listType="language-to-learn"
+				listTitle="I learn:"
 				disabledItems={disabledLanguagesToLearnList}
 				selectedItem={selectedLanguageToLearn}
 				className="lang-to"
