@@ -1,20 +1,9 @@
-import React, { useContext, useEffect } from "react";
-import { observer } from "mobx-react-lite";
+import React from "react";
 
-import { RootStoreContext } from "../../app/stores/rootStore";
 import ItemDetails from "./item-details/ItemDetails";
 import ItemsList from "./items-list/ItemsList";
 
 const Dashboard = () => {
-	const rootStore = useContext(RootStoreContext);
-	const { loadItems, loadingInitial } = rootStore.itemStore;
-
-	useEffect(() => {
-		loadItems();
-	}, [loadItems]);
-
-	if (loadingInitial) return <div></div>;
-
 	return (
 		<div id="dashboard">
 			<ItemsList />
@@ -23,4 +12,4 @@ const Dashboard = () => {
 	);
 };
 
-export default observer(Dashboard);
+export default Dashboard;

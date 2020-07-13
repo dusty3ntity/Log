@@ -17,6 +17,7 @@ import DictionariesSettings from "../../components/dictionaries/DictionariesSett
 import NotFound from "./NotFound";
 import { RootStoreContext } from "../stores/rootStore";
 import PrivateRoute from "./PrivateRoute";
+import LoadingScreen from "../../components/common/loading/LoadingScreen";
 
 function App() {
 	const rootStore = useContext(RootStoreContext);
@@ -37,7 +38,7 @@ function App() {
 	}, [getUser, token, loadDictionaries, setAppLoaded]);
 
 	if (!appLoaded) {
-		return <div />;
+		return <LoadingScreen size={3} />;
 	}
 
 	return (

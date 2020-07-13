@@ -58,7 +58,7 @@ const Button: React.FC<IProps> = ({
 			disabled={disabled || loading}
 			onClick={onClick}
 		>
-			{!loading ? icon : <LoadingIndicator />}
+			{!loading ? icon : <LoadingIndicator type="small" />}
 			{text && <span>{text}</span>}
 			{rightIcon}
 		</button>

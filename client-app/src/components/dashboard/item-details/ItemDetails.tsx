@@ -4,6 +4,7 @@ import { Empty } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ItemDetailsContent from "./ItemDetailsContent";
+import LoadingScreen from "../../common/loading/LoadingScreen";
 
 interface IProps {
 	classNames: string;
@@ -11,12 +12,13 @@ interface IProps {
 
 const ItemDetails: React.FC<IProps> = ({ classNames }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { activeItem } = rootStore.itemStore;
+	const { activeItem, loading } = rootStore.itemStore;
 
 	return (
 		<div id="item-details" className={classNames}>
-			{!activeItem && <Empty description="Select an item" />}
-			{activeItem && <ItemDetailsContent item={activeItem} />}
+			{!activeItem && !loading && <Empty description="Select an item" />}
+			{loading && <LoadingScreen size={2} />}
+			{activeItem && !loading && <ItemDetailsContent item={activeItem} />}
 		</div>
 	);
 };

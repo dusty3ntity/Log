@@ -49,7 +49,7 @@ export default class ItemStore {
 	};
 
 	@action loadItem = async (id: string) => {
-		this.loadingInitial = true;
+		this.loading = true;
 		let item = this.getItem(id);
 		if (item) {
 			this.activeItem = item;
@@ -69,7 +69,7 @@ export default class ItemStore {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			} finally {
 				runInAction("loading item", () => {
-					this.loadingInitial = false;
+					this.loading = false;
 				});
 			}
 		}
