@@ -15,7 +15,7 @@ export const maxLength = (value: string, length: number): string => {
 
 export const includes = (a: string, b: string): string => {
 	if (!a || !b || a.length < b.length) return "";
-	if (a.toLocaleLowerCase().includes(b.toLocaleLowerCase())) return "String 'a' includes string 'b'";
+	if (a.toLocaleLowerCase().includes(b.toLocaleLowerCase())) return "String 'a' includes string 'b'.";
 	return "";
 };
 
@@ -24,7 +24,7 @@ export const isValidEmail = (value: string): string => {
 	const result = re.test(value);
 
 	if (result) return "";
-	else return "Email is not valid";
+	else return "Email is not valid.";
 };
 
 export const isValidPassword = (value: string): string => {
@@ -32,5 +32,18 @@ export const isValidPassword = (value: string): string => {
 	const result = re.test(value);
 
 	if (result) return "";
-	else return "Password is not valid";
+	else return "Password is not valid.";
+};
+
+export const isValidUsername = (value: string): string => {
+	const re1 = /^[A-Za-z]/;
+	let result = re1.test(value);
+
+	if (!result) return "Username must begin with a letter.";
+
+	const re2 = /^[a-zA-Z0-9]{2,}$/;
+	result = re2.test(value);
+
+	if (result) return "";
+	else return "Username must contain only alphanumeric.";
 };

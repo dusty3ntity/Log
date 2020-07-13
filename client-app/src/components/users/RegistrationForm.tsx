@@ -6,7 +6,13 @@ import { IRegisterUser } from "../../app/models/user";
 import UserIcon from "../icons/UserIcon";
 import DictionaryIcon from "../icons/DictionaryIcon";
 import LanguagesList from "../dictionaries/LanguagesList";
-import { minLength, maxLength, isValidEmail, isValidPassword } from "../../app/common/forms/formValidators";
+import {
+	minLength,
+	maxLength,
+	isValidEmail,
+	isValidPassword,
+	isValidUsername,
+} from "../../app/common/forms/formValidators";
 import { ILanguage } from "../../app/models/dictionary";
 import Button from "../common/inputs/Button";
 
@@ -87,6 +93,11 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 												return maxLength(value, 20)
 													? "Username can be at most 20 characters."
 													: true;
+											},
+											username: (value: string) => {
+												const result = isValidUsername(value);
+												if (result) return result;
+												else return true;
 											},
 										},
 									})}
