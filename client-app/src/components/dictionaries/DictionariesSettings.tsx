@@ -7,14 +7,29 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import DictionaryForm from "./DictionaryForm";
 import DictionariesListItem from "./DictionariesListItem";
 import { IDictionary } from "../../app/models/dictionary";
+import Empty from "../common/other/Empty";
 
 const DictionariesSettings = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { dictionariesRegistry, editDictionary, deleteDictionary, setMainDictionary } = rootStore.dictionaryStore;
+	const {
+		dictionariesRegistry,
+		editDictionary,
+		deleteDictionary,
+		setMainDictionary,
+		settingMain,
+	} = rootStore.dictionaryStore;
 
 	const [selectedDictionary, selectDictionary] = useState<IDictionary | undefined>(undefined);
 
 	const [isDrawerVisible, setDrawerVisible] = useState(false);
+
+	const onDelete = async () => {
+		const success = await deleteDictionary(selectedDictionary!.id);
+
+		if (success) {
+			selectDictionary(undefined);
+		}
+	};
 
 	return (
 		<div id="dictionaries-settings-container" className="manage-dictionary-container">
@@ -34,6 +49,7 @@ const DictionariesSettings = () => {
 										setDrawerVisible(true);
 									}}
 									onSetMain={(dictionary: IDictionary) => setMainDictionary(dictionary.id)}
+									settingMain={settingMain}
 								/>
 							))}
 						</div>
@@ -48,12 +64,11 @@ const DictionariesSettings = () => {
 						id="edit-dictionary-form"
 						dictionary={selectedDictionary}
 						onSubmit={editDictionary}
-						onDelete={() => {
-							selectDictionary(undefined);
-							deleteDictionary(selectedDictionary.id);
-						}}
+						onDelete={onDelete}
 					/>
 				)}
+
+				{!selectedDictionary && <Empty text="Select a dictionary" size={9} />}
 			</div>
 
 			<Drawer
@@ -70,6 +85,7 @@ const DictionariesSettings = () => {
 					className="drawer-content"
 					dictionary={selectedDictionary}
 					onSubmit={editDictionary}
+					onDelete={onDelete}
 				/>
 			</Drawer>
 		</div>

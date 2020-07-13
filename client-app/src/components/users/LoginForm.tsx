@@ -5,12 +5,14 @@ import { useForm } from "react-hook-form";
 import ValidationMessage from "../common/forms/ValidationMessage";
 import { ILoginUser } from "../../app/models/user";
 import { minLength, maxLength, isValidEmail } from "../../app/common/forms/formValidators";
+import Button from "../common/inputs/Button";
 
 interface IProps {
 	onSubmit: (user: ILoginUser) => void;
+	submitting: boolean;
 }
 
-const LoginForm: React.FC<IProps> = ({ onSubmit }) => {
+const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 	const { register, handleSubmit, errors, formState } = useForm<ILoginUser>();
 
 	return (
@@ -89,13 +91,14 @@ const LoginForm: React.FC<IProps> = ({ onSubmit }) => {
 					</div>
 
 					<div className="actions-container row">
-						<button
-							className="btn primary submit-btn"
+						<Button
+							className="submit-btn"
+							primary
 							type="submit"
+							text="Log in"
 							disabled={!formState.dirty || (formState.submitCount > 0 && !formState.isValid)}
-						>
-							Log in
-						</button>
+							loading={submitting}
+						/>
 					</div>
 				</div>
 			</form>

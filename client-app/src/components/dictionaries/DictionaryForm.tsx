@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Slider, Switch } from "antd";
+import { observer } from "mobx-react-lite";
+import { RootStoreContext } from "../../app/stores/rootStore";
 
 import { ILanguage, INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
+import Button from "../common/inputs/Button";
 
 interface IProps {
 	id: string;
@@ -31,6 +34,9 @@ const DictionaryForm: React.FC<IProps> = ({
 	onSubmit,
 	onDelete,
 }) => {
+	const rootStore = useContext(RootStoreContext);
+	const { submitting, deleting } = rootStore.dictionaryStore;
+
 	const [preferredLearningListSize, setPreferredLearningListSize] = useState(
 		dictionary ? dictionary.preferredLearningListSize : 50
 	);
@@ -212,13 +218,14 @@ const DictionaryForm: React.FC<IProps> = ({
 			</div>
 
 			<div className="actions-row">
-				<button
-					className="btn actions-btn primary add-btn"
-					disabled={!dictionary ? !knownLanguage || !languageToLearn : !isDirty}
+				<Button
+					className="actions-btn add-btn"
+					primary
 					onClick={onFormSubmit}
-				>
-					{!dictionary ? "Create" : "Edit"}
-				</button>
+					text={!dictionary ? "Create" : "Edit"}
+					disabled={!dictionary ? !knownLanguage || !languageToLearn : !isDirty}
+					loading={submitting}
+				/>
 
 				{!dictionary && (
 					<Link className="btn actions-btn cancel-btn" to="/dashboard">
@@ -227,13 +234,17 @@ const DictionaryForm: React.FC<IProps> = ({
 				)}
 
 				{dictionary && (
-					<button className="btn actions-btn delete-btn" onClick={onDelete} disabled={dictionary.isMain}>
-						Delete
-					</button>
+					<Button
+						className="actions-btn delete-btn"
+						onClick={onDelete}
+						text="Delete"
+						disabled={dictionary.isMain}
+						loading={deleting}
+					/>
 				)}
 			</div>
 		</div>
 	);
 };
 
-export default DictionaryForm;
+export default observer(DictionaryForm);

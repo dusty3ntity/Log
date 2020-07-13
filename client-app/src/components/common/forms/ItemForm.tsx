@@ -9,12 +9,14 @@ import ValidationMessage from "./ValidationMessage";
 import PlusIcon from "../../icons/PlusIcon";
 import StarIcon from "../../icons/StarIcon";
 import MinusIcon from "../../icons/MinusIcon";
+import Button from "../inputs/Button";
 
 interface IProps {
 	type: ItemType;
 	id: string;
 	item?: IItem;
 	onSubmit: (item: INewItem, resetForm: () => void) => void;
+	submitting: boolean;
 }
 
 interface FormData {
@@ -24,8 +26,8 @@ interface FormData {
 	definitionOrigin?: string | null;
 }
 
-const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
-	const [definitionActivated, setDefinitionActivated] = useState(item?.definition ? true : false);
+const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit, submitting }) => {
+	const [definitionActivated, setDefinitionActivated] = useState(!!item?.definition);
 	const [isStarred, setStarred] = useState(item?.isStarred ? true : false);
 
 	const { register, handleSubmit, errors, getValues, formState, reset, setValue } = useForm<FormData>({
@@ -197,13 +199,14 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit }) => {
 			</div>
 
 			<div className="form-actions">
-				<button
-					className="btn add-btn form-actions-btn primary"
+				<Button
+					className="add-btn form-actions-btn"
+					primary
 					type="submit"
+					text={item ? "Update" : "Create"}
 					disabled={!formState.dirty || (formState.submitCount > 0 && !formState.isValid)}
-				>
-					{item ? "Edit" : "Add"}
-				</button>
+					loading={submitting}
+				/>
 
 				<Link className="btn cancel-btn form-actions-btn" to="/dashboard">
 					Cancel

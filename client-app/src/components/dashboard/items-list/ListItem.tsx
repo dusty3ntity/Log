@@ -5,6 +5,7 @@ import { Checkbox } from "antd";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
 import StarIcon from "../../icons/StarIcon";
+import Button from "../../common/inputs/Button";
 
 interface IProps {
 	item: IItem;
@@ -12,7 +13,7 @@ interface IProps {
 
 const ListItem: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { selectItem, starItemById, unstarItemById, activeItem } = rootStore.itemStore;
+	const { selectItem, starItemById, unstarItemById, activeItem, starring, loadingTarget } = rootStore.itemStore;
 
 	const progressClass = item.isLearned
 		? "learned"
@@ -38,12 +39,12 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 			</button>
 
 			<div className="actions-col col">
-				<button
-					className="btn star-btn round actions-btn"
+				<Button
+					className="star-btn actions-btn"
+					icon={<StarIcon className={starredClass} />}
 					onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
-				>
-					<StarIcon className={starredClass} />
-				</button>
+					loading={starring && item.id === loadingTarget}
+				/>
 			</div>
 		</div>
 	);

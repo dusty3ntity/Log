@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
-import { Empty } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ItemDetailsContent from "./ItemDetailsContent";
+import LoadingScreen from "../../common/loading/LoadingScreen";
+import Empty from "../../common/other/Empty";
 
 interface IProps {
 	classNames: string;
@@ -11,12 +12,13 @@ interface IProps {
 
 const ItemDetails: React.FC<IProps> = ({ classNames }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { activeItem } = rootStore.itemStore;
+	const { activeItem, loading } = rootStore.itemStore;
 
 	return (
 		<div id="item-details" className={classNames}>
-			{!activeItem && <Empty description="Select an item" />}
-			{activeItem && <ItemDetailsContent item={activeItem} />}
+			{!activeItem && !loading && <Empty text="Select an item" size={9} />}
+			{loading && <LoadingScreen size={2} />}
+			{activeItem && !loading && <ItemDetailsContent item={activeItem} />}
 		</div>
 	);
 };

@@ -6,15 +6,22 @@ import { ILearningItem, LearningMode } from "../../app/models/learning";
 import ComplexityIndicator from "./ComplexityIndicator";
 import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
+import Button from "../common/inputs/Button";
 // import HintIcon from "../icons/HintIcon";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
 	learningItem: ILearningItem;
 	secondTraining: boolean;
+	loading: boolean;
 }
 
-const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, learningItem, secondTraining }) => {
+const LearningCardFront: React.FC<IProps> = ({
+	correctAnswersToItemCompletion,
+	learningItem,
+	secondTraining,
+	loading,
+}) => {
 	const rootStore = useContext(RootStoreContext);
 	const { status, isItemInputFlipped, onItemSubmit } = rootStore.learningStore;
 
@@ -87,15 +94,17 @@ const LearningCardFront: React.FC<IProps> = ({ correctAnswersToItemCompletion, l
 					<span>Hint</span>
 				</button> */}
 
-				<button
-					className="btn actions-btn submit-btn primary no-disabled-styles"
+				<Button
+					className="actions-btn submit-btn"
+					primary
+					noDisabledStyles
+					text="Submit"
 					onClick={() => {
 						onItemSubmit(answer.replace(/\s+/g, " ").trim());
 					}}
 					disabled={status > 9}
-				>
-					Submit
-				</button>
+					loading={loading}
+				/>
 			</div>
 		</div>
 	);

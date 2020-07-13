@@ -3,13 +3,14 @@ import { observer } from "mobx-react-lite";
 import TextEllipsis from "react-text-ellipsis";
 import format from "date-fns/format";
 import { Badge } from "antd";
+import { Link } from "react-router-dom";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem, ItemType } from "../../../app/models/item";
 import StarIcon from "../../icons/StarIcon";
 import EditIcon from "../../icons/EditIcon";
 import DeleteIcon from "../../icons/DeleteIcon";
-import { Link } from "react-router-dom";
+import Button from "../../common/inputs/Button";
 
 interface IProps {
 	item: IItem;
@@ -17,7 +18,7 @@ interface IProps {
 
 const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { deleteItem, starItem, unstarItem } = rootStore.itemStore;
+	const { deleteItem, starItem, unstarItem, starring, deleting, loadingTarget } = rootStore.itemStore;
 
 	const statusClass = item.isLearned ? "success" : item.correctAnswersToCompletionCount > 0 ? "warning" : "default";
 	const type = item.type === ItemType.Word ? "Word" : "Phrase";
@@ -83,13 +84,19 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					<EditIcon />
 				</Link>
 
-				<button className="btn star-btn round actions-btn" onClick={item.isStarred ? unstarItem : starItem}>
-					<StarIcon className={starredClass} />
-				</button>
+				<Button
+					className="star-btn actions-btn"
+					onClick={item.isStarred ? unstarItem : starItem}
+					icon={<StarIcon className={starredClass} />}
+					loading={starring && item.id === loadingTarget}
+				/>
 
-				<button className="btn delete-btn round actions-btn" onClick={deleteItem}>
-					<DeleteIcon />
-				</button>
+				<Button
+					className="delete-btn actions-btn"
+					onClick={deleteItem}
+					icon={<DeleteIcon />}
+					loading={deleting}
+				/>
 			</div>
 		</div>
 	);

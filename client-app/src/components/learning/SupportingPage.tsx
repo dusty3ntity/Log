@@ -7,6 +7,7 @@ import WarningIcon from "../icons/WarningIcon";
 import InfoIcon from "../icons/InfoIcon";
 import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 import RefreshIcon from "../icons/RefreshIcon";
+import Button from "../common/inputs/Button";
 
 interface IProps {
 	className: string;
@@ -19,6 +20,7 @@ interface IProps {
 	buttonType: "start" | "start-over" | "continue" | "dashboard";
 	onClick?: () => void;
 	isFlipped?: boolean;
+	loading?: boolean;
 }
 
 const SupportingPage: React.FC<IProps> = ({
@@ -29,6 +31,7 @@ const SupportingPage: React.FC<IProps> = ({
 	buttonType,
 	onClick,
 	isFlipped,
+	loading,
 }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { status, learningList } = rootStore.learningStore;
@@ -93,36 +96,42 @@ const SupportingPage: React.FC<IProps> = ({
 
 				<div className="actions-row row">
 					{buttonType === "start" && (
-						<button
-							className="btn actions-btn start-btn primary no-disabled-styles"
+						<Button
+							className="actions-btn, start-btn"
+							primary
+							noDisabledStyles
+							text={learningList?.completedItemsCount === 0 ? "Start" : "Continue"}
+							rightIcon={<ArrowForwardSmallIcon />}
 							onClick={onClick}
 							disabled={status > 9}
-						>
-							<span>{learningList?.completedItemsCount === 0 ? "Start" : "Continue"}</span>
-							<ArrowForwardSmallIcon />
-						</button>
+							loading={loading}
+						/>
 					)}
 
 					{buttonType === "continue" && (
-						<button
-							className="btn actions-btn start-btn primary no-disabled-styles"
+						<Button
+							className="actions-btn, start-btn"
+							primary
+							noDisabledStyles
+							text="Continue"
+							rightIcon={<ArrowForwardSmallIcon />}
 							onClick={onClick}
 							disabled={status > 9}
-						>
-							<span>Continue</span>
-							<ArrowForwardSmallIcon />
-						</button>
+							loading={loading}
+						/>
 					)}
 
 					{buttonType === "start-over" && (
-						<button
-							className="btn actions-btn start-btn primary no-disabled-styles"
+						<Button
+							className="actions-btn, start-btn"
+							primary
+							noDisabledStyles
+							text="Start over"
+							rightIcon={<RefreshIcon />}
 							onClick={onClick}
 							disabled={status > 9}
-						>
-							<span>Start over</span>
-							<RefreshIcon />
-						</button>
+							loading={loading}
+						/>
 					)}
 
 					{buttonType === "dashboard" && (

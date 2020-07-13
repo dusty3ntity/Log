@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Tabs } from "antd";
+import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ItemType, INewItem } from "../../app/models/item";
@@ -9,7 +10,7 @@ const { TabPane } = Tabs;
 
 const NewItem = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { createItem } = rootStore.itemStore;
+	const { createItem, submitting } = rootStore.itemStore;
 
 	const onSubmit = async (item: INewItem, resetForm: () => void) => {
 		const success = await createItem(item);
@@ -23,11 +24,16 @@ const NewItem = () => {
 			<div id="new-item" className="manage-item">
 				<Tabs defaultActiveKey={ItemType.Word + ""}>
 					<TabPane tab="Word" key={ItemType.Word + ""}>
-						<ItemForm id="new-word-form" type={ItemType.Word} onSubmit={onSubmit} />
+						<ItemForm id="new-word-form" type={ItemType.Word} onSubmit={onSubmit} submitting={submitting} />
 					</TabPane>
 
 					<TabPane tab="Phrase" key={ItemType.Phrase + ""}>
-						<ItemForm id="new-phrase-form" type={ItemType.Phrase} onSubmit={onSubmit} />
+						<ItemForm
+							id="new-phrase-form"
+							type={ItemType.Phrase}
+							onSubmit={onSubmit}
+							submitting={submitting}
+						/>
 					</TabPane>
 				</Tabs>
 			</div>
@@ -35,4 +41,4 @@ const NewItem = () => {
 	);
 };
 
-export default NewItem;
+export default observer(NewItem);
