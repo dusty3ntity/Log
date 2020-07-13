@@ -22,19 +22,22 @@ function App() {
 	const rootStore = useContext(RootStoreContext);
 	const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
 	const { getUser } = rootStore.userStore;
+	const { loadDictionaries } = rootStore.dictionaryStore;
 
 	useEffect(() => {
 		if (token) {
-			getUser().finally(() => {
-				setAppLoaded();
-			});
+			getUser()
+				.then(loadDictionaries)
+				.finally(() => {
+					setAppLoaded();
+				});
 		} else {
 			setAppLoaded();
 		}
-	}, [getUser, token, setAppLoaded]);
+	}, [getUser, token, loadDictionaries, setAppLoaded]);
 
 	if (!appLoaded) {
-		return <div></div>;
+		return <div />;
 	}
 
 	return (

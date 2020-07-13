@@ -3,15 +3,17 @@ import { observer } from "mobx-react-lite";
 
 import { IDictionary } from "../../app/models/dictionary";
 import SuccessIcon from "../icons/SuccessIcon";
+import Button from "../common/inputs/Button";
 
 interface IProps {
 	dictionary: IDictionary;
 	isActive: boolean;
 	onClick: (dictionary: IDictionary) => void;
 	onSetMain: (dictionary: IDictionary) => void;
+	settingMain: boolean;
 }
 
-const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick, onSetMain }) => {
+const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick, onSetMain, settingMain }) => {
 	return (
 		<div className={`list-item ${isActive ? "active" : ""}`}>
 			<button className="btn item-btn" onClick={() => onClick(dictionary)}>
@@ -100,9 +102,12 @@ const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick,
 					)}
 
 					{!dictionary.isMain && (
-						<button className="btn set-main-btn" onClick={() => onSetMain(dictionary)}>
-							Set main
-						</button>
+						<Button
+							className="set-main-btn"
+							text="Set main"
+							onClick={() => onSetMain(dictionary)}
+							loading={settingMain}
+						/>
 					)}
 				</div>
 			</div>

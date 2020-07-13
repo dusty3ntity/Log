@@ -8,12 +8,14 @@ import SuccessIcon from "../icons/SuccessIcon";
 import ErrorIcon from "../icons/ErrorIcon";
 import StarIcon from "../icons/StarIcon";
 import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
+import Button from "../common/inputs/Button";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
 	learningItemResult: ILearningItemResult;
 	progressAnimated: boolean;
 	secondTraining: boolean;
+	loading: boolean;
 }
 
 const LearningCardBack: React.FC<IProps> = ({
@@ -21,6 +23,7 @@ const LearningCardBack: React.FC<IProps> = ({
 	learningItemResult,
 	progressAnimated,
 	secondTraining,
+	loading,
 }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { status, isItemResultFlipped, onNextItem } = rootStore.learningStore;
@@ -96,14 +99,16 @@ const LearningCardBack: React.FC<IProps> = ({
 			</div>
 
 			<div className="actions-row row">
-				<button
-					className="btn actions-btn next-btn primary no-disabled-styles"
+				<Button
+					className="actions-btn next-btn"
+					noDisabledStyles
+					primary
+					text="Next"
+					rightIcon={<ArrowForwardSmallIcon />}
 					onClick={onNextItem}
 					disabled={status > 9}
-				>
-					<span>Next</span>
-					<ArrowForwardSmallIcon />
-				</button>
+					loading={loading}
+				/>
 			</div>
 		</div>
 	);

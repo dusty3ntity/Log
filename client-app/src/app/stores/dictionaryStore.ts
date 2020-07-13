@@ -31,6 +31,10 @@ export default class DictionaryStore {
 
 	@observable loadingInitial = true;
 	@observable loading = false;
+	@observable submitting = false;
+	@observable deleting = false;
+	@observable settingMain = false;
+
 	@observable dictionariesRegistry = new Map<string, IDictionary>();
 	@observable activeDictionary: IDictionary | undefined;
 
@@ -43,12 +47,11 @@ export default class DictionaryStore {
 		try {
 			const dictionaries = await agent.Dictionaries.list();
 			runInAction("loading dictionaries", () => {
+				this.dictionariesRegistry = new Map();
 				dictionaries.forEach((dictionary) => {
 					this.dictionariesRegistry.set(dictionary.id, dictionary);
 				});
-				if (!this.activeDictionary) {
-					this.activeDictionary = dictionaries.find((dictionary) => dictionary.isMain);
-				}
+				this.activeDictionary = dictionaries.find((dictionary) => dictionary.isMain);
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -68,7 +71,7 @@ export default class DictionaryStore {
 	};
 
 	@action createDictionary = async (dictionary: INewDictionary) => {
-		this.loading = true;
+		this.submitting = true;
 		try {
 			const id = await agent.Dictionaries.create(dictionary);
 			runInAction("creating dictionary", () => {
@@ -121,13 +124,13 @@ export default class DictionaryStore {
 			}
 		} finally {
 			runInAction("loading dictionaries", () => {
-				this.loading = false;
+				this.submitting = false;
 			});
 		}
 	};
 
 	@action editDictionary = async (id: string, dictionary: IEditDictionary) => {
-		this.loading = true;
+		this.submitting = true;
 		try {
 			await agent.Dictionaries.update(id, dictionary);
 			runInAction("editing dictionary", () => {
@@ -148,33 +151,37 @@ export default class DictionaryStore {
 			return false;
 		} finally {
 			runInAction("editing dictionary", () => {
-				this.loading = false;
+				this.submitting = false;
 			});
 		}
 	};
 
 	@action deleteDictionary = async (id: string) => {
-		this.loading = true;
+		this.deleting = true;
 		try {
 			await agent.Dictionaries.delete(id);
 			runInAction("deleting dictionary", () => {
 				this.dictionariesRegistry.delete(id);
 			});
+
+			return true;
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
-				return;
+				return false;
 			}
 
 			createNotification(NotificationType.UnknownError, { errors: err.body });
+
+			return false;
 		} finally {
 			runInAction("deleting dictionary", () => {
-				this.loading = false;
+				this.deleting = false;
 			});
 		}
 	};
 
 	@action setMainDictionary = async (id: string) => {
-		this.loading = true;
+		this.settingMain = true;
 		try {
 			await agent.Dictionaries.setMain(id);
 			runInAction("setting main dictionary", () => {
@@ -190,7 +197,7 @@ export default class DictionaryStore {
 			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("setting main dictionary", () => {
-				this.loading = false;
+				this.settingMain = false;
 			});
 		}
 	};

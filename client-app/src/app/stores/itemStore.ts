@@ -16,7 +16,12 @@ export default class ItemStore {
 
 	@observable loadingInitial = false;
 	@observable loading = false;
-	@observable editing = false;
+	@observable submitting = false;
+	@observable deleting = false;
+	@observable starring = false;
+
+	@observable loadingTarget: string | undefined = undefined;
+
 	@observable itemRegistry = new Map();
 	@observable activeItem: IItem | undefined;
 
@@ -80,13 +85,12 @@ export default class ItemStore {
 	}
 
 	@action selectItem = (id: string) => {
-		this.editing = false;
 		this.activeItem = this.itemRegistry.get(id);
 		this.showDetailsDrawer();
 	};
 
 	@action createItem = async (item: INewItem) => {
-		this.loading = true;
+		this.submitting = true;
 		try {
 			await agent.Items.create(this.rootStore.dictionaryStore.activeDictionaryId!, item);
 			runInAction("creating item", () => {
@@ -125,12 +129,12 @@ export default class ItemStore {
 
 			return false;
 		} finally {
-			runInAction("creating item", () => (this.loading = false));
+			runInAction("creating item", () => (this.submitting = false));
 		}
 	};
 
 	@action editItem = async (id: string, editItem: IEditItem) => {
-		this.loading = true;
+		this.submitting = true;
 		try {
 			await agent.Items.update(this.rootStore.dictionaryStore.activeDictionaryId!, id, editItem);
 			runInAction("updating item", () => {
@@ -138,7 +142,6 @@ export default class ItemStore {
 				this.activeItem!.translation = editItem.translation;
 				this.activeItem!.definition = editItem.definition;
 				this.activeItem!.definitionOrigin = editItem.definitionOrigin;
-				this.editing = false;
 				history.push("/dashboard");
 				createNotification(NotificationType.Success, { message: "Item updated successfully!" });
 			});
@@ -166,12 +169,12 @@ export default class ItemStore {
 
 			return false;
 		} finally {
-			runInAction("updating item", () => (this.loading = false));
+			runInAction("updating item", () => (this.submitting = false));
 		}
 	};
 
 	@action deleteItem = async () => {
-		this.loading = true;
+		this.deleting = true;
 		try {
 			await agent.Items.delete(this.rootStore.dictionaryStore.activeDictionaryId!, this.activeItem!.id);
 			runInAction("deleting item", () => {
@@ -181,6 +184,7 @@ export default class ItemStore {
 					this.rootStore.dictionaryStore.activeDictionary!.phrasesCount--;
 				}
 				this.itemRegistry.delete(this.activeItem!.id);
+				this.detailsDrawerVisible = false;
 				this.clearActiveItem();
 			});
 		} catch (err) {
@@ -190,7 +194,7 @@ export default class ItemStore {
 
 			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
-			runInAction("deleting item", () => (this.loading = false));
+			runInAction("deleting item", () => (this.deleting = false));
 		}
 	};
 
@@ -199,7 +203,8 @@ export default class ItemStore {
 	};
 
 	@action starItemById = async (id: string) => {
-		this.loading = true;
+		this.loadingTarget = id;
+		this.starring = true;
 		try {
 			await agent.Items.star(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("starring item", () => {
@@ -212,7 +217,10 @@ export default class ItemStore {
 
 			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
-			runInAction("starring item", () => (this.loading = false));
+			runInAction("starring item", () => {
+				this.starring = false;
+				this.loadingTarget = undefined;
+			});
 		}
 	};
 
@@ -221,7 +229,8 @@ export default class ItemStore {
 	};
 
 	@action unstarItemById = async (id: string) => {
-		this.loading = true;
+		this.loadingTarget = id;
+		this.starring = true;
 		try {
 			await agent.Items.unstar(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("unstarring item", () => {
@@ -234,7 +243,10 @@ export default class ItemStore {
 
 			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
-			runInAction("unstarring item", () => (this.loading = false));
+			runInAction("unstarring item", () => {
+				this.starring = false;
+				this.loadingTarget = undefined;
+			});
 		}
 	};
 

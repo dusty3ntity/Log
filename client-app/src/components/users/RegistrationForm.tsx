@@ -8,12 +8,14 @@ import DictionaryIcon from "../icons/DictionaryIcon";
 import LanguagesList from "../dictionaries/LanguagesList";
 import { minLength, maxLength, isValidEmail, isValidPassword } from "../../app/common/forms/formValidators";
 import { ILanguage } from "../../app/models/dictionary";
+import Button from "../common/inputs/Button";
 
 interface IProps {
 	onSubmit: (user: IRegisterUser) => void;
+	submitting: boolean;
 }
 
-const RegistrationForm: React.FC<IProps> = ({ onSubmit }) => {
+const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 	const { register, handleSubmit, errors, formState } = useForm<IRegisterUser>();
 
 	const [selectedTab, selectTab] = useState(0);
@@ -172,17 +174,18 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit }) => {
 							</button>
 						)}
 
-						<button
-							className="btn primary actions-btn next-btn"
+						<Button
+							className="actions-btn next-btn"
+							primary
 							type="submit"
+							text={selectedTab === 0 ? "Next" : "Register"}
 							disabled={
 								selectedTab === 0
 									? !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
 									: !selectedNativeLanguage || !selectedForeignLanguage
 							}
-						>
-							{selectedTab === 0 ? "Next" : "Register"}
-						</button>
+							loading={submitting}
+						/>
 					</div>
 				</div>
 			</form>

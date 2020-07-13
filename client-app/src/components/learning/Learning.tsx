@@ -20,6 +20,8 @@ const Learning = () => {
 		isLearningEndFlipped,
 		isLearningOutdatedFlipped,
 
+		loading,
+
 		onInitialLoad,
 		onStart,
 		onStartOver,
@@ -49,6 +51,7 @@ const Learning = () => {
 									(learningList!.timesCompleted === 1 && !learningList!.isCompleted) ||
 									(learningList!.timesCompleted === 2 && learningList!.isCompleted)
 								}
+								loading={loading}
 							/>
 						)}
 
@@ -61,6 +64,7 @@ const Learning = () => {
 									(learningList!.timesCompleted === 1 && !learningList!.isCompleted) ||
 									(learningList!.timesCompleted === 2 && learningList!.isCompleted)
 								}
+								loading={loading}
 							/>
 						)}
 
@@ -70,6 +74,7 @@ const Learning = () => {
 								buttonType="start"
 								onClick={onStart}
 								isFlipped={isLearningStartFlipped}
+								loading={loading}
 							/>
 						)}
 
@@ -81,6 +86,7 @@ const Learning = () => {
 								buttonType="start"
 								onClick={onOutdatedStart}
 								isFlipped={isLearningOutdatedFlipped}
+								loading={loading}
 							/>
 						)}
 
@@ -92,6 +98,7 @@ const Learning = () => {
 								buttonType="start-over"
 								onClick={onStartOver}
 								isFlipped={isLearningStartOverFlipped}
+								loading={loading}
 							/>
 						)}
 

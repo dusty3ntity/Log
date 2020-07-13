@@ -15,7 +15,7 @@ export default class UserStore {
 		this.rootStore = rootStore;
 	}
 
-	@observable loading = false;
+	@observable submitting = false;
 	@observable user: IUser | null = null;
 
 	@computed get isLoggedIn() {
@@ -23,14 +23,15 @@ export default class UserStore {
 	}
 
 	@action login = async (formData: ILoginUser) => {
-		this.loading = true;
+		this.submitting = true;
 		try {
 			const user = await agent.Users.login(formData);
 			runInAction("logging in", () => {
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
-				history.push("/dashboard");
 			});
+			await this.rootStore.dictionaryStore.loadDictionaries();
+			history.push("/dashboard");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
@@ -46,20 +47,21 @@ export default class UserStore {
 			}
 		} finally {
 			runInAction("logging in", () => {
-				this.loading = false;
+				this.submitting = false;
 			});
 		}
 	};
 
 	@action register = async (values: IRegisterUser) => {
-		this.loading = true;
+		this.submitting = true;
 		try {
 			const user = await agent.Users.register(values);
 			runInAction("registering user", () => {
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
-				history.push("/dashboard");
 			});
+			await this.rootStore.dictionaryStore.loadDictionaries();
+			history.push("/dashboard");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
@@ -83,7 +85,7 @@ export default class UserStore {
 			}
 		} finally {
 			runInAction("registering user", () => {
-				this.loading = false;
+				this.submitting = false;
 			});
 		}
 	};
