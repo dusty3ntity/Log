@@ -7,6 +7,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import DictionaryForm from "./DictionaryForm";
 import DictionariesListItem from "./DictionariesListItem";
 import { IDictionary } from "../../app/models/dictionary";
+import Empty from "../common/other/Empty";
 
 const DictionariesSettings = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -66,6 +67,8 @@ const DictionariesSettings = () => {
 						onDelete={onDelete}
 					/>
 				)}
+
+				{!selectedDictionary && <Empty text="Select a dictionary" size={9} />}
 			</div>
 
 			<Drawer

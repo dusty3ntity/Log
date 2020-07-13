@@ -9,6 +9,7 @@ import ItemFiltersDrawer from "../drawers/ItemFiltersDrawer";
 import ItemDetailsDrawer from "../drawers/ItemDetailsDrawer";
 import Header from "./Header";
 import LoadingScreen from "../../common/loading/LoadingScreen";
+import Empty from "../../common/other/Empty";
 
 const ItemsList = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -30,7 +31,7 @@ const ItemsList = () => {
 
 					{loadingInitial && <LoadingScreen size={2} />}
 
-					{!loadingInitial && (
+					{!loadingInitial && itemsByDate.length > 0 && (
 						<SimpleBar style={{ height: "100%" }} autoHide={false} forceVisible="y" scrollbarMinSize={36}>
 							<div id="list">
 								{itemsByDate.map((item) => (
@@ -39,6 +40,8 @@ const ItemsList = () => {
 							</div>
 						</SimpleBar>
 					)}
+
+					{!loadingInitial && itemsByDate.length === 0 && <Empty text="No items found" size={10} />}
 
 					<ItemDetailsDrawer />
 				</div>
