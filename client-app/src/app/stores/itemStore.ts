@@ -33,6 +33,7 @@ export default class ItemStore {
 			runInAction("loading items", () => {
 				this.itemRegistry = new Map();
 				items.forEach((item) => {
+					item.creationDate = new Date(item.creationDate);
 					this.itemRegistry.set(item.id, item);
 				});
 			});
@@ -59,6 +60,7 @@ export default class ItemStore {
 			try {
 				item = await agent.Items.details(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 				runInAction("getting item", () => {
+					item.creationDate = new Date(item.creationDate);
 					this.activeItem = item;
 					this.itemRegistry.set(item.id, item);
 				});
@@ -82,8 +84,18 @@ export default class ItemStore {
 	};
 
 	@computed get itemsByDate() {
-		let items = Array.from(this.itemRegistry.values());
-		return items;
+		return this.groupItemsByDate(Array.from(this.itemRegistry.values()));
+	}
+
+	groupItemsByDate(items: IItem[]) {
+		const sortedItems = items.sort((a, b) => b.creationDate.getTime() - a.creationDate.getTime());
+		return Object.entries(
+			sortedItems.reduce((items, item) => {
+				const date = item.creationDate.toISOString().split("T")[0];
+				items[date] = items[date] ? [...items[date], item] : [item];
+				return items;
+			}, {} as { [key: string]: IItem[] })
+		);
 	}
 
 	@action selectItem = (id: string) => {

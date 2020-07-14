@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import SimpleBar from "simplebar-react";
 
@@ -10,6 +10,7 @@ import ItemDetailsDrawer from "../drawers/ItemDetailsDrawer";
 import Header from "./Header";
 import LoadingScreen from "../../common/loading/LoadingScreen";
 import Empty from "../../common/other/Empty";
+import { getRelativeDate } from "../../../app/common/util/dates";
 
 const ItemsList = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -34,8 +35,14 @@ const ItemsList = () => {
 					{!loadingInitial && itemsByDate.length > 0 && (
 						<SimpleBar style={{ height: "100%" }} autoHide={false} forceVisible="y" scrollbarMinSize={36}>
 							<div id="list">
-								{itemsByDate.map((item) => (
-									<ListItem key={item.id} item={item} />
+								{itemsByDate.map(([date, items]) => (
+									<Fragment key={date}>
+										<span className="date-badge">{getRelativeDate(date)}</span>
+
+										{items.map((item) => (
+											<ListItem key={item.id} item={item} />
+										))}
+									</Fragment>
 								))}
 							</div>
 						</SimpleBar>

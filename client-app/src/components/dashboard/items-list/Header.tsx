@@ -4,7 +4,6 @@ import Search from "antd/lib/input/Search";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import FilterIcon from "../../icons/FilterIcon";
-import CalendarIcon from "../../icons/CalendarIcon";
 
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -26,10 +25,6 @@ const Header = () => {
 				>
 					<FilterIcon />
 					<span>Filters</span>
-				</button>
-
-				<button className="btn header-btn round group-by-date-btn">
-					<CalendarIcon />
 				</button>
 
 				<Search id="item-search" placeholder="item..." />
