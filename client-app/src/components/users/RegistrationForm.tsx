@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import ValidationMessage from "../common/forms/ValidationMessage";
 import { IRegisterUser } from "../../app/models/user";
@@ -145,6 +146,14 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 
 							<button className="btn facebook-btn">Log in with Facebook</button>
 						</div> */}
+
+						<div className="login-container row">
+							<span className="prompt">Already have an account?</span>
+
+							<Link className="login-link" to="/login">
+								Log in
+							</Link>
+						</div>
 					</div>
 
 					<div className={`tab second-tab ${selectedTab === 0 ? "hidden" : ""}`}>
