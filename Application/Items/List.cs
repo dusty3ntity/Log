@@ -15,12 +15,28 @@ namespace Application.Items
 {
     public class List
     {
-        public class Query : IRequest<List<ItemDto>>
+        public class ItemsEnvelope
         {
-            public Guid DictionaryId { get; set; }
+            public List<ItemDto> Items { get; set; }
+            public int ItemsCount { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, List<ItemDto>>
+        public class Query : IRequest<ItemsEnvelope>
+        {
+            public Query(Guid dictionaryId, int? limit, int? offset)
+            {
+                DictionaryId = dictionaryId;
+                Limit = limit;
+                Offset = offset;
+            }
+
+            public Guid DictionaryId { get; set; }
+
+            public int? Limit { get; set; }
+            public int? Offset { get; set; }
+        }
+
+        public class Handler : IRequestHandler<Query, ItemsEnvelope>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -31,7 +47,7 @@ namespace Application.Items
                 _mapper = mapper;
             }
 
-            public async Task<List<ItemDto>> Handle(Query request,
+            public async Task<ItemsEnvelope> Handle(Query request,
                 CancellationToken cancellationToken)
             {
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
@@ -39,12 +55,15 @@ namespace Application.Items
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
-                var items = await _context.Items
-                    .Where(i => i.DictionaryId == request.DictionaryId)
-                    .Select(i => _mapper.Map<Item, ItemDto>(i))
-                    .ToListAsync();
+                var queryable = _context.Items.Where(i => i.DictionaryId == request.DictionaryId).AsQueryable();
 
-                return items;
+                var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 3).ToListAsync();
+
+                return new ItemsEnvelope
+                {
+                    Items = _mapper.Map<List<Item>, List<ItemDto>>(items),
+                    ItemsCount = queryable.Count()
+                };
             }
         }
     }
