@@ -18,6 +18,7 @@ import NotFound from "./NotFound";
 import { RootStoreContext } from "../stores/rootStore";
 import PrivateRoute from "./PrivateRoute";
 import LoadingScreen from "../../components/common/loading/LoadingScreen";
+import Soon from "./Soon";
 
 function App() {
 	const rootStore = useContext(RootStoreContext);
@@ -100,6 +101,9 @@ function App() {
 							path="/learning"
 							component={<Page title="Learning" pageTitle="Learning" component={<Learning />} />}
 						/>
+
+						<PrivateRoute exact path="/statistics" component={<Soon />} />
+						<PrivateRoute exact path="/settings" component={<Soon />} />
 
 						<Route exact path="/404" component={NotFound} />
 

@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import NavItem from "./NavItem";
 import DashboardIcon from "../icons/DashboardIcon";
 import StatisticsIcon from "../icons/StatisticsIcon";
-import CommunityIcon from "../icons/CommunityIcon";
-import MyPacksIcon from "../icons/MyPacksIcon";
+// import CommunityIcon from "../icons/CommunityIcon";
+// import MyPacksIcon from "../icons/MyPacksIcon";
 import SettingsIcon from "../icons/SettingsIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import { RootStoreContext } from "../../app/stores/rootStore";
@@ -30,10 +30,10 @@ const NavBar = () => {
 
 				<div className="divider invisible nav-divider" />
 
-				<NavItem link="/community" name="Community" icon={<CommunityIcon classNames="nav-icon" />} />
+				{/* <NavItem link="/community" name="Community" icon={<CommunityIcon classNames="nav-icon" />} />
 				<NavItem link="/packs" name="My Packs" icon={<MyPacksIcon classNames="nav-icon" />} />
 
-				<div className="divider invisible nav-divider" />
+				<div className="divider invisible nav-divider" /> */}
 
 				<NavItem link="/settings" name="Settings" icon={<SettingsIcon classNames="nav-icon" />} />
 				<NavItem button onClick={logout} name="Logout" icon={<LogoutIcon classNames="nav-icon" />} />
@@ -43,10 +43,12 @@ const NavBar = () => {
 				<Link to="/profile" className="profile-link">
 					<Avatar username={user!.username} />
 				</Link>
+
 				<div className="username xxl-visible">{user!.username}</div>
-				<Link to="/" className="btn upgrade-btn xxl-visible">
+
+				{/* <Link to="/" className="btn upgrade-btn xxl-visible">
 					Upgrade
-				</Link>
+				</Link> */}
 			</div>
 		</div>
 	);
