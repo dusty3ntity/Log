@@ -26,6 +26,7 @@ export default class ItemStore {
 	@observable activeItem: IItem | undefined;
 
 	@action loadItems = async () => {
+		this.activeItem = undefined;
 		this.loadingInitial = true;
 		try {
 			const items = await agent.Items.list(this.rootStore.dictionaryStore.activeDictionaryId!);
@@ -49,11 +50,12 @@ export default class ItemStore {
 	};
 
 	@action loadItem = async (id: string) => {
-		this.loading = true;
 		let item = this.getItem(id);
 		if (item) {
 			this.activeItem = item;
+			return item;
 		} else {
+			this.loading = true;
 			try {
 				item = await agent.Items.details(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 				runInAction("getting item", () => {

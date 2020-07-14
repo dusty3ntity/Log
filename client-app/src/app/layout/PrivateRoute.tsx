@@ -1,24 +1,14 @@
 import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
-import { RootStoreContext } from "../stores/rootStore";
+import { Route, Redirect, RouteProps } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
-interface IProps {
-	path: string;
-	exact?: boolean;
-	component: JSX.Element;
-}
+import { RootStoreContext } from "../stores/rootStore";
 
-const PrivateRoute: React.FC<IProps> = ({ path, exact, component }) => {
+const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { isLoggedIn } = rootStore.userStore;
 
-	return (
-		<Route exact={exact} path={path}>
-			{isLoggedIn && component}
-			{!isLoggedIn && <Redirect to={"/login"} />}
-		</Route>
-	);
+	return <Route {...rest} render={() => (isLoggedIn ? children : <Redirect to={"/login"} />)} />;
 };
 
 export default observer(PrivateRoute);

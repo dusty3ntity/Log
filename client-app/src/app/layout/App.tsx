@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useContext } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
 import "mobx-react-lite/batchingForReactDom";
@@ -61,49 +61,36 @@ function App() {
 						<Route exact path="/login" component={LoginPage} />
 						<Route exact path="/registration" component={RegistrationPage} />
 
-						<PrivateRoute
-							path="/dashboard"
-							component={<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />}
-						/>
+						<PrivateRoute exact path="/dashboard">
+							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
+						</PrivateRoute>
 
-						<PrivateRoute
-							path="/new-dictionary"
-							component={
-								<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
-							}
-						/>
+						<PrivateRoute path="/new-dictionary">
+							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
+						</PrivateRoute>
 
-						<PrivateRoute
-							path="/dictionaries"
-							component={
-								<Page
-									title="Dictionaries"
-									pageTitle="Dictionaries"
-									component={<DictionariesSettings />}
-								/>
-							}
-						/>
+						<PrivateRoute path="/dictionaries/:id">
+							<Page title="Dictionaries" pageTitle="Dictionaries" component={<DictionariesSettings />} />
+						</PrivateRoute>
 
-						<PrivateRoute
-							exact
-							path="/new-item"
-							component={<Page title="New item" pageTitle="New item" component={<NewItem />} />}
-						/>
+						<PrivateRoute exact path="/new-item">
+							<Page title="New item" pageTitle="New item" component={<NewItem />} />
+						</PrivateRoute>
 
-						<PrivateRoute
-							exact
-							path="/edit-item"
-							component={<Page title="Edit item" pageTitle="Edit item" component={<EditItem />} />}
-						/>
+						<PrivateRoute exact path="/edit-item">
+							<Page title="Edit item" pageTitle="Edit item" component={<EditItem />} />
+						</PrivateRoute>
 
-						<PrivateRoute
-							exact
-							path="/learning"
-							component={<Page title="Learning" pageTitle="Learning" component={<Learning />} />}
-						/>
+						<PrivateRoute exact path="/learning">
+							<Page title="Learning" pageTitle="Learning" component={<Learning />} />
+						</PrivateRoute>
 
-						<PrivateRoute exact path="/statistics" component={<Soon />} />
-						<PrivateRoute exact path="/settings" component={<Soon />} />
+						<PrivateRoute exact path="/learning">
+							<Page title="Learning" pageTitle="Learning" component={<Learning />} />
+						</PrivateRoute>
+
+						<PrivateRoute exact path="/statistics" component={Soon} />
+						<PrivateRoute exact path="/settings" component={Soon} />
 
 						<Route exact path="/404" component={NotFound} />
 
@@ -117,4 +104,4 @@ function App() {
 	);
 }
 
-export default observer(App);
+export default withRouter(observer(App));
