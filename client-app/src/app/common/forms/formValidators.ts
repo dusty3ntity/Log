@@ -39,7 +39,7 @@ export const isValidUsername = (value: string): string => {
 	const re1 = /^[A-Za-z]/;
 	let result = re1.test(value);
 
-	if (!result) return "Username must begin with a letter.";
+	if (!result) return "Username must start with a letter.";
 
 	const re2 = /^[a-zA-Z0-9]{2,}$/;
 	result = re2.test(value);
