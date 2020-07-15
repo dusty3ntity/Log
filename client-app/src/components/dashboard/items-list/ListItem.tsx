@@ -43,7 +43,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 					className="star-btn actions-btn"
 					icon={<StarIcon className={starredClass} />}
 					onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
-					loading={starring && item.id === loadingTarget}
+					loading={starring && loadingTarget.includes(item.id)}
 				/>
 			</div>
 		</div>

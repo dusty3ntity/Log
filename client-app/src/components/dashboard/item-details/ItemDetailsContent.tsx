@@ -29,7 +29,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const correctAnswersCount =
 		item.correctAnswersCount > 999 ? Math.floor(item.correctAnswersCount / 1000) + "k" : item.correctAnswersCount;
 
-	const date = format(new Date(item.creationDate.toString().split("T")[0]), "MM.dd.yyyy");
+	const date = format(item.creationDate, "MM.dd.yyyy");
 
 	return (
 		<div id="details-container">
@@ -88,7 +88,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					className="star-btn actions-btn"
 					onClick={item.isStarred ? unstarItem : starItem}
 					icon={<StarIcon className={starredClass} />}
-					loading={starring && item.id === loadingTarget}
+					loading={starring && loadingTarget.includes(item.id)}
 				/>
 
 				<Button

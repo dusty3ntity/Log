@@ -86,7 +86,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 						<span className="prompt">Don't have an account?</span>
 
 						<Link className="registration-link" to="/registration">
-							Registration
+							Register
 						</Link>
 					</div>
 

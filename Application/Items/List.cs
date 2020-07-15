@@ -17,7 +17,17 @@ namespace Application.Items
     {
         public class Query : IRequest<List<ItemDto>>
         {
+            public Query(Guid dictionaryId, int? limit, int? offset)
+            {
+                DictionaryId = dictionaryId;
+                Limit = limit;
+                Offset = offset;
+            }
+
             public Guid DictionaryId { get; set; }
+
+            public int? Limit { get; set; }
+            public int? Offset { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<ItemDto>>
@@ -39,12 +49,14 @@ namespace Application.Items
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
-                var items = await _context.Items
+                var queryable = _context.Items
                     .Where(i => i.DictionaryId == request.DictionaryId)
-                    .Select(i => _mapper.Map<Item, ItemDto>(i))
-                    .ToListAsync();
+                    .OrderByDescending(i => i.CreationDate)
+                    .AsQueryable();
 
-                return items;
+                var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 20).ToListAsync();
+
+                return _mapper.Map<List<Item>, List<ItemDto>>(items);
             }
         }
     }

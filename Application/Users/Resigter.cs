@@ -118,6 +118,7 @@ namespace Application.Users
                     return new User
                     {
                         DisplayName = user.DisplayName,
+						Email = user.Email,
                         Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName
                     };

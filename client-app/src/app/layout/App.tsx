@@ -22,21 +22,20 @@ import Soon from "./Soon";
 
 function App() {
 	const rootStore = useContext(RootStoreContext);
-	const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
+	const { setAppLoaded, token, appLoaded, onInitialLoad } = rootStore.commonStore;
 	const { getUser } = rootStore.userStore;
-	const { loadDictionaries } = rootStore.dictionaryStore;
 
 	useEffect(() => {
 		if (token) {
 			getUser()
-				.then(loadDictionaries)
+				.then(onInitialLoad)
 				.finally(() => {
 					setAppLoaded();
 				});
 		} else {
 			setAppLoaded();
 		}
-	}, [getUser, token, loadDictionaries, setAppLoaded]);
+	}, [getUser, token, onInitialLoad, setAppLoaded]);
 
 	if (!appLoaded) {
 		return <LoadingScreen size={3} />;
@@ -65,11 +64,11 @@ function App() {
 							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
 						</PrivateRoute>
 
-						<PrivateRoute path="/new-dictionary">
+						<PrivateRoute exact path="/new-dictionary">
 							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
 						</PrivateRoute>
 
-						<PrivateRoute path="/dictionaries/:id">
+						<PrivateRoute exact path="/dictionaries/">
 							<Page title="Dictionaries" pageTitle="Dictionaries" component={<DictionariesSettings />} />
 						</PrivateRoute>
 

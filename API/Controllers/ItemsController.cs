@@ -13,9 +13,9 @@ namespace API.Controllers
     public class ItemsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId)
+        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId, int? limit, int? offset)
         {
-            return await Mediator.Send(new List.Query {DictionaryId = dictionaryId});
+            return await Mediator.Send(new List.Query(dictionaryId, limit, offset));
         }
 
         [HttpGet("{itemId}")]

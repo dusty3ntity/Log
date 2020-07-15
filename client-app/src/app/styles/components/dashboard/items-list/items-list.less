@@ -16,16 +16,35 @@
 		height: 100%;
 		flex-grow: 2;
 		border-radius: 1.875rem;
-	
+
 		box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
 			3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
 			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
-	
+
 		position: relative;
 		overflow: hidden;
-	
+
 		#list {
 			height: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			.scroll-loader {
+				margin-left: 24px;
+			}
 		}
+	}
+
+	.date-badge {
+		font-size: 14px;
+		padding: 2px 1rem;
+		border-radius: 15px;
+		font-weight: 700;
+		margin: 6px 0 8px 24px;
+
+		color: @body-background;
+
+		background: #88878b;
 	}
 }

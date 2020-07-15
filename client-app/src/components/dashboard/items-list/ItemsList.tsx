@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, Fragment, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import SimpleBar from "simplebar-react";
 
@@ -10,14 +10,20 @@ import ItemDetailsDrawer from "../drawers/ItemDetailsDrawer";
 import Header from "./Header";
 import LoadingScreen from "../../common/loading/LoadingScreen";
 import Empty from "../../common/other/Empty";
+import { getRelativeDate } from "../../../app/common/util/dates";
+import InfiniteScroll from "react-infinite-scroller";
+import LoadingIndicator from "../../common/loading/LoadingIndicator";
 
 const ItemsList = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { loadItems, loadingInitial, itemsByDate } = rootStore.itemStore;
+	const { loadItems, loadingInitial, itemsByDate, setPage, page, totalPages, loadingNext } = rootStore.itemStore;
 
-	useEffect(() => {
+	const handleGetNext = () => {
+		setPage(page + 1);
 		loadItems();
-	}, [loadItems]);
+	};
+
+	const scrollableNodeRef = useRef(null);
 
 	return (
 		<div id="items-list">
@@ -32,12 +38,34 @@ const ItemsList = () => {
 					{loadingInitial && <LoadingScreen size={2} />}
 
 					{!loadingInitial && itemsByDate.length > 0 && (
-						<SimpleBar style={{ height: "100%" }} autoHide={false} forceVisible="y" scrollbarMinSize={36}>
-							<div id="list">
-								{itemsByDate.map((item) => (
-									<ListItem key={item.id} item={item} />
-								))}
-							</div>
+						<SimpleBar
+							style={{ height: "100%" }}
+							autoHide={false}
+							forceVisible="y"
+							scrollbarMinSize={36}
+							scrollableNodeProps={{ ref: scrollableNodeRef }}
+						>
+							<InfiniteScroll
+								pageStart={0}
+								loadMore={handleGetNext}
+								hasMore={!loadingNext && page + 1 < totalPages}
+								useWindow={false}
+								getScrollParent={() => scrollableNodeRef.current}
+							>
+								<div id="list" ref={scrollableNodeRef}>
+									{itemsByDate.map(([date, items]) => (
+										<Fragment key={date}>
+											<span className="date-badge">{getRelativeDate(date)}</span>
+
+											{items.map((item) => (
+												<ListItem key={item.id} item={item} />
+											))}
+										</Fragment>
+									))}
+
+									{loadingNext && <LoadingIndicator className="scroll-loader" type="small" />}
+								</div>
+							</InfiniteScroll>
 						</SimpleBar>
 					)}
 

@@ -30,6 +30,10 @@
 			transition: transform 0.5s ease;
 		}
 
+		.first-tab {
+			flex-direction: column;
+		}
+
 		.first-tab.hidden {
 			transform: translate(-110%, 0);
 		}
@@ -81,6 +85,24 @@
 			&:hover,
 			&:focus {
 				border: 1px solid @primary-color;
+			}
+		}
+
+		.login-container {
+			flex-grow: 2;
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+
+			.prompt {
+				font-size: 1.125rem;
+				color: #88878b;
+				margin-right: 1rem;
+			}
+
+			.login-link {
+				font-size: 1.125rem;
+				font-weight: 800;
 			}
 		}
 

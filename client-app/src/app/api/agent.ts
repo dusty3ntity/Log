@@ -115,7 +115,8 @@ const Dictionaries = {
 };
 
 const Items = {
-	list: (dictionaryId: string): Promise<IItem[]> => requests.get(`/dictionaries/${dictionaryId}/items`),
+	list: (dictionaryId: string, limit?: number, page?: number): Promise<IItem[]> =>
+		requests.get(`/dictionaries/${dictionaryId}/items?limit=${limit}&offset=${page ? page * limit! : 0}`),
 	details: (dictionaryId: string, itemId: string): Promise<IItem> =>
 		requests.get(`/dictionaries/${dictionaryId}/items/${itemId}`),
 	create: (dictionaryId: string, item: INewItem) => requests.post(`/dictionaries/${dictionaryId}/items`, item),
