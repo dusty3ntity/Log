@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Items;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,11 @@ namespace API.Controllers
     public class ItemsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId, int? limit, int? offset)
+        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId, int? limit, int? offset, bool isLearned,
+            bool isInProgress, bool isNoProgress, ItemType? type)
         {
-            return await Mediator.Send(new List.Query(dictionaryId, limit, offset));
+            return await Mediator.Send(new List.Query(dictionaryId, limit, offset, isLearned, isInProgress,
+                isNoProgress, type));
         }
 
         [HttpGet("{itemId}")]
