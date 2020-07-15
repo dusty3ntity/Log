@@ -8,13 +8,13 @@ import FilterIcon from "../../icons/FilterIcon";
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { showFiltersDrawer, filtersDrawerVisible } = rootStore.itemStore;
-	const { activeDictionary } = rootStore.dictionaryStore;
+	const { totalItemsCount } = rootStore.dictionaryStore;
 
 	return (
 		<div id="header-container">
 			<div className="items-list-title">
 				<span className="title">Items</span>
-				<span className="items-counter">{activeDictionary!.wordsCount + activeDictionary!.phrasesCount}</span>
+				<span className="items-counter">{totalItemsCount}</span>
 			</div>
 
 			<div className="buttons-container">

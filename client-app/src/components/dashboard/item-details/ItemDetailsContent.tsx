@@ -88,7 +88,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					className="star-btn actions-btn"
 					onClick={item.isStarred ? unstarItem : starItem}
 					icon={<StarIcon className={starredClass} />}
-					loading={starring && item.id === loadingTarget}
+					loading={starring && loadingTarget.includes(item.id)}
 				/>
 
 				<Button

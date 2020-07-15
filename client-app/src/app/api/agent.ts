@@ -3,7 +3,7 @@ import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictio
 import axios, { AxiosResponse } from "axios";
 import { history } from "../..";
 
-import { IItem, IEditItem, INewItem, IItemsEnvelope } from "../models/item";
+import { IItem, IEditItem, INewItem } from "../models/item";
 import { ILearningList, ILearningItem, ILearningItemAnswer, ILearningItemResult } from "./../models/learning";
 import { CustomError, ErrorType } from "./../models/error";
 import { createNotification } from "../common/util/notifications";
@@ -115,7 +115,7 @@ const Dictionaries = {
 };
 
 const Items = {
-	list: (dictionaryId: string, limit?: number, page?: number): Promise<IItemsEnvelope> =>
+	list: (dictionaryId: string, limit?: number, page?: number): Promise<IItem[]> =>
 		requests.get(`/dictionaries/${dictionaryId}/items?limit=${limit}&offset=${page ? page * limit! : 0}`),
 	details: (dictionaryId: string, itemId: string): Promise<IItem> =>
 		requests.get(`/dictionaries/${dictionaryId}/items/${itemId}`),

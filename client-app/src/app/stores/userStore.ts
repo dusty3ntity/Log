@@ -30,7 +30,7 @@ export default class UserStore {
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
 			});
-			await this.rootStore.dictionaryStore.loadDictionaries();
+			await this.rootStore.commonStore.onInitialLoad();
 			history.push("/dashboard");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -60,7 +60,7 @@ export default class UserStore {
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
 			});
-			await this.rootStore.dictionaryStore.loadDictionaries();
+			await this.rootStore.commonStore.onInitialLoad();
 			history.push("/dashboard");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {

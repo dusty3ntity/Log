@@ -1,3 +1,4 @@
+import { IItem } from "./item";
 export interface IDictionary {
 	id: string;
 	isMain: boolean;
@@ -13,6 +14,17 @@ export interface IDictionary {
 	preferredLearningListSize: number;
 	correctAnswersToItemCompletion: number;
 	isHardModeEnabled: boolean;
+}
+
+export interface IExtendedDictionary {
+	dictionary: IDictionary;
+
+	itemsRegistry: Map<string, IItem> | undefined;
+	activeItem?: IItem;
+
+	queryParams: {
+		page: number;
+	};
 }
 
 export interface INewDictionary {

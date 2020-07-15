@@ -2,7 +2,7 @@ import { observable, action, runInAction, computed, reaction } from "mobx";
 import { history } from "../..";
 
 import { RootStore } from "./rootStore";
-import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
+import { IDictionary, INewDictionary, IEditDictionary, IExtendedDictionary } from "./../models/dictionary";
 import agent from "../api/agent";
 import { ErrorType, NotificationType } from "../models/error";
 import { createNotification } from "../common/util/notifications";
@@ -15,14 +15,11 @@ export default class DictionaryStore {
 		this.rootStore = rootStore;
 
 		reaction(
-			() => this.activeDictionary,
+			() => this.activeExtendedDictionary,
 			async () => {
-				if (history.location.pathname.includes("/dashboard")) {
-					await rootStore.itemStore.loadItems();
-				} else if (history.location.pathname.includes("/learning")) {
+				if (history.location.pathname.includes("/learning")) {
 					await rootStore.learningStore.onInitialLoad();
 				} else if (history.location.pathname.includes("/edit-item")) {
-					rootStore.itemStore.activeItem = undefined;
 					history.push("/dashboard");
 				}
 			}
@@ -30,16 +27,33 @@ export default class DictionaryStore {
 	}
 
 	@observable loadingInitial = true;
-	@observable loading = false;
 	@observable submitting = false;
 	@observable deleting = false;
 	@observable settingMain = false;
 
-	@observable dictionariesRegistry = new Map<string, IDictionary>();
-	@observable activeDictionary: IDictionary | undefined;
+	@observable extendedDictionariesRegistry = new Map<string, IExtendedDictionary>();
+	@observable activeExtendedDictionary: IExtendedDictionary | undefined;
+
+	@computed get activeDictionary(): IDictionary {
+		return this.activeExtendedDictionary!.dictionary;
+	}
+
+	@computed get dictionariesRegistry(): Map<string, IDictionary> {
+		const registry = new Map();
+
+		this.extendedDictionariesRegistry.forEach((extendedDictionary) => {
+			registry.set(extendedDictionary.dictionary.id, extendedDictionary.dictionary);
+		});
+
+		return registry;
+	}
+
+	@computed get totalItemsCount() {
+		return this.activeDictionary.wordsCount + this.activeDictionary.phrasesCount;
+	}
 
 	@computed get activeDictionaryId() {
-		return this.activeDictionary?.id;
+		return this.activeDictionary.id;
 	}
 
 	@action loadDictionaries = async () => {
@@ -47,11 +61,25 @@ export default class DictionaryStore {
 		try {
 			const dictionaries = await agent.Dictionaries.list();
 			runInAction("loading dictionaries", () => {
-				this.dictionariesRegistry = new Map();
+				this.extendedDictionariesRegistry = new Map();
+
 				dictionaries.forEach((dictionary) => {
-					this.dictionariesRegistry.set(dictionary.id, dictionary);
+					const extendedDictionary: IExtendedDictionary = {
+						dictionary: dictionary,
+						itemsRegistry: undefined,
+						queryParams: { page: 0 },
+					};
+
+					this.extendedDictionariesRegistry.set(dictionary.id, extendedDictionary);
 				});
-				this.activeDictionary = dictionaries.find((dictionary) => dictionary.isMain);
+
+				const mainExtendedDictionary = Array.from(this.extendedDictionariesRegistry.values()).find(
+					(extendedDictionary: IExtendedDictionary) => extendedDictionary.dictionary.isMain
+				);
+
+				mainExtendedDictionary!.itemsRegistry = new Map();
+
+				this.activeExtendedDictionary = mainExtendedDictionary;
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -67,7 +95,21 @@ export default class DictionaryStore {
 	};
 
 	@action selectDictionary = (id: string) => {
-		this.activeDictionary = this.dictionariesRegistry.get(id);
+		const itemStore = this.rootStore.itemStore;
+
+		this.activeExtendedDictionary!.itemsRegistry = itemStore.itemRegistry;
+		this.activeExtendedDictionary!.activeItem = itemStore.activeItem;
+		this.activeExtendedDictionary!.queryParams = { page: itemStore.page };
+
+		this.activeExtendedDictionary = this.extendedDictionariesRegistry.get(id);
+
+		itemStore.itemRegistry = this.activeExtendedDictionary!.itemsRegistry ?? new Map();
+		itemStore.activeItem = this.activeExtendedDictionary!.activeItem;
+		itemStore.page = this.activeExtendedDictionary!.queryParams.page;
+
+		if (!this.activeExtendedDictionary!.itemsRegistry) {
+			itemStore.loadItems();
+		}
 	};
 
 	@action createDictionary = async (dictionary: INewDictionary) => {
@@ -76,7 +118,9 @@ export default class DictionaryStore {
 			const id = await agent.Dictionaries.create(dictionary);
 			runInAction("creating dictionary", () => {
 				if (dictionary.isMain) {
-					this.dictionariesRegistry.forEach((dictionary) => (dictionary.isMain = false));
+					this.extendedDictionariesRegistry.forEach(
+						(extendedDictionary) => (extendedDictionary.dictionary.isMain = false)
+					);
 				}
 
 				const newDictionary: IDictionary = {
@@ -96,10 +140,17 @@ export default class DictionaryStore {
 					isMain: dictionary.isMain,
 					isHardModeEnabled: dictionary.isHardModeEnabled,
 				};
-				this.dictionariesRegistry.set(id, newDictionary);
+
+				const newExtendedDictionary = {
+					dictionary: newDictionary,
+					itemsRegistry: new Map(),
+					queryParams: { page: 0 },
+				};
+
+				this.extendedDictionariesRegistry.set(id, newExtendedDictionary);
 
 				if (dictionary.isMain) {
-					this.activeDictionary = newDictionary;
+					this.selectDictionary(newDictionary.id);
 				}
 				createNotification(NotificationType.Success, { message: "Dictionary created successfully!" });
 				history.push("/dashboard");
@@ -134,7 +185,7 @@ export default class DictionaryStore {
 		try {
 			await agent.Dictionaries.update(id, dictionary);
 			runInAction("editing dictionary", () => {
-				const editedDictionary = this.dictionariesRegistry.get(id)!;
+				const editedDictionary = this.extendedDictionariesRegistry.get(id)!.dictionary;
 				editedDictionary.preferredLearningListSize = dictionary.preferredLearningListSize;
 				editedDictionary.correctAnswersToItemCompletion = dictionary.correctAnswersToItemCompletion;
 				editedDictionary.isHardModeEnabled = dictionary.isHardModeEnabled;
@@ -161,7 +212,15 @@ export default class DictionaryStore {
 		try {
 			await agent.Dictionaries.delete(id);
 			runInAction("deleting dictionary", () => {
-				this.dictionariesRegistry.delete(id);
+				this.extendedDictionariesRegistry.delete(id);
+
+				if (this.activeExtendedDictionary!.dictionary.id === id) {
+					this.selectDictionary(
+						Array.from(this.extendedDictionariesRegistry.values()).find(
+							(extendedDictionary) => extendedDictionary.dictionary.isMain
+						)!.dictionary.id
+					);
+				}
 			});
 
 			return true;
@@ -185,9 +244,11 @@ export default class DictionaryStore {
 		try {
 			await agent.Dictionaries.setMain(id);
 			runInAction("setting main dictionary", () => {
-				this.dictionariesRegistry.forEach((dictionary) => (dictionary.isMain = false));
-				this.dictionariesRegistry.get(id)!.isMain = true;
-				this.activeDictionary = this.dictionariesRegistry.get(id);
+				this.extendedDictionariesRegistry.forEach(
+					(extendedDictionary) => (extendedDictionary.dictionary.isMain = false)
+				);
+				this.extendedDictionariesRegistry.get(id)!.dictionary.isMain = true;
+				this.selectDictionary(id);
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {

@@ -1,13 +1,13 @@
 import { observable, action, runInAction, computed } from "mobx";
+import { history } from "../..";
 
 import { RootStore } from "./rootStore";
-import { IItem, IEditItem, INewItem, ItemType, IItemsEnvelope } from "./../models/item";
+import { IItem, IEditItem, INewItem, ItemType } from "./../models/item";
 import agent from "../api/agent";
 import { createNotification } from "../common/util/notifications";
 import { NotificationType, ErrorType } from "./../models/error";
-import { history } from "../..";
 
-const LIMIT = 15;
+const LIMIT = 20;
 
 export default class ItemStore {
 	rootStore: RootStore;
@@ -17,21 +17,27 @@ export default class ItemStore {
 	}
 
 	@observable loadingInitial = false;
-	@observable loading = false;
+	@observable loadingNext = false;
+	@observable loadingItem = false;
 	@observable submitting = false;
 	@observable deleting = false;
 	@observable starring = false;
 
-	@observable loadingTarget: string | undefined = undefined;
+	@observable loadingTarget: string[] = [];
 
-	@observable itemRegistry = new Map();
+	@observable itemRegistry = new Map<string, IItem>();
 	@observable activeItem: IItem | undefined;
 
-	@observable itemsCount = 0;
 	@observable page = 0;
 
+	@action reset = () => {
+		this.itemRegistry = new Map();
+		this.activeItem = undefined;
+		this.page = 0;
+	};
+
 	@computed get totalPages() {
-		return Math.ceil(this.itemsCount / LIMIT);
+		return Math.ceil(this.rootStore.dictionaryStore.totalItemsCount / LIMIT);
 	}
 
 	@action setPage = (page: number) => {
@@ -39,16 +45,18 @@ export default class ItemStore {
 	};
 
 	@action loadItems = async () => {
-		this.loadingInitial = true;
+		if (this.page === 0) {
+			this.loadingInitial = true;
+		} else {
+			this.loadingNext = true;
+		}
 		try {
-			const itemsEnvelope: IItemsEnvelope = await agent.Items.list(
+			const items: IItem[] = await agent.Items.list(
 				this.rootStore.dictionaryStore.activeDictionaryId!,
 				LIMIT,
 				this.page
 			);
-			const { items, itemsCount } = itemsEnvelope;
 			runInAction("loading items", () => {
-				this.itemsCount = itemsCount;
 				items.forEach((item) => {
 					item.creationDate = new Date(item.creationDate);
 					this.itemRegistry.set(item.id, item);
@@ -62,7 +70,11 @@ export default class ItemStore {
 			createNotification(NotificationType.UnknownError, { errors: err.body });
 		} finally {
 			runInAction("loading items", () => {
-				this.loadingInitial = false;
+				if (this.page === 0) {
+					this.loadingInitial = false;
+				} else {
+					this.loadingNext = false;
+				}
 			});
 		}
 	};
@@ -73,13 +85,13 @@ export default class ItemStore {
 			this.activeItem = item;
 			return item;
 		} else {
-			this.loading = true;
+			this.loadingItem = true;
 			try {
 				item = await agent.Items.details(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 				runInAction("getting item", () => {
-					item.creationDate = new Date(item.creationDate);
+					item!.creationDate = new Date(item!.creationDate);
 					this.activeItem = item;
-					this.itemRegistry.set(item.id, item);
+					this.itemRegistry.set(item!.id, item!);
 				});
 				return item;
 			} catch (err) {
@@ -90,7 +102,7 @@ export default class ItemStore {
 				createNotification(NotificationType.UnknownError, { errors: err.body });
 			} finally {
 				runInAction("loading item", () => {
-					this.loading = false;
+					this.loadingItem = false;
 				});
 			}
 		}
@@ -120,16 +132,36 @@ export default class ItemStore {
 		this.showDetailsDrawer();
 	};
 
-	@action createItem = async (item: INewItem) => {
+	@action createItem = async (newItem: INewItem) => {
 		this.submitting = true;
 		try {
-			await agent.Items.create(this.rootStore.dictionaryStore.activeDictionaryId!, item);
+			const id = await agent.Items.create(this.rootStore.dictionaryStore.activeDictionaryId, newItem);
 			runInAction("creating item", () => {
-				if (item.type === ItemType.Word) {
-					this.rootStore.dictionaryStore.activeDictionary!.wordsCount++;
+				if (newItem.type === ItemType.Word) {
+					this.rootStore.dictionaryStore.activeDictionary.wordsCount++;
 				} else {
-					this.rootStore.dictionaryStore.activeDictionary!.phrasesCount++;
+					this.rootStore.dictionaryStore.activeDictionary.phrasesCount++;
 				}
+
+				const item: IItem = {
+					id: id,
+
+					original: newItem.original,
+					translation: newItem.translation,
+					definition: newItem.definition,
+					definitionOrigin: newItem.definitionOrigin,
+					type: newItem.type,
+					creationDate: new Date(),
+
+					isStarred: newItem.isStarred,
+					isLearned: false,
+
+					totalRepeatsCount: 0,
+					correctAnswersCount: 0,
+					correctAnswersToCompletionCount: 0,
+				};
+
+				this.itemRegistry.set(id, item);
 				createNotification(NotificationType.Success, { message: "Item created successfully!" });
 			});
 			return true;
@@ -169,10 +201,28 @@ export default class ItemStore {
 		try {
 			await agent.Items.update(this.rootStore.dictionaryStore.activeDictionaryId!, id, editItem);
 			runInAction("updating item", () => {
+				if (
+					editItem.original !== this.activeItem!.original ||
+					editItem.translation !== this.activeItem!.translation
+				) {
+					if (this.activeItem!.isLearned) {
+						if (this.activeItem!.type === ItemType.Word) {
+							this.rootStore.dictionaryStore.activeDictionary.learnedWordsCount--;
+						} else {
+							this.rootStore.dictionaryStore.activeDictionary.learnedPhrasesCount--;
+						}
+					}
+
+					this.activeItem!.isLearned = false;
+					this.activeItem!.correctAnswersToCompletionCount = 0;
+					this.activeItem!.creationDate = new Date();
+				}
+
 				this.activeItem!.original = editItem.original;
 				this.activeItem!.translation = editItem.translation;
 				this.activeItem!.definition = editItem.definition;
 				this.activeItem!.definitionOrigin = editItem.definitionOrigin;
+
 				history.push("/dashboard");
 				createNotification(NotificationType.Success, { message: "Item updated successfully!" });
 			});
@@ -210,9 +260,9 @@ export default class ItemStore {
 			await agent.Items.delete(this.rootStore.dictionaryStore.activeDictionaryId!, this.activeItem!.id);
 			runInAction("deleting item", () => {
 				if (this.activeItem!.type === ItemType.Word) {
-					this.rootStore.dictionaryStore.activeDictionary!.wordsCount--;
+					this.rootStore.dictionaryStore.activeDictionary.wordsCount--;
 				} else {
-					this.rootStore.dictionaryStore.activeDictionary!.phrasesCount--;
+					this.rootStore.dictionaryStore.activeDictionary.phrasesCount--;
 				}
 				this.itemRegistry.delete(this.activeItem!.id);
 				this.detailsDrawerVisible = false;
@@ -234,12 +284,12 @@ export default class ItemStore {
 	};
 
 	@action starItemById = async (id: string) => {
-		this.loadingTarget = id;
+		this.loadingTarget.push(id);
 		this.starring = true;
 		try {
 			await agent.Items.star(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("starring item", () => {
-				this.itemRegistry.get(id).isStarred = true;
+				this.itemRegistry.get(id)!.isStarred = true;
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -250,7 +300,7 @@ export default class ItemStore {
 		} finally {
 			runInAction("starring item", () => {
 				this.starring = false;
-				this.loadingTarget = undefined;
+				this.loadingTarget.splice(this.loadingTarget.indexOf(id), 1);
 			});
 		}
 	};
@@ -260,12 +310,12 @@ export default class ItemStore {
 	};
 
 	@action unstarItemById = async (id: string) => {
-		this.loadingTarget = id;
+		this.loadingTarget.push(id);
 		this.starring = true;
 		try {
 			await agent.Items.unstar(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("unstarring item", () => {
-				this.itemRegistry.get(id).isStarred = false;
+				this.itemRegistry.get(id)!.isStarred = false;
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -276,7 +326,7 @@ export default class ItemStore {
 		} finally {
 			runInAction("unstarring item", () => {
 				this.starring = false;
-				this.loadingTarget = undefined;
+				this.loadingTarget.splice(this.loadingTarget.indexOf(id), 1);
 			});
 		}
 	};

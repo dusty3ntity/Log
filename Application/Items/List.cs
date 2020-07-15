@@ -15,13 +15,7 @@ namespace Application.Items
 {
     public class List
     {
-        public class ItemsEnvelope
-        {
-            public List<ItemDto> Items { get; set; }
-            public int ItemsCount { get; set; }
-        }
-
-        public class Query : IRequest<ItemsEnvelope>
+        public class Query : IRequest<List<ItemDto>>
         {
             public Query(Guid dictionaryId, int? limit, int? offset)
             {
@@ -36,7 +30,7 @@ namespace Application.Items
             public int? Offset { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, ItemsEnvelope>
+        public class Handler : IRequestHandler<Query, List<ItemDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -47,7 +41,7 @@ namespace Application.Items
                 _mapper = mapper;
             }
 
-            public async Task<ItemsEnvelope> Handle(Query request,
+            public async Task<List<ItemDto>> Handle(Query request,
                 CancellationToken cancellationToken)
             {
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
@@ -56,17 +50,13 @@ namespace Application.Items
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var queryable = _context.Items
-					.Where(i => i.DictionaryId == request.DictionaryId)
-					.OrderByDescending(i => i.CreationDate)
-					.AsQueryable();
+                    .Where(i => i.DictionaryId == request.DictionaryId)
+                    .OrderByDescending(i => i.CreationDate)
+                    .AsQueryable();
 
-                var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 3).ToListAsync();
+                var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 20).ToListAsync();
 
-                return new ItemsEnvelope
-                {
-                    Items = _mapper.Map<List<Item>, List<ItemDto>>(items),
-                    ItemsCount = queryable.Count()
-                };
+                return _mapper.Map<List<Item>, List<ItemDto>>(items);
             }
         }
     }

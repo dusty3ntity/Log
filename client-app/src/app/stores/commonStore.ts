@@ -28,6 +28,14 @@ export default class CommonStore {
 		this.token = token;
 	};
 
+	@action onInitialLoad = async () => {
+		const itemStore = this.rootStore.itemStore;
+		const dictionaryStore = this.rootStore.dictionaryStore;
+		itemStore.reset();
+		await dictionaryStore.loadDictionaries();
+		await itemStore.loadItems();
+	}
+
 	@action setAppLoaded = () => {
 		this.appLoaded = true;
 	};

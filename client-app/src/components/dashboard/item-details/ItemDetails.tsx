@@ -12,13 +12,13 @@ interface IProps {
 
 const ItemDetails: React.FC<IProps> = ({ classNames }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { activeItem, loading } = rootStore.itemStore;
+	const { activeItem, loadingItem } = rootStore.itemStore;
 
 	return (
 		<div id="item-details" className={classNames}>
-			{!activeItem && !loading && <Empty text="Select an item" size={9} />}
-			{loading && <LoadingScreen size={2} />}
-			{activeItem && !loading && <ItemDetailsContent item={activeItem} />}
+			{!activeItem && !loadingItem && <Empty text="Select an item" size={9} />}
+			{loadingItem && <LoadingScreen size={2} />}
+			{activeItem && !loadingItem && <ItemDetailsContent item={activeItem} />}
 		</div>
 	);
 };
