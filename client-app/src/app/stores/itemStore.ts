@@ -1,11 +1,13 @@
 import { observable, action, runInAction, computed } from "mobx";
 
 import { RootStore } from "./rootStore";
-import { IItem, IEditItem, INewItem, ItemType } from "./../models/item";
+import { IItem, IEditItem, INewItem, ItemType, IItemsEnvelope } from "./../models/item";
 import agent from "../api/agent";
 import { createNotification } from "../common/util/notifications";
 import { NotificationType, ErrorType } from "./../models/error";
 import { history } from "../..";
+
+const LIMIT = 15;
 
 export default class ItemStore {
 	rootStore: RootStore;
@@ -25,13 +27,28 @@ export default class ItemStore {
 	@observable itemRegistry = new Map();
 	@observable activeItem: IItem | undefined;
 
+	@observable itemsCount = 0;
+	@observable page = 0;
+
+	@computed get totalPages() {
+		return Math.ceil(this.itemsCount / LIMIT);
+	}
+
+	@action setPage = (page: number) => {
+		this.page = page;
+	};
+
 	@action loadItems = async () => {
-		this.activeItem = undefined;
 		this.loadingInitial = true;
 		try {
-			const items = await agent.Items.list(this.rootStore.dictionaryStore.activeDictionaryId!);
+			const itemsEnvelope: IItemsEnvelope = await agent.Items.list(
+				this.rootStore.dictionaryStore.activeDictionaryId!,
+				LIMIT,
+				this.page
+			);
+			const { items, itemsCount } = itemsEnvelope;
 			runInAction("loading items", () => {
-				this.itemRegistry = new Map();
+				this.itemsCount = itemsCount;
 				items.forEach((item) => {
 					item.creationDate = new Date(item.creationDate);
 					this.itemRegistry.set(item.id, item);

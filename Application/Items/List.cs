@@ -55,7 +55,10 @@ namespace Application.Items
                 if (dictionary == null)
                     throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
-                var queryable = _context.Items.Where(i => i.DictionaryId == request.DictionaryId).AsQueryable();
+                var queryable = _context.Items
+					.Where(i => i.DictionaryId == request.DictionaryId)
+					.OrderByDescending(i => i.CreationDate)
+					.AsQueryable();
 
                 var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 3).ToListAsync();
 

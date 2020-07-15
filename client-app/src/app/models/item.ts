@@ -2,6 +2,10 @@ export enum ItemType {
 	Word = 10,
 	Phrase = 20,
 }
+export interface IItemsEnvelope {
+	items: IItem[];
+	itemsCount: number;
+}
 
 export interface IItem {
 	id: string;

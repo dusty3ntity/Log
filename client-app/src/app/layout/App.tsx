@@ -69,7 +69,7 @@ function App() {
 							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
 						</PrivateRoute>
 
-						<PrivateRoute path="/dictionaries/:id">
+						<PrivateRoute exact path="/dictionaries/">
 							<Page title="Dictionaries" pageTitle="Dictionaries" component={<DictionariesSettings />} />
 						</PrivateRoute>
 
