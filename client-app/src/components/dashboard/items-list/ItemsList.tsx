@@ -1,6 +1,7 @@
 import React, { useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import SimpleBar from "simplebar-react";
+import InfiniteScroll from "react-infinite-scroller";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import ItemFilters from "./ItemFilters";
@@ -31,7 +32,6 @@ const ItemsList = () => {
 
 				<div id="list-container">
 					<ItemFiltersDrawer />
-
 					{loadingInitial && <LoadingScreen size={2} />}
 
 					{!loadingInitial && itemsByDate.length > 0 && (
@@ -40,15 +40,19 @@ const ItemsList = () => {
 							autoHide={false}
 							forceVisible="y"
 							scrollbarMinSize={36}
+							scrollableNodeProps={{ id: "scrollable-node" }}
 						>
-							{/* <InfiniteScroll
+							<InfiniteScroll
 								pageStart={0}
 								loadMore={handleGetNext}
 								hasMore={!loadingNext && page + 1 < totalPages}
 								initialLoad={false}
+								threshold={50}
 								useWindow={false}
-								getScrollParent={() => scrollableNodeRef.current}
-							> */}
+								getScrollParent={() => {
+									return document.getElementById("scrollable-node") as HTMLElement;
+								}}
+							>
 								<div id="list">
 									{itemsByDate.map(([date, items]) => (
 										<Fragment key={date}>
@@ -62,12 +66,11 @@ const ItemsList = () => {
 
 									{loadingNext && <LoadingIndicator className="scroll-loader" type="small" />}
 								</div>
-							{/* </InfiniteScroll> */}
+							</InfiniteScroll>
 						</SimpleBar>
 					)}
 
 					{!loadingInitial && itemsByDate.length === 0 && <Empty text="No items found" size={10} />}
-
 					<ItemDetailsDrawer />
 				</div>
 			</div>

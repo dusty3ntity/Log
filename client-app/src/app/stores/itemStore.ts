@@ -2,13 +2,13 @@ import { observable, action, runInAction, computed, toJS } from "mobx";
 import { history } from "../..";
 
 import { RootStore } from "./rootStore";
-import { IItem, IEditItem, INewItem, ItemType } from "./../models/item";
+import { IItem, IEditItem, INewItem, ItemType, IItemsEnvelope } from "./../models/item";
 import agent from "../api/agent";
 import { createNotification } from "../common/util/notifications";
 import { NotificationType, ErrorType } from "./../models/error";
 import { matchesFilters } from "./../common/util/filters";
 
-const LIMIT = 40;
+const LIMIT = 20;
 
 export default class ItemStore {
 	rootStore: RootStore;
@@ -30,6 +30,7 @@ export default class ItemStore {
 	@observable activeItem: IItem | undefined;
 
 	@observable page = 0;
+	@observable queryResultSize = 0;
 	@observable predicate = new Map<string, any>();
 
 	@action setPredicate = (key: string, value: any) => {
@@ -61,10 +62,12 @@ export default class ItemStore {
 		this.itemRegistry = new Map();
 		this.activeItem = undefined;
 		this.page = 0;
+		this.predicate = new Map();
+		this.queryResultSize = 0;
 	};
 
 	@computed get totalPages() {
-		return Math.ceil(this.rootStore.dictionaryStore.totalItemsCount / LIMIT);
+		return Math.ceil(this.queryResultSize / LIMIT);
 	}
 
 	@action setPage = (page: number) => {
@@ -78,12 +81,14 @@ export default class ItemStore {
 			this.loadingNext = true;
 		}
 		try {
-			const items: IItem[] = await agent.Items.list(
+			const itemsEnvelope: IItemsEnvelope = await agent.Items.list(
 				this.rootStore.dictionaryStore.activeDictionaryId!,
 				this.loadItemsAxiosParams
 			);
 			runInAction("loading items", () => {
-				items.forEach((item) => {
+				this.queryResultSize = itemsEnvelope.queryResultSize;
+
+				itemsEnvelope.items.forEach((item) => {
 					item.creationDate = new Date(item.creationDate);
 					this.itemRegistry.set(item.id, item);
 				});
@@ -186,11 +191,11 @@ export default class ItemStore {
 					correctAnswersCount: 0,
 					correctAnswersToCompletionCount: 0,
 				};
-				
+
 				if (matchesFilters(item, toJS(this.predicate, { exportMapsAsObjects: false }))) {
 					this.itemRegistry.set(id, item);
 				}
-				
+
 				createNotification(NotificationType.Success, { message: "Item created successfully!" });
 			});
 			return true;

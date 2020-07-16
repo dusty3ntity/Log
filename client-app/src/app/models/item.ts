@@ -3,6 +3,11 @@ export enum ItemType {
 	Phrase = 20,
 }
 
+export interface IItemsEnvelope {
+	items: IItem[];
+	queryResultSize: number;
+}
+
 export interface IItem {
 	id: string;
 
