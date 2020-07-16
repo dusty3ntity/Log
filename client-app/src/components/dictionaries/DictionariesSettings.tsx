@@ -17,6 +17,7 @@ const DictionariesSettings = () => {
 		deleteDictionary,
 		setMainDictionary,
 		settingMain,
+		loadingTarget,
 	} = rootStore.dictionaryStore;
 
 	const [selectedDictionary, selectDictionary] = useState<IDictionary | undefined>(undefined);
@@ -49,7 +50,8 @@ const DictionariesSettings = () => {
 										setDrawerVisible(true);
 									}}
 									onSetMain={(dictionary: IDictionary) => setMainDictionary(dictionary.id)}
-									settingMain={settingMain}
+									settingMain={settingMain && dictionary.id === loadingTarget}
+									setMainDisabled={settingMain && dictionary.id !== loadingTarget}
 								/>
 							))}
 						</div>

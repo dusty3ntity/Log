@@ -11,9 +11,17 @@ interface IProps {
 	onClick: (dictionary: IDictionary) => void;
 	onSetMain: (dictionary: IDictionary) => void;
 	settingMain: boolean;
+	setMainDisabled: boolean;
 }
 
-const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick, onSetMain, settingMain }) => {
+const DictionariesListItem: React.FC<IProps> = ({
+	dictionary,
+	isActive,
+	onClick,
+	onSetMain,
+	settingMain,
+	setMainDisabled,
+}) => {
 	return (
 		<div className={`list-item ${isActive ? "active" : ""}`}>
 			<button className="btn item-btn" onClick={() => onClick(dictionary)}>
@@ -107,6 +115,7 @@ const DictionariesListItem: React.FC<IProps> = ({ dictionary, isActive, onClick,
 							text="Set main"
 							onClick={() => onSetMain(dictionary)}
 							loading={settingMain}
+							disabled={setMainDisabled}
 						/>
 					)}
 				</div>

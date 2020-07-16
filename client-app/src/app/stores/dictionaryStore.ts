@@ -31,6 +31,8 @@ export default class DictionaryStore {
 	@observable deleting = false;
 	@observable settingMain = false;
 
+	@observable loadingTarget: string | undefined;
+
 	@observable extendedDictionariesRegistry = new Map<string, IExtendedDictionary>();
 	@observable activeExtendedDictionary: IExtendedDictionary | undefined;
 
@@ -241,6 +243,7 @@ export default class DictionaryStore {
 	};
 
 	@action setMainDictionary = async (id: string) => {
+		this.loadingTarget = id;
 		this.settingMain = true;
 		try {
 			await agent.Dictionaries.setMain(id);
@@ -260,6 +263,7 @@ export default class DictionaryStore {
 		} finally {
 			runInAction("setting main dictionary", () => {
 				this.settingMain = false;
+				this.loadingTarget = undefined;
 			});
 		}
 	};
