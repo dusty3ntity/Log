@@ -115,8 +115,8 @@ const Dictionaries = {
 };
 
 const Items = {
-	list: (dictionaryId: string, limit?: number, page?: number): Promise<IItem[]> =>
-		requests.get(`/dictionaries/${dictionaryId}/items?limit=${limit}&offset=${page ? page * limit! : 0}`),
+	list: (dictionaryId: string, params: URLSearchParams): Promise<IItem[]> =>
+		axios.get(`/dictionaries/${dictionaryId}/items`, { params: params }).then(sleep()).then(responseBody),
 	details: (dictionaryId: string, itemId: string): Promise<IItem> =>
 		requests.get(`/dictionaries/${dictionaryId}/items/${itemId}`),
 	create: (dictionaryId: string, item: INewItem) => requests.post(`/dictionaries/${dictionaryId}/items`, item),

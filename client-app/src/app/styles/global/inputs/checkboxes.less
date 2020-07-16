@@ -1,9 +1,6 @@
 /*---------------------  Overrides  ---------------------*/
 @checkbox-size: 24px;
 
-
-
-
 /*---------------------  Custom  ---------------------*/
 .ant-checkbox-wrapper {
 	display: block;
@@ -58,5 +55,20 @@
 	.ant-checkbox-inner {
 		background: unset !important;
 		box-shadow: none !important;
+	}
+}
+
+.ant-checkbox-disabled {
+	.ant-checkbox-inner {
+		background: unset;
+		border-color: unset;
+
+		&::after {
+			border-color: #fff !important;
+		}
+	}
+
+	& + span {
+		color: unset;
 	}
 }
