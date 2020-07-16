@@ -24,6 +24,7 @@ export interface IExtendedDictionary {
 
 	queryParams: {
 		page: number;
+		predicate: Map<string, any>;
 	};
 }
 

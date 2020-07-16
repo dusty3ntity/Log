@@ -17,19 +17,20 @@ namespace Application.Items
     {
         public class Query : IRequest<List<ItemDto>>
         {
-            public Query(Guid dictionaryId, int? limit, int? offset, bool isLearned,
-                bool isInProgress, bool isNoProgress, ItemType? type)
+            public Query(Guid dictionaryId, int? limit, int? offset, bool words, bool phrases, bool learned,
+                bool inProgress, bool noProgress)
             {
                 DictionaryId = dictionaryId;
 
                 Limit = limit;
                 Offset = offset;
 
-                ItemType = type;
+                Words = words;
+                Phrases = phrases;
 
-                IsLearned = isLearned;
-                IsInProgress = isInProgress;
-                IsNoProgress = isNoProgress;
+                IsLearned = learned;
+                IsInProgress = inProgress;
+                IsNoProgress = noProgress;
             }
 
             public Guid DictionaryId { get; }
@@ -37,7 +38,8 @@ namespace Application.Items
             public int? Limit { get; }
             public int? Offset { get; }
 
-            public ItemType? ItemType { get; }
+            public bool Words { get; }
+            public bool Phrases { get; }
 
             public bool IsLearned { get; }
             public bool IsInProgress { get; }
@@ -68,18 +70,16 @@ namespace Application.Items
                     .OrderByDescending(i => i.CreationDate)
                     .AsQueryable();
 
-                if (request.ItemType != null)
-                    queryable = queryable.Where(i => i.Type == request.ItemType);
+                if (request.Words || request.Phrases)
+                    queryable = queryable.Where(i => (request.Words && i.Type == ItemType.Word) ||
+                                                     (request.Phrases && i.Type == ItemType.Phrase));
 
                 if (request.IsLearned || request.IsInProgress || request.IsNoProgress)
                 {
                     queryable = queryable.Where(i => (request.IsLearned && i.IsLearned) ||
-                                                     (request.IsInProgress && (i.CorrectAnswersToCompletionCount > 0 &&
-                                                                               i.CorrectAnswersToCompletionCount <
-                                                                               dictionary.CorrectAnswersToItemCompletion
-                                                         )) ||
-                                                     (request.IsNoProgress && i.CorrectAnswersToCompletionCount ==
-                                                         0));
+                                                     (request.IsInProgress &&
+                                                      (i.CorrectAnswersToCompletionCount > 0 && !i.IsLearned)) ||
+                                                     (request.IsNoProgress && i.CorrectAnswersToCompletionCount == 0));
                 }
 
                 var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 20).ToListAsync();

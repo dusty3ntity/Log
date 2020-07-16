@@ -21,10 +21,9 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 		? "in-progress"
 		: "untouched";
 	const starredClass = item.isStarred ? " active" : "";
-	const focusClass = item === activeItem ? " active" : "";
 
 	return (
-		<div className={"list-item" + focusClass}>
+		<div className={`list-item + ${item.id === activeItem?.id ? "active" : ""}`}>
 			<div className="selector-col col">
 				<div className={"progress-bar " + progressClass}>‌‌</div>
 				<Checkbox className="selector" />

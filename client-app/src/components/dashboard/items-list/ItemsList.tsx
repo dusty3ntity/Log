@@ -1,4 +1,4 @@
-import React, { useContext, Fragment, useRef } from "react";
+import React, { useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import SimpleBar from "simplebar-react";
 
@@ -11,7 +11,6 @@ import Header from "./Header";
 import LoadingScreen from "../../common/loading/LoadingScreen";
 import Empty from "../../common/other/Empty";
 import { getRelativeDate } from "../../../app/common/util/dates";
-import InfiniteScroll from "react-infinite-scroller";
 import LoadingIndicator from "../../common/loading/LoadingIndicator";
 
 const ItemsList = () => {
@@ -22,8 +21,6 @@ const ItemsList = () => {
 		setPage(page + 1);
 		loadItems();
 	};
-
-	const scrollableNodeRef = useRef(null);
 
 	return (
 		<div id="items-list">
@@ -43,16 +40,16 @@ const ItemsList = () => {
 							autoHide={false}
 							forceVisible="y"
 							scrollbarMinSize={36}
-							scrollableNodeProps={{ ref: scrollableNodeRef }}
 						>
-							<InfiniteScroll
+							{/* <InfiniteScroll
 								pageStart={0}
 								loadMore={handleGetNext}
 								hasMore={!loadingNext && page + 1 < totalPages}
+								initialLoad={false}
 								useWindow={false}
 								getScrollParent={() => scrollableNodeRef.current}
-							>
-								<div id="list" ref={scrollableNodeRef}>
+							> */}
+								<div id="list">
 									{itemsByDate.map(([date, items]) => (
 										<Fragment key={date}>
 											<span className="date-badge">{getRelativeDate(date)}</span>
@@ -65,7 +62,7 @@ const ItemsList = () => {
 
 									{loadingNext && <LoadingIndicator className="scroll-loader" type="small" />}
 								</div>
-							</InfiniteScroll>
+							{/* </InfiniteScroll> */}
 						</SimpleBar>
 					)}
 

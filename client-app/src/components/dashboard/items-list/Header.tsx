@@ -4,17 +4,20 @@ import Search from "antd/lib/input/Search";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import FilterIcon from "../../icons/FilterIcon";
+import LoadingIndicator from "../../common/loading/LoadingIndicator";
 
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { showFiltersDrawer, filtersDrawerVisible } = rootStore.itemStore;
-	const { totalItemsCount } = rootStore.dictionaryStore;
+	const { showFiltersDrawer, filtersDrawerVisible, itemRegistry, loadingInitial, loadingNext } = rootStore.itemStore;
 
 	return (
 		<div id="header-container">
 			<div className="items-list-title">
 				<span className="title">Items</span>
-				<span className="items-counter">{totalItemsCount}</span>
+				<span className="items-counter">
+					{!loadingInitial && !loadingNext && <span className="text">{itemRegistry.size}</span>}
+					{(loadingInitial || loadingNext) && <LoadingIndicator type="small" />}
+				</span>
 			</div>
 
 			<div className="buttons-container">

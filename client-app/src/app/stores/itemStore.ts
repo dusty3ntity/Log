@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed } from "mobx";
+import { observable, action, runInAction, computed, toJS } from "mobx";
 import { history } from "../..";
 
 import { RootStore } from "./rootStore";
@@ -6,8 +6,9 @@ import { IItem, IEditItem, INewItem, ItemType } from "./../models/item";
 import agent from "../api/agent";
 import { createNotification } from "../common/util/notifications";
 import { NotificationType, ErrorType } from "./../models/error";
+import { matchesFilters } from "./../common/util/filters";
 
-const LIMIT = 20;
+const LIMIT = 40;
 
 export default class ItemStore {
 	rootStore: RootStore;
@@ -29,6 +30,32 @@ export default class ItemStore {
 	@observable activeItem: IItem | undefined;
 
 	@observable page = 0;
+	@observable predicate = new Map<string, any>();
+
+	@action setPredicate = (key: string, value: any) => {
+		this.itemRegistry.clear();
+
+		if (value === undefined) {
+			this.predicate.delete(key);
+		} else {
+			this.predicate.set(key, value.toString());
+		}
+
+		this.page = 0;
+		this.loadItems();
+	};
+
+	@computed get loadItemsAxiosParams() {
+		const params = new URLSearchParams();
+
+		params.append("limit", LIMIT.toString());
+		params.append("offset", `${this.page ? this.page * LIMIT : 0}`);
+
+		this.predicate.forEach((value, key) => {
+			params.append(key, value);
+		});
+		return params;
+	}
 
 	@action reset = () => {
 		this.itemRegistry = new Map();
@@ -53,8 +80,7 @@ export default class ItemStore {
 		try {
 			const items: IItem[] = await agent.Items.list(
 				this.rootStore.dictionaryStore.activeDictionaryId!,
-				LIMIT,
-				this.page
+				this.loadItemsAxiosParams
 			);
 			runInAction("loading items", () => {
 				items.forEach((item) => {
@@ -160,8 +186,11 @@ export default class ItemStore {
 					correctAnswersCount: 0,
 					correctAnswersToCompletionCount: 0,
 				};
-
-				this.itemRegistry.set(id, item);
+				
+				if (matchesFilters(item, toJS(this.predicate, { exportMapsAsObjects: false }))) {
+					this.itemRegistry.set(id, item);
+				}
+				
 				createNotification(NotificationType.Success, { message: "Item created successfully!" });
 			});
 			return true;
