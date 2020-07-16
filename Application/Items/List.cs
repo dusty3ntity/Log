@@ -16,7 +16,13 @@ namespace Application.Items
 {
     public class List
     {
-        public class Query : IRequest<List<ItemDto>>
+        public class ItemsEnvelope
+        {
+            public List<ItemDto> Items { get; set; }
+            public int QueryResultSize { get; set; }
+        }
+
+        public class Query : IRequest<ItemsEnvelope>
         {
             public Query(Guid dictionaryId, int? limit, int? offset, bool words, bool phrases, bool learned,
                 bool inProgress, bool noProgress, string search)
@@ -51,7 +57,7 @@ namespace Application.Items
             public string Search { get; }
         }
 
-        public class Handler : IRequestHandler<Query, List<ItemDto>>
+        public class Handler : IRequestHandler<Query, ItemsEnvelope>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -62,7 +68,7 @@ namespace Application.Items
                 _mapper = mapper;
             }
 
-            public async Task<List<ItemDto>> Handle(Query request,
+            public async Task<ItemsEnvelope> Handle(Query request,
                 CancellationToken cancellationToken)
             {
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
@@ -88,14 +94,18 @@ namespace Application.Items
                 if (!request.Search.IsNullOrEmpty())
                 {
                     var searchString = request.Search.ToLower();
-                    
+
                     queryable = queryable.Where(i => i.Original.ToLower().Contains(searchString)
                                                      || i.Translation.ToLower().Contains(searchString));
                 }
 
                 var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 20).ToListAsync();
 
-                return _mapper.Map<List<Item>, List<ItemDto>>(items);
+                return new ItemsEnvelope
+                {
+                    Items = _mapper.Map<List<Item>, List<ItemDto>>(items),
+                    QueryResultSize = queryable.Count()
+                };
             }
         }
     }

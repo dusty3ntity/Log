@@ -1,5 +1,3 @@
-import { IUser, ILoginUser } from "./../models/user";
-import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
 import axios, { AxiosResponse } from "axios";
 import { history } from "../..";
 
@@ -8,7 +6,10 @@ import { ILearningList, ILearningItem, ILearningItemAnswer, ILearningItemResult 
 import { CustomError, ErrorType } from "./../models/error";
 import { createNotification } from "../common/util/notifications";
 import { NotificationType } from "./../models/error";
+import { IUser, ILoginUser } from "./../models/user";
+import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
 import { isBadId, injectErrorCode } from "./../common/util/errorTypeResolver";
+import { IItemsEnvelope } from "./../models/item";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -115,7 +116,7 @@ const Dictionaries = {
 };
 
 const Items = {
-	list: (dictionaryId: string, params: URLSearchParams): Promise<IItem[]> =>
+	list: (dictionaryId: string, params: URLSearchParams): Promise<IItemsEnvelope> =>
 		axios.get(`/dictionaries/${dictionaryId}/items`, { params: params }).then(sleep()).then(responseBody),
 	details: (dictionaryId: string, itemId: string): Promise<IItem> =>
 		requests.get(`/dictionaries/${dictionaryId}/items/${itemId}`),

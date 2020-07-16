@@ -69,7 +69,7 @@ export default class DictionaryStore {
 					const extendedDictionary: IExtendedDictionary = {
 						dictionary: dictionary,
 						itemsRegistry: undefined,
-						queryParams: { page: 0, predicate: new Map() },
+						queryParams: { page: 0, predicate: new Map(), queryResultSize: 0 },
 					};
 
 					this.extendedDictionariesRegistry.set(dictionary.id, extendedDictionary);
@@ -101,7 +101,11 @@ export default class DictionaryStore {
 
 		this.activeExtendedDictionary!.itemsRegistry = itemStore.itemRegistry;
 		this.activeExtendedDictionary!.activeItem = itemStore.activeItem;
-		this.activeExtendedDictionary!.queryParams = { page: itemStore.page, predicate: itemStore.predicate };
+		this.activeExtendedDictionary!.queryParams = {
+			page: itemStore.page,
+			predicate: itemStore.predicate,
+			queryResultSize: itemStore.queryResultSize,
+		};
 
 		this.activeExtendedDictionary = this.extendedDictionariesRegistry.get(id);
 
@@ -147,7 +151,7 @@ export default class DictionaryStore {
 				const newExtendedDictionary = {
 					dictionary: newDictionary,
 					itemsRegistry: new Map(),
-					queryParams: { page: 0, predicate: new Map() },
+					queryParams: { page: 0, predicate: new Map(), queryResultSize: 0 },
 				};
 
 				this.extendedDictionariesRegistry.set(id, newExtendedDictionary);
