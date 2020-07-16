@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using AutoMapper;
+using Castle.Core.Internal;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace Application.Items
         public class Query : IRequest<List<ItemDto>>
         {
             public Query(Guid dictionaryId, int? limit, int? offset, bool words, bool phrases, bool learned,
-                bool inProgress, bool noProgress)
+                bool inProgress, bool noProgress, string search)
             {
                 DictionaryId = dictionaryId;
 
@@ -31,6 +32,8 @@ namespace Application.Items
                 IsLearned = learned;
                 IsInProgress = inProgress;
                 IsNoProgress = noProgress;
+
+                Search = search;
             }
 
             public Guid DictionaryId { get; }
@@ -44,6 +47,8 @@ namespace Application.Items
             public bool IsLearned { get; }
             public bool IsInProgress { get; }
             public bool IsNoProgress { get; }
+
+            public string Search { get; }
         }
 
         public class Handler : IRequestHandler<Query, List<ItemDto>>
@@ -75,11 +80,17 @@ namespace Application.Items
                                                      (request.Phrases && i.Type == ItemType.Phrase));
 
                 if (request.IsLearned || request.IsInProgress || request.IsNoProgress)
-                {
                     queryable = queryable.Where(i => (request.IsLearned && i.IsLearned) ||
                                                      (request.IsInProgress &&
                                                       (i.CorrectAnswersToCompletionCount > 0 && !i.IsLearned)) ||
                                                      (request.IsNoProgress && i.CorrectAnswersToCompletionCount == 0));
+
+                if (!request.Search.IsNullOrEmpty())
+                {
+                    var searchString = request.Search.ToLower();
+                    
+                    queryable = queryable.Where(i => i.Original.ToLower().Contains(searchString)
+                                                     || i.Translation.ToLower().Contains(searchString));
                 }
 
                 var items = await queryable.Skip(request.Offset ?? 0).Take(request.Limit ?? 20).ToListAsync();

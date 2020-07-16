@@ -14,11 +14,11 @@ namespace API.Controllers
     public class ItemsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId, int? limit, int? offset, bool words, 
-			bool phrases, bool learned, bool inProgress, bool noProgress)
+        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId, int? limit, int? offset, bool words,
+            bool phrases, bool learned, bool inProgress, bool noProgress, string search)
         {
             return await Mediator.Send(new List.Query(dictionaryId, limit, offset, words, phrases, learned, inProgress,
-                noProgress));
+                noProgress, search));
         }
 
         [HttpGet("{itemId}")]
