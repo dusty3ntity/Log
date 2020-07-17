@@ -12,35 +12,18 @@ namespace Persistence
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
             List<AppUser> users = new List<AppUser>();
-            
+
             if (!userManager.Users.Any())
             {
-                users = new List<AppUser>
+                var user = new AppUser
                 {
-                    new AppUser
-                    {
-                        DisplayName = "Kek",
-                        UserName = "kek",
-                        Email = "kek@ohyr.dev"
-                    },
-                    new AppUser
-                    {
-                        DisplayName = "Bob",
-                        UserName = "bob",
-                        Email = "bob@ohyr.dev"
-                    },
-                    new AppUser
-                    {
-                        DisplayName = "Log",
-                        UserName = "log",
-                        Email = "log@ohyr.dev"
-                    },
+                    DisplayName = "Kek",
+                    UserName = "kek",
+                    Email = "kek@ohyr.dev"
                 };
 
-                foreach (var user in users)
-                {
-                    await userManager.CreateAsync(user, "123asd123");
-                }
+                await userManager.CreateAsync(user, "123asd123");
+                users.Add(user);
             }
 
             if (!context.Dictionaries.Any())
