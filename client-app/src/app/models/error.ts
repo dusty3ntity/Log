@@ -22,6 +22,9 @@ export enum ErrorType {
 
 	DefaultValidationError = 101,
 	BadId = 102,
+
+	Unauthorized = 191,
+	RefreshTokenExpired = 192,
 	DefaultErrorsBlockEnd = 199,
 
 	ValidationBlockStart = 400,
@@ -50,9 +53,8 @@ export enum ErrorType {
 	LearningListCompletedTwoTimes = 703,
 	LearningListOutdated = 704,
 
-	Unauthorized = 901,
-	DuplicateEmailFound = 902,
-	DuplicateUsernameFound = 903,
+	DuplicateEmailFound = 901,
+	DuplicateUsernameFound = 902,
 	Unknown = 9999,
 }
 

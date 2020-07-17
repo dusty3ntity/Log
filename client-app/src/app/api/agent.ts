@@ -29,12 +29,38 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(undefined, (error) => {
 	console.log(error.response);
 
+	const originalRequest = error.config;
+
 	if (error.message === "Network Error" && !error.response) {
 		createNotification(NotificationType.Error, {
 			title: "Network error!",
 			message: "The server isn't responding... Check your internet connection or contact the administrator.",
 		});
 		throw new CustomError(error.response, ErrorType.ConnectionRefused);
+	} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.RefreshTokenExpired) {
+		window.localStorage.removeItem("jwt");
+		window.localStorage.removeItem("refreshToken");
+		history.push("/login");
+
+		createNotification(NotificationType.Error, {
+			title: "Authorization error!",
+			message: "Your session has expired! Please, log in again.",
+			errors: error.response,
+		});
+	} else if (error.response.status === 401 && !originalRequest._retry) {
+		originalRequest._retry = true;
+
+		return axios
+			.post("/user/refresh", {
+				token: window.localStorage.getItem("jwt"),
+				refreshToken: window.localStorage.getItem("refreshToken"),
+			})
+			.then((res) => {
+				window.localStorage.setItem("jwt", res.data.token);
+				window.localStorage.setItem("refreshToken", res.data.refreshToken);
+				axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+				return axios(originalRequest);
+			});
 	} else if (error.response.status === 400 && !error.response.data.errors.code) {
 		if (isBadId(error.response)) {
 			injectErrorCode(error.response, ErrorType.BadId);
