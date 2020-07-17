@@ -11,7 +11,7 @@ import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictio
 import { isBadId, injectErrorCode } from "./../common/util/errorTypeResolver";
 import { IItemsEnvelope } from "./../models/item";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(
 	(config) => {
