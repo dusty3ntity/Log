@@ -18,9 +18,21 @@ export default class CommonStore {
 				}
 			}
 		);
+
+		reaction(
+			() => this.refreshToken,
+			(refreshToken) => {
+				if (refreshToken) {
+					window.localStorage.setItem("refreshToken", refreshToken);
+				} else {
+					window.localStorage.removeItem("refreshToken");
+				}
+			}
+		);
 	}
 
 	@observable token: string | null = window.localStorage.getItem("jwt");
+	@observable refreshToken: string | null = window.localStorage.getItem("refreshToken");
 	@observable appLoaded = false;
 
 	@action setToken = (token: string | null) => {
@@ -28,13 +40,22 @@ export default class CommonStore {
 		this.token = token;
 	};
 
+	@action setRefreshToken = (refreshToken: string | null) => {
+		window.localStorage.setItem("refreshToken", refreshToken!);
+		this.refreshToken = refreshToken;
+	};
+
 	@action onInitialLoad = async () => {
 		const itemStore = this.rootStore.itemStore;
 		const dictionaryStore = this.rootStore.dictionaryStore;
+		const userStore = this.rootStore.userStore;
 		itemStore.reset();
-		await dictionaryStore.loadDictionaries();
-		await itemStore.loadItems();
-	}
+		try {
+			await userStore.getUser();
+			await dictionaryStore.loadDictionaries();
+			await itemStore.loadItems();
+		} catch (err) {}
+	};
 
 	@action setAppLoaded = () => {
 		this.appLoaded = true;

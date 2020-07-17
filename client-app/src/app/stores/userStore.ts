@@ -29,6 +29,7 @@ export default class UserStore {
 			runInAction("logging in", () => {
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
+				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
 			});
 			await this.rootStore.commonStore.onInitialLoad();
 			history.push("/dashboard");
@@ -59,6 +60,7 @@ export default class UserStore {
 			runInAction("registering user", () => {
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
+				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
 			});
 			await this.rootStore.commonStore.onInitialLoad();
 			history.push("/dashboard");
@@ -98,6 +100,9 @@ export default class UserStore {
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				if (err.code === ErrorType.RefreshTokenExpired) {
+					throw new Error();
+				}
 				return;
 			}
 
@@ -107,6 +112,7 @@ export default class UserStore {
 
 	@action logout = () => {
 		this.rootStore.commonStore.setToken(null);
+		this.rootStore.commonStore.setRefreshToken(null);
 		this.user = null;
 		history.push("/");
 	};

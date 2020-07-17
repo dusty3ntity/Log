@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
@@ -52,12 +53,18 @@ namespace Application.Users
 
                 if (result.Succeeded)
                 {
+                    user.RefreshToken = _jwtGenerator.GenerateRefreshToken();
+                    user.RefreshTokenExpiry = DateTime.Now.AddDays(30);
+
+                    await _userManager.UpdateAsync(user);
+
                     return new User
                     {
                         Username = user.UserName,
                         Email = user.Email,
                         DisplayName = user.DisplayName,
-                        Token = _jwtGenerator.CreateToken(user)
+                        Token = _jwtGenerator.CreateToken(user),
+                        RefreshToken = user.RefreshToken
                     };
                 }
 

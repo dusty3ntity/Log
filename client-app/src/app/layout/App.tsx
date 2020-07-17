@@ -23,19 +23,16 @@ import Soon from "./Soon";
 function App() {
 	const rootStore = useContext(RootStoreContext);
 	const { setAppLoaded, token, appLoaded, onInitialLoad } = rootStore.commonStore;
-	const { getUser } = rootStore.userStore;
 
 	useEffect(() => {
 		if (token) {
-			getUser()
-				.then(onInitialLoad)
-				.finally(() => {
-					setAppLoaded();
-				});
+			onInitialLoad().finally(() => {
+				setAppLoaded();
+			});
 		} else {
 			setAppLoaded();
 		}
-	}, [getUser, token, onInitialLoad, setAppLoaded]);
+	}, [token, onInitialLoad, setAppLoaded]);
 
 	if (!appLoaded) {
 		return <LoadingScreen size={3} />;

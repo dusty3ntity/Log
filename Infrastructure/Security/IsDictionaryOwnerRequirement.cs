@@ -37,7 +37,7 @@ namespace Infrastructure.Security
 
             var dictionary = _context.Dictionaries.FindAsync(dictionaryId).Result;
 
-            if (dictionary == null || dictionary.UserId.Equals(user.Id))
+            if (dictionary == null || dictionary.UserId.Equals(user?.Id))
                 context.Succeed(requirement);
 
             return Task.CompletedTask;

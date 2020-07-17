@@ -35,7 +35,8 @@ namespace Application.Users
                     DisplayName = user.DisplayName,
                     Username = user.UserName,
                     Email = user.Email,
-                    Token = _jwtGenerator.CreateToken(user)
+                    Token = _jwtGenerator.CreateToken(user),
+                    RefreshToken = user.RefreshToken
                 };
             }
         }
