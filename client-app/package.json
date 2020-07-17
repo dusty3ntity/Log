@@ -26,6 +26,7 @@
 	"scripts": {
 		"start": "react-app-rewired start",
 		"build": "react-app-rewired build",
+		"postbuild": "rm -rf ../API/wwwroot && move build ../API/wwwroot",
 		"test": "react-app-rewired test",
 		"eject": "react-scripts eject"
 	},
