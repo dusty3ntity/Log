@@ -20,6 +20,7 @@ export interface ITestItem {
 }
 
 export interface ITestItemAnswer {
+	id: string;
 	item: string;
 	answer: string;
 	definition: string | null;

@@ -109,6 +109,7 @@ namespace Application.LearningLists
 
                         Item = new TestItemAnswer
                         {
+                            Id = item.Id,
                             Item = learningItem.LearningMode == LearningMode.Primary ? item.Translation : item.Original,
                             Answer = learningItem.LearningMode == LearningMode.Primary
                                 ? item.Original
