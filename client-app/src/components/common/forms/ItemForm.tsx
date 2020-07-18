@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import { Modal } from "antd";
 
 import { IItem, INewItem, ItemType } from "../../../app/models/item";
 import { hasTrailingWhitespaces, minLength, maxLength, includes } from "../../../app/common/forms/formValidators";
@@ -39,7 +40,48 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit, submitting })
 		setDefinitionActivated(!definitionActivated);
 	};
 
+	let formData: FormData;
+	let confirmation = false;
+
+	const handleConfirmation = () => {
+		Modal.confirm({
+			title: "Confirmation",
+			content: (
+				<Fragment>
+					<span>Are you sure you want to update this item?</span>
+					<span>Its progress will be lost.</span>
+				</Fragment>
+			),
+			width: "35rem",
+			maskClosable: true,
+			centered: true,
+			okText: "Update",
+			okButtonProps: {
+				className: "btn modal-btn confirm-btn",
+			},
+			onOk() {
+				confirmation = true;
+				submit(formData!);
+			},
+			cancelButtonProps: {
+				className: "btn modal-btn cancel-btn",
+			},
+		});
+	};
+
 	const submit = (data: FormData) => {
+		formData = data;
+
+		if (
+			item &&
+			item.correctAnswersToCompletionCount > 0 &&
+			(item.original !== data.original || item.translation !== data.translation) &&
+			!confirmation
+		) {
+			handleConfirmation();
+			return;
+		}
+
 		let newItem: INewItem = {
 			original: data.original,
 			translation: data.translation,

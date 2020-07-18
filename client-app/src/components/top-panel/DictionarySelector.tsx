@@ -8,7 +8,6 @@ import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import DropdownIcon from "../icons/DropdownIcon";
 import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
-import Empty from "../common/other/Empty";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -44,8 +43,6 @@ const DictionarySelector = () => {
 					<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
 				</Menu.Item>
 			))}
-
-			{dictionariesRegistry.size === 1 && <Empty text="No more dictionaries" size={6} />}
 
 			<div id="menu-actions">
 				<NavLink exact to="/new-dictionary" className="btn actions-btn new-btn primary">

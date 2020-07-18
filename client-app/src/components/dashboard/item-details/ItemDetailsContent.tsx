@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import TextEllipsis from "react-text-ellipsis";
 import format from "date-fns/format";
-import { Badge } from "antd";
+import { Badge, Modal } from "antd";
 import { Link } from "react-router-dom";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -30,6 +30,31 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 		item.correctAnswersCount > 999 ? Math.floor(item.correctAnswersCount / 1000) + "k" : item.correctAnswersCount;
 
 	const date = format(item.creationDate, "MM.dd.yyyy");
+
+	const handleDelete = () => {
+		Modal.confirm({
+			title: "Confirmation",
+			content: (
+				<Fragment>
+					<span>Are you sure you want to delete this item?</span>
+					<span>This can't be undone.</span>
+				</Fragment>
+			),
+			width: "35rem",
+			maskClosable: true,
+			centered: true,
+			okText: "Delete",
+			okButtonProps: {
+				className: "btn modal-btn confirm-btn delete-btn",
+			},
+			onOk() {
+				deleteItem();
+			},
+			cancelButtonProps: {
+				className: "btn modal-btn cancel-btn",
+			},
+		});
+	};
 
 	return (
 		<div id="details-container">
@@ -93,7 +118,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 
 				<Button
 					className="delete-btn actions-btn"
-					onClick={deleteItem}
+					onClick={handleDelete}
 					icon={<DeleteIcon />}
 					loading={deleting}
 				/>

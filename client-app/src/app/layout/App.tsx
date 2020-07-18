@@ -26,9 +26,7 @@ function App() {
 
 	useEffect(() => {
 		if (token) {
-			onInitialLoad().finally(() => {
-				setAppLoaded();
-			});
+			onInitialLoad().finally(setAppLoaded);
 		} else {
 			setAppLoaded();
 		}

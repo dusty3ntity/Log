@@ -94,13 +94,17 @@
 		}
 
 		&.active {
-			background: @body-background !important;
+			.arrow-forward-icon {
+				fill: @body-background-darker;
+			}
+
+			background: @body-background-darker;
 			box-shadow: -1px -1px 2px rgba(204, 213, 221, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
 				inset 1px 1px 3px rgba(204, 213, 221, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
 				inset 1px -1px 2px rgba(204, 213, 221, 0.2), inset -1px 1px 2px rgba(204, 213, 221, 0.2);
 
-			.arrow-forward-icon {
-				fill: @body-background-darker;
+			.divider {
+				background: @body-background;
 			}
 		}
 
