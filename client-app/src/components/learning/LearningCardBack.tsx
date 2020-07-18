@@ -12,6 +12,7 @@ import Button from "../common/inputs/Button";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
+	prevCorrectAnswersToCompletionCount: number;
 	learningItemResult: ILearningItemResult;
 	progressAnimated: boolean;
 	secondTraining: boolean;
@@ -20,6 +21,7 @@ interface IProps {
 
 const LearningCardBack: React.FC<IProps> = ({
 	correctAnswersToItemCompletion,
+	prevCorrectAnswersToCompletionCount,
 	learningItemResult,
 	progressAnimated,
 	secondTraining,
@@ -51,7 +53,7 @@ const LearningCardBack: React.FC<IProps> = ({
 				)}
 				<LearningItemProgressAnimated
 					total={correctAnswersToItemCompletion}
-					checked={item.correctAnswersToCompletionCount}
+					checked={prevCorrectAnswersToCompletionCount}
 					mode="difficult"
 					answerCorrect={learningItemResult.isAnswerCorrect}
 					animated={progressAnimated}

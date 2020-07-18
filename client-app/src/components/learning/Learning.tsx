@@ -67,6 +67,7 @@ const Learning = () => {
 						Math.floor(status / 10) === LearningStatus.ItemResult) && (
 						<LearningCardBack
 							correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
+							prevCorrectAnswersToCompletionCount={learningItem!.item.correctAnswersToCompletionCount}
 							learningItemResult={learningItemResult!}
 							progressAnimated={status === 3 || Math.floor(status / 10) === 3}
 							secondTraining={

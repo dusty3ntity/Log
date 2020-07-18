@@ -77,7 +77,6 @@ namespace Application.LearningLists
 
                 var answer = request.Answer.ToLower();
                 var item = learningItem.Item;
-                var correctAnswersToCompletionCount = item.CorrectAnswersToCompletionCount;
 
                 var isAnswerCorrect = learningItem.LearningMode == LearningMode.Primary
                     ? answer.ToLower().Equals(item.Original.ToLower())
@@ -120,7 +119,7 @@ namespace Application.LearningLists
 
                             IsStarred = item.IsStarred,
                             IsLearned = item.IsLearned,
-                            CorrectAnswersToCompletionCount = correctAnswersToCompletionCount,
+                            CorrectAnswersToCompletionCount = item.CorrectAnswersToCompletionCount,
                         }
                     };
                 throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
