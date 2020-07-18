@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
 import LearningStatsBrief from "./LearningStatsBrief";
@@ -17,7 +18,7 @@ interface IProps {
 	message?: string;
 	messageType?: "info" | "warning";
 
-	buttonType: "start" | "start-over" | "continue" | "dashboard";
+	buttonType: "start" | "start-over" | "continue" | "items-list";
 	onClick?: () => void;
 	isFlipped?: boolean;
 	loading?: boolean;
@@ -38,35 +39,6 @@ const SupportingPage: React.FC<IProps> = ({
 
 	const date = new Date();
 
-	const getMonth = () => {
-		switch (date.getMonth()) {
-			case 0:
-				return "January";
-			case 1:
-				return "February";
-			case 2:
-				return "March";
-			case 3:
-				return "April";
-			case 4:
-				return "May";
-			case 5:
-				return "June";
-			case 6:
-				return "July";
-			case 7:
-				return "August";
-			case 8:
-				return "September";
-			case 9:
-				return "October";
-			case 10:
-				return "November";
-			case 11:
-				return "December";
-		}
-	};
-
 	if (!content)
 		content = (
 			<LearningStatsBrief
@@ -80,7 +52,7 @@ const SupportingPage: React.FC<IProps> = ({
 		<div className={`learning-supporting-card ${className} ${isFlipped ? "flipped" : ""}`}>
 			<div className="date-row row">
 				<span className="date">{date.getDate()}</span>
-				<span className="month">{getMonth()}</span>
+				<span className="month">{format(date, "MMMM")}</span>
 				<span className="year">{date.getFullYear()}</span>
 			</div>
 
@@ -122,21 +94,27 @@ const SupportingPage: React.FC<IProps> = ({
 					)}
 
 					{buttonType === "start-over" && (
-						<Button
-							className="actions-btn, start-btn"
-							primary
-							noDisabledStyles
-							text="Start over"
-							rightIcon={<RefreshIcon />}
-							onClick={onClick}
-							disabled={status > 9}
-							loading={loading}
-						/>
+						<Fragment>
+							<Button
+								className="actions-btn, start-btn"
+								primary
+								noDisabledStyles
+								text="Start over"
+								rightIcon={<RefreshIcon />}
+								onClick={onClick}
+								disabled={status > 9}
+								loading={loading}
+							/>
+
+							<Link className="btn actions-btn return-btn" to="/items-list">
+								Go to items list
+							</Link>
+						</Fragment>
 					)}
 
-					{buttonType === "dashboard" && (
-						<Link className="btn actions-btn return-btn" to="/dashboard">
-							Go to dashboard
+					{buttonType === "items-list" && (
+						<Link className="btn actions-btn return-btn" to="/items-list">
+							Go to items list
 						</Link>
 					)}
 				</div>

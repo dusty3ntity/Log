@@ -32,7 +32,7 @@ export default class UserStore {
 				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
 			});
 			await this.rootStore.commonStore.onInitialLoad();
-			history.push("/dashboard");
+			history.push("/items-list");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
@@ -63,7 +63,7 @@ export default class UserStore {
 				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
 			});
 			await this.rootStore.commonStore.onInitialLoad();
-			history.push("/dashboard");
+			history.push("/items-list");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
@@ -100,10 +100,7 @@ export default class UserStore {
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
-				if (err.code === ErrorType.RefreshTokenExpired) {
-					throw new Error();
-				}
-				return;
+				throw err;
 			}
 
 			createNotification(NotificationType.UnknownError, { errors: err.body });
@@ -114,6 +111,6 @@ export default class UserStore {
 		this.rootStore.commonStore.setToken(null);
 		this.rootStore.commonStore.setRefreshToken(null);
 		this.user = null;
-		history.push("/");
+		history.push("/login");
 	};
 }

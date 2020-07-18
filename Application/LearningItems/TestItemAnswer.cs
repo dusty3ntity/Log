@@ -1,9 +1,11 @@
-﻿using Domain;
+﻿using System;
+using Domain;
 
 namespace Application.LearningItems
 {
     public class TestItemAnswer
     {
+		public Guid Id { get; set; }
         public string Item { get; set; }
         public string Answer { get; set; }
         public string Definition { get; set; }

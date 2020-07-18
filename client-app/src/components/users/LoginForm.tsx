@@ -31,6 +31,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 						<input
 							type="text"
 							name="email"
+							autoComplete="username"
 							maxLength={30}
 							className="text-input"
 							ref={register({
@@ -52,6 +53,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 						<input
 							type="password"
 							name="password"
+							autoComplete="current-password"
 							className="text-input"
 							maxLength={30}
 							ref={register({

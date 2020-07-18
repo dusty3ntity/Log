@@ -9,6 +9,7 @@ import LearningCardFront from "./LearningCardFront";
 import LearningCardBack from "./LearningCardBack";
 import LearningProgressBar from "./LearningProgressBar";
 import LoadingScreen from "../common/loading/LoadingScreen";
+import { LearningStatus } from "../../app/models/learning";
 
 const Learning = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -42,10 +43,15 @@ const Learning = () => {
 			<div id="learning">
 				<LearningBackground className="left" />
 
-				<div id="learning-content" style={{ transform: `rotateY(${flipCounter}turn)` }}>
-					{status === 0 && <LoadingScreen size={2} />}
+				<div
+					id="learning-content"
+					style={{ transform: `rotateY(${flipCounter}turn)` }}
+					className={status !== LearningStatus.Initial ? "animated" : ""}
+				>
+					{status === LearningStatus.Initial && <LoadingScreen size={2} />}
 
-					{(status % 10 === 2 || Math.floor(status / 10) === 2) && (
+					{(status % 10 === LearningStatus.ItemInput ||
+						Math.floor(status / 10) === LearningStatus.ItemInput) && (
 						<LearningCardFront
 							correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
 							learningItem={learningItem!}
@@ -57,9 +63,11 @@ const Learning = () => {
 						/>
 					)}
 
-					{(status % 10 === 3 || Math.floor(status / 10) === 3) && (
+					{(status % 10 === LearningStatus.ItemResult ||
+						Math.floor(status / 10) === LearningStatus.ItemResult) && (
 						<LearningCardBack
 							correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
+							prevCorrectAnswersToCompletionCount={learningItem!.item.correctAnswersToCompletionCount}
 							learningItemResult={learningItemResult!}
 							progressAnimated={status === 3 || Math.floor(status / 10) === 3}
 							secondTraining={
@@ -70,17 +78,25 @@ const Learning = () => {
 						/>
 					)}
 
-					{(status % 10 === 1 || Math.floor(status / 10) === 1) && (
+					{(status % 10 === LearningStatus.LearningStart ||
+						Math.floor(status / 10) === LearningStatus.LearningStart) && (
 						<SupportingPage
 							className="learning-start"
-							buttonType="start"
+							messageType="warning"
+							message={
+								learningList!.timesCompleted > 0
+									? "This is the second training for today. Correct answers don't count, but wrong ones - do!"
+									: undefined
+							}
+							buttonType={learningList!.completedItemsCount === 0 ? "start" : "continue"}
 							onClick={onStart}
 							isFlipped={isLearningStartFlipped}
 							loading={loading}
 						/>
 					)}
 
-					{(status % 10 === 6 || Math.floor(status / 10) === 6) && (
+					{(status % 10 === LearningStatus.LearningOutdated ||
+						Math.floor(status / 10) === LearningStatus.LearningOutdated) && (
 						<SupportingPage
 							className="learning-outdated"
 							messageType="warning"
@@ -92,7 +108,8 @@ const Learning = () => {
 						/>
 					)}
 
-					{(status % 10 === 4 || Math.floor(status / 10) === 4) && (
+					{(status % 10 === LearningStatus.LearningStartOver ||
+						Math.floor(status / 10) === LearningStatus.LearningStartOver) && (
 						<SupportingPage
 							className="learning-end"
 							messageType="info"
@@ -104,17 +121,18 @@ const Learning = () => {
 						/>
 					)}
 
-					{(status % 10 === 5 || Math.floor(status / 10) === 5) && (
+					{(status % 10 === LearningStatus.LearningEnd ||
+						Math.floor(status / 10) === LearningStatus.LearningEnd) && (
 						<SupportingPage
 							className="learning-final-end"
 							messageType="info"
 							message="You have completed the training 2 times today. Get some rest."
-							buttonType="dashboard"
+							buttonType="items-list"
 							isFlipped={isLearningEndFlipped}
 						/>
 					)}
 
-					{status === 7 && (
+					{status === LearningStatus.NotEnoughItems && (
 						<SupportingPage
 							className="not-enough-items"
 							content={
@@ -125,7 +143,7 @@ const Learning = () => {
 									</div>
 								</Fragment>
 							}
-							buttonType="dashboard"
+							buttonType="items-list"
 						/>
 					)}
 				</div>
@@ -133,7 +151,10 @@ const Learning = () => {
 				<LearningBackground className="right" />
 			</div>
 
-			{(status === 2 || status === 3 || status === 23 || status === 32) && (
+			{(status === LearningStatus.ItemInput ||
+				status === LearningStatus.ItemResult ||
+				status === LearningStatus.ItemInputItemResult ||
+				status === LearningStatus.ItemResultItemInput) && (
 				<LearningProgressBar
 					total={learningList!.size}
 					done={learningItem ? learningItem.numberInSequence + 1 : learningItemResult!.numberInSequence + 1}

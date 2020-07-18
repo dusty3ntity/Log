@@ -46,10 +46,10 @@ namespace Application.Users
             {
                 var user = await _userManager.FindByNameAsync(request.Username);
 
-                if (user == null || user.RefreshToken != request.RefreshToken)
+                if (user == null)
                     throw new RestException(HttpStatusCode.BadRequest, ErrorType.DefaultValidationError);
 
-                if (user.RefreshTokenExpiry < DateTime.Now)
+                if (user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiry < DateTime.Now)
                     throw new RestException(HttpStatusCode.Unauthorized, ErrorType.RefreshTokenExpired);
 
                 user.RefreshToken = _jwtGenerator.GenerateRefreshToken();

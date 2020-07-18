@@ -8,7 +8,6 @@ import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import DropdownIcon from "../icons/DropdownIcon";
 import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
-import Empty from "../common/other/Empty";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -16,37 +15,34 @@ const DictionarySelector = () => {
 
 	const menu = (
 		<Menu className="menu">
-			{Array.from(dictionariesRegistry.values())
-				.filter((d) => d.id !== activeDictionary!.id)
-				.map((dictionary) => (
-					<Menu.Item
-						key={dictionary.id}
-						className="menu-item"
-						onClick={() => {
-							selectDictionary(dictionary.id);
-						}}
-					>
-						<img
-							className="flag lang-from"
-							src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
-							alt={dictionary.knownLanguage.isoCode}
-						/>
+			{Array.from(dictionariesRegistry.values()).map((dictionary) => (
+				<Menu.Item
+					key={dictionary.id}
+					className={`menu-item ${activeDictionary.id === dictionary.id ? "active" : ""}`}
+					disabled={activeDictionary.id === dictionary.id}
+					onClick={() => {
+						selectDictionary(dictionary.id);
+					}}
+				>
+					<img
+						className="flag lang-from"
+						src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
+						alt={dictionary.knownLanguage.isoCode}
+					/>
 
-						<ArrowForwardIcon />
+					<ArrowForwardIcon />
 
-						<img
-							className="flag lang-to"
-							src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
-							alt={dictionary.languageToLearn.isoCode}
-						/>
+					<img
+						className="flag lang-to"
+						src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
+						alt={dictionary.languageToLearn.isoCode}
+					/>
 
-						<div className="divider vertical menu-divider" />
+					<div className="divider vertical menu-divider" />
 
-						<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
-					</Menu.Item>
-				))}
-
-			{dictionariesRegistry.size === 1 && <Empty text="No more dictionaries" size={6} />}
+					<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
+				</Menu.Item>
+			))}
 
 			<div id="menu-actions">
 				<NavLink exact to="/new-dictionary" className="btn actions-btn new-btn primary">

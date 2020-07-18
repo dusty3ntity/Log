@@ -339,8 +339,22 @@ export default class LearningStore {
 				this.learningItemResult = learningItemResult;
 				this.learningList!.totalCompletedItemsCount++;
 				this.learningList!.completedItemsCount++;
+
+				const newItem = learningItemResult.item;
+				const item = this.rootStore.itemStore.itemRegistry.get(newItem.id);
+
+				if (item) {
+					item.isStarred = newItem.isStarred;
+					item.isLearned = newItem.isLearned;
+					item.correctAnswersToCompletionCount = newItem.correctAnswersToCompletionCount;
+					item.totalRepeatsCount++;
+				}
+
 				if (learningItemResult.isAnswerCorrect) {
 					this.learningList!.correctAnswersCount++;
+					if (item) {
+						item.correctAnswersCount++;
+					}
 				}
 			});
 		} catch (err) {

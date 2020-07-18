@@ -1,10 +1,14 @@
 import React from "react";
+import copy from "copy-to-clipboard";
 
 import InfoIcon from "../../icons/InfoIcon";
 import SuccessIcon from "../../icons/SuccessIcon";
 import WarningOutlinedIcon from "../../icons/WarningOutlinedIcon";
+import CopyIcon from "../../icons/CopyIcon";
 import ErrorIcon from "../../icons/ErrorIcon";
 import { NotificationType } from "../../../app/models/error";
+import { createCustomError } from "../../../app/common/util/errors";
+import Button from "../inputs/Button";
 
 interface IProps {
 	className?: string;
@@ -38,7 +42,11 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 	if (type === NotificationType.UnknownError) {
 		message = "Please, copy this data and send it to the administrator for a quick fix.";
 	}
-	
+
+	if (errors) {
+		errors = createCustomError(errors);
+	}
+
 	return (
 		<div className={`notification ${className ? className : ""}`}>
 			<div className="icon-container">
@@ -49,10 +57,17 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 			</div>
 
 			<div className="content-container">
-				<div className="title">{title}</div>
-				<div className="message">
-					{message}
+				<div className="title-container">
+					<span className="title">{title}</span>
+					{errors && (
+						<Button
+							className="copy-err-btn"
+							onClick={() => copy(JSON.stringify(errors, null, "\t"))}
+							icon={<CopyIcon />}
+						/>
+					)}
 				</div>
+				<div className="message">{message}</div>
 			</div>
 		</div>
 	);
