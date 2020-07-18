@@ -17,3 +17,7 @@ export const getRelativeDate = (date: any) => {
 
 	return format(date, "EEEE, do MMMM, u");
 };
+
+export const getErrorDateTime = () => {
+	return format(new Date(), "EEEE, do MMMM, ppp");
+};

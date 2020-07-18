@@ -114,6 +114,6 @@ export default class UserStore {
 		this.rootStore.commonStore.setToken(null);
 		this.rootStore.commonStore.setRefreshToken(null);
 		this.user = null;
-		history.push("/");
+		history.push("/login");
 	};
 }

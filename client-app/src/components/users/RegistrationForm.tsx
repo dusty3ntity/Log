@@ -80,6 +80,7 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 								<input
 									type="text"
 									name="username"
+									autoComplete="username"
 									maxLength={30}
 									className="text-input"
 									ref={register({
@@ -113,6 +114,7 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 								<input
 									type="password"
 									name="password"
+									autoComplete="new-password"
 									className="text-input"
 									maxLength={30}
 									ref={register({

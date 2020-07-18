@@ -8,7 +8,7 @@ import { createNotification } from "../common/util/notifications";
 import { NotificationType } from "./../models/error";
 import { IUser, ILoginUser } from "./../models/user";
 import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
-import { isBadId, injectErrorCode } from "./../common/util/errorTypeResolver";
+import { isBadId, injectErrorCode } from "./../common/util/errors";
 import { IItemsEnvelope } from "./../models/item";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -27,7 +27,9 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(undefined, (error) => {
-	console.log(error.response);
+	if (process.env.REACT_APP_ENV === "DEVELOPMENT") {
+		console.log(error.response);
+	}
 
 	const originalRequest = error.config;
 

@@ -1,10 +1,12 @@
 import React from "react";
+import copy from "copy-to-clipboard";
 
 import InfoIcon from "../../icons/InfoIcon";
 import SuccessIcon from "../../icons/SuccessIcon";
 import WarningOutlinedIcon from "../../icons/WarningOutlinedIcon";
 import ErrorIcon from "../../icons/ErrorIcon";
 import { NotificationType } from "../../../app/models/error";
+import { createCustomError } from "../../../app/common/util/errors";
 
 interface IProps {
 	className?: string;
@@ -38,7 +40,11 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 	if (type === NotificationType.UnknownError) {
 		message = "Please, copy this data and send it to the administrator for a quick fix.";
 	}
-	
+
+	if (errors) {
+		errors = createCustomError(errors);
+	}
+
 	return (
 		<div className={`notification ${className ? className : ""}`}>
 			<div className="icon-container">
@@ -50,9 +56,12 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 
 			<div className="content-container">
 				<div className="title">{title}</div>
-				<div className="message">
-					{message}
-				</div>
+				<div className="message">{message}</div>
+				{errors && (
+					<div className="error-container">
+						<button onClick={() => copy(JSON.stringify(errors, null, "\t"))}>Copy error</button>
+					</div>
+				)}
 			</div>
 		</div>
 	);
