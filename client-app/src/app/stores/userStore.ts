@@ -100,10 +100,7 @@ export default class UserStore {
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
-				if (err.code === ErrorType.RefreshTokenExpired) {
-					throw new Error();
-				}
-				return;
+				throw err;
 			}
 
 			createNotification(NotificationType.UnknownError, { errors: err.body });

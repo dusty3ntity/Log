@@ -46,6 +46,7 @@ function App() {
 				closeOnClick={false}
 				autoClose={5000}
 			/>
+
 			<Route exact path="/" component={HomePage} />
 
 			<Route

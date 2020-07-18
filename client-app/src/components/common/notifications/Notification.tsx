@@ -4,9 +4,11 @@ import copy from "copy-to-clipboard";
 import InfoIcon from "../../icons/InfoIcon";
 import SuccessIcon from "../../icons/SuccessIcon";
 import WarningOutlinedIcon from "../../icons/WarningOutlinedIcon";
+import CopyIcon from "../../icons/CopyIcon";
 import ErrorIcon from "../../icons/ErrorIcon";
 import { NotificationType } from "../../../app/models/error";
 import { createCustomError } from "../../../app/common/util/errors";
+import Button from "../inputs/Button";
 
 interface IProps {
 	className?: string;
@@ -55,13 +57,17 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 			</div>
 
 			<div className="content-container">
-				<div className="title">{title}</div>
+				<div className="title-container">
+					<span className="title">{title}</span>
+					{errors && (
+						<Button
+							className="copy-err-btn"
+							onClick={() => copy(JSON.stringify(errors, null, "\t"))}
+							icon={<CopyIcon />}
+						/>
+					)}
+				</div>
 				<div className="message">{message}</div>
-				{errors && (
-					<div className="error-container">
-						<button onClick={() => copy(JSON.stringify(errors, null, "\t"))}>Copy error</button>
-					</div>
-				)}
 			</div>
 		</div>
 	);
