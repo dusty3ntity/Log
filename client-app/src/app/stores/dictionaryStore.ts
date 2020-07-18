@@ -20,7 +20,7 @@ export default class DictionaryStore {
 				if (history.location.pathname.includes("/learning")) {
 					await rootStore.learningStore.onInitialLoad();
 				} else if (history.location.pathname.includes("/edit-item")) {
-					history.push("/dashboard");
+					history.push("/items-list");
 				}
 			}
 		);
@@ -160,7 +160,7 @@ export default class DictionaryStore {
 					this.selectDictionary(newDictionary.id);
 				}
 				createNotification(NotificationType.Success, { message: "Dictionary created successfully!" });
-				history.push("/dashboard");
+				history.push("/items-list");
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {

@@ -8,7 +8,7 @@ import LoginPage from "../../components/users/LoginPage";
 import RegistrationPage from "../../components/users/RegistrationPage";
 import HomePage from "../../components/home/HomePage";
 import Page from "./Page";
-import Dashboard from "../../components/dashboard/Dashboard";
+import ItemsListPage from "../../components/items-list/ItemsListPage";
 import NewItem from "../../components/manage-item/NewItem";
 import EditItem from "../../components/manage-item/EditItem";
 import Learning from "../../components/learning/Learning";
@@ -55,8 +55,8 @@ function App() {
 						<Route exact path="/login" component={LoginPage} />
 						<Route exact path="/registration" component={RegistrationPage} />
 
-						<PrivateRoute exact path="/dashboard">
-							<Page title="Dashboard" pageTitle="Dashboard" component={<Dashboard />} />
+						<PrivateRoute exact path="/items-list">
+							<Page title="Items list" pageTitle="Items list" component={<ItemsListPage />} />
 						</PrivateRoute>
 
 						<PrivateRoute exact path="/new-dictionary">

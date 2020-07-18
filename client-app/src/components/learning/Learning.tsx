@@ -109,7 +109,7 @@ const Learning = () => {
 							className="learning-final-end"
 							messageType="info"
 							message="You have completed the training 2 times today. Get some rest."
-							buttonType="dashboard"
+							buttonType="items-list"
 							isFlipped={isLearningEndFlipped}
 						/>
 					)}
@@ -125,7 +125,7 @@ const Learning = () => {
 									</div>
 								</Fragment>
 							}
-							buttonType="dashboard"
+							buttonType="items-list"
 						/>
 					)}
 				</div>

@@ -11,8 +11,8 @@ const NotFound = () => {
 			<div className="content">
 				<div className="title">Nothing here... Yet.</div>
 
-				<button className="btn default" onClick={() => history.push("/dashboard")}>
-					Go to dashboard
+				<button className="btn default" onClick={() => history.push("/items-list")}>
+					Go to items list
 				</button>
 			</div>
 		</div>

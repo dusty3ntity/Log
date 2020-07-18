@@ -253,7 +253,7 @@ const DictionaryForm: React.FC<IProps> = ({
 				/>
 
 				{!dictionary && (
-					<Link className="btn actions-btn cancel-btn" to="/dashboard">
+					<Link className="btn actions-btn cancel-btn" to="/items-list">
 						Cancel
 					</Link>
 				)}

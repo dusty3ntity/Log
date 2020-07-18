@@ -257,7 +257,7 @@ export default class ItemStore {
 				this.activeItem!.definition = editItem.definition;
 				this.activeItem!.definitionOrigin = editItem.definitionOrigin;
 
-				history.push("/dashboard");
+				history.push("/items-list");
 				createNotification(NotificationType.Success, { message: "Item updated successfully!" });
 			});
 			return true;

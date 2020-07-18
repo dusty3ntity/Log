@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
@@ -17,7 +17,7 @@ interface IProps {
 	message?: string;
 	messageType?: "info" | "warning";
 
-	buttonType: "start" | "start-over" | "continue" | "dashboard";
+	buttonType: "start" | "start-over" | "continue" | "items-list";
 	onClick?: () => void;
 	isFlipped?: boolean;
 	loading?: boolean;
@@ -122,21 +122,27 @@ const SupportingPage: React.FC<IProps> = ({
 					)}
 
 					{buttonType === "start-over" && (
-						<Button
-							className="actions-btn, start-btn"
-							primary
-							noDisabledStyles
-							text="Start over"
-							rightIcon={<RefreshIcon />}
-							onClick={onClick}
-							disabled={status > 9}
-							loading={loading}
-						/>
+						<Fragment>
+							<Button
+								className="actions-btn, start-btn"
+								primary
+								noDisabledStyles
+								text="Start over"
+								rightIcon={<RefreshIcon />}
+								onClick={onClick}
+								disabled={status > 9}
+								loading={loading}
+							/>
+
+							<Link className="btn actions-btn return-btn" to="/items-list">
+								Go to items list
+							</Link>
+						</Fragment>
 					)}
 
-					{buttonType === "dashboard" && (
-						<Link className="btn actions-btn return-btn" to="/dashboard">
-							Go to dashboard
+					{buttonType === "items-list" && (
+						<Link className="btn actions-btn return-btn" to="/items-list">
+							Go to items list
 						</Link>
 					)}
 				</div>

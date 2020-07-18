@@ -250,7 +250,7 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit, submitting })
 					loading={submitting}
 				/>
 
-				<Link className="btn cancel-btn form-actions-btn" to="/dashboard">
+				<Link className="btn cancel-btn form-actions-btn" to="/items-list">
 					Cancel
 				</Link>
 			</div>

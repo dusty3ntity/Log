@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import NavItem from "./NavItem";
-import DashboardIcon from "../icons/DashboardIcon";
+// import DashboardIcon from "../icons/DashboardIcon";
+import ListIcon from "../icons/ListIcon";
 import StatisticsIcon from "../icons/StatisticsIcon";
 // import CommunityIcon from "../icons/CommunityIcon";
 // import MyPacksIcon from "../icons/MyPacksIcon";
@@ -25,7 +26,8 @@ const NavBar = () => {
 			</div>
 
 			<div className="nav-items">
-				<NavItem link="/dashboard" name="Dashboard" icon={<DashboardIcon classNames="nav-icon" />} />
+				{/* <NavItem link="/dashboard" name="Dashboard" icon={<DashboardIcon classNames="nav-icon" />} /> */}
+				<NavItem link="/items-list" name="Items list" icon={<ListIcon className="nav-icon" />} />
 				<NavItem link="/statistics" name="Statistics" icon={<StatisticsIcon classNames="nav-icon" />} />
 
 				<div className="divider invisible nav-divider" />
