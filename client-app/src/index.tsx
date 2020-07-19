@@ -7,6 +7,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import "react-toastify/dist/ReactToastify.min.css";
 import "simplebar/dist/simplebar.min.css";
+import 'react-tippy/dist/tippy.css'
 import "./app/styles/style.less";
 
 import App from "./app/layout/App";

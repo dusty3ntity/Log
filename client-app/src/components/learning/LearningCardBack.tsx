@@ -9,6 +9,7 @@ import ErrorIcon from "../icons/ErrorIcon";
 import StarIcon from "../icons/StarIcon";
 import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 import Button from "../common/inputs/Button";
+import Tooltip from "../common/tooltips/Tooltip";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
@@ -46,20 +47,41 @@ const LearningCardBack: React.FC<IProps> = ({
 	return (
 		<div className={`learning-card learning-card-back ${isItemResultFlipped ? "flipped" : ""}`}>
 			<div className="header-row row">
-				{learningItemResult.isAnswerCorrect ? (
-					<SuccessIcon className="answer-icon" />
-				) : (
-					<ErrorIcon className="answer-icon" />
-				)}
-				<LearningItemProgressAnimated
-					total={correctAnswersToItemCompletion}
-					checked={prevCorrectAnswersToCompletionCount}
-					mode="difficult"
-					answerCorrect={learningItemResult.isAnswerCorrect}
-					animated={progressAnimated}
-					secondTraining={secondTraining}
-				/>
-				<StarIcon className={starredClass} />
+				<Tooltip
+					text={learningItemResult.isAnswerCorrect ? "Your answer is correct!" : "Your answer is wrong."}
+					position="top-start"
+				>
+					{learningItemResult.isAnswerCorrect ? (
+						<SuccessIcon className="answer-icon" />
+					) : (
+						<ErrorIcon className="answer-icon" />
+					)}
+				</Tooltip>
+
+				<Tooltip
+					text={`Number of correct answers for item to be considered mastered. You have ${item.correctAnswersToCompletionCount} out of ${correctAnswersToItemCompletion} needed.`}
+					position="top"
+				>
+					<LearningItemProgressAnimated
+						total={correctAnswersToItemCompletion}
+						checked={prevCorrectAnswersToCompletionCount}
+						mode="difficult"
+						answerCorrect={learningItemResult.isAnswerCorrect}
+						animated={progressAnimated}
+						secondTraining={secondTraining}
+					/>
+				</Tooltip>
+
+				<Tooltip
+					text={
+						item.isStarred
+							? "This item will be present in every single training until it is learned."
+							: "Starred items are present in every single training until they are learned. This one is not starred."
+					}
+					position="top-end"
+				>
+					<StarIcon className={starredClass} />
+				</Tooltip>
 			</div>
 
 			<div className="item-row row">

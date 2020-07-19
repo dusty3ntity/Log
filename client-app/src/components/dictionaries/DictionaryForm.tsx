@@ -6,6 +6,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 
 import { ILanguage, INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
 import Button from "../common/inputs/Button";
+import Tooltip from "../common/tooltips/Tooltip";
 
 interface IProps {
 	id: string;
@@ -168,7 +169,13 @@ const DictionaryForm: React.FC<IProps> = ({
 			<div className="settings-row">
 				<div className="preferred-list-size form-item">
 					<label>
-						<span className="title">Preferred training size:</span>
+						<Tooltip
+							text="We’ll try to adjust the items count of each training to this value."
+							position="top-start"
+						>
+							<span className="title">Preferred training size:</span>
+						</Tooltip>
+
 						<span className="slider-value">{preferredLearningListSize} items</span>
 					</label>
 
@@ -193,7 +200,13 @@ const DictionaryForm: React.FC<IProps> = ({
 
 				<div className="required-correct-answers form-item">
 					<label>
-						<span className="title">Required correct answers:</span>
+						<Tooltip
+							text="Number of correct answers for item to be considered as mastered."
+							position="top-start"
+						>
+							<span className="title">Required correct answers:</span>
+						</Tooltip>
+
 						<span className="slider-value">{requiredCorrectAnswersNumber} answers</span>
 					</label>
 
@@ -216,7 +229,9 @@ const DictionaryForm: React.FC<IProps> = ({
 				</div>
 
 				<div className="is-hardmode-enabled toggle-item form-item">
-					<label>Is hardmode enabled:</label>
+					<Tooltip text="Resets item correct answers count if wrong answer provided." position="top-start">
+						<label>Is hardmode enabled:</label>
+					</Tooltip>
 
 					<Switch
 						className="toggle"
@@ -235,7 +250,9 @@ const DictionaryForm: React.FC<IProps> = ({
 
 				{!dictionary && (
 					<div className="is-main toggle-item form-item">
-						<label>Is this my main dictionary:</label>
+						<Tooltip text="Main dictionary loads initially on each application start." position="top-start">
+							<label>Is this my main dictionary:</label>
+						</Tooltip>
 
 						<Switch className="toggle" onChange={setMain} />
 					</div>

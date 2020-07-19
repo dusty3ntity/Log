@@ -1,9 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 
 import { IDictionary } from "../../app/models/dictionary";
 import SuccessIcon from "../icons/SuccessIcon";
 import Button from "../common/inputs/Button";
+import Tooltip from "../common/tooltips/Tooltip";
 
 interface IProps {
 	dictionary: IDictionary;
@@ -59,7 +60,9 @@ const DictionariesListItem: React.FC<IProps> = ({
 							<span className="value">{dictionary.wordsCount}</span>
 
 							<span className="value-learned">
-								( <span className="value">{dictionary.learnedWordsCount}</span> )
+								<Tooltip text="Learned words count." position="top">
+									( <span className="value">{dictionary.learnedWordsCount}</span> )
+								</Tooltip>
 							</span>
 						</div>
 
@@ -69,23 +72,35 @@ const DictionariesListItem: React.FC<IProps> = ({
 							<span className="value">{dictionary.phrasesCount}</span>
 
 							<span className="value-learned">
-								( <span className="value">{dictionary.learnedPhrasesCount}</span> )
+								<Tooltip text="Learned phrases count." position="top">
+									( <span className="value">{dictionary.learnedPhrasesCount}</span> )
+								</Tooltip>
 							</span>
 						</div>
 					</div>
 
 					<div className="row params-row">
-						<div className="col learning-list-size-container">
-							<span className="title">In training</span>
+						<Tooltip
+							text="We’ll try to adjust the items count of each training to this value."
+							position="bottom"
+						>
+							<div className="col learning-list-size-container">
+								<span className="title">In training</span>
 
-							<span className="value">{dictionary.preferredLearningListSize}</span>
-						</div>
+								<span className="value">{dictionary.preferredLearningListSize}</span>
+							</div>
+						</Tooltip>
 
-						<div className="col repeats-to-learn-container">
-							<span className="title">Repeats to learn</span>
+						<Tooltip
+							text="Number of correct answers for item to be considered as mastered."
+							position="bottom"
+						>
+							<div className="col repeats-to-learn-container">
+								<span className="title">Repeats to learn</span>
 
-							<span className="value">{dictionary.correctAnswersToItemCompletion}</span>
-						</div>
+								<span className="value">{dictionary.correctAnswersToItemCompletion}</span>
+							</div>
+						</Tooltip>
 					</div>
 				</div>
 
@@ -94,29 +109,46 @@ const DictionariesListItem: React.FC<IProps> = ({
 
 			<div className="actions-col">
 				<div className="row hardmode-container">
-					<span className="title">Hard mode</span>
+					<Tooltip
+						text={
+							dictionary.isHardModeEnabled
+								? "Item correct answers count is reset if wrong answer provided."
+								: "Hard mode resets item correct answers count if wrong answer provided."
+						}
+						position="top-end"
+					>
+						<span className="title">Hard mode</span>
 
-					<span className={`value ${dictionary.isHardModeEnabled ? "enabled" : ""}`}>
-						{dictionary.isHardModeEnabled ? "enabled" : "disabled"}
-					</span>
+						<span className={`value ${dictionary.isHardModeEnabled ? "enabled" : ""}`}>
+							{dictionary.isHardModeEnabled ? "enabled" : "disabled"}
+						</span>
+					</Tooltip>
 				</div>
 
 				<div className="row btn-container">
 					{dictionary.isMain && (
-						<Fragment>
+						<Tooltip
+							text="This dictionary will load initially on each application start."
+							position="bottom-end"
+						>
 							<span className="title">Main</span>
 							<SuccessIcon />
-						</Fragment>
+						</Tooltip>
 					)}
 
 					{!dictionary.isMain && (
-						<Button
-							className="set-main-btn"
-							text="Set main"
-							onClick={() => onSetMain(dictionary)}
-							loading={settingMain}
-							disabled={setMainDisabled}
-						/>
+						<Tooltip
+							text="Main dictionary loads initially on each application start."
+							position="bottom-end"
+						>
+							<Button
+								className="set-main-btn"
+								text="Set main"
+								onClick={() => onSetMain(dictionary)}
+								loading={settingMain}
+								disabled={setMainDisabled}
+							/>
+						</Tooltip>
 					)}
 				</div>
 			</div>

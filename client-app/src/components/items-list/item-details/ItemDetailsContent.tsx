@@ -11,6 +11,8 @@ import StarIcon from "../../icons/StarIcon";
 import EditIcon from "../../icons/EditIcon";
 import DeleteIcon from "../../icons/DeleteIcon";
 import Button from "../../common/inputs/Button";
+import Tooltip from "../../common/tooltips/Tooltip";
+import LearningItemProgress from "../../learning/LearningItemProgress";
 
 interface IProps {
 	item: IItem;
@@ -59,24 +61,52 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	return (
 		<div id="details-container">
 			<div className="header-row row">
-				<Badge status={statusClass} className="status-badge" />
+				<Tooltip
+					content={
+						<LearningItemProgress
+							total={rootStore.dictionaryStore.activeDictionary.correctAnswersToItemCompletion}
+							checked={item.correctAnswersToCompletionCount}
+							secondTraining={false}
+						/>
+					}
+					interactive
+					position="bottom-start"
+					theme="light"
+				>
+					<Badge status={statusClass} className="status-badge" />
+				</Tooltip>
+
 				<span className="type">{type}</span>
-				<StarIcon className={starredClass} />
+
+				<Tooltip
+					text={
+						item.isStarred
+							? "This item will be present in every single training until it is learned."
+							: "Starred items are present in every single training until they are learned. This one is not starred."
+					}
+					position="top-end"
+				>
+					<StarIcon className={starredClass} />
+				</Tooltip>
 			</div>
 
 			<div className="item-row row">
 				<div className="original-row text-row">
-					<TextEllipsis lines={2} tag="h2" tagClass={"original"}>
-						{item.original}
-					</TextEllipsis>
+					<Tooltip text={item.original} position="top">
+						<TextEllipsis lines={2} tag="h2" tagClass={"original"}>
+							{item.original}
+						</TextEllipsis>
+					</Tooltip>
 				</div>
 
 				<div className="divider" />
 
 				<div className="translation-row text-row">
-					<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>
-						{item.translation}
-					</TextEllipsis>
+					<Tooltip text={item.translation} position="bottom">
+						<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>
+							{item.translation}
+						</TextEllipsis>
+					</Tooltip>
 				</div>
 			</div>
 
@@ -101,7 +131,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			</div>
 
 			<div className="date-row row">
-				<span className="date">Added {date}</span>
+				<span className="date">Added on {date}</span>
 			</div>
 
 			<div className="actions-row row">
@@ -109,12 +139,21 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					<EditIcon />
 				</Link>
 
-				<Button
-					className="star-btn actions-btn"
-					onClick={item.isStarred ? unstarItem : starItem}
-					icon={<StarIcon className={starredClass} />}
-					loading={starring && loadingTarget.includes(item.id)}
-				/>
+				<Tooltip
+					text={
+						item.isStarred
+							? "This item will be present in every single training until it is learned."
+							: "Starred items are present in every single training until they are learned. This one is not starred."
+					}
+					position="top"
+				>
+					<Button
+						className="star-btn actions-btn"
+						onClick={item.isStarred ? unstarItem : starItem}
+						icon={<StarIcon className={starredClass} />}
+						loading={starring && loadingTarget.includes(item.id)}
+					/>
+				</Tooltip>
 
 				<Button
 					className="delete-btn actions-btn"

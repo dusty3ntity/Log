@@ -8,6 +8,7 @@ import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import DropdownIcon from "../icons/DropdownIcon";
 import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
+import Tooltip from "../common/tooltips/Tooltip";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -24,23 +25,29 @@ const DictionarySelector = () => {
 						selectDictionary(dictionary.id);
 					}}
 				>
-					<img
-						className="flag lang-from"
-						src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
-						alt={dictionary.knownLanguage.isoCode}
-					/>
+					<Tooltip text="Language you know." position="top">
+						<img
+							className="flag lang-from"
+							src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
+							alt={dictionary.knownLanguage.isoCode}
+						/>
+					</Tooltip>
 
 					<ArrowForwardIcon />
 
-					<img
-						className="flag lang-to"
-						src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
-						alt={dictionary.languageToLearn.isoCode}
-					/>
+					<Tooltip text="Language you learn." position="top">
+						<img
+							className="flag lang-to"
+							src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
+							alt={dictionary.languageToLearn.isoCode}
+						/>
+					</Tooltip>
 
 					<div className="divider vertical menu-divider" />
 
-					<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
+					<Tooltip text="Total items in dictionary." position="top-end">
+						<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
+					</Tooltip>
 				</Menu.Item>
 			))}
 
@@ -64,19 +71,23 @@ const DictionarySelector = () => {
 			overlayClassName="dictionary-selector-dropdown"
 		>
 			<div className="btn dictionary-selector">
-				<img
-					className="flag lang-from"
-					src={`/images/flags/${activeDictionary!.knownLanguage.isoCode}.png`}
-					alt={activeDictionary!.knownLanguage.isoCode}
-				/>
+				<Tooltip text="Language you know." position="bottom">
+					<img
+						className="flag lang-from"
+						src={`/images/flags/${activeDictionary!.knownLanguage.isoCode}.png`}
+						alt={activeDictionary!.knownLanguage.isoCode}
+					/>
+				</Tooltip>
 
 				<ArrowForwardIcon />
 
-				<img
-					className="flag lang-to"
-					src={`/images/flags/${activeDictionary!.languageToLearn.isoCode}.png`}
-					alt={activeDictionary!.languageToLearn.isoCode}
-				/>
+				<Tooltip text="Language you learn." position="bottom">
+					<img
+						className="flag lang-to"
+						src={`/images/flags/${activeDictionary!.languageToLearn.isoCode}.png`}
+						alt={activeDictionary!.languageToLearn.isoCode}
+					/>
+				</Tooltip>
 
 				<DropdownIcon />
 			</div>

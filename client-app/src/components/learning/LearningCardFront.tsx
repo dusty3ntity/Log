@@ -7,6 +7,7 @@ import ComplexityIndicator from "./ComplexityIndicator";
 import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
 import Button from "../common/inputs/Button";
+import Tooltip from "../common/tooltips/Tooltip";
 // import HintIcon from "../icons/HintIcon";
 
 interface IProps {
@@ -38,13 +39,31 @@ const LearningCardFront: React.FC<IProps> = ({
 	return (
 		<div className={`learning-card learning-card-front ${isItemInputFlipped ? "flipped" : ""}`}>
 			<div className="header-row row">
-				<ComplexityIndicator complexity={item.complexity} />
-				<LearningItemProgress
-					total={correctAnswersToItemCompletion}
-					checked={item.correctAnswersToCompletionCount}
-					secondTraining={secondTraining}
-				/>
-				<StarIcon className={starredClass} />
+				<Tooltip text="Item complexity value based on your answers." position="top-start">
+					<ComplexityIndicator complexity={item.complexity} />
+				</Tooltip>
+
+				<Tooltip
+					text={`Number of correct answers for item to be considered mastered. You have ${item.correctAnswersToCompletionCount} out of ${correctAnswersToItemCompletion} needed.`}
+					position="top"
+				>
+					<LearningItemProgress
+						total={correctAnswersToItemCompletion}
+						checked={item.correctAnswersToCompletionCount}
+						secondTraining={secondTraining}
+					/>
+				</Tooltip>
+
+				<Tooltip
+					text={
+						item.isStarred
+							? "This item will be present in every single training until it is learned."
+							: "Starred items are present in every single training until they are learned. This one is not starred."
+					}
+					position="top-end"
+				>
+					<StarIcon className={starredClass} />
+				</Tooltip>
 			</div>
 
 			<div className="item-row row">

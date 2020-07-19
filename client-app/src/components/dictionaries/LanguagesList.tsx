@@ -4,6 +4,7 @@ import SimpleBar from "simplebar-react";
 import { ILanguage } from "../../app/models/dictionary";
 import { languagesList } from "../../app/models/languages";
 import ResetIcon from "../icons/ResetIcon";
+import Tooltip from "../common/tooltips/Tooltip";
 
 interface IProps {
 	id: string;
@@ -30,9 +31,11 @@ const LanguagesList: React.FC<IProps> = ({
 				<span className="title">{title}</span>
 
 				{reset && (
-					<button className="btn reset-btn round" onClick={reset}>
-						<ResetIcon />
-					</button>
+					<Tooltip text="Reset selected language." position="top">
+						<button className="btn reset-btn round" onClick={reset}>
+							<ResetIcon />
+						</button>
+					</Tooltip>
 				)}
 			</div>
 

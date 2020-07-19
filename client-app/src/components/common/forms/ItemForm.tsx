@@ -11,6 +11,7 @@ import PlusIcon from "../../icons/PlusIcon";
 import StarIcon from "../../icons/StarIcon";
 import MinusIcon from "../../icons/MinusIcon";
 import Button from "../inputs/Button";
+import Tooltip from "../tooltips/Tooltip";
 
 interface IProps {
 	type: ItemType;
@@ -182,25 +183,36 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit, submitting })
 				</button>
 
 				<div className="right-container">
-					<button
-						className="btn definition-actions-btn add-definition-btn"
-						type="button"
-						onClick={handleDefinitionButton}
-					>
-						{definitionActivated ? <MinusIcon /> : <PlusIcon />}
-						<span>Definition</span>
-					</button>
+					<Tooltip text={definitionActivated ? "Remove definition." : "Add definition."} position="bottom">
+						<button
+							className="btn definition-actions-btn add-definition-btn"
+							type="button"
+							onClick={handleDefinitionButton}
+						>
+							{definitionActivated ? <MinusIcon /> : <PlusIcon />}
+							<span>Definition</span>
+						</button>
+					</Tooltip>
 
 					{!item && (
-						<button
-							className="btn definition-actions-btn star-btn round"
-							type="button"
-							onClick={() => {
-								setStarred(!isStarred);
-							}}
+						<Tooltip
+							text={
+								isStarred
+									? "This item will be present in every single training until it is learned."
+									: "Starred items are present in every single training until they are learned. This one is not starred."
+							}
+							position="bottom-end"
 						>
-							<StarIcon active={isStarred} />
-						</button>
+							<button
+								className="btn definition-actions-btn star-btn round"
+								type="button"
+								onClick={() => {
+									setStarred(!isStarred);
+								}}
+							>
+								<StarIcon active={isStarred} />
+							</button>
+						</Tooltip>
 					)}
 				</div>
 			</div>

@@ -96,11 +96,17 @@
 			padding: 8px 0;
 			overflow: hidden;
 			background: none;
+
+			.tooltip-container {
+				display: block;
+				height: 100%;
+				width: 50%;
+
+				overflow: hidden;
+			}
 		}
 
 		.text {
-			height: 100%;
-			width: 50%;
 			font-size: 20px;
 			font-weight: 600;
 
@@ -120,7 +126,6 @@
 			display: inline-block;
 			width: 12px;
 			height: 100%;
-			margin-right: 12px;
 			border-radius: 30px 10px 10px 30px;
 
 			box-shadow: inset 4px 4px 4px rgba(29, 38, 25, 0.25);
@@ -141,6 +146,7 @@
 		.selector {
 			display: inline;
 			margin: 0;
+			margin-left: 12px;
 
 			.ant-checkbox {
 				height: 32px;
@@ -158,7 +164,7 @@
 
 		.actions-btn {
 			height: 100%;
-			padding: 0 3px;
+			padding: 3px;
 
 			box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 				1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),
@@ -178,6 +184,10 @@
 					inset 1px 1px 3px rgba(204, 213, 220, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
 					inset 1px -1px 2px rgba(204, 213, 220, 0.2), inset -1px 1px 2px rgba(204, 213, 220, 0.2);
 			}
+		}
+
+		.tooltip-container {
+			height: 100%;
 		}
 	}
 }
