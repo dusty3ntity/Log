@@ -41,6 +41,7 @@ namespace Persistence.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     DisplayName = table.Column<string>(nullable: true),
+                    Avatar = table.Column<string>(nullable: true),
                     RefreshToken = table.Column<string>(nullable: true),
                     RefreshTokenExpiry = table.Column<DateTime>(nullable: false)
                 },

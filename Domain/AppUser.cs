@@ -12,6 +12,7 @@ namespace Domain
         }
         
         public string DisplayName { get; set; }
+        public string Avatar { get; set; }
 
         public ICollection<Dictionary> Dictionaries { get; set; }
 

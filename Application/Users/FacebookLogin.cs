@@ -51,6 +51,9 @@ namespace Application.Users
                         Id = userInfo.Id,
                         Email = userInfo.Email,
                         UserName = userInfo.Email.Split("@")[0] + "_fb",
+
+                        Avatar = userInfo.Picture.Data.Url,
+
                         RefreshToken = _jwtGenerator.GenerateRefreshToken(),
                         RefreshTokenExpiry = DateTime.Now.AddDays(30),
                     };
@@ -66,6 +69,9 @@ namespace Application.Users
                     DisplayName = user.DisplayName,
                     Email = user.Email,
                     Username = user.UserName,
+
+                    Avatar = user.Avatar,
+
                     Token = _jwtGenerator.CreateToken(user),
                     RefreshToken = user.RefreshToken
                 };
