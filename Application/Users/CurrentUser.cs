@@ -35,6 +35,9 @@ namespace Application.Users
                     DisplayName = user.DisplayName,
                     Username = user.UserName,
                     Email = user.Email,
+
+                    Avatar = user.Avatar,
+
                     Token = _jwtGenerator.CreateToken(user),
                     RefreshToken = user.RefreshToken
                 };
