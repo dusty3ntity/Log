@@ -79,5 +79,12 @@ namespace API.Controllers
         {
             return await Mediator.Send(query);
         }
+
+        [AllowAnonymous]
+        [HttpPost("google")]
+        public async Task<ActionResult<User>> GoogleLogin(GoogleLogin.Query query)
+        {
+            return await Mediator.Send(query);
+        }
     }
 }

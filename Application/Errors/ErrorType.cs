@@ -18,10 +18,11 @@
         Unauthorized = 161,
         InvalidEmail = 162,
         InvalidPassword = 163,
-        
+
         RefreshTokenExpired = 171,
 
         FacebookAuthorizationFailed = 181,
+        GoogleAuthorizationFailed = 182,
         DefaultErrorsBlockEnd = 199,
 
         ValidationBlockStart = 400,

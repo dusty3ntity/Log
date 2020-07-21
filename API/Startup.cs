@@ -111,8 +111,10 @@ namespace API
             services.AddScoped<ILearningListGenerator, LearningListGenerator>();
             services.AddScoped<ILearningListRemover, LearningListRemover>();
             services.AddScoped<IFacebookAccessor, FacebookAccessor>();
+            services.AddScoped<IGoogleAccessor, GoogleAccessor>();
 
             services.Configure<FacebookAppSettings>(Configuration.GetSection("Authentication:Facebook"));
+            services.Configure<GoogleAppSettings>(Configuration.GetSection("Authentication:Google"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

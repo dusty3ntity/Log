@@ -7,16 +7,18 @@ import { ILoginUser } from "../../app/models/user";
 import { minLength, maxLength, isValidEmail } from "../../app/common/forms/formValidators";
 import Button from "../common/inputs/Button";
 import FacebookButton from "./FacebookButton";
+import GoogleButton from "./GoogleButton";
 import Divider from "../common/other/Divider";
 
 interface IProps {
 	onSubmit: (user: ILoginUser) => void;
 	facebookHandler: (response: any) => void;
+	googleHandler: (response: any) => void;
 	submitting: boolean;
 	loadingTarget: string | undefined;
 }
 
-const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, loadingTarget }) => {
+const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, googleHandler, loadingTarget }) => {
 	const { register, handleSubmit, errors, formState } = useForm<ILoginUser>();
 
 	return (
@@ -82,6 +84,13 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, lo
 						text="Log in with Facebook"
 						loading={submitting && loadingTarget === "facebook"}
 						handler={facebookHandler}
+						disabled={submitting}
+					/>
+
+					<GoogleButton
+						text="Log in with Google"
+						loading={submitting && loadingTarget === "google"}
+						handler={googleHandler}
 						disabled={submitting}
 					/>
 				</div>
