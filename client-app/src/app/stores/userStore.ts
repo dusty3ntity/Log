@@ -170,4 +170,49 @@ export default class UserStore {
 			});
 		}
 	};
+
+	@action googleLogin = async (response: any) => {
+		this.loadingTarget = "google";
+		this.submitting = true;
+
+		try {
+			const user = await agent.Users.googleLogin(response.code);
+			runInAction("logging user in with google", () => {
+				this.user = user;
+				this.rootStore.commonStore.setToken(user.token);
+				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
+			});
+			await this.rootStore.commonStore.onInitialLoad();
+			history.push("/items-list");
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.body.status === 400) {
+				if (err.code === ErrorType.DuplicateEmailFound) {
+					createNotification(NotificationType.Error, {
+						message: "This email is already in use! Please, choose another one.",
+						error: err.body,
+					});
+				}
+				if (err.code === ErrorType.DuplicateUsernameFound) {
+					createNotification(NotificationType.Error, {
+						message: "This username is already in use! Please, choose another one.",
+						error: err.body,
+					});
+				}
+			} else {
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[userStore]@googleLogin",
+				});
+			}
+		} finally {
+			runInAction("logging user in with google", () => {
+				this.submitting = false;
+				this.loadingTarget = undefined;
+			});
+		}
+	};
 }

@@ -195,6 +195,7 @@ const Users = {
 	login: (user: ILoginUser): Promise<IUser> => requests.post("/user/login", user),
 	register: (user: ILoginUser): Promise<IUser> => requests.post("/user/register", user),
 	facebookLogin: (accessToken: string) => requests.post(`/user/facebook`, { accessToken }),
+	googleLogin: (accessCode: string) => requests.post(`/user/google`, { accessCode }),
 };
 
 export default {

@@ -9,7 +9,7 @@ const LoginPage = () => {
 	document.title = "Log in - Log";
 
 	const rootStore = useContext(RootStoreContext);
-	const { login, submitting, facebookLogin, loadingTarget } = rootStore.userStore;
+	const { login, submitting, facebookLogin, googleLogin, loadingTarget } = rootStore.userStore;
 
 	const onSubmit = (user: ILoginUser) => {
 		login(user);
@@ -21,6 +21,7 @@ const LoginPage = () => {
 				onSubmit={onSubmit}
 				submitting={submitting}
 				facebookHandler={facebookLogin}
+				googleHandler={googleLogin}
 				loadingTarget={loadingTarget}
 			/>
 		</div>
