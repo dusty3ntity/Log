@@ -44,7 +44,11 @@ const NavBar = () => {
 
 			<div className="nav-user-area">
 				<Link to="/profile" className="profile-link">
-					<Avatar username={user!.displayName} />
+					<Avatar
+						type={user!.avatar ? "image" : "custom"}
+						username={user!.displayName}
+						imageLink={user!.avatar}
+					/>
 				</Link>
 
 				<div className="username xxl-visible">{user!.displayName}</div>

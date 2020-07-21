@@ -2,6 +2,9 @@ export interface IUser {
 	username: string;
 	displayName: string;
 	email: string;
+
+	avatar: string | undefined;
+
 	token: string;
 	refreshToken: string;
 }
