@@ -5,6 +5,7 @@ import { IDictionary } from "../../app/models/dictionary";
 import SuccessIcon from "../icons/SuccessIcon";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
+import Divider from "../common/other/Divider";
 
 interface IProps {
 	dictionary: IDictionary;
@@ -50,7 +51,7 @@ const DictionariesListItem: React.FC<IProps> = ({
 					</div>
 				</div>
 
-				<div className="divider vertical" />
+				<Divider vertical />
 
 				<div className="stats-col">
 					<div className="row items-row">
@@ -104,7 +105,7 @@ const DictionariesListItem: React.FC<IProps> = ({
 					</div>
 				</div>
 
-				<div className="divider vertical" />
+				<Divider vertical />
 			</button>
 
 			<div className="actions-col">

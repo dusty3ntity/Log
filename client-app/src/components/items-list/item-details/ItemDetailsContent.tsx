@@ -13,6 +13,7 @@ import DeleteIcon from "../../icons/DeleteIcon";
 import Button from "../../common/inputs/Button";
 import Tooltip from "../../common/tooltips/Tooltip";
 import LearningItemProgress from "../../learning/LearningItemProgress";
+import Divider from "../../common/other/Divider";
 
 interface IProps {
 	item: IItem;
@@ -99,7 +100,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					</Tooltip>
 				</div>
 
-				<div className="divider" />
+				<Divider />
 
 				<div className="translation-row text-row">
 					<Tooltip text={item.translation} position="bottom">

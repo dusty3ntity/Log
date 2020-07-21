@@ -46,7 +46,9 @@ namespace API
                     {
                         policy.AllowAnyHeader()
                             .AllowAnyMethod()
-                            .WithOrigins("http://localhost:3000");
+                            .WithExposedHeaders("WWW-Authenticate")
+                            .WithOrigins("http://localhost:3000")
+                            .AllowCredentials();
                     });
             });
 
@@ -108,6 +110,9 @@ namespace API
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<ILearningListGenerator, LearningListGenerator>();
             services.AddScoped<ILearningListRemover, LearningListRemover>();
+            services.AddScoped<IFacebookAccessor, FacebookAccessor>();
+
+            services.Configure<FacebookAppSettings>(Configuration.GetSection("Authentication:Facebook"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

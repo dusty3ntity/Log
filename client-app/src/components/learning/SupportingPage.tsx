@@ -9,6 +9,7 @@ import InfoIcon from "../icons/InfoIcon";
 import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 import RefreshIcon from "../icons/RefreshIcon";
 import Button from "../common/inputs/Button";
+import Divider from "../common/other/Divider";
 
 interface IProps {
 	className: string;
@@ -56,7 +57,7 @@ const SupportingPage: React.FC<IProps> = ({
 				<span className="year">{date.getFullYear()}</span>
 			</div>
 
-			<div className="divider" />
+			<Divider />
 
 			<div className="content-row row">{content}</div>
 

@@ -23,9 +23,6 @@ namespace Application.Users
             public string Username { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
-
-            public string NativeLanguageCode { get; set; }
-            public string LanguageToLearnCode { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -38,23 +35,6 @@ namespace Application.Users
                 RuleFor(u => u.Email).NotEmpty().MaximumLength(30).EmailAddress();
                 RuleFor(u => u.Password).NotEmpty().MinimumLength(8).MaximumLength(20).Matches("[0-9]")
                     .WithMessage("Password must contain a digit");
-
-                RuleFor(u => u.NativeLanguageCode)
-                    .Must(BeValidLangISOCode)
-                    .WithMessage("Please specify a valid ISO 639-2 language code.");
-                RuleFor(u => u.LanguageToLearnCode)
-                    .Must(BeValidLangISOCode)
-                    .WithMessage("Please specify a valid ISO 639-2 language code.")
-                    .NotEqual(u => u.NativeLanguageCode);
-            }
-
-            private bool BeValidLangISOCode(string languageCode)
-            {
-                if (languageCode == null)
-                    return false;
-                if (languageCode.Length != 3)
-                    return false;
-                return languageCode.All(c => c >= 'a' && c <= 'z');
             }
         }
 
@@ -82,14 +62,6 @@ namespace Application.Users
                 if (await _context.Users.AnyAsync(u => u.NormalizedUserName == normalizedUsername))
                     throw new RestException(HttpStatusCode.BadRequest, ErrorType.DuplicateUsernameFound);
 
-                var knownLanguage = await _context.Languages
-                    .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.NativeLanguageCode));
-                var languageToLearn = await _context.Languages
-                    .SingleOrDefaultAsync(l => l.ISOCode.Equals(request.LanguageToLearnCode));
-
-                if (knownLanguage == null || languageToLearn == null)
-                    throw new RestException(HttpStatusCode.NotFound, ErrorType.LanguageNotFound);
-
                 var user = new AppUser
                 {
                     DisplayName = request.DisplayName,
@@ -97,21 +69,6 @@ namespace Application.Users
                     UserName = request.Username,
                     RefreshToken = _jwtGenerator.GenerateRefreshToken(),
                     RefreshTokenExpiry = DateTime.Now.AddDays(30),
-                    Dictionaries = new List<Dictionary>
-                    {
-                        new Dictionary
-                        {
-                            IsMain = true,
-                            KnownLanguage = knownLanguage,
-                            LanguageToLearn = languageToLearn,
-
-                            PreferredLearningListSize = 50,
-                            CorrectAnswersToItemCompletion = 5,
-                            IsHardModeEnabled = false,
-
-                            Items = new List<Item>()
-                        }
-                    }
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);

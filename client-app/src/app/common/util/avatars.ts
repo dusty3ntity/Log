@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export const getInitials = (username: string) => {
 	const whitespaceIndex = username.indexOf(" ");
 
@@ -9,7 +11,12 @@ export const getInitials = (username: string) => {
 };
 
 export const getStyles = (username: string) => {
-	return avatarStyles[username.charCodeAt(0) % 15];
+	let styles: CSSProperties = avatarStyles[username.charCodeAt(0) % 14];
+	if (username.charAt(0) === username.charAt(0).toUpperCase()) {
+		styles = { ...styles, fontSize: "1.2rem" };
+	}
+
+	return styles;
 };
 
 const avatarStyles = [

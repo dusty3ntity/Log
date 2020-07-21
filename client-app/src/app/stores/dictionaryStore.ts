@@ -58,11 +58,22 @@ export default class DictionaryStore {
 		return this.activeDictionary.id;
 	}
 
+	@action reset = () => {
+		this.extendedDictionariesRegistry = new Map();
+		this.activeExtendedDictionary = undefined;
+	};
+
 	@action loadDictionaries = async () => {
 		this.loadingInitial = true;
 		try {
 			const dictionaries = await agent.Dictionaries.list();
+
 			runInAction("loading dictionaries", () => {
+				if (dictionaries.length === 0) {
+					this.rootStore.commonStore.setNewUser(true);
+					return;
+				}
+
 				this.extendedDictionariesRegistry = new Map();
 
 				dictionaries.forEach((dictionary) => {
@@ -88,7 +99,10 @@ export default class DictionaryStore {
 				return;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[dictionaryStore]@loadDictionaries",
+			});
 		} finally {
 			runInAction("loading dictionaries", () => {
 				this.loadingInitial = false;
@@ -99,13 +113,15 @@ export default class DictionaryStore {
 	@action selectDictionary = (id: string) => {
 		const itemStore = this.rootStore.itemStore;
 
-		this.activeExtendedDictionary!.itemsRegistry = itemStore.itemRegistry;
-		this.activeExtendedDictionary!.activeItem = itemStore.activeItem;
-		this.activeExtendedDictionary!.queryParams = {
-			page: itemStore.page,
-			predicate: itemStore.predicate,
-			queryResultSize: itemStore.queryResultSize,
-		};
+		if (!this.rootStore.commonStore.newUser) {
+			this.activeExtendedDictionary!.itemsRegistry = itemStore.itemRegistry;
+			this.activeExtendedDictionary!.activeItem = itemStore.activeItem;
+			this.activeExtendedDictionary!.queryParams = {
+				page: itemStore.page,
+				predicate: itemStore.predicate,
+				queryResultSize: itemStore.queryResultSize,
+			};
+		}
 
 		this.activeExtendedDictionary = this.extendedDictionariesRegistry.get(id);
 
@@ -160,6 +176,11 @@ export default class DictionaryStore {
 					this.selectDictionary(newDictionary.id);
 				}
 				createNotification(NotificationType.Success, { message: "Dictionary created successfully!" });
+
+				if (this.rootStore.commonStore.newUser) {
+					this.rootStore.commonStore.setNewUser(false);
+				}
+
 				history.push("/items-list");
 			});
 		} catch (err) {
@@ -175,10 +196,14 @@ export default class DictionaryStore {
 				createNotification(NotificationType.Error, {
 					title: "Validation error!",
 					message: "Duplicate dictionary found! Please, refresh the page or contact the administrator.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				console.log(err);
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[dictionaryStore]@createDictionary",
+				});
 			}
 		} finally {
 			runInAction("loading dictionaries", () => {
@@ -204,7 +229,10 @@ export default class DictionaryStore {
 				return;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[dictionaryStore]@editDictionary",
+			});
 
 			return false;
 		} finally {
@@ -236,7 +264,10 @@ export default class DictionaryStore {
 				return false;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[dictionaryStore]@deleteDictionary",
+			});
 
 			return false;
 		} finally {
@@ -263,7 +294,10 @@ export default class DictionaryStore {
 				return;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[dictionaryStore]@setMainDictionary",
+			});
 		} finally {
 			runInAction("setting main dictionary", () => {
 				this.settingMain = false;

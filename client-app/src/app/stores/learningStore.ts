@@ -62,7 +62,10 @@ export default class LearningStore {
 			if (err.code === ErrorType.NotEnoughItemsForLearningListGeneration) {
 				runInAction("onInitialLoad", () => (this.status = LearningStatus.NotEnoughItems));
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[learningStore]@onInitialLoad",
+				});
 			}
 		}
 	};
@@ -94,7 +97,10 @@ export default class LearningStore {
 					nextStatus = LearningStatus.LearningOutdated;
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[learningStore]@onStart",
+				});
 			}
 		} finally {
 			if (!nextStatus) {
@@ -132,10 +138,13 @@ export default class LearningStore {
 			} else if (err.code === ErrorType.LearningItemNotFound) {
 				createNotification(NotificationType.Error, {
 					message: "Item not found! Please, reload the page or contact the administrator.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[learningStore]@onItemSubmit",
+				});
 			}
 		} finally {
 			if (!nextStatus) {
@@ -181,7 +190,10 @@ export default class LearningStore {
 					nextStatus = LearningStatus.LearningOutdated;
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[learningStore]@onNextItem",
+				});
 			}
 		} finally {
 			if (!nextStatus) {
@@ -223,7 +235,10 @@ export default class LearningStore {
 					nextStatus = LearningStatus.LearningOutdated;
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[learningStore]@onStartOver",
+				});
 			}
 		} finally {
 			if (!nextStatus) {
@@ -260,10 +275,13 @@ export default class LearningStore {
 			if (err.code === ErrorType.LearningListOutdated) {
 				createNotification(NotificationType.Error, {
 					message: "Training is outdated again! Press the button one more time or reload the page.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[learningStore]@onOutdatedStart",
+				});
 			}
 		} finally {
 			if (!nextStatus) {

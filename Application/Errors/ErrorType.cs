@@ -15,8 +15,13 @@
         DefaultValidationError = 101,
         BadId = 102,
 
-		Unauthorized = 191,
-        RefreshTokenExpired = 192,
+        Unauthorized = 161,
+        InvalidEmail = 162,
+        InvalidPassword = 163,
+        
+        RefreshTokenExpired = 171,
+
+        FacebookAuthorizationFailed = 181,
         DefaultErrorsBlockEnd = 199,
 
         ValidationBlockStart = 400,
@@ -29,7 +34,7 @@
 
         DuplicateDictionaryFound = 431,
         DuplicateItemFound = 432,
-        
+
         DictionariesLimitReached = 451,
         ItemsLimitReached = 452,
         ValidationBlockEnd = 599,
@@ -44,7 +49,7 @@
         LearningListNotCompleted = 702,
         LearningListCompletedTwoTimes = 703,
         LearningListOutdated = 704,
-        
+
         DuplicateEmailFound = 901,
         DuplicateUsernameFound = 902,
         Unknown = 9999,

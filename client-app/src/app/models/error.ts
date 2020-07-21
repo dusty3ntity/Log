@@ -23,8 +23,12 @@ export enum ErrorType {
 	DefaultValidationError = 101,
 	BadId = 102,
 
-	Unauthorized = 191,
-	RefreshTokenExpired = 192,
+	Unauthorized = 161,
+	InvalidEmail = 162,
+	InvalidPassword = 163,
+    RefreshTokenExpired = 171,
+        
+    FacebookAuthorizationFailed = 181,
 	DefaultErrorsBlockEnd = 199,
 
 	ValidationBlockStart = 400,

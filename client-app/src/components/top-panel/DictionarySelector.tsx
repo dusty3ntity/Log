@@ -9,6 +9,7 @@ import DropdownIcon from "../icons/DropdownIcon";
 import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
 import Tooltip from "../common/tooltips/Tooltip";
+import Divider from "../common/other/Divider";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -43,7 +44,7 @@ const DictionarySelector = () => {
 						/>
 					</Tooltip>
 
-					<div className="divider vertical menu-divider" />
+					<Divider className="menu-divider" vertical />
 
 					<Tooltip text="Total items in dictionary." position="top-end">
 						<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>

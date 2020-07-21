@@ -15,10 +15,11 @@ interface IProps {
 	type: NotificationType;
 	title?: string;
 	message?: string;
-	errors?: any;
+	error?: any;
+	errorOrigin?: string;
 }
 
-const Notification: React.FC<IProps> = ({ className, type, title, message, errors }) => {
+const Notification: React.FC<IProps> = ({ className, type, title, message, error, errorOrigin }) => {
 	if (!title) {
 		switch (type) {
 			case NotificationType.Info:
@@ -40,11 +41,19 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 	}
 
 	if (type === NotificationType.UnknownError) {
-		message = "Please, copy this data and send it to the administrator for a quick fix.";
+		if (error) {
+			message = "Please, copy the data (the button above) and send it to the administrator for a quick fix.";
+		} else {
+			message = "An unknown error occurred... Please, refresh the page or contact the administrator.";
+		}
 	}
 
-	if (errors) {
-		errors = createCustomError(errors);
+	if (error) {
+		error = createCustomError(error);
+	}
+
+	if (!error && errorOrigin) {
+		error = errorOrigin;
 	}
 
 	return (
@@ -59,10 +68,10 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 			<div className="content-container">
 				<div className="title-container">
 					<span className="title">{title}</span>
-					{errors && (
+					{(error || errorOrigin) && (
 						<Button
 							className="copy-err-btn"
-							onClick={() => copy(JSON.stringify(errors, null, "\t"))}
+							onClick={() => copy(JSON.stringify(error, null, "\t"))}
 							icon={<CopyIcon />}
 						/>
 					)}

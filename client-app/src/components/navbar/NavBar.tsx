@@ -11,6 +11,7 @@ import SettingsIcon from "../icons/SettingsIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import Avatar from "./Avatar";
+import Divider from "../common/other/Divider";
 
 const NavBar = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -30,12 +31,12 @@ const NavBar = () => {
 				<NavItem link="/items-list" name="Items list" icon={<ListIcon className="nav-icon" />} />
 				<NavItem link="/statistics" name="Statistics" icon={<StatisticsIcon classNames="nav-icon" />} />
 
-				<div className="divider invisible nav-divider" />
+				<Divider className="nav-divider" invisible />
 
 				{/* <NavItem link="/community" name="Community" icon={<CommunityIcon classNames="nav-icon" />} />
 				<NavItem link="/packs" name="My Packs" icon={<MyPacksIcon classNames="nav-icon" />} />
 
-				<div className="divider invisible nav-divider" /> */}
+				<Divider className="nav-divider" invisible /> */}
 
 				<NavItem link="/settings" name="Settings" icon={<SettingsIcon classNames="nav-icon" />} />
 				<NavItem button onClick={logout} name="Logout" icon={<LogoutIcon classNames="nav-icon" />} />
@@ -43,10 +44,10 @@ const NavBar = () => {
 
 			<div className="nav-user-area">
 				<Link to="/profile" className="profile-link">
-					<Avatar username={user!.username} />
+					<Avatar username={user!.displayName} />
 				</Link>
 
-				<div className="username xxl-visible">{user!.username}</div>
+				<div className="username xxl-visible">{user!.displayName}</div>
 
 				{/* <Link to="/" className="btn upgrade-btn xxl-visible">
 					Upgrade

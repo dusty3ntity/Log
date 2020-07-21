@@ -8,6 +8,7 @@ import LearningItemProgress from "./LearningItemProgress";
 import StarIcon from "../icons/StarIcon";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
+import Divider from "../common/other/Divider";
 // import HintIcon from "../icons/HintIcon";
 
 interface IProps {
@@ -71,7 +72,7 @@ const LearningCardFront: React.FC<IProps> = ({
 					<h1 className={`task text ${textSizeClass}`}>{item.item}</h1>
 				</div>
 
-				<div className="divider invisible" />
+				<Divider invisible />
 
 				<div className="answer-row form-item">
 					<label htmlFor="answer">

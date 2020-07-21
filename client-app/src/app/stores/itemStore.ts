@@ -75,6 +75,10 @@ export default class ItemStore {
 	};
 
 	@action loadItems = async () => {
+		if (this.rootStore.commonStore.newUser) {
+			return;
+		}
+
 		if (this.page === 0) {
 			this.loadingInitial = true;
 		} else {
@@ -98,7 +102,10 @@ export default class ItemStore {
 				return;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[itemStore]@loadItems",
+			});
 		} finally {
 			runInAction("loading items", () => {
 				if (this.page === 0) {
@@ -130,7 +137,10 @@ export default class ItemStore {
 					return;
 				}
 
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[itemStore]@loadItem",
+				});
 			} finally {
 				runInAction("loading item", () => {
 					this.loadingItem = false;
@@ -212,16 +222,19 @@ export default class ItemStore {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else if (err.code === ErrorType.ItemDefinitionContainsOriginalOrTranslation) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's definition contains either original or translation. Contact the administrator if I'm wrong.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[itemStore]@createItem",
+				});
 			}
 
 			return false;
@@ -270,16 +283,19 @@ export default class ItemStore {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else if (err.code === ErrorType.ItemDefinitionContainsOriginalOrTranslation) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's definition contains either original or translation. Contact the administrator if I'm wrong.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[itemStore]@editItem",
+				});
 			}
 
 			return false;
@@ -307,7 +323,10 @@ export default class ItemStore {
 				return;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[itemStore]@deleteItem",
+			});
 		} finally {
 			runInAction("deleting item", () => (this.deleting = false));
 		}
@@ -330,7 +349,10 @@ export default class ItemStore {
 				return;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[itemStore]@starItemById",
+			});
 		} finally {
 			runInAction("starring item", () => {
 				this.starring = false;
@@ -356,7 +378,10 @@ export default class ItemStore {
 				return;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, {
+				error: err.body,
+				errorOrigin: "[itemStore]@unstarItemById",
+			});
 		} finally {
 			runInAction("unstarring item", () => {
 				this.starring = false;

@@ -8,6 +8,7 @@ import StarIcon from "../../icons/StarIcon";
 import Button from "../../common/inputs/Button";
 import Tooltip from "../../common/tooltips/Tooltip";
 import LearningItemProgress from "../../learning/LearningItemProgress";
+import Divider from "../../common/other/Divider";
 
 interface IProps {
 	item: IItem;
@@ -49,7 +50,8 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 					<div className="text original">{item.original}</div>
 				</Tooltip>
 
-				<div className="divider vertical" />
+				<Divider vertical />
+
 				<Tooltip text={item.translation} position="top">
 					<div className="text translation">{item.translation}</div>
 				</Tooltip>

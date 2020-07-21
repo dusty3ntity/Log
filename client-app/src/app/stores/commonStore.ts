@@ -34,10 +34,15 @@ export default class CommonStore {
 	@observable token: string | null = window.localStorage.getItem("jwt");
 	@observable refreshToken: string | null = window.localStorage.getItem("refreshToken");
 	@observable appLoaded = false;
+	@observable newUser = false;
 
 	@action setToken = (token: string | null) => {
 		window.localStorage.setItem("jwt", token!);
 		this.token = token;
+	};
+
+	@action setNewUser = (value: boolean) => {
+		this.newUser = value;
 	};
 
 	@action setRefreshToken = (refreshToken: string | null) => {
@@ -49,6 +54,8 @@ export default class CommonStore {
 		const itemStore = this.rootStore.itemStore;
 		const dictionaryStore = this.rootStore.dictionaryStore;
 		const userStore = this.rootStore.userStore;
+		this.setNewUser(false);
+		dictionaryStore.reset();
 		itemStore.reset();
 		try {
 			await userStore.getUser();

@@ -7,7 +7,8 @@ import Notification from "../../../components/common/notifications/Notification"
 interface IOptionalProps {
 	title?: string;
 	message?: string;
-	errors?: string;
+	error?: any;
+	errorOrigin?: string;
 	className?: string;
 }
 
@@ -17,7 +18,8 @@ export const createNotification = (type: NotificationType, options?: IOptionalPr
 			type: type,
 			title: options?.title,
 			message: options?.message,
-			errors: options?.errors,
+			error: options?.error,
+			errorOrigin: options?.errorOrigin,
 			className: options?.className,
 		})
 	);

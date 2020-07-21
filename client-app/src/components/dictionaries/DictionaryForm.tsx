@@ -56,7 +56,7 @@ const DictionaryForm: React.FC<IProps> = ({
 				languageToLearnCode: languageToLearn!.isoCode,
 				preferredLearningListSize: preferredLearningListSize,
 				correctAnswersToItemCompletion: requiredCorrectAnswersNumber,
-				isMain: isMain,
+				isMain: rootStore.commonStore.newUser ? true : isMain,
 				isHardModeEnabled: isHardModeEnabled,
 			};
 
@@ -248,7 +248,7 @@ const DictionaryForm: React.FC<IProps> = ({
 					/>
 				</div>
 
-				{!dictionary && (
+				{!dictionary && !rootStore.commonStore.newUser && (
 					<div className="is-main toggle-item form-item">
 						<Tooltip text="Main dictionary loads initially on each application start." position="top-start">
 							<label>Is this my main dictionary:</label>

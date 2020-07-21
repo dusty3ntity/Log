@@ -3,6 +3,7 @@ import { Checkbox, Badge } from "antd";
 import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import Divider from "../../common/other/Divider";
 
 interface IProps {
 	classNames: string;
@@ -43,7 +44,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 					</Checkbox>
 				</div>
 
-				<div className="divider" />
+				<Divider />
 
 				<div className="filters-category">
 					<h2 className="category-title">Progress</h2>
