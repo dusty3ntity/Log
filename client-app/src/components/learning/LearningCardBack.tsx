@@ -9,6 +9,7 @@ import ErrorIcon from "../icons/ErrorIcon";
 import StarIcon from "../icons/StarIcon";
 import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 import Button from "../common/inputs/Button";
+import Divider from "../common/other/Divider";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
@@ -67,7 +68,7 @@ const LearningCardBack: React.FC<IProps> = ({
 					<h1 className={`task text ${itemSizeClass}`}>{item.item}</h1>
 				</div>
 
-				<div className="divider invisible" />
+				<Divider invisible />
 
 				<div className="answer-row">
 					<h2
@@ -77,7 +78,7 @@ const LearningCardBack: React.FC<IProps> = ({
 					>
 						{learningItemResult.userAnswer}
 					</h2>
-					<div className="divider invisible" />
+					<Divider invisible />
 					{!learningItemResult.isAnswerCorrect && (
 						<h3 className={`answer text correct-answer ${answerSizeClass}`}>{item.answer}</h3>
 					)}

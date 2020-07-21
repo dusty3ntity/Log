@@ -1,5 +1,5 @@
-@import "./login";
-@import "./registration";
+@import "./user-form";
+@import "./provider-button";
 
 .user-form {
 	height: 80%;
@@ -13,14 +13,20 @@
 	}
 }
 
-@media (max-width: @md-end) {
+@media (max-width: @xl-end) {
 	.user-form {
-		width: 80%;
+		height: 90%;
 	}
 }
 
 @media (max-width: @lg-end) {
 	.user-form {
 		width: 60%;
+	}
+}
+
+@media (max-width: @md-end) {
+	.user-form {
+		width: 80%;
 	}
 }

@@ -8,6 +8,7 @@ import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import DropdownIcon from "../icons/DropdownIcon";
 import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
+import Divider from "../common/other/Divider";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -38,7 +39,7 @@ const DictionarySelector = () => {
 						alt={dictionary.languageToLearn.isoCode}
 					/>
 
-					<div className="divider vertical menu-divider" />
+					<Divider className="menu-divider" vertical />
 
 					<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
 				</Menu.Item>

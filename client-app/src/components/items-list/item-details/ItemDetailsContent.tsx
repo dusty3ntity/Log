@@ -11,6 +11,7 @@ import StarIcon from "../../icons/StarIcon";
 import EditIcon from "../../icons/EditIcon";
 import DeleteIcon from "../../icons/DeleteIcon";
 import Button from "../../common/inputs/Button";
+import Divider from "../../common/other/Divider";
 
 interface IProps {
 	item: IItem;
@@ -71,7 +72,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					</TextEllipsis>
 				</div>
 
-				<div className="divider" />
+				<Divider />
 
 				<div className="translation-row text-row">
 					<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>

@@ -1,0 +1,37 @@
+.divider {
+	background: @body-background-darker;
+	height: 2px;
+	width: 100%;
+	margin: 12px 0;
+	border-radius: 50%;
+
+	&.vertical {
+		width: 2px;
+		height: 100%;
+		margin: 0 12px;
+	}
+
+	&.invisible {
+		visibility: hidden;
+	}
+}
+
+.text-divider {
+	display: flex;
+	align-items: center;
+
+	.divider-left {
+		border-radius: 50% 0 0 50%;
+	}
+
+	.divider-right {
+		border-radius: 0 50% 50% 0;
+	}
+
+	.divider-text {
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: #88878b;
+		margin: 0 1rem;
+	}
+}

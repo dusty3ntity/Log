@@ -16,6 +16,8 @@ export default class UserStore {
 	}
 
 	@observable submitting = false;
+	@observable loadingTarget: string | undefined;
+
 	@observable user: IUser | null = null;
 
 	@computed get isLoggedIn() {
@@ -23,6 +25,7 @@ export default class UserStore {
 	}
 
 	@action login = async (formData: ILoginUser) => {
+		this.loadingTarget = "login";
 		this.submitting = true;
 		try {
 			const user = await agent.Users.login(formData);
@@ -41,19 +44,24 @@ export default class UserStore {
 			if (err.body.status === 401) {
 				createNotification(NotificationType.Error, {
 					message: "User's email or password are incorrect! Please, try again or contact the administrator.",
-					errors: err.body,
+					error: err.body,
 				});
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[userStore]@login",
+				});
 			}
 		} finally {
 			runInAction("logging in", () => {
 				this.submitting = false;
+				this.loadingTarget = undefined;
 			});
 		}
 	};
 
 	@action register = async (values: IRegisterUser) => {
+		this.loadingTarget = "register";
 		this.submitting = true;
 		try {
 			const user = await agent.Users.register(values);
@@ -63,7 +71,7 @@ export default class UserStore {
 				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
 			});
 			await this.rootStore.commonStore.onInitialLoad();
-			history.push("/items-list");
+			history.push("/new-dictionary");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
@@ -73,21 +81,25 @@ export default class UserStore {
 				if (err.code === ErrorType.DuplicateEmailFound) {
 					createNotification(NotificationType.Error, {
 						message: "This email is already in use! Please, choose another one.",
-						errors: err.body,
+						error: err.body,
 					});
 				}
 				if (err.code === ErrorType.DuplicateUsernameFound) {
 					createNotification(NotificationType.Error, {
 						message: "This username is already in use! Please, choose another one.",
-						errors: err.body,
+						error: err.body,
 					});
 				}
 			} else {
-				createNotification(NotificationType.UnknownError, { errors: err.body });
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[userStore]@register",
+				});
 			}
 		} finally {
 			runInAction("registering user", () => {
 				this.submitting = false;
+				this.loadingTarget = undefined;
 			});
 		}
 	};
@@ -103,7 +115,7 @@ export default class UserStore {
 				throw err;
 			}
 
-			createNotification(NotificationType.UnknownError, { errors: err.body });
+			createNotification(NotificationType.UnknownError, { error: err.body, errorOrigin: "[userStore]@getUser" });
 		}
 	};
 
@@ -112,5 +124,50 @@ export default class UserStore {
 		this.rootStore.commonStore.setRefreshToken(null);
 		this.user = null;
 		history.push("/login");
+	};
+
+	@action facebookLogin = async (response: any) => {
+		this.loadingTarget = "facebook";
+		this.submitting = true;
+
+		try {
+			const user = await agent.Users.facebookLogin(response.accessToken);
+			runInAction("logging user in with facebook", () => {
+				this.user = user;
+				this.rootStore.commonStore.setToken(user.token);
+				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
+			});
+			await this.rootStore.commonStore.onInitialLoad();
+			history.push("/items-list");
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.body.status === 400) {
+				if (err.code === ErrorType.DuplicateEmailFound) {
+					createNotification(NotificationType.Error, {
+						message: "This email is already in use! Please, choose another one.",
+						error: err.body,
+					});
+				}
+				if (err.code === ErrorType.DuplicateUsernameFound) {
+					createNotification(NotificationType.Error, {
+						message: "This username is already in use! Please, choose another one.",
+						error: err.body,
+					});
+				}
+			} else {
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[userStore]@facebookLogin",
+				});
+			}
+		} finally {
+			runInAction("logging user in with facebook", () => {
+				this.submitting = false;
+				this.loadingTarget = undefined;
+			});
+		}
 	};
 }

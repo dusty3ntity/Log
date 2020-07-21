@@ -47,9 +47,23 @@ axios.interceptors.response.use(undefined, (error) => {
 		createNotification(NotificationType.Error, {
 			title: "Authorization error!",
 			message: "Your session has expired! Please, log in again.",
-			errors: error.response,
+			error: error.response,
 		});
-	} else if (error.response.status === 401 && !originalRequest._retry) {
+	} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.InvalidEmail) {
+		createNotification(NotificationType.Error, {
+			title: "Authorization error!",
+			message: "Could not find a user with this email. Check your credentials and try again.",
+		});
+	} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.InvalidPassword) {
+		createNotification(NotificationType.Error, {
+			title: "Authorization error!",
+			message: "The password is incorrect. Check your credentials and try again.",
+		});
+	} else if (
+		error.response.status === 401 &&
+		error.response.headers["www-authenticate"].includes('Bearer error="invalid_token"') &&
+		!originalRequest._retry
+	) {
 		originalRequest._retry = true;
 
 		return axios
@@ -63,6 +77,11 @@ axios.interceptors.response.use(undefined, (error) => {
 				axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
 				return axios(originalRequest);
 			});
+	} else if (error.response.status === 401) {
+		createNotification(NotificationType.Error, {
+			title: "Authorization error!",
+			message: "An authorization error occurred. Please, refresh the page or contact the administrator.",
+		});
 	} else if (error.response.status === 400 && !error.response.data.errors.code) {
 		if (isBadId(error.response)) {
 			injectErrorCode(error.response, ErrorType.BadId);
@@ -70,13 +89,13 @@ axios.interceptors.response.use(undefined, (error) => {
 			createNotification(NotificationType.Error, {
 				title: "Wrong id!",
 				message: "Please, check the id in the address bar or contact the administrator.",
-				errors: error.response,
+				error: error.response,
 			});
 		} else {
 			injectErrorCode(error.response, ErrorType.DefaultValidationError);
 			createNotification(NotificationType.UnknownError, {
 				title: "Validation error!",
-				errors: error.response,
+				error: error.response,
 			});
 		}
 		throw new CustomError(error.response, error.response.data.errors.code);
@@ -92,18 +111,18 @@ axios.interceptors.response.use(undefined, (error) => {
 			createNotification(NotificationType.Error, {
 				title: "Not found!",
 				message: "Dictionary not found! Please, refresh the page or contact the administrator.",
-				errors: error.response,
+				error: error.response,
 			});
 		} else if (code === ErrorType.ItemNotFound) {
 			createNotification(NotificationType.Error, {
 				title: "Not found!",
 				message: "Item not found! Please, refresh the page or contact the administrator.",
-				errors: error.response,
+				error: error.response,
 			});
 		} else {
 			createNotification(NotificationType.UnknownError, {
 				title: "Not found!",
-				errors: error.response,
+				error: error.response,
 			});
 		}
 		history.push("/404");
@@ -114,7 +133,7 @@ axios.interceptors.response.use(undefined, (error) => {
 		}
 		createNotification(NotificationType.Error, {
 			title: "Server error!",
-			message: "A server error occurred. Contact the administrator and make him do something!",
+			message: "A server error occurred. Please, refresh the page or contact the administrator!",
 		});
 		throw new CustomError(error.response, error.response.data.errors.code);
 	}
@@ -175,6 +194,7 @@ const Users = {
 	current: (): Promise<IUser> => requests.get("/user"),
 	login: (user: ILoginUser): Promise<IUser> => requests.post("/user/login", user),
 	register: (user: ILoginUser): Promise<IUser> => requests.post("/user/register", user),
+	facebookLogin: (accessToken: string) => requests.post(`/user/facebook`, { accessToken }),
 };
 
 export default {

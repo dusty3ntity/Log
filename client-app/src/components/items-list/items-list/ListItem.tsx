@@ -6,6 +6,7 @@ import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
 import StarIcon from "../../icons/StarIcon";
 import Button from "../../common/inputs/Button";
+import Divider from "../../common/other/Divider";
 
 interface IProps {
 	item: IItem;
@@ -32,7 +33,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 			<button className="text-container btn" onClick={() => selectItem(item.id)}>
 				<div className="text original">{item.original}</div>
 
-				<div className="divider vertical" />
+				<Divider vertical />
 
 				<div className="text translation">{item.translation}</div>
 			</button>

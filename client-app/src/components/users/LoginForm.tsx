@@ -6,13 +6,17 @@ import ValidationMessage from "../common/forms/ValidationMessage";
 import { ILoginUser } from "../../app/models/user";
 import { minLength, maxLength, isValidEmail } from "../../app/common/forms/formValidators";
 import Button from "../common/inputs/Button";
+import FacebookButton from "./FacebookButton";
+import Divider from "../common/other/Divider";
 
 interface IProps {
 	onSubmit: (user: ILoginUser) => void;
+	facebookHandler: (response: any) => void;
 	submitting: boolean;
+	loadingTarget: string | undefined;
 }
 
-const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
+const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, loadingTarget }) => {
 	const { register, handleSubmit, errors, formState } = useForm<ILoginUser>();
 
 	return (
@@ -20,7 +24,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="title row">Log in</div>
 
-				<div className="divider" />
+				<Divider />
 
 				<div className="inputs-container row">
 					<div className="form-item">
@@ -71,23 +75,26 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 					</div>
 				</div>
 
-				{/* <div className="divider" />
+				<Divider text="OR" />
 
 				<div className="external-providers-container row">
-					<button className="btn google-btn">Log in with Google</button>
+					<FacebookButton
+						text="Log in with Facebook"
+						loading={submitting && loadingTarget === "facebook"}
+						handler={facebookHandler}
+						disabled={submitting}
+					/>
+				</div>
 
-					<button className="btn facebook-btn">Log in with Facebook</button>
-				</div> */}
-
-				<div className="divider invisible" />
+				<Divider invisible />
 
 				<div className="additional-actions-container row"></div>
 
 				<div className="bottom-container row">
-					<div className="registration-container row">
+					<div className="prompt-container row">
 						<span className="prompt">Don't have an account?</span>
 
-						<Link className="registration-link" to="/registration">
+						<Link className="link" to="/registration">
 							Register
 						</Link>
 					</div>
@@ -98,8 +105,10 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
 							primary
 							type="submit"
 							text="Log in"
-							disabled={!formState.dirty || (formState.submitCount > 0 && !formState.isValid)}
-							loading={submitting}
+							disabled={
+								submitting || !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
+							}
+							loading={submitting && loadingTarget === "login"}
 						/>
 					</div>
 				</div>
