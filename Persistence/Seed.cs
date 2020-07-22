@@ -13,6 +13,11 @@ namespace Persistence
         {
             List<AppUser> users = new List<AppUser>();
 
+            if (!context.Languages.Any())
+            {
+                await context.Languages.AddRangeAsync(Languages.GetLanguagesList());
+            }
+
             if (!userManager.Users.Any())
             {
                 var user = new AppUser
@@ -24,28 +29,6 @@ namespace Persistence
 
                 await userManager.CreateAsync(user, "123asd123");
                 users.Add(user);
-            }
-
-            if (!context.Dictionaries.Any())
-            {
-                var languages = new List<Language>
-                {
-                    new Language
-                    {
-                        Name = "English",
-                        ISOCode = "eng"
-                    },
-                    new Language
-                    {
-                        Name = "Русский",
-                        ISOCode = "rus"
-                    },
-                    new Language
-                    {
-                        Name = "Українська",
-                        ISOCode = "ukr"
-                    },
-                };
 
                 var Item1 = new Item
                 {
@@ -203,8 +186,8 @@ namespace Persistence
                 {
                     User = users[0],
                     IsMain = true,
-                    KnownLanguage = languages[1],
-                    LanguageToLearn = languages[0],
+                    KnownLanguageId = 99,
+                    LanguageToLearnId = 21,
                     PhrasesCount = 2,
                     WordsCount = 8,
                     LearnedWordsCount = 3,
@@ -218,7 +201,6 @@ namespace Persistence
                     }
                 };
 
-                await context.Languages.AddRangeAsync(languages);
                 await context.Dictionaries.AddAsync(dictionary);
                 await context.SaveChangesAsync();
             }

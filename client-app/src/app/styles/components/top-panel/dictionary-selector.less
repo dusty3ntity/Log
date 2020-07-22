@@ -95,7 +95,7 @@
 
 		&.active {
 			.arrow-forward-icon {
-				fill: @body-background-darker;
+				fill: @body-background;
 			}
 
 			background: @body-background-darker;
@@ -111,6 +111,11 @@
 		.menu-divider {
 			height: 1.25rem;
 			margin: 0 0.375rem 0 0.625rem;
+
+			& + .tooltip-container {
+				flex-grow: 2;
+				text-align: center;
+			}
 		}
 
 		.items-counter {

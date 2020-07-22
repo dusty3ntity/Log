@@ -125,7 +125,7 @@ namespace API
             app.UseReferrerPolicy(opt => opt.NoReferrer());
             app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
             app.UseXfo(opt => opt.Deny());
-            app.UseCsp(opt =>
+            app.UseCspReportOnly(opt =>
             {
                 opt.BlockAllMixedContent();
                 opt.StyleSources(s => s.Self().UnsafeInline().CustomSources("https://fonts.googleapis.com"));
