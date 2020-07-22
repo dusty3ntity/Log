@@ -6,6 +6,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import DictionaryForm from "./DictionaryForm";
 import { ILanguage, IDictionary } from "../../app/models/dictionary";
 import { languagesList } from "../../app/models/languages";
+import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 
 const NewDictionary = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -69,11 +70,13 @@ const NewDictionary = () => {
 	const resetKnownLanguage = () => {
 		setDisabledLanguagesToLearnList([]);
 		selectKnownLanguage(undefined);
+		fireAnalyticsEvent("Dictionary creation", "Reset the known language");
 	};
 
 	const resetLanguageToLearn = () => {
 		setDisabledKnownLanguagesList([]);
 		selectLanguageToLearn(undefined);
+		fireAnalyticsEvent("Dictionary creation", "Reset the language to learn");
 	};
 
 	return (

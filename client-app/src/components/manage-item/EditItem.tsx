@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { INewItem, IEditItem } from "../../app/models/item";
 import ItemForm from "../common/forms/ItemForm";
+import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 
 const EditItem = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -16,7 +17,9 @@ const EditItem = () => {
 			definition: item.definition,
 			definitionOrigin: item.definitionOrigin,
 		};
+
 		editItem(activeItem!.id, editedItem);
+		fireAnalyticsEvent("Items", "Updated an item");
 	};
 
 	return (

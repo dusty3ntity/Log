@@ -3,6 +3,8 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 
 import Button from "../common/inputs/Button";
 import FacebookIcon from "../icons/FacebookIcon";
+import { createNotification } from "../../app/common/util/notifications";
+import { NotificationType } from "../../app/models/error";
 
 interface IProps {
 	text: string;
@@ -12,10 +14,22 @@ interface IProps {
 }
 
 const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) => {
+	const onClick = (response: any) => {
+		if (response.status === "unknown") {
+			createNotification(NotificationType.Error, {
+				title: "Authorization error!",
+				message: "An authorization error occurred. Please, refresh the page or contact the administrator.",
+			});
+			return;
+		}
+
+		handler(response);
+	};
+
 	return (
 		<FacebookLogin
 			appId="588857195154246"
-			callback={handler}
+			callback={onClick}
 			fields="name,email,picture"
 			render={(renderProps: any) => (
 				<Button
@@ -25,6 +39,10 @@ const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) 
 					disabled={disabled}
 					icon={<FacebookIcon />}
 					onClick={renderProps.onClick}
+
+					analyticsEnabled
+					analyticsCategory="Users"
+					analyticsAction="Signed a user with Facebook"
 				/>
 			)}
 		/>

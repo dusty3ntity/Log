@@ -1,3 +1,5 @@
+import { getExtendedLearningProductivity } from "./../common/util/learning";
+import { fireAnalyticsNonInteractionEvent } from "./../common/analytics/analytics";
 import { observable, action, runInAction } from "mobx";
 
 import { ILearningList, ILearningItem, ILearningItemResult, LearningStatus } from "../models/learning";
@@ -81,7 +83,7 @@ export default class LearningStore {
 					nextStatus = LearningStatus.ItemInput;
 				} else {
 					createNotification(NotificationType.Error, {
-						message: "Synchronization error! Please, reload the page.",
+						message: "Synchronization error! Please, refresh the page.",
 					});
 				}
 			});
@@ -137,7 +139,7 @@ export default class LearningStore {
 				});
 			} else if (err.code === ErrorType.LearningItemNotFound) {
 				createNotification(NotificationType.Error, {
-					message: "Item not found! Please, reload the page or contact the administrator.",
+					message: "Item not found! Please, refresh the page or contact the administrator.",
 					error: err.body,
 				});
 			} else {
@@ -172,10 +174,28 @@ export default class LearningStore {
 					this.isLearningStartOverFlipped = !this.isItemResultFlipped;
 					this.status = LearningStatus.ItemResultLearningStartOver;
 					nextStatus = LearningStatus.LearningStartOver;
+					fireAnalyticsNonInteractionEvent(
+						"Learning",
+						"Completed the training",
+						undefined,
+						getExtendedLearningProductivity(
+							this.learningList!.correctAnswersCount,
+							this.learningList!.totalCompletedItemsCount
+						)
+					);
 				} else if (this.learningList!.timesCompleted === 2) {
 					this.isLearningEndFlipped = !this.isItemResultFlipped;
 					this.status = LearningStatus.ItemResultLearningEnd;
 					nextStatus = LearningStatus.LearningEnd;
+					fireAnalyticsNonInteractionEvent(
+						"Learning",
+						"Completed the training 2 times",
+						undefined,
+						getExtendedLearningProductivity(
+							this.learningList!.correctAnswersCount,
+							this.learningList!.totalCompletedItemsCount
+						)
+					);
 				}
 			});
 		} catch (err) {
@@ -219,7 +239,7 @@ export default class LearningStore {
 					nextStatus = LearningStatus.ItemInput;
 				} else {
 					createNotification(NotificationType.Error, {
-						message: "Synchronization error! Please, reload the page.",
+						message: "Synchronization error! Please, refresh the page.",
 					});
 				}
 			});
@@ -263,7 +283,7 @@ export default class LearningStore {
 					nextStatus = LearningStatus.ItemInput;
 				} else {
 					createNotification(NotificationType.Error, {
-						message: "Synchronization error! Please, reload the page.",
+						message: "Synchronization error! Please, refresh the page.",
 					});
 				}
 			});
@@ -274,7 +294,7 @@ export default class LearningStore {
 
 			if (err.code === ErrorType.LearningListOutdated) {
 				createNotification(NotificationType.Error, {
-					message: "Training is outdated again! Press the button one more time or reload the page.",
+					message: "Training is outdated again! Press the button one more time or refresh the page.",
 					error: err.body,
 				});
 			} else {

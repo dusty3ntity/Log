@@ -10,6 +10,9 @@ interface IOptionalProps {
 	error?: any;
 	errorOrigin?: string;
 	className?: string;
+
+	analyticsErrorDescription?: string;
+	fatalError?: boolean;
 }
 
 export const createNotification = (type: NotificationType, options?: IOptionalProps) => {
@@ -21,6 +24,9 @@ export const createNotification = (type: NotificationType, options?: IOptionalPr
 			error: options?.error,
 			errorOrigin: options?.errorOrigin,
 			className: options?.className,
+
+			analyticsErrorDescription: options?.analyticsErrorDescription,
+			fatalError: options?.fatalError,
 		})
 	);
 };

@@ -148,6 +148,10 @@ const DictionariesListItem: React.FC<IProps> = ({
 								onClick={() => onSetMain(dictionary)}
 								loading={settingMain}
 								disabled={setMainDisabled}
+
+								analyticsEnabled
+								analyticsCategory="Dictionaries"
+								analyticsAction="Set a dictionary as main"
 							/>
 						</Tooltip>
 					)}

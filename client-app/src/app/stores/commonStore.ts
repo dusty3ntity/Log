@@ -50,7 +50,7 @@ export default class CommonStore {
 		this.refreshToken = refreshToken;
 	};
 
-	@action onInitialLoad = async () => {
+	@action onInitialLoad = async (withUser?: boolean) => {
 		const itemStore = this.rootStore.itemStore;
 		const dictionaryStore = this.rootStore.dictionaryStore;
 		const userStore = this.rootStore.userStore;
@@ -58,7 +58,9 @@ export default class CommonStore {
 		dictionaryStore.reset();
 		itemStore.reset();
 		try {
-			await userStore.getUser();
+			if (withUser) {
+				await userStore.getUser();
+			}
 			await dictionaryStore.loadDictionaries();
 			await itemStore.loadItems();
 		} catch (err) {}

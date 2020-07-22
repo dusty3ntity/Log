@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ItemType, INewItem } from "../../app/models/item";
 import ItemForm from "../common/forms/ItemForm";
+import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 
 const { TabPane } = Tabs;
 
@@ -14,8 +15,10 @@ const NewItem = () => {
 
 	const onSubmit = async (item: INewItem, resetForm: () => void) => {
 		const success = await createItem(item);
+
 		if (success) {
 			resetForm();
+			fireAnalyticsEvent("Items", "Created an item");
 		}
 	};
 

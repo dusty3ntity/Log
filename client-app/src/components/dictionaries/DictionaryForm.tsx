@@ -7,6 +7,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILanguage, INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
+import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 
 interface IProps {
 	id: string;
@@ -61,7 +62,28 @@ const DictionaryForm: React.FC<IProps> = ({
 			};
 
 			await onSubmit(newDictionary);
+			fireAnalyticsEvent("Dictionary form", "Created a dictionary");
 		} else {
+			if (preferredLearningListSize !== dictionary.preferredLearningListSize) {
+				fireAnalyticsEvent(
+					"Dictionaries",
+					"Updated the preferred training size",
+					`Prev: ${dictionary.preferredLearningListSize}`,
+					preferredLearningListSize
+				);
+			}
+			if (requiredCorrectAnswersNumber !== dictionary.correctAnswersToItemCompletion) {
+				fireAnalyticsEvent(
+					"Dictionaries",
+					"Updated the required correct answers count",
+					`Prev: ${dictionary.correctAnswersToItemCompletion}`,
+					requiredCorrectAnswersNumber
+				);
+			}
+			if (isHardModeEnabled !== dictionary.isHardModeEnabled) {
+				fireAnalyticsEvent("Dictionaries", "Updated the hardmode", undefined, isHardModeEnabled ? 1 : 0);
+			}
+
 			const editDictionary: IEditDictionary = {
 				preferredLearningListSize: preferredLearningListSize,
 				correctAnswersToItemCompletion: requiredCorrectAnswersNumber,
@@ -69,6 +91,7 @@ const DictionaryForm: React.FC<IProps> = ({
 			};
 
 			const success = await onSubmit(dictionary.id, editDictionary);
+			fireAnalyticsEvent("Dictionary form", "Updated a dictionary");
 
 			if (success) {
 				setDirty(false);
@@ -94,6 +117,7 @@ const DictionaryForm: React.FC<IProps> = ({
 			},
 			onOk() {
 				onDelete!();
+				fireAnalyticsEvent("Dictionaries", "Deleted a dictionary");
 			},
 			cancelButtonProps: {
 				className: "btn modal-btn cancel-btn",
