@@ -163,8 +163,13 @@ axios.interceptors.response.use(
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-const sleep = () => (response: AxiosResponse) =>
-	new Promise<AxiosResponse>((resolve) => setTimeout(() => resolve(response), 2000));
+const sleep = () => (response: AxiosResponse) => {
+	return new Promise<AxiosResponse>((resolve) => {
+		process.env.REACT_APP_ENV === "DEVELOPMENT"
+			? setTimeout(() => resolve(response), 2000)
+			: resolve(response);
+	});
+};
 
 const requests = {
 	get: (url: string) => axios.get(url).then(sleep()).then(responseBody),

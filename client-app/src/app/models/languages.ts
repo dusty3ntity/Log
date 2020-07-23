@@ -1,4 +1,8 @@
-import { ILanguage } from "./dictionary";
+export interface ILanguage {
+	id: number;
+	name: string;
+	isoCode: string;
+}
 
 export const languagesList: ILanguage[] = [
 	{

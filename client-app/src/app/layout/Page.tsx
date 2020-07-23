@@ -1,5 +1,4 @@
 import React, { ReactNode, useContext } from "react";
-import { observer } from "mobx-react-lite";
 import { history } from "../..";
 
 import NavBar from "../../components/navbar/NavBar";
@@ -14,11 +13,9 @@ interface IProps {
 
 const Page: React.FC<IProps> = ({ pageTitle, title, component }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { extendedDictionariesRegistry } = rootStore.dictionaryStore;
 
-	if (extendedDictionariesRegistry?.size === 0 && !history.location.pathname.includes("/new-dictionary")) {
-		document.title = "New dictionary - Log";
-		history.push("/new-dictionary");
+	if (rootStore.commonStore.newUser) {
+		history.push("/before-we-begin");
 		return <div />;
 	}
 
@@ -36,4 +33,4 @@ const Page: React.FC<IProps> = ({ pageTitle, title, component }) => {
 	);
 };
 
-export default observer(Page);
+export default Page;

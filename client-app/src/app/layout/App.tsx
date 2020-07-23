@@ -21,6 +21,8 @@ import PrivateRoute from "./PrivateRoute";
 import LoadingScreen from "../../components/common/loading/LoadingScreen";
 import Soon from "./Soon";
 import { setAnalyticsPageView } from "../common/analytics/analytics";
+import OnboardingPage from "../../components/users/OnboardingPage";
+import AnonymousRedirectPage from "./AnonymousRedirectPage";
 
 function App() {
 	const rootStore = useContext(RootStoreContext);
@@ -59,6 +61,12 @@ function App() {
 					<Switch>
 						<Route exact path="/login" component={LoginPage} />
 						<Route exact path="/registration" component={RegistrationPage} />
+
+						<PrivateRoute exact path="/before-we-begin">
+							<AnonymousRedirectPage>
+								<OnboardingPage />
+							</AnonymousRedirectPage>
+						</PrivateRoute>
 
 						<PrivateRoute exact path="/items-list">
 							<Page title="Items list" pageTitle="Items list" component={<ItemsListPage />} />

@@ -4,7 +4,8 @@ import LanguagesList from "./LanguagesList";
 import LanguagesListDrawer from "./drawers/LanguagesListDrawer";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import DictionaryForm from "./DictionaryForm";
-import { ILanguage, IDictionary } from "../../app/models/dictionary";
+import { IDictionary } from "../../app/models/dictionary";
+import { ILanguage } from "../../app/models/languages";
 import { languagesList } from "../../app/models/languages";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 

@@ -1,20 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 import DictionarySelector from "./DictionarySelector";
 import LearningIcon from "../icons/LearningIcon";
 import PlusIcon from "../icons/PlusIcon";
-import { RootStoreContext } from "../../app/stores/rootStore";
 
 interface IProps {
 	title: string;
 }
 
 const TopPanel: React.FC<IProps> = ({ title }) => {
-	const rootStore = useContext(RootStoreContext);
-	const { newUser } = rootStore.commonStore;
-
 	return (
 		<div id="top-panel">
 			<div id="title-col">
@@ -35,7 +31,9 @@ const TopPanel: React.FC<IProps> = ({ title }) => {
 				</div>
 			</div>
 
-			<div id="dictionary-selector-col">{!newUser && <DictionarySelector />}</div>
+			<div id="dictionary-selector-col">
+				<DictionarySelector />
+			</div>
 		</div>
 	);
 };

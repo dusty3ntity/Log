@@ -2,7 +2,7 @@ import React from "react";
 import { Drawer } from "antd";
 
 import LanguagesList from "../LanguagesList";
-import { ILanguage } from "../../../app/models/dictionary";
+import { ILanguage } from "../../../app/models/languages";
 
 interface IProps {
 	listId: string;

@@ -66,7 +66,7 @@ export default class LearningStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[learningStore]@onInitialLoad",
+					errorOrigin: "[learningStore]~onInitialLoad",
 				});
 			}
 		}
@@ -101,7 +101,7 @@ export default class LearningStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[learningStore]@onStart",
+					errorOrigin: "[learningStore]~onStart",
 				});
 			}
 		} finally {
@@ -145,7 +145,7 @@ export default class LearningStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[learningStore]@onItemSubmit",
+					errorOrigin: "[learningStore]~onItemSubmit",
 				});
 			}
 		} finally {
@@ -212,7 +212,7 @@ export default class LearningStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[learningStore]@onNextItem",
+					errorOrigin: "[learningStore]~onNextItem",
 				});
 			}
 		} finally {
@@ -257,7 +257,7 @@ export default class LearningStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[learningStore]@onStartOver",
+					errorOrigin: "[learningStore]~onStartOver",
 				});
 			}
 		} finally {
@@ -300,7 +300,7 @@ export default class LearningStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[learningStore]@onOutdatedStart",
+					errorOrigin: "[learningStore]~onOutdatedStart",
 				});
 			}
 		} finally {

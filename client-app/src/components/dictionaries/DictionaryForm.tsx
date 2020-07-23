@@ -4,7 +4,8 @@ import { Slider, Switch, Modal } from "antd";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
-import { ILanguage, INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
+import { INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
+import { ILanguage } from "../../app/models/languages";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";

@@ -112,6 +112,8 @@ namespace Application.Dictionaries
                     KnownLanguage = knownLanguage,
                     LanguageToLearn = languageToLearn,
 
+					PhrasesCount = 1,
+
                     PreferredLearningListSize = request.PreferredLearningListSize,
                     CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion,
                     IsHardModeEnabled = request.IsHardModeEnabled,

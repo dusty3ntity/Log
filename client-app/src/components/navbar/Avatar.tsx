@@ -12,14 +12,14 @@ const Avatar: React.FC<IProps> = ({ type, username, imageLink }) => {
 	if (type === "custom") {
 		return (
 			<div className="avatar" style={getStyles(username)}>
-				{getInitials(username)}
+				<span className="avatar-text">{getInitials(username)}</span>
 			</div>
 		);
 	}
 
 	return (
 		<div className="avatar">
-			<img src={imageLink} alt={username} />
+			<img src={imageLink} alt="avatar" />
 		</div>
 	);
 };

@@ -11,9 +11,9 @@ const Divider: React.FC<IProps> = ({ vertical, text, invisible, className }) => 
 	if (text) {
 		return (
 			<div className="text-divider">
-				<div className="divider divider-left" />
+				<hr className="divider divider-left" />
 				<div className="divider-text">{text}</div>
-				<div className="divider divider-right" />
+				<hr className="divider divider-right" />
 			</div>
 		);
 	}
@@ -32,7 +32,11 @@ const Divider: React.FC<IProps> = ({ vertical, text, invisible, className }) => 
 		classNames.push("invisible");
 	}
 
-	return <div className={classNames.join(" ")} />;
+	if (vertical) {
+		return <div className={classNames.join(" ")} />;
+	}
+
+	return <hr className={classNames.join(" ")} />;
 };
 
 export default Divider;

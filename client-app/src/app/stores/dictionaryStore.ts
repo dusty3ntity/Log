@@ -72,6 +72,8 @@ export default class DictionaryStore {
 				if (dictionaries.length === 0) {
 					this.rootStore.commonStore.setNewUser(true);
 					return;
+				} else {
+					this.rootStore.commonStore.setNewUser(false);
 				}
 
 				this.extendedDictionariesRegistry = new Map();
@@ -101,7 +103,7 @@ export default class DictionaryStore {
 
 			createNotification(NotificationType.UnknownError, {
 				error: err.body,
-				errorOrigin: "[dictionaryStore]@loadDictionaries",
+				errorOrigin: "[dictionaryStore]~loadDictionaries",
 			});
 		} finally {
 			runInAction("loading dictionaries", () => {
@@ -113,15 +115,13 @@ export default class DictionaryStore {
 	@action selectDictionary = (id: string) => {
 		const itemStore = this.rootStore.itemStore;
 
-		if (!this.rootStore.commonStore.newUser) {
-			this.activeExtendedDictionary!.itemsRegistry = itemStore.itemRegistry;
-			this.activeExtendedDictionary!.activeItem = itemStore.activeItem;
-			this.activeExtendedDictionary!.queryParams = {
-				page: itemStore.page,
-				predicate: itemStore.predicate,
-				queryResultSize: itemStore.queryResultSize,
-			};
-		}
+		this.activeExtendedDictionary!.itemsRegistry = itemStore.itemRegistry;
+		this.activeExtendedDictionary!.activeItem = itemStore.activeItem;
+		this.activeExtendedDictionary!.queryParams = {
+			page: itemStore.page,
+			predicate: itemStore.predicate,
+			queryResultSize: itemStore.queryResultSize,
+		};
 
 		this.activeExtendedDictionary = this.extendedDictionariesRegistry.get(id);
 
@@ -153,7 +153,7 @@ export default class DictionaryStore {
 					languageToLearn: getLanguageByISOCode(dictionary.languageToLearnCode),
 
 					wordsCount: 0,
-					phrasesCount: 0,
+					phrasesCount: 1,
 					learnedWordsCount: 0,
 					learnedPhrasesCount: 0,
 
@@ -166,7 +166,7 @@ export default class DictionaryStore {
 
 				const newExtendedDictionary = {
 					dictionary: newDictionary,
-					itemsRegistry: new Map(),
+					itemsRegistry: undefined,
 					queryParams: { page: 0, predicate: new Map(), queryResultSize: 0 },
 				};
 
@@ -176,10 +176,6 @@ export default class DictionaryStore {
 					this.selectDictionary(newDictionary.id);
 				}
 				createNotification(NotificationType.Success, { message: "Dictionary created successfully!" });
-
-				if (this.rootStore.commonStore.newUser) {
-					this.rootStore.commonStore.setNewUser(false);
-				}
 
 				history.push("/items-list");
 			});
@@ -203,7 +199,7 @@ export default class DictionaryStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[dictionaryStore]@createDictionary",
+					errorOrigin: "[dictionaryStore]~createDictionary",
 				});
 			}
 		} finally {
@@ -232,7 +228,7 @@ export default class DictionaryStore {
 
 			createNotification(NotificationType.UnknownError, {
 				error: err.body,
-				errorOrigin: "[dictionaryStore]@editDictionary",
+				errorOrigin: "[dictionaryStore]~editDictionary",
 			});
 
 			return false;
@@ -267,7 +263,7 @@ export default class DictionaryStore {
 
 			createNotification(NotificationType.UnknownError, {
 				error: err.body,
-				errorOrigin: "[dictionaryStore]@deleteDictionary",
+				errorOrigin: "[dictionaryStore]~deleteDictionary",
 			});
 
 			return false;
@@ -297,7 +293,7 @@ export default class DictionaryStore {
 
 			createNotification(NotificationType.UnknownError, {
 				error: err.body,
-				errorOrigin: "[dictionaryStore]@setMainDictionary",
+				errorOrigin: "[dictionaryStore]~setMainDictionary",
 			});
 		} finally {
 			runInAction("setting main dictionary", () => {
