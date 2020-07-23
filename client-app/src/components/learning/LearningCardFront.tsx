@@ -9,6 +9,7 @@ import StarIcon from "../icons/StarIcon";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
+import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 // import HintIcon from "../icons/HintIcon";
 
 interface IProps {
@@ -120,7 +121,13 @@ const LearningCardFront: React.FC<IProps> = ({
 					noDisabledStyles
 					text="Submit"
 					onClick={() => {
-						onItemSubmit(answer.replace(/\s+/g, " ").trim());
+						const trimAnswer = answer.replace(/\s+/g, " ").trim();
+						onItemSubmit(trimAnswer);
+						fireAnalyticsEvent(
+							"Learning",
+							"Submitted an item",
+							trimAnswer.length === 0 ? "Empty" : undefined
+						);
 					}}
 					disabled={status > 9}
 					loading={loading}

@@ -1,14 +1,16 @@
 .divider {
-	background: @body-background-darker;
-	height: 2px;
 	width: 100%;
 	margin: 12px 0;
+	border: none;
+	border-top: 2px solid @body-background-darker;
 	border-radius: 50%;
 
 	&.vertical {
 		width: 2px;
 		height: 100%;
 		margin: 0 12px;
+		border: none;
+		background: @body-background-darker;
 	}
 
 	&.invisible {
@@ -19,6 +21,7 @@
 .text-divider {
 	display: flex;
 	align-items: center;
+	margin: 12px 0;
 
 	.divider-left {
 		border-radius: 50% 0 0 50%;

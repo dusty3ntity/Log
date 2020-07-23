@@ -1,9 +1,10 @@
+import { INewDictionary } from "./../models/dictionary";
 import { runInAction } from "mobx";
 import { observable, computed, action } from "mobx";
 import { history } from "../..";
 
 import { RootStore } from "./rootStore";
-import { ILoginUser, IUser, IRegisterUser } from "./../models/user";
+import { ILoginUser, IUser, IRegisterUser, IOnboardingFormData } from "./../models/user";
 import agent from "../api/agent";
 import { createNotification } from "./../common/util/notifications";
 import { ErrorType, NotificationType } from "./../models/error";
@@ -30,6 +31,7 @@ export default class UserStore {
 		try {
 			const user = await agent.Users.login(formData);
 			runInAction("logging in", () => {
+				this.rootStore.commonStore.reset();
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
 				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
@@ -49,7 +51,7 @@ export default class UserStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[userStore]@login",
+					errorOrigin: "[userStore]~login",
 				});
 			}
 		} finally {
@@ -66,12 +68,13 @@ export default class UserStore {
 		try {
 			const user = await agent.Users.register(values);
 			runInAction("registering user", () => {
+				this.rootStore.commonStore.reset();
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
 				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
+				this.rootStore.commonStore.setNewUser(true);
 			});
-			await this.rootStore.commonStore.onInitialLoad();
-			history.push("/new-dictionary");
+			history.push("/before-we-begin");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
 				return;
@@ -93,13 +96,63 @@ export default class UserStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[userStore]@register",
+					errorOrigin: "[userStore]~register",
 				});
 			}
 		} finally {
 			runInAction("registering user", () => {
 				this.submitting = false;
 				this.loadingTarget = undefined;
+			});
+		}
+	};
+
+	@action reset = () => {
+		this.user = null;
+	};
+
+	@action onboardingFormSubmit = async (data: IOnboardingFormData) => {
+		this.submitting = true;
+		try {
+			const newDictionary: INewDictionary = {
+				knownLanguageCode: data.nativeLanguage.isoCode,
+				languageToLearnCode: data.foreignLanguage.isoCode,
+				correctAnswersToItemCompletion: 5,
+				isHardModeEnabled: false,
+				preferredLearningListSize: 50,
+				isMain: true,
+			};
+
+			await agent.Dictionaries.create(newDictionary);
+			await this.rootStore.commonStore.onInitialLoad();
+
+			history.push("/items-list");
+		} catch (err) {
+			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
+				return;
+			}
+
+			if (err.code === ErrorType.DictionariesLimitReached) {
+				createNotification(NotificationType.Error, {
+					message: "Dictionaries limit has been reached! Maximum dictionaries number is 4.",
+					analyticsErrorDescription: "Dictionaries limit reached",
+				});
+			} else if (err.code === ErrorType.DuplicateDictionaryFound) {
+				createNotification(NotificationType.Error, {
+					title: "Validation error!",
+					message: "Duplicate dictionary found! Please, refresh the page or contact the administrator.",
+					error: err.body,
+					analyticsErrorDescription: "Dictionary not found",
+				});
+			} else {
+				createNotification(NotificationType.UnknownError, {
+					error: err.body,
+					errorOrigin: "[userStore]~onboardingFormSubmit",
+				});
+			}
+		} finally {
+			runInAction("onboardingFormSubmit", () => {
+				this.submitting = false;
 			});
 		}
 	};
@@ -115,7 +168,7 @@ export default class UserStore {
 				throw err;
 			}
 
-			createNotification(NotificationType.UnknownError, { error: err.body, errorOrigin: "[userStore]@getUser" });
+			createNotification(NotificationType.UnknownError, { error: err.body, errorOrigin: "[userStore]~getUser" });
 		}
 	};
 
@@ -133,11 +186,13 @@ export default class UserStore {
 		try {
 			const user = await agent.Users.facebookLogin(response.accessToken);
 			runInAction("logging user in with facebook", () => {
+				this.rootStore.commonStore.reset();
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
 				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
 			});
 			await this.rootStore.commonStore.onInitialLoad();
+
 			history.push("/items-list");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -160,7 +215,7 @@ export default class UserStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[userStore]@facebookLogin",
+					errorOrigin: "[userStore]~facebookLogin",
 				});
 			}
 		} finally {
@@ -178,11 +233,13 @@ export default class UserStore {
 		try {
 			const user = await agent.Users.googleLogin(response.code);
 			runInAction("logging user in with google", () => {
+				this.rootStore.commonStore.reset();
 				this.user = user;
 				this.rootStore.commonStore.setToken(user.token);
 				this.rootStore.commonStore.setRefreshToken(user.refreshToken);
 			});
 			await this.rootStore.commonStore.onInitialLoad();
+
 			history.push("/items-list");
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -205,7 +262,7 @@ export default class UserStore {
 			} else {
 				createNotification(NotificationType.UnknownError, {
 					error: err.body,
-					errorOrigin: "[userStore]@googleLogin",
+					errorOrigin: "[userStore]~googleLogin",
 				});
 			}
 		} finally {

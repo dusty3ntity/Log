@@ -5,6 +5,8 @@ import Search from "antd/lib/input/Search";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import FilterIcon from "../../icons/FilterIcon";
 import LoadingIndicator from "../../common/loading/LoadingIndicator";
+import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
+import Button from "../../common/inputs/Button";
 
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -27,13 +29,16 @@ const Header = () => {
 
 		if (!prevValue) {
 			setPredicate("search", value);
+			fireAnalyticsEvent("Items", "Used the item search");
 		} else {
 			if (value.length === 0) {
 				setPredicate("search", undefined);
+				fireAnalyticsEvent("Items", "Reset the item search");
 			}
 
 			if (prevValue !== value) {
 				setPredicate("search", value);
+				fireAnalyticsEvent("Items", "Used the item search");
 			}
 		}
 	};
@@ -49,14 +54,16 @@ const Header = () => {
 			</div>
 
 			<div className="buttons-container">
-				<button
-					className="btn header-btn filters-btn xl-hidden"
+				<Button
+					className="header-btn filters-btn xl-hidden"
 					onClick={showFiltersDrawer}
 					disabled={filtersDrawerVisible}
-				>
-					<FilterIcon />
-					<span>Filters</span>
-				</button>
+					icon={<FilterIcon />}
+					text="Filters"
+					analyticsEnabled
+					analyticsCategory="Items"
+					analyticsAction="Opened the item filters drawer"
+				/>
 
 				<Search
 					key={rootStore.dictionaryStore.activeDictionaryId}

@@ -118,6 +118,10 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 								submitting || !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
 							}
 							loading={submitting && loadingTarget === "login"}
+
+							analyticsEnabled
+							analyticsCategory="Users"
+							analyticsAction="Logged a user in"
 						/>
 					</div>
 				</div>

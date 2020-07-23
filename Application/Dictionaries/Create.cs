@@ -112,11 +112,24 @@ namespace Application.Dictionaries
                     KnownLanguage = knownLanguage,
                     LanguageToLearn = languageToLearn,
 
+					PhrasesCount = 1,
+
                     PreferredLearningListSize = request.PreferredLearningListSize,
                     CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion,
                     IsHardModeEnabled = request.IsHardModeEnabled,
 
-                    Items = new List<Item>()
+                    Items = new List<Item>
+                    {
+                        new Item
+                        {
+                            Original = LanguageHelper.GetHelloByLanguage(languageToLearn.ISOCode),
+                            Translation = LanguageHelper.GetHelloByLanguage(knownLanguage.ISOCode),
+                            Definition = LanguageHelper.GetHelloDefinitionByLanguage(languageToLearn.ISOCode),
+                            DefinitionOrigin = "Log",
+                            Type = ItemType.Phrase,
+                            CreationDate = DateTime.Now,
+                        }
+                    }
                 };
 
                 _context.Dictionaries.Add(dictionary);

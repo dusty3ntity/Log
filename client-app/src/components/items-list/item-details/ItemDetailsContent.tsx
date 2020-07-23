@@ -14,6 +14,7 @@ import Button from "../../common/inputs/Button";
 import Tooltip from "../../common/tooltips/Tooltip";
 import LearningItemProgress from "../../learning/LearningItemProgress";
 import Divider from "../../common/other/Divider";
+import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 
 interface IProps {
 	item: IItem;
@@ -52,6 +53,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			},
 			onOk() {
 				deleteItem();
+				fireAnalyticsEvent("Items", "Deleted an item");
 			},
 			cancelButtonProps: {
 				className: "btn modal-btn cancel-btn",
@@ -150,7 +152,17 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 				>
 					<Button
 						className="star-btn actions-btn"
-						onClick={item.isStarred ? unstarItem : starItem}
+						onClick={
+							item.isStarred
+								? () => {
+										unstarItem();
+										fireAnalyticsEvent("Items", "Unstarred an item");
+								  }
+								: () => {
+										starItem();
+										fireAnalyticsEvent("Items", "Starred an item");
+								  }
+						}
 						icon={<StarIcon className={starredClass} />}
 						loading={starring && loadingTarget.includes(item.id)}
 					/>

@@ -14,15 +14,23 @@ import {
 import Button from "../common/inputs/Button";
 import Divider from "../common/other/Divider";
 import FacebookButton from "./FacebookButton";
+import GoogleButton from "./GoogleButton";
 
 interface IProps {
 	onSubmit: (user: IRegisterUser) => void;
 	facebookHandler: (response: any) => void;
+	googleHandler: (response: any) => void;
 	submitting: boolean;
 	loadingTarget: string | undefined;
 }
 
-const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, loadingTarget }) => {
+const RegistrationForm: React.FC<IProps> = ({
+	onSubmit,
+	submitting,
+	facebookHandler,
+	googleHandler,
+	loadingTarget,
+}) => {
 	const { register, handleSubmit, errors, formState } = useForm<IRegisterUser>();
 
 	const submit = (user: IRegisterUser) => {
@@ -129,6 +137,13 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHand
 						handler={facebookHandler}
 						disabled={submitting}
 					/>
+
+					<GoogleButton
+						text="Log in with Google"
+						loading={submitting && loadingTarget === "google"}
+						handler={googleHandler}
+						disabled={submitting}
+					/>
 				</div>
 
 				<Divider invisible />
@@ -152,6 +167,9 @@ const RegistrationForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHand
 								submitting || !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
 							}
 							loading={submitting && loadingTarget === "register"}
+							analyticsEnabled
+							analyticsCategory="Users"
+							analyticsAction="Registered a user"
 						/>
 					</div>
 				</div>

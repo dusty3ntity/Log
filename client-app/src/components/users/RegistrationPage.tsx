@@ -6,7 +6,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 
 const RegistrationPage = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { register, submitting, facebookLogin, loadingTarget } = rootStore.userStore;
+	const { register, submitting, facebookLogin, googleLogin, loadingTarget } = rootStore.userStore;
 
 	return (
 		<div id="registration-page" className="sign-page">
@@ -14,6 +14,7 @@ const RegistrationPage = () => {
 				onSubmit={register}
 				submitting={submitting}
 				facebookHandler={facebookLogin}
+				googleHandler={googleLogin}
 				loadingTarget={loadingTarget}
 			/>
 		</div>

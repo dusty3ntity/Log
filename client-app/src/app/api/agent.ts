@@ -19,6 +19,7 @@ axios.interceptors.request.use(
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
 		}
+		// config.headers.XRequestDuration = new Date();
 		return config;
 	},
 	(error) => {
@@ -26,125 +27,149 @@ axios.interceptors.request.use(
 	}
 );
 
-axios.interceptors.response.use(undefined, (error) => {
-	if (process.env.REACT_APP_ENV === "DEVELOPMENT") {
-		console.log(error.response);
-	}
+axios.interceptors.response.use(
+	(response) => {
+		// console.log(Number(Date.now() - response.config.headers.XRequestDuration).toFixed());
+		return response;
+	},
+	(error) => {
+		if (process.env.REACT_APP_ENV === "DEVELOPMENT") {
+			console.log(error.response);
+		}
 
-	const originalRequest = error.config;
+		const originalRequest = error.config;
 
-	if (error.message === "Network Error" && !error.response) {
-		createNotification(NotificationType.Error, {
-			title: "Network error!",
-			message: "The server isn't responding... Check your internet connection or contact the administrator.",
-		});
-		throw new CustomError(error.response, ErrorType.ConnectionRefused);
-	} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.RefreshTokenExpired) {
-		window.localStorage.removeItem("jwt");
-		window.localStorage.removeItem("refreshToken");
-		history.push("/login");
-
-		createNotification(NotificationType.Error, {
-			title: "Authorization error!",
-			message: "Your session has expired! Please, log in again.",
-			error: error.response,
-		});
-	} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.InvalidEmail) {
-		createNotification(NotificationType.Error, {
-			title: "Authorization error!",
-			message: "Could not find a user with this email. Check your credentials and try again.",
-		});
-	} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.InvalidPassword) {
-		createNotification(NotificationType.Error, {
-			title: "Authorization error!",
-			message: "The password is incorrect. Check your credentials and try again.",
-		});
-	} else if (
-		error.response.status === 401 &&
-		error.response.headers["www-authenticate"].includes('Bearer error="invalid_token"') &&
-		!originalRequest._retry
-	) {
-		originalRequest._retry = true;
-
-		return axios
-			.post("/user/refresh", {
-				token: window.localStorage.getItem("jwt"),
-				refreshToken: window.localStorage.getItem("refreshToken"),
-			})
-			.then((res) => {
-				window.localStorage.setItem("jwt", res.data.token);
-				window.localStorage.setItem("refreshToken", res.data.refreshToken);
-				axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
-				return axios(originalRequest);
-			});
-	} else if (error.response.status === 401) {
-		createNotification(NotificationType.Error, {
-			title: "Authorization error!",
-			message: "An authorization error occurred. Please, refresh the page or contact the administrator.",
-		});
-	} else if (error.response.status === 400 && !error.response.data.errors.code) {
-		if (isBadId(error.response)) {
-			injectErrorCode(error.response, ErrorType.BadId);
-			history.push("/404");
+		if (error.message === "Network Error" && !error.response) {
 			createNotification(NotificationType.Error, {
-				title: "Wrong id!",
-				message: "Please, check the id in the address bar or contact the administrator.",
+				title: "Network error!",
+				message: "The server isn't responding... Check your internet connection or contact the administrator.",
+				analyticsErrorDescription: "Server isn't responding",
+				fatalError: true,
+			});
+			throw new CustomError(error.response, ErrorType.ConnectionRefused);
+		} else if (
+			error.response.status === 401 &&
+			error.response.data?.errors?.code === ErrorType.RefreshTokenExpired
+		) {
+			window.localStorage.removeItem("jwt");
+			window.localStorage.removeItem("refreshToken");
+			history.push("/login");
+
+			createNotification(NotificationType.Error, {
+				title: "Authorization error!",
+				message: "Your session has expired! Please, log in again.",
 				error: error.response,
 			});
-		} else {
-			injectErrorCode(error.response, ErrorType.DefaultValidationError);
-			createNotification(NotificationType.UnknownError, {
-				title: "Validation error!",
-				error: error.response,
+		} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.InvalidEmail) {
+			createNotification(NotificationType.Error, {
+				title: "Authorization error!",
+				message: "Could not find a user with this email. Check your credentials and try again.",
 			});
-		}
-		throw new CustomError(error.response, error.response.data.errors.code);
-	} else if (error.response.status === 404) {
-		if (!error.response.data.errors.code) {
-			injectErrorCode(error.response, ErrorType.DefaultNotFound);
-		}
-		const code = error.response.data.errors.code;
-		if (code === ErrorType.LearningListNotFound && code === ErrorType.LearningItemNotFound) {
+		} else if (error.response.status === 401 && error.response.data?.errors?.code === ErrorType.InvalidPassword) {
+			createNotification(NotificationType.Error, {
+				title: "Authorization error!",
+				message: "The password is incorrect. Check your credentials and try again.",
+			});
+		} else if (
+			error.response.status === 401 &&
+			error.response.headers["www-authenticate"].includes('Bearer error="invalid_token"') &&
+			!originalRequest._retry
+		) {
+			originalRequest._retry = true;
+
+			return axios
+				.post("/user/refresh", {
+					token: window.localStorage.getItem("jwt"),
+					refreshToken: window.localStorage.getItem("refreshToken"),
+				})
+				.then((res) => {
+					window.localStorage.setItem("jwt", res.data.token);
+					window.localStorage.setItem("refreshToken", res.data.refreshToken);
+					axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+					return axios(originalRequest);
+				});
+		} else if (error.response.status === 401) {
+			createNotification(NotificationType.Error, {
+				title: "Authorization error!",
+				message: "An authorization error occurred. Please, refresh the page or contact the administrator.",
+				analyticsErrorDescription: "Authorization error",
+				fatalError: true,
+			});
+		} else if (error.response.status === 400 && !error.response.data.errors.code) {
+			if (isBadId(error.response)) {
+				injectErrorCode(error.response, ErrorType.BadId);
+				history.push("/404");
+				createNotification(NotificationType.Error, {
+					title: "Wrong id!",
+					message: "Please, check the id in the address bar or contact the administrator.",
+					error: error.response,
+				});
+			} else {
+				injectErrorCode(error.response, ErrorType.DefaultValidationError);
+				createNotification(NotificationType.UnknownError, {
+					title: "Validation error!",
+					error: error.response,
+					analyticsErrorDescription: "Validation error (unknown)",
+					fatalError: true,
+				});
+			}
+			throw new CustomError(error.response, error.response.data.errors.code);
+		} else if (error.response.status === 404) {
+			if (!error.response.data.errors.code) {
+				injectErrorCode(error.response, ErrorType.DefaultNotFound);
+			}
+			const code = error.response.data.errors.code;
+			if (code === ErrorType.LearningListNotFound && code === ErrorType.LearningItemNotFound) {
+				throw new CustomError(error.response, error.response.data.errors.code);
+			}
+			if (code === ErrorType.DictionaryNotFound) {
+				createNotification(NotificationType.Error, {
+					title: "Not found!",
+					message: "Dictionary not found! Please, refresh the page or contact the administrator.",
+					error: error.response,
+				});
+			} else if (code === ErrorType.ItemNotFound) {
+				createNotification(NotificationType.Error, {
+					title: "Not found!",
+					message: "Item not found! Please, refresh the page or contact the administrator.",
+					error: error.response,
+				});
+			} else {
+				createNotification(NotificationType.UnknownError, {
+					title: "Not found!",
+					error: error.response,
+					analyticsErrorDescription: "Not found (unknown)",
+					fatalError: true,
+				});
+			}
+			history.push("/404");
+			throw new CustomError(error.response, error.response.data.errors.code);
+		} else if (error.response.status === 500) {
+			if (!error.response.data.errors.code) {
+				injectErrorCode(error.response, ErrorType.DefaultServerError);
+			}
+			createNotification(NotificationType.Error, {
+				title: "Server error!",
+				message: "A server error occurred. Please, refresh the page or contact the administrator!",
+				analyticsErrorDescription: "Server error",
+				fatalError: true,
+			});
 			throw new CustomError(error.response, error.response.data.errors.code);
 		}
-		if (code === ErrorType.DictionaryNotFound) {
-			createNotification(NotificationType.Error, {
-				title: "Not found!",
-				message: "Dictionary not found! Please, refresh the page or contact the administrator.",
-				error: error.response,
-			});
-		} else if (code === ErrorType.ItemNotFound) {
-			createNotification(NotificationType.Error, {
-				title: "Not found!",
-				message: "Item not found! Please, refresh the page or contact the administrator.",
-				error: error.response,
-			});
-		} else {
-			createNotification(NotificationType.UnknownError, {
-				title: "Not found!",
-				error: error.response,
-			});
-		}
-		history.push("/404");
-		throw new CustomError(error.response, error.response.data.errors.code);
-	} else if (error.response.status === 500) {
-		if (!error.response.data.errors.code) {
-			injectErrorCode(error.response, ErrorType.DefaultServerError);
-		}
-		createNotification(NotificationType.Error, {
-			title: "Server error!",
-			message: "A server error occurred. Please, refresh the page or contact the administrator!",
-		});
-		throw new CustomError(error.response, error.response.data.errors.code);
-	}
 
-	throw new CustomError(error.response, error.response.data.errors.code ?? ErrorType.Unknown);
-});
+		throw new CustomError(error.response, error.response.data.errors.code ?? ErrorType.Unknown);
+	}
+);
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-const sleep = () => (response: AxiosResponse) =>
-	new Promise<AxiosResponse>((resolve) => setTimeout(() => resolve(response), 2000));
+const sleep = () => (response: AxiosResponse) => {
+	return new Promise<AxiosResponse>((resolve) => {
+		process.env.REACT_APP_ENV === "DEVELOPMENT"
+			? setTimeout(() => resolve(response), 2000)
+			: resolve(response);
+	});
+};
 
 const requests = {
 	get: (url: string) => axios.get(url).then(sleep()).then(responseBody),

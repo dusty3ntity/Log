@@ -1,4 +1,6 @@
 import { IItem } from "./item";
+import { ILanguage } from "./languages";
+
 export interface IDictionary {
 	id: string;
 	isMain: boolean;
@@ -45,10 +47,4 @@ export interface IEditDictionary {
 	correctAnswersToItemCompletion: number;
 
 	isHardModeEnabled: boolean;
-}
-
-export interface ILanguage {
-	id: number;
-	name: string;
-	isoCode: string;
 }

@@ -50,21 +50,32 @@ export default class CommonStore {
 		this.refreshToken = refreshToken;
 	};
 
-	@action onInitialLoad = async () => {
-		const itemStore = this.rootStore.itemStore;
-		const dictionaryStore = this.rootStore.dictionaryStore;
+	@action setAppLoaded = () => {
+		this.appLoaded = true;
+	};
+
+	@action reset = () => {
 		const userStore = this.rootStore.userStore;
-		this.setNewUser(false);
+		const dictionaryStore = this.rootStore.dictionaryStore;
+		const itemStore = this.rootStore.itemStore;
+
+		this.newUser = false;
+		userStore.reset();
 		dictionaryStore.reset();
 		itemStore.reset();
+	};
+
+	@action onInitialLoad = async (withUser?: boolean) => {
+		const userStore = this.rootStore.userStore;
+		const dictionaryStore = this.rootStore.dictionaryStore;
+		const itemStore = this.rootStore.itemStore;
+
 		try {
-			await userStore.getUser();
+			if (withUser) {
+				await userStore.getUser();
+			}
 			await dictionaryStore.loadDictionaries();
 			await itemStore.loadItems();
 		} catch (err) {}
-	};
-
-	@action setAppLoaded = () => {
-		this.appLoaded = true;
 	};
 }

@@ -9,6 +9,7 @@ import Button from "../../common/inputs/Button";
 import Tooltip from "../../common/tooltips/Tooltip";
 import LearningItemProgress from "../../learning/LearningItemProgress";
 import Divider from "../../common/other/Divider";
+import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 
 interface IProps {
 	item: IItem;
@@ -45,7 +46,13 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 				<Checkbox className="selector" />
 			</div>
 
-			<button className="text-container btn" onClick={() => selectItem(item.id)}>
+			<button
+				className="text-container btn"
+				onClick={() => {
+					fireAnalyticsEvent("Items", "Selected an item");
+					selectItem(item.id);
+				}}
+			>
 				<Tooltip text={item.original} position="top">
 					<div className="text original">{item.original}</div>
 				</Tooltip>
@@ -69,7 +76,17 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 					<Button
 						className="star-btn actions-btn"
 						icon={<StarIcon className={starredClass} />}
-						onClick={item.isStarred ? () => unstarItemById(item.id) : () => starItemById(item.id)}
+						onClick={
+							item.isStarred
+								? () => {
+										unstarItemById(item.id);
+										fireAnalyticsEvent("Items", "Unstarred an item");
+								  }
+								: () => {
+										starItemById(item.id);
+										fireAnalyticsEvent("Items", "Starred an item");
+								  }
+						}
 						loading={starring && loadingTarget.includes(item.id)}
 					/>
 				</Tooltip>

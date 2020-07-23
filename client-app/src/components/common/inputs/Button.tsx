@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 
 import LoadingIndicator from "../loading/LoadingIndicator";
+import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 
 interface IProps {
 	type?: "button" | "submit" | "reset";
@@ -14,6 +15,12 @@ interface IProps {
 	noDisabledStyles?: boolean;
 	loading?: boolean;
 	rightIcon?: ReactNode;
+
+	analyticsEnabled?: boolean;
+	analyticsCategory?: string;
+	analyticsAction?: string;
+	analyticsLabel?: string;
+	analyticsValue?: number;
 }
 
 const Button: React.FC<IProps> = ({
@@ -28,6 +35,12 @@ const Button: React.FC<IProps> = ({
 	onClick,
 	loading,
 	rightIcon,
+
+	analyticsEnabled,
+	analyticsCategory,
+	analyticsAction,
+	analyticsLabel,
+	analyticsValue,
 }) => {
 	const classNames = ["btn"];
 
@@ -51,12 +64,20 @@ const Button: React.FC<IProps> = ({
 		classNames.push("no-disabled-styles");
 	}
 
+	const handleClick = () => {
+		if (analyticsEnabled) {
+			fireAnalyticsEvent(analyticsCategory!, analyticsAction!, analyticsLabel, analyticsValue);
+		}
+
+		onClick!();
+	};
+
 	return (
 		<button
 			className={classNames.join(" ")}
 			type={type ? type : "button"}
 			disabled={disabled || loading}
-			onClick={onClick}
+			onClick={onClick ? handleClick : undefined}
 		>
 			{!loading ? icon : <LoadingIndicator type="small" />}
 			{text && <span>{text}</span>}

@@ -10,6 +10,7 @@ import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
+import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 
 const DictionarySelector = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -24,6 +25,7 @@ const DictionarySelector = () => {
 					disabled={activeDictionary.id === dictionary.id}
 					onClick={() => {
 						selectDictionary(dictionary.id);
+						fireAnalyticsEvent("Dictionaries", "Switched a dictionary");
 					}}
 				>
 					<Tooltip text="Language you know." position="top">

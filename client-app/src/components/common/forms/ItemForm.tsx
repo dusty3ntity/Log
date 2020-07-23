@@ -12,6 +12,7 @@ import StarIcon from "../../icons/StarIcon";
 import MinusIcon from "../../icons/MinusIcon";
 import Button from "../inputs/Button";
 import Tooltip from "../tooltips/Tooltip";
+import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 
 interface IProps {
 	type: ItemType;
@@ -38,6 +39,11 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit, submitting })
 
 	const handleDefinitionButton = () => {
 		setValue("definition", null);
+		fireAnalyticsEvent(
+			"Item form",
+			definitionActivated ? "Deactivated the definition input" : "Activated the definition input",
+			item ? "Update item" : "Create item"
+		);
 		setDefinitionActivated(!definitionActivated);
 	};
 
@@ -176,6 +182,7 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit, submitting })
 							setDefinitionActivated(item.definition ? true : false);
 							reset(item);
 						}
+						fireAnalyticsEvent("Item form", "Reset the form");
 					}}
 					disabled={!formState.dirty}
 				>
@@ -207,6 +214,10 @@ const NewItemForm: React.FC<IProps> = ({ type, id, item, onSubmit, submitting })
 								className="btn definition-actions-btn star-btn round"
 								type="button"
 								onClick={() => {
+									fireAnalyticsEvent(
+										"Item Form",
+										isStarred ? "Unstarred an item" : "Starred an item"
+									);
 									setStarred(!isStarred);
 								}}
 							>

@@ -10,6 +10,7 @@ import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 import RefreshIcon from "../icons/RefreshIcon";
 import Button from "../common/inputs/Button";
 import Divider from "../common/other/Divider";
+import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 
 interface IProps {
 	className: string;
@@ -73,9 +74,12 @@ const SupportingPage: React.FC<IProps> = ({
 							className="actions-btn, start-btn"
 							primary
 							noDisabledStyles
-							text={learningList?.completedItemsCount === 0 ? "Start" : "Continue"}
+							text="Start"
 							rightIcon={<ArrowForwardSmallIcon />}
-							onClick={onClick}
+							onClick={() => {
+								onClick!();
+								fireAnalyticsEvent("Learning", "Started a training");
+							}}
 							disabled={status > 9}
 							loading={loading}
 						/>
@@ -88,7 +92,10 @@ const SupportingPage: React.FC<IProps> = ({
 							noDisabledStyles
 							text="Continue"
 							rightIcon={<ArrowForwardSmallIcon />}
-							onClick={onClick}
+							onClick={() => {
+								onClick!();
+								fireAnalyticsEvent("Learning", "Resumed a training");
+							}}
 							disabled={status > 9}
 							loading={loading}
 						/>
@@ -102,7 +109,10 @@ const SupportingPage: React.FC<IProps> = ({
 								noDisabledStyles
 								text="Start over"
 								rightIcon={<RefreshIcon />}
-								onClick={onClick}
+								onClick={() => {
+									onClick!();
+									fireAnalyticsEvent("Learning", "Started a training over");
+								}}
 								disabled={status > 9}
 								loading={loading}
 							/>

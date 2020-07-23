@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import Divider from "../../common/other/Divider";
+import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 
 interface IProps {
 	classNames: string;
@@ -16,8 +17,10 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 	const handleCheckboxClick = (name: string) => {
 		if (predicate.get(name)) {
 			setPredicate(name, undefined);
+			fireAnalyticsEvent("Items", "Disabled an item filter", name);
 		} else {
 			setPredicate(name, true);
+			fireAnalyticsEvent("Items", "Enabled an item filter", name);
 		}
 	};
 

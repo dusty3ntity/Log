@@ -1,3 +1,5 @@
+import { ILanguage } from "./languages";
+
 export interface IUser {
 	username: string;
 	displayName: string;
@@ -22,4 +24,9 @@ export interface IRegisterUser {
 export interface ILoginUser {
 	email: string;
 	password: string;
+}
+
+export interface IOnboardingFormData {
+	nativeLanguage: ILanguage;
+	foreignLanguage: ILanguage;
 }
