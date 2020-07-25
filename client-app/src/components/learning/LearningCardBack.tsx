@@ -17,6 +17,7 @@ interface IProps {
 	correctAnswersToItemCompletion: number;
 	prevCorrectAnswersToCompletionCount: number;
 	learningItemResult: ILearningItemResult;
+	isHardModeEnabled: boolean;
 	progressAnimated: boolean;
 	secondTraining: boolean;
 	loading: boolean;
@@ -26,6 +27,7 @@ const LearningCardBack: React.FC<IProps> = ({
 	correctAnswersToItemCompletion,
 	prevCorrectAnswersToCompletionCount,
 	learningItemResult,
+	isHardModeEnabled,
 	progressAnimated,
 	secondTraining,
 	loading,
@@ -67,7 +69,7 @@ const LearningCardBack: React.FC<IProps> = ({
 					<LearningItemProgressAnimated
 						total={correctAnswersToItemCompletion}
 						checked={prevCorrectAnswersToCompletionCount}
-						mode="difficult"
+						isHardModeEnabled={isHardModeEnabled}
 						answerCorrect={learningItemResult.isAnswerCorrect}
 						animated={progressAnimated}
 						secondTraining={secondTraining}

@@ -32,6 +32,8 @@ const Learning = () => {
 		learningList,
 		learningItem,
 		learningItemResult,
+
+		prevCorrectAnswersToCompletionCount,
 	} = rootStore.learningStore;
 
 	useEffect(() => {
@@ -67,13 +69,14 @@ const Learning = () => {
 						Math.floor(status / 10) === LearningStatus.ItemResult) && (
 						<LearningCardBack
 							correctAnswersToItemCompletion={learningList!.correctAnswersToItemCompletion}
-							prevCorrectAnswersToCompletionCount={learningItem!.item.correctAnswersToCompletionCount}
+							prevCorrectAnswersToCompletionCount={prevCorrectAnswersToCompletionCount}
 							learningItemResult={learningItemResult!}
 							progressAnimated={status === 3 || Math.floor(status / 10) === 3}
 							secondTraining={
 								(learningList!.timesCompleted === 1 && !learningList!.isCompleted) ||
 								(learningList!.timesCompleted === 2 && learningList!.isCompleted)
 							}
+							isHardModeEnabled={learningList!.isHardModeEnabled}
 							loading={loading}
 						/>
 					)}

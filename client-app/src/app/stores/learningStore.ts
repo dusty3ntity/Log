@@ -27,6 +27,8 @@ export default class LearningStore {
 	@observable isLearningEndFlipped = false;
 	@observable isLearningOutdatedFlipped = false;
 
+	@observable prevCorrectAnswersToCompletionCount = 0;
+
 	@observable loading = false;
 	@observable learningList: ILearningList | undefined;
 	@observable learningItem: ILearningItem | undefined;
@@ -349,6 +351,7 @@ export default class LearningStore {
 					this.learningItem = undefined;
 				} else {
 					this.learningItem = learningItem;
+					this.prevCorrectAnswersToCompletionCount = learningItem.item.correctAnswersToCompletionCount;
 				}
 			});
 		} catch (err) {

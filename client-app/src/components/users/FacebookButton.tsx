@@ -19,6 +19,7 @@ const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) 
 			createNotification(NotificationType.Error, {
 				title: "Authorization error!",
 				message: "An authorization error occurred. Please, refresh the page or contact the administrator.",
+				errorOrigin: "facebook-button",
 			});
 			return;
 		}
@@ -39,7 +40,6 @@ const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) 
 					disabled={disabled}
 					icon={<FacebookIcon />}
 					onClick={renderProps.onClick}
-
 					analyticsEnabled
 					analyticsCategory="Users"
 					analyticsAction="Signed a user with Facebook"

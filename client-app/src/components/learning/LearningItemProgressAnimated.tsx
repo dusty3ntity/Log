@@ -3,7 +3,7 @@ import React from "react";
 interface IProps {
 	total: number;
 	checked: number;
-	mode: "easy" | "difficult";
+	isHardModeEnabled: boolean;
 	answerCorrect?: boolean;
 	animated?: boolean;
 	secondTraining: boolean;
@@ -12,7 +12,7 @@ interface IProps {
 const LearningItemProgressAnimated: React.FC<IProps> = ({
 	total,
 	checked,
-	mode,
+	isHardModeEnabled,
 	answerCorrect,
 	animated,
 	secondTraining,
@@ -37,9 +37,11 @@ const LearningItemProgressAnimated: React.FC<IProps> = ({
 			active++;
 		}
 	} else {
-		if (mode === "easy" && checked > 0) {
+		if (!isHardModeEnabled && checked > 0) {
 			for (let i = 0; i < checked - 1; i++) {
-				dots.push(<span className="progress-dot active" key={i} />);
+				dots.push(
+					<span className={`progress-dot active ${secondTraining ? "second-training" : ""}`} key={i} />
+				);
 			}
 			dots.push(
 				<span
