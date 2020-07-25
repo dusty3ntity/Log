@@ -23,6 +23,10 @@ namespace Domain
         public int CorrectAnswersCount { get; set; }
         
         public int CorrectAnswersToCompletionCount { get; set; }
+        
         public bool GoesForNextDay { get; set; }
+
+        public DateTime? LastLearnedRepeatDate { get; set; }
+        public int LearnedRepeatsCount { get; set; }
     }
 }

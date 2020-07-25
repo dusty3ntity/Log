@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialCreateNew : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -226,7 +226,9 @@ namespace Persistence.Migrations
                     TotalRepeatsCount = table.Column<int>(nullable: false),
                     CorrectAnswersCount = table.Column<int>(nullable: false),
                     CorrectAnswersToCompletionCount = table.Column<int>(nullable: false),
-                    GoesForNextDay = table.Column<bool>(nullable: false)
+                    GoesForNextDay = table.Column<bool>(nullable: false),
+                    LastLearnedRepeatDate = table.Column<DateTime>(nullable: true),
+                    LearnedRepeatsCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

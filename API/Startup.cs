@@ -108,7 +108,7 @@ namespace API
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
-            services.AddScoped<ILearningListGenerator, LearningListGenerator>();
+            services.AddScoped<ILearningListGenerator, LearningListGenerationHandler>();
             services.AddScoped<ILearningListRemover, LearningListRemover>();
             services.AddScoped<IFacebookAccessor, FacebookAccessor>();
             services.AddScoped<IGoogleAccessor, GoogleAccessor>();
