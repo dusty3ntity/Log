@@ -138,12 +138,12 @@ const RegistrationForm: React.FC<IProps> = ({
 						disabled={submitting}
 					/>
 
-					<GoogleButton
+					{/* <GoogleButton
 						text="Log in with Google"
 						loading={submitting && loadingTarget === "google"}
 						handler={googleHandler}
 						disabled={submitting}
-					/>
+					/> */}
 				</div>
 
 				<Divider invisible />

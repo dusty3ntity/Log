@@ -87,12 +87,12 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 						disabled={submitting}
 					/>
 
-					<GoogleButton
+					{/* <GoogleButton
 						text="Log in with Google"
 						loading={submitting && loadingTarget === "google"}
 						handler={googleHandler}
 						disabled={submitting}
-					/>
+					/> */}
 				</div>
 
 				<Divider invisible />
