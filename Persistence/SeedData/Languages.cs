@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Domain;
 
-namespace Persistence
+namespace Persistence.SeedData
 {
     public static class Languages
     {

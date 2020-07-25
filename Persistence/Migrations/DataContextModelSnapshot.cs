@@ -178,6 +178,12 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsStarred")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime?>("LastLearnedRepeatDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LearnedRepeatsCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Original")
                         .HasColumnType("TEXT");
 

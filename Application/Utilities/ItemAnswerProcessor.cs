@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using System;
+using Domain;
 
 namespace Application.Utilities
 {
@@ -15,7 +16,11 @@ namespace Application.Utilities
                 item.CorrectAnswersCount++;
 
                 if (item.IsLearned)
+                {
+                    item.LastLearnedRepeatDate = DateTime.Now;
+                    item.LearnedRepeatsCount++;
                     return;
+                }
 
                 if (!item.IsStarred)
                     item.GoesForNextDay = false;
@@ -29,6 +34,9 @@ namespace Application.Utilities
                     item.IsLearned = true;
                     item.IsStarred = false;
 
+                    item.LastLearnedRepeatDate = DateTime.Now;
+                    item.LearnedRepeatsCount++;
+
                     if (item.Type == ItemType.Word)
                         dictionary.LearnedWordsCount++;
                     else
@@ -39,6 +47,10 @@ namespace Application.Utilities
             {
                 item.GoesForNextDay = true;
                 item.IsLearned = false;
+
+                item.LastLearnedRepeatDate = null;
+                item.LearnedRepeatsCount = 0;
+                
                 if (list.IsHardModeEnabled)
                     item.CorrectAnswersToCompletionCount = 0;
                 else

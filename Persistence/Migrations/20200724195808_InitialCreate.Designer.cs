@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200721105811_InitialCreateNew")]
-    partial class InitialCreateNew
+    [Migration("20200724195808_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -178,6 +178,12 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsStarred")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastLearnedRepeatDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LearnedRepeatsCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Original")

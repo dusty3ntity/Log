@@ -5,6 +5,6 @@ namespace Application.Interfaces
 {
     public interface ILearningListGenerator
     {
-        Task<LearningList> Generate(Dictionary dictionary);
+        Task<LearningList> HandleGeneration(Dictionary dictionary);
     }
 }
