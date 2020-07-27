@@ -12,7 +12,8 @@ const { TabPane } = Tabs;
 const NewItem = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { createItem, submitting } = rootStore.itemStore;
-
+	const { activeDictionary } = rootStore.dictionaryStore;
+	
 	const onSubmit = async (item: INewItem, resetForm: () => void) => {
 		const success = await createItem(item);
 
@@ -27,7 +28,14 @@ const NewItem = () => {
 			<div id="new-item" className="manage-item">
 				<Tabs defaultActiveKey={ItemType.Word + ""}>
 					<TabPane tab="Word" key={ItemType.Word + ""}>
-						<ItemForm id="new-word-form" type={ItemType.Word} onSubmit={onSubmit} submitting={submitting} />
+						<ItemForm
+							id="new-word-form"
+							type={ItemType.Word}
+							onSubmit={onSubmit}
+							submitting={submitting}
+							knownLanguageCode={activeDictionary.knownLanguage.isoCode}
+							languageToLearnCode={activeDictionary.languageToLearn.isoCode}
+						/>
 					</TabPane>
 
 					<TabPane tab="Phrase" key={ItemType.Phrase + ""}>
@@ -36,6 +44,8 @@ const NewItem = () => {
 							type={ItemType.Phrase}
 							onSubmit={onSubmit}
 							submitting={submitting}
+							knownLanguageCode={activeDictionary.knownLanguage.isoCode}
+							languageToLearnCode={activeDictionary.languageToLearn.isoCode}
 						/>
 					</TabPane>
 				</Tabs>

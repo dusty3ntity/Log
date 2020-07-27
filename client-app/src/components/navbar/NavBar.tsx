@@ -21,8 +21,8 @@ const NavBar = () => {
 		<div id="nav">
 			<div className="nav-header">
 				<Link to="/">
-					<img className="logo xxl-hidden" src="/images/logo.svg" alt="Logo" />
-					<span className="title xxl-visible">Log.</span>
+					<img className="logo" src="/images/logo.svg" alt="Logo" />
+					<span className="title">Log.</span>
 				</Link>
 			</div>
 
@@ -51,7 +51,7 @@ const NavBar = () => {
 					/>
 				</Link>
 
-				<div className="username xxl-visible">{user!.displayName}</div>
+				<div className="username">{user!.displayName}</div>
 
 				{/* <Link to="/" className="btn upgrade-btn xxl-visible">
 					Upgrade

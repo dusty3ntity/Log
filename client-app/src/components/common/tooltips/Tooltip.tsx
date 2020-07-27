@@ -20,9 +20,10 @@ interface IProps {
 	interactive?: boolean;
 	theme?: "dark" | "light";
 	open?: boolean;
+	distance?: number;
 }
 
-const Tooltip: React.FC<IProps> = ({ text, content, position, children, interactive, theme, open }) => {
+const Tooltip: React.FC<IProps> = ({ text, content, position, children, interactive, theme, open, distance }) => {
 	if (text) {
 		content = <div style={{ minWidth: 60, maxWidth: 300, overflowWrap: "break-word" }}>{text}</div>;
 	}
@@ -33,7 +34,7 @@ const Tooltip: React.FC<IProps> = ({ text, content, position, children, interact
 			animation="fade"
 			open={open}
 			arrow
-			distance={11}
+			distance={distance ? distance : 11}
 			interactive={interactive}
 			position={position}
 			delay={500}

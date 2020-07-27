@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.Users;
@@ -31,7 +30,7 @@ namespace Infrastructure.Security
             {
                 new KeyValuePair<string, string>("client_id", _config.Value.ClientId),
                 new KeyValuePair<string, string>("client_secret", _config.Value.ClientSecret),
-                new KeyValuePair<string, string>("redirect_uri", "http://localhost:3000"),
+                new KeyValuePair<string, string>("redirect_uri", _config.Value.DefaultRoute),
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
                 new KeyValuePair<string, string>("code", accessCode),
             });

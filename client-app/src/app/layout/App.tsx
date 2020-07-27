@@ -60,7 +60,7 @@ function App() {
 				render={() => (
 					<Switch>
 						<Route exact path="/login" component={LoginPage} />
-						<Route exact path="/registration" component={RegistrationPage} />
+						<Route exact path="/register" component={RegistrationPage} />
 
 						<PrivateRoute exact path="/before-we-begin">
 							<AnonymousRedirectPage>

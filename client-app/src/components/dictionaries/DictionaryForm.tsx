@@ -289,7 +289,7 @@ const DictionaryForm: React.FC<IProps> = ({
 					className="actions-btn add-btn"
 					primary
 					onClick={onFormSubmit}
-					text={!dictionary ? "Create" : "Edit"}
+					text={!dictionary ? "Create" : "Update"}
 					disabled={!dictionary ? !knownLanguage || !languageToLearn : !isDirty}
 					loading={submitting}
 				/>

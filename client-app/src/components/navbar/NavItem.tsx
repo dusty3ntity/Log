@@ -15,13 +15,13 @@ const NavItem: React.FC<IProps> = ({ name, button, onClick, icon, link }) => {
 			{link && (
 				<NavLink to={link} exact className="nav-item">
 					{icon}
-					<span className="item-name xxl-visible">{name}</span>
+					<span className="item-name">{name}</span>
 				</NavLink>
 			)}
 			{button && (
 				<button className="nav-item nav-item-btn" onClick={onClick}>
 					{icon}
-					<span className="item-name xxl-visible">{name}</span>
+					<span className="item-name">{name}</span>
 				</button>
 			)}
 		</Fragment>

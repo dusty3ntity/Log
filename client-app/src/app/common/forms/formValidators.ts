@@ -1,6 +1,5 @@
-export const hasTrailingWhitespaces = (value: string): string => {
-	if (value.trim().length < value.length) return "String contains trailing whitespaces.";
-	return "";
+export const fullTrim = (value: string): string => {
+	return value.replace(/\s+/g, " ").trim();
 };
 
 export const minLength = (value: string, length: number): string => {
@@ -39,7 +38,7 @@ export const isValidUsername = (value: string): string => {
 	const re1 = /^[A-Za-z]/;
 	let result = re1.test(value);
 
-	if (!result) return "Username must start with a letter.";
+	if (!result) return "Username must begin with a letter.";
 
 	const re2 = /^[a-zA-Z0-9]{2,}$/;
 	result = re2.test(value);

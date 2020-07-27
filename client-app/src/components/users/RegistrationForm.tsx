@@ -13,8 +13,8 @@ import {
 } from "../../app/common/forms/formValidators";
 import Button from "../common/inputs/Button";
 import Divider from "../common/other/Divider";
-import FacebookButton from "./FacebookButton";
-import GoogleButton from "./GoogleButton";
+// import FacebookButton from "./FacebookButton";
+// import GoogleButton from "./GoogleButton";
 
 interface IProps {
 	onSubmit: (user: IRegisterUser) => void;
@@ -41,7 +41,7 @@ const RegistrationForm: React.FC<IProps> = ({
 	return (
 		<div id="registration-form" className="user-form">
 			<form onSubmit={handleSubmit(submit)}>
-				<div className="title row">Registration</div>
+				<div className="title row">Register</div>
 
 				<Divider />
 
@@ -128,7 +128,7 @@ const RegistrationForm: React.FC<IProps> = ({
 					</div>
 				</div>
 
-				<Divider text="OR" />
+				{/* <Divider text="OR" />
 
 				<div className="external-providers-container row">
 					<FacebookButton
@@ -138,13 +138,13 @@ const RegistrationForm: React.FC<IProps> = ({
 						disabled={submitting}
 					/>
 
-					{/* <GoogleButton
+					<GoogleButton
 						text="Log in with Google"
 						loading={submitting && loadingTarget === "google"}
 						handler={googleHandler}
 						disabled={submitting}
-					/> */}
-				</div>
+					/>
+				</div> */}
 
 				<Divider invisible />
 

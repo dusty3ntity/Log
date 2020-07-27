@@ -6,8 +6,8 @@ import ValidationMessage from "../common/forms/ValidationMessage";
 import { ILoginUser } from "../../app/models/user";
 import { minLength, maxLength, isValidEmail } from "../../app/common/forms/formValidators";
 import Button from "../common/inputs/Button";
-import FacebookButton from "./FacebookButton";
-import GoogleButton from "./GoogleButton";
+// import FacebookButton from "./FacebookButton";
+// import GoogleButton from "./GoogleButton";
 import Divider from "../common/other/Divider";
 
 interface IProps {
@@ -77,7 +77,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 					</div>
 				</div>
 
-				<Divider text="OR" />
+				{/* <Divider text="OR" />
 
 				<div className="external-providers-container row">
 					<FacebookButton
@@ -87,13 +87,13 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 						disabled={submitting}
 					/>
 
-					{/* <GoogleButton
+					<GoogleButton
 						text="Log in with Google"
 						loading={submitting && loadingTarget === "google"}
 						handler={googleHandler}
 						disabled={submitting}
-					/> */}
-				</div>
+					/>
+				</div> */}
 
 				<Divider invisible />
 
@@ -103,7 +103,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 					<div className="prompt-container row">
 						<span className="prompt">Don't have an account?</span>
 
-						<Link className="link" to="/registration">
+						<Link className="link" to="/register">
 							Register
 						</Link>
 					</div>
@@ -118,7 +118,6 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 								submitting || !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
 							}
 							loading={submitting && loadingTarget === "login"}
-
 							analyticsEnabled
 							analyticsCategory="Users"
 							analyticsAction="Logged a user in"
