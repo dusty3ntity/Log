@@ -25,7 +25,7 @@ namespace Application.Items
         public class Query : IRequest<ItemsEnvelope>
         {
             public Query(Guid dictionaryId, int? limit, int? offset, bool words, bool phrases, bool learned,
-                bool inProgress, bool noProgress, string search)
+                bool inProgress, bool noProgress, bool starred, bool unstarred, string search)
             {
                 DictionaryId = dictionaryId;
 
@@ -38,6 +38,9 @@ namespace Application.Items
                 IsLearned = learned;
                 IsInProgress = inProgress;
                 IsNoProgress = noProgress;
+
+                Starred = starred;
+                Unstarred = unstarred;
 
                 Search = search;
             }
@@ -53,6 +56,9 @@ namespace Application.Items
             public bool IsLearned { get; }
             public bool IsInProgress { get; }
             public bool IsNoProgress { get; }
+
+            public bool Starred { get; set; }
+            public bool Unstarred { get; set; }
 
             public string Search { get; }
         }
@@ -90,6 +96,10 @@ namespace Application.Items
                                                      (request.IsInProgress &&
                                                       (i.CorrectAnswersToCompletionCount > 0 && !i.IsLearned)) ||
                                                      (request.IsNoProgress && i.CorrectAnswersToCompletionCount == 0));
+
+                if (request.Starred || request.Unstarred)
+                    queryable = queryable.Where(i =>
+                        (request.Starred && i.IsStarred) || (request.Unstarred && !i.IsStarred));
 
                 if (!request.Search.IsNullOrEmpty())
                 {

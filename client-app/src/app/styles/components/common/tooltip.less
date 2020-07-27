@@ -61,3 +61,25 @@
 		top: -13px;
 	}
 }
+
+.tippy-popper[x-placement^="right"] {
+	.tippy-tooltip-content {
+		border-radius: 8px;
+	}
+
+	.arrow-regular {
+		transform: rotate(90deg);
+		left: -20px;
+	}
+}
+
+.tippy-popper[x-placement^="left"] {
+	.tippy-tooltip-content {
+		border-radius: 8px;
+	}
+
+	.arrow-regular {
+		transform: rotate(-90deg);
+		right: 20px;
+	}
+}

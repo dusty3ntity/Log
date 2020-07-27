@@ -166,7 +166,7 @@ const responseBody = (response: AxiosResponse) => response.data;
 const sleep = () => (response: AxiosResponse) => {
 	return new Promise<AxiosResponse>((resolve) => {
 		process.env.REACT_APP_ENV === "DEVELOPMENT"
-			? setTimeout(() => resolve(response), 2000)
+			? setTimeout(() => resolve(response), 1000)
 			: resolve(response);
 	});
 };

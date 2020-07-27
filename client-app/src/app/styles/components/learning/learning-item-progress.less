@@ -40,7 +40,8 @@
 		}
 	}
 
-	.second-training.active:not(.fadeout) + .progress-dot:not(.active) {
+	.second-training.active:not(.fadeout) + .progress-dot:not(.active),
+	.progress-dot.active + .second-training.active.fadeout {
 		margin-left: 14px;
 	}
 }

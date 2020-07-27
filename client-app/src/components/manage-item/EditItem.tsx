@@ -9,6 +9,7 @@ import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 const EditItem = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { activeItem, editItem, submitting } = rootStore.itemStore;
+	const { activeDictionary } = rootStore.dictionaryStore;
 
 	const onSubmit = (item: INewItem) => {
 		const editedItem: IEditItem = {
@@ -31,6 +32,8 @@ const EditItem = () => {
 					item={activeItem}
 					onSubmit={onSubmit}
 					submitting={submitting}
+					knownLanguageCode={activeDictionary.knownLanguage.isoCode}
+					languageToLearnCode={activeDictionary.languageToLearn.isoCode}
 				/>
 			</div>
 		</div>

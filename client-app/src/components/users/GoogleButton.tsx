@@ -18,6 +18,7 @@ const GoogleButton: React.FC<IProps> = ({ text, loading, handler, disabled }) =>
 		createNotification(NotificationType.Error, {
 			title: "Authorization error!",
 			message: "An authorization error occurred. Please, refresh the page or contact the administrator.",
+			errorOrigin: "google-button",
 		});
 	};
 
@@ -36,7 +37,6 @@ const GoogleButton: React.FC<IProps> = ({ text, loading, handler, disabled }) =>
 					loading={loading}
 					disabled={disabled}
 					onClick={renderProps.onClick}
-
 					analyticsEnabled
 					analyticsCategory="Users"
 					analyticsAction="Signed a user with Google"

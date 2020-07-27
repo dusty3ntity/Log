@@ -10,6 +10,7 @@ import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
+import { fullTrim } from "../../app/common/forms/formValidators";
 // import HintIcon from "../icons/HintIcon";
 
 interface IProps {
@@ -27,6 +28,7 @@ const LearningCardFront: React.FC<IProps> = ({
 }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { status, isItemInputFlipped, onItemSubmit } = rootStore.learningStore;
+	const { activeDictionary } = rootStore.dictionaryStore;
 
 	const item = learningItem.item;
 
@@ -79,7 +81,9 @@ const LearningCardFront: React.FC<IProps> = ({
 					<label htmlFor="answer">
 						<span className="label-text">Translation:</span>
 						<span className="language-badge">
-							{learningItem.learningMode === LearningMode.Primary ? "eng" : "rus"}
+							{learningItem.learningMode === LearningMode.Primary
+								? activeDictionary.languageToLearn.isoCode
+								: activeDictionary.knownLanguage.isoCode}
 						</span>
 					</label>
 
@@ -121,7 +125,7 @@ const LearningCardFront: React.FC<IProps> = ({
 					noDisabledStyles
 					text="Submit"
 					onClick={() => {
-						const trimAnswer = answer.replace(/\s+/g, " ").trim();
+						const trimAnswer = fullTrim(answer);
 						onItemSubmit(trimAnswer);
 						fireAnalyticsEvent(
 							"Learning",

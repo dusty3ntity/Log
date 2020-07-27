@@ -44,6 +44,8 @@
 	.item-name {
 		margin-left: 8px;
 		font-size: 1.3rem;
+		overflow-x: hidden;
+		white-space: nowrap;
 	}
 }
 
@@ -69,8 +71,15 @@
 /*---------------------  Breakpoints  ---------------------*/
 
 @media (max-width: @xl-end) {
-	.nav-item {
-		justify-content: center;
-		width: auto;
+	.nav-item .item-name {
+		font-size: 18px;
+	}
+
+	#nav:not(:hover) {
+		// #nav:hover {
+		.nav-item {
+			justify-content: center;
+			width: fit-content;
+		}
 	}
 }

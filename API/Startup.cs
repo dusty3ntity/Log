@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -125,15 +126,17 @@ namespace API
             app.UseReferrerPolicy(opt => opt.NoReferrer());
             app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
             app.UseXfo(opt => opt.Deny());
-            app.UseCspReportOnly(opt =>
+            app.UseCsp(opt =>
             {
                 opt.BlockAllMixedContent();
                 opt.StyleSources(s => s.Self().UnsafeInline().CustomSources("https://fonts.googleapis.com"));
                 opt.FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com"));
                 opt.FormActions(s => s.Self());
                 opt.FrameAncestors(s => s.Self());
-                opt.ImageSources(s => s.Self());
-                opt.ScriptSources(s => s.Self().CustomSources("sha256-ma5XxS1EBgt17N22Qq31rOxxRWRfzUTQS1KOtfYwuNo="));
+                opt.ImageSources(s => s.Self().CustomSources("https://www.google-analytics.com"));
+                opt.ScriptSources(s => s.Self().CustomSources("sha256-ma5XxS1EBgt17N22Qq31rOxxRWRfzUTQS1KOtfYwuNo=",
+                    "sha256-ma5XxS1EBgt17N22Qq31rOxxRWRfzUTQS1KOtfYwuNo=", "https://apis.google.com",
+                    "https://connect.facebook.net", "https://www.google-analytics.com"));
             });
 
             app.UseDefaultFiles();
@@ -149,7 +152,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToController("Index", "Fallback");
+                endpoints.MapFallbackToController("React", "Fallback");
             });
         }
     }
