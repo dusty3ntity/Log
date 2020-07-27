@@ -15,10 +15,10 @@ namespace API.Controllers
     {
         [HttpGet]
         public async Task<ActionResult<List.ItemsEnvelope>> List(Guid dictionaryId, int? limit, int? offset, bool words,
-            bool phrases, bool learned, bool inProgress, bool noProgress, string search)
+            bool phrases, bool learned, bool inProgress, bool noProgress, bool starred, bool unstarred, string search)
         {
             return await Mediator.Send(new List.Query(dictionaryId, limit, offset, words, phrases, learned, inProgress,
-                noProgress, search));
+                noProgress, starred, unstarred, search));
         }
 
         [HttpGet("{itemId}")]

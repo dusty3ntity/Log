@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import Divider from "../../common/other/Divider";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
+import StarIcon from "../../icons/StarIcon";
 
 interface IProps {
 	classNames: string;
@@ -58,7 +59,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 						onClick={() => handleCheckboxClick("learned")}
 					>
 						<span className="item-name">Learned</span>
-						<Badge status="success" />
+						<Badge className="label-icon" status="success" />
 					</Checkbox>
 
 					<Checkbox
@@ -68,7 +69,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 						onClick={() => handleCheckboxClick("inProgress")}
 					>
 						<span className="item-name">In progress</span>
-						<Badge status="warning" />
+						<Badge className="label-icon" status="warning" />
 					</Checkbox>
 
 					<Checkbox
@@ -78,7 +79,31 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 						onClick={() => handleCheckboxClick("noProgress")}
 					>
 						<span className="item-name">No progress</span>
-						<Badge status="default" />
+						<Badge className="label-icon" status="default" />
+					</Checkbox>
+				</div>
+
+				<Divider />
+
+				<div className="filters-category">
+					<h2 className="category-title">Favorites</h2>
+					<Checkbox
+						className="filters-item"
+						checked={!!predicate.get("starred")}
+						disabled={loadingInitial}
+						onClick={() => handleCheckboxClick("starred")}
+					>
+						<span className="item-name">Starred</span>
+						<StarIcon className="label-icon" active />
+					</Checkbox>
+					<Checkbox
+						className="filters-item"
+						checked={!!predicate.get("unstarred")}
+						disabled={loadingInitial}
+						onClick={() => handleCheckboxClick("unstarred")}
+					>
+						<span className="item-name">Unstarred</span>
+						<StarIcon className="label-icon" />
 					</Checkbox>
 				</div>
 			</div>
