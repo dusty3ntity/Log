@@ -1,5 +1,6 @@
 .DS_Store
 *db
+*.Production.json
 
 
 # Created by https://www.gitignore.io/api/node,react,rider,csharp,dotnetcore,aspnetcore,visualstudio,visualstudiocode
