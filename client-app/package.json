@@ -34,7 +34,7 @@
 	"scripts": {
 		"start": "react-app-rewired start",
 		"build": "react-app-rewired build",
-		"postbuild": "mv ./build/index.html ./build/react.html && mv ./build/landing.html ./build/index.html && rm -rf ../API/wwwroot && move build ../API/wwwroot",
+		"postbuild": "mv ./build/index.html ./build/react.html && mv ./build/landing.html ./build/index.html && rm -rf ../API/wwwroot && mv build ../API/wwwroot",
 		"test": "react-app-rewired test",
 		"eject": "react-scripts eject"
 	},
