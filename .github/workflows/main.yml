@@ -1,0 +1,24 @@
+name: MAIN_CD
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore: 
+    - '.github/**'
+    - 'docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSHKEY }}
+        passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
+        script_stop: true
+        script: |
+          ssh -tT ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} 'sudo -u ${{ secrets.SERVER_USERNAME }} sh environments/log/deploy.sh'
