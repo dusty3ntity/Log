@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Items;
+using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/dictionaries/{dictionaryId}/[controller]")]
+    [Authorize(Policy = "IsDictionaryOwner")]
     public class ItemsController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<ItemDto>>> List(Guid dictionaryId)
+        public async Task<ActionResult<List.ItemsEnvelope>> List(Guid dictionaryId, int? limit, int? offset, bool words,
+            bool phrases, bool learned, bool inProgress, bool noProgress, bool starred, bool unstarred, string search)
         {
-            return await Mediator.Send(new List.Query {DictionaryId = dictionaryId});
+            return await Mediator.Send(new List.Query(dictionaryId, limit, offset, words, phrases, learned, inProgress,
+                noProgress, starred, unstarred, search));
         }
 
         [HttpGet("{itemId}")]

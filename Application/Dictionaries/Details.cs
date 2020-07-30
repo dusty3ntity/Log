@@ -40,8 +40,7 @@ namespace Application.Dictionaries
                     .SingleOrDefaultAsync(d => d.Id == request.Id);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var dictionaryToReturn = _mapper.Map<Dictionary, DictionaryDto>(dictionary);
 

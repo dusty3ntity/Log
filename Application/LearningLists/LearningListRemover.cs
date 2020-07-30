@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.Interfaces;
 using Domain;
 using Persistence;
@@ -23,7 +25,7 @@ namespace Application.LearningLists
             var success = await _context.SaveChangesAsync() > 0;
 
             if (!success)
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
         }
     }
 }

@@ -30,25 +30,24 @@ namespace Application.Items
                 var dictionary = await _context.Dictionaries.FindAsync(request.DictionaryId);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
                 var item = await _context.Items.FindAsync(request.ItemId);
 
                 if (item == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {item = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.ItemNotFound);
 
                 if (item.IsStarred)
                     return Unit.Value;
 
                 item.IsStarred = true;
+                item.GoesForNextDay = true;
 
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }

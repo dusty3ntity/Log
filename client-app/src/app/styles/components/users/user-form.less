@@ -1,0 +1,111 @@
+#login-page,
+#registration-page,
+#onboarding-page {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.user-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 2rem;
+	border-radius: 1.875rem;
+
+	box-shadow: 5px 5px 13px rgba(200, 209, 217, 0.9), -5px -5px 10px rgba(254, 255, 255, 0.9),
+		5px -5px 10px rgba(200, 209, 217, 0.2), -5px 5px 10px rgba(200, 209, 217, 0.2),
+		inset -1px -1px 2px rgba(200, 209, 217, 0.5), inset 1px 1px 2px rgba(254, 255, 255, 0.3);
+
+	.row {
+		width: 100%;
+	}
+
+	.form-item:last-child {
+		margin: 0 !important;
+	}
+
+	.title {
+		font-size: 2.25rem;
+		font-weight: 800;
+		text-align: center;
+	}
+
+	label {
+		font-size: 1.375rem;
+		font-weight: 800;
+		color: #88878b;
+	}
+
+	.text-input {
+		border-radius: 15px;
+		font-size: 1.75rem;
+		font-weight: 700;
+		padding: 4px 0;
+		border-top-color: #cdd9e4;
+		border-left-color: #cdd9e4;
+
+		background: #dce7f1;
+		box-shadow: -1px -1px 2px rgba(190, 201, 211, 0.5), 1px 1px 2px rgba(232, 245, 255, 0.3),
+			inset 2px 2px 5px rgba(190, 201, 211, 0.9), inset -2px -2px 4px rgba(232, 245, 255, 0.9),
+			inset 2px -2px 4px rgba(190, 201, 211, 0.2), inset -2px 2px 4px rgba(190, 201, 211, 0.2);
+
+		&:hover,
+		&:focus {
+			border: 1px solid @primary-color;
+		}
+	}
+
+	.external-providers-container {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		align-items: center;
+
+		.provider-btn {
+			flex-basis: 30%;
+			flex-grow: 2;
+			margin: 0 1rem 1rem;
+		}
+	}
+
+	.bottom-container {
+		flex-grow: 2;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+
+		.prompt-container {
+			text-align: center;
+			margin-bottom: 1rem;
+
+			.prompt {
+				font-size: 1.125rem;
+				color: #88878b;
+				margin-right: 1rem;
+			}
+
+			.link {
+				font-size: 1.125rem;
+				font-weight: 800;
+			}
+		}
+
+		.actions-container {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.submit-btn {
+			width: 100%;
+			padding: 6px 0;
+			border-radius: 15px;
+
+			font-size: 1.375rem;
+			font-weight: 800;
+		}
+	}
+}

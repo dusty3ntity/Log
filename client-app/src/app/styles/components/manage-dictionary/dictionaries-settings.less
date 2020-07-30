@@ -1,0 +1,72 @@
+#dictionaries-settings-container {
+	#dictionaries-list {
+		height: 100%;
+		padding: 1rem;
+		margin-right: 2rem;
+		border-radius: 1.875rem;
+		display: flex;
+		flex-grow: 2;
+		flex-direction: column;
+
+		box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+			3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+		.list-title {
+			padding: 1rem 1rem 0;
+			margin-bottom: 0.5rem;
+			font-size: 1.875rem;
+			font-weight: 700;
+			text-align: center;
+		}
+
+		.list-container {
+			flex-grow: 2;
+			position: relative;
+			overflow: hidden;
+		}
+
+		#list {
+			.list-item:last-child {
+				margin: 0 !important;
+			}
+
+			height: 100%;
+		}
+	}
+
+	#edit-dictionary {
+		width: 45%;
+		padding: 2rem;
+		border-radius: 1.875rem;
+
+		box-shadow: 3px 3px 8px rgba(204, 213, 222, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+			3px -3px 6px rgba(204, 213, 222, 0.2), -3px 3px 6px rgba(204, 213, 222, 0.2),
+			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+		.flag-btn {
+			display: none;
+		}
+	}
+}
+
+@media (max-width: @xl-end) {
+	#edit-dictionary {
+		padding: 1rem !important;
+
+		label {
+			margin: 0;
+		}
+	}
+}
+
+@media (max-width: 1499px) {
+	#dictionaries-list {
+		width: 100% !important;
+		margin: 0 !important;
+	}
+
+	#edit-dictionary:not(.drawer-content) {
+		display: none;
+	}
+}

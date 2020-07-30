@@ -1,0 +1,77 @@
+.learning-card-back {
+	.header-row .answer-icon {
+		height: 2rem;
+		width: 2rem;
+	}
+
+	.item-row {
+		height: 55%;
+
+		.task-row {
+			height: 35%;
+		}
+
+		.answer-row {
+			height: 60%;
+
+			.divider {
+				margin: 0.4rem 0;
+			}
+		}
+
+		.user-answer {
+			&.correct {
+				color: @success-color;
+			}
+
+			&.wrong {
+				color: @error-color;
+				text-decoration: line-through;
+			}
+
+			&.short {
+				font-size: 2.3rem;
+			}
+
+			&.medium {
+				font-size: 2.1rem;
+			}
+
+			&.long {
+				font-size: 1.875rem;
+			}
+		}
+
+		.correct-answer {
+			color: @text-color-grey;
+
+			&.short {
+				font-size: 2rem;
+			}
+
+			&.medium {
+				font-size: 1.8rem;
+			}
+
+			&.long {
+				font-size: 1.6rem;
+			}
+		}
+	}
+
+	.definition-origin {
+		margin-top: 4px;
+		align-self: flex-end;
+		font-size: 1rem;
+		font-weight: 700;
+	}
+
+	.next-btn {
+		width: 100%;
+
+		.icon {
+			height: 2rem;
+			width: 2rem;
+		}
+	}
+}

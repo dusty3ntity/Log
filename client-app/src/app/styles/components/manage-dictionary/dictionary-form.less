@@ -1,0 +1,183 @@
+.dictionary-form {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+	.flags-row {
+		display: flex;
+		height: 35%;
+		justify-content: space-between;
+		margin-bottom: 1rem;
+
+		.lang-container {
+			flex-grow: 2;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			.title {
+				height: 24%;
+				font-size: 2.25rem;
+				font-weight: 800;
+				margin-bottom: 1.5rem;
+			}
+
+			.flag-placeholder {
+				width: 8.25rem;
+				height: 6.25rem;
+				border-radius: 15px;
+
+				background: @body-background-darker;
+				box-shadow: -1px -1px 2px rgba(190, 201, 211, 0.5), 1px 1px 2px rgba(232, 245, 255, 0.3),
+					inset 2px 2px 5px rgba(190, 201, 211, 0.9), inset -2px -2px 4px rgba(232, 245, 255, 0.9),
+					inset 2px -2px 4px rgba(190, 201, 211, 0.2), inset -2px 2px 4px rgba(190, 201, 211, 0.2);
+			}
+
+			.flag {
+				width: 8.25rem;
+				height: 6.25rem;
+				border-radius: 15px;
+
+				box-shadow: -2px -2px 6px #ffffff, 2px 2px 8px #7a838b, inset 1px 1px 4px rgba(255, 255, 255, 0.5),
+					inset -1px -1px 4px #505356;
+
+				img {
+					box-shadow: none;
+				}
+			}
+
+			.flag-btn,
+			.flag-placeholder-btn {
+				width: 8.25rem;
+				height: 6.25rem;
+				border-radius: 15px;
+				padding: 0;
+				border: none;
+				cursor: pointer;
+			}
+
+			.flag-btn {
+				background: none;
+
+				box-shadow: -2px -2px 6px #ffffff, 2px 2px 8px #7a838b, inset 1px 1px 4px rgba(255, 255, 255, 0.5),
+					inset -1px -1px 4px #505356;
+
+				&:hover {
+					box-shadow: -2px -2px 6px #ffffff, 2px 2px 8px #7a838b, inset 1px 1px 4px rgba(255, 255, 255, 0.5),
+						inset -1px -1px 4px #505356, inset 16px 16px 64px rgba(0, 0, 0, 0.5),
+						inset -16px -16px 64px rgba(255, 255, 255, 0.5);
+				}
+
+				&:active {
+					box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.5), inset 2px 2px 6px #272a2d,
+						inset 4px 4px 32px rgba(39, 42, 45, 0.25), inset -4px -4px 32px rgba(255, 255, 255, 0.25);
+				}
+			}
+
+			.flag-placeholder-btn {
+				background: @body-background-darker;
+				box-shadow: -1px -1px 2px rgba(190, 201, 211, 0.5), 1px 1px 2px rgba(232, 245, 255, 0.3),
+					inset 2px 2px 5px rgba(190, 201, 211, 0.9), inset -2px -2px 4px rgba(232, 245, 255, 0.9),
+					inset 2px -2px 4px rgba(190, 201, 211, 0.2), inset -2px 2px 4px rgba(190, 201, 211, 0.2);
+			}
+
+			img {
+				height: 100%;
+				width: 100%;
+				border-radius: 15px;
+
+				position: relative;
+				z-index: -2;
+			}
+		}
+	}
+
+	.dictionary-form {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 2;
+	}
+
+	.settings-row {
+		display: flex;
+		flex-direction: column;
+
+		.form-item {
+			margin-bottom: 1rem;
+		}
+
+		label {
+			display: flex;
+			justify-content: space-between;
+
+			.title {
+				font-size: 1.25rem;
+				font-weight: 700;
+			}
+
+			.slider-value {
+				font-size: 1.625rem;
+				font-weight: 800;
+			}
+		}
+
+		.toggle-item {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+
+			label {
+				margin: 0;
+				font-size: 1.25rem;
+				font-weight: 700;
+			}
+		}
+	}
+
+	.actions-row {
+		display: flex;
+		flex-grow: 2;
+		justify-content: space-between;
+		align-items: flex-end;
+
+		.actions-btn {
+			width: 46%;
+			font-size: 1.5rem;
+			font-weight: 800;
+			padding: 0.5rem;
+
+			border-radius: 1.875rem;
+		}
+
+		.cancel-btn,
+		.delete-btn {
+			box-shadow: 4px 4px 10px rgba(204, 213, 222, 0.9), -4px -4px 8px rgba(250, 255, 255, 0.9),
+				4px -4px 8px rgba(204, 213, 222, 0.2), -4px 4px 8px rgba(204, 213, 222, 0.2),
+				inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			&:hover {
+				background: linear-gradient(167.32deg, #d8e1eb 0%, #eef9ff 100%);
+			}
+
+			&:active {
+				box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+					inset 4px 4px 10px rgba(204, 213, 222, 0.9), inset -4px -4px 8px rgba(250, 255, 255, 0.9),
+					inset 4px -4px 8px rgba(204, 213, 222, 0.2), inset -4px 4px 8px rgba(204, 213, 222, 0.2);
+			}
+		}
+
+		.cancel-btn {
+			color: @text-color-grey;
+		}
+
+		.delete-btn {
+			color: @error-color;
+
+			&:disabled {
+				color: @text-color-grey;
+			}
+		}
+	}
+}

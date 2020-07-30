@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Domain;
 
 namespace Application.Interfaces
 {
     public interface ILearningListGenerator
     {
-        Task<LearningList> Generate(Guid dictionaryId, int preferredLearningListSize);
+        Task<LearningList> HandleGeneration(Dictionary dictionary);
     }
 }

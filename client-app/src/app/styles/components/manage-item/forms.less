@@ -1,0 +1,121 @@
+.item-form {
+	height: 100%;
+	flex-direction: column;
+
+	.language-badge {
+		margin-left: 0.3rem;
+		border-radius: 1.875rem;
+		padding: 1px 6px 3px 6px;
+		font-size: 0.75rem;
+		line-height: 1rem;
+		font-weight: 700;
+
+		background: @text-color-grey;
+		color: @body-background;
+	}
+
+	.form-item.definition.disabled {
+		display: none;
+	}
+
+	.text-input.translation,
+	.text-area.definition {
+		color: @text-color-grey;
+	}
+
+	.definition-actions {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1.5rem;
+	}
+
+	.right-container {
+		display: flex;
+	}
+
+	.definition-actions-btn {
+		font-size: 1.25rem;
+		font-weight: 600;
+		border-radius: 1.875rem;
+		color: @text-color-grey;
+
+		box-shadow: 1px 1px 3px rgba(204, 213, 220, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
+			1px -1px 2px rgba(204, 213, 220, 0.2), -1px 1px 2px rgba(204, 213, 220, 0.2),
+			inset -1px -1px 2px rgba(204, 213, 220, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+		&:hover {
+			background: linear-gradient(165.07deg, #d8e1eb 0%, #eef9ff 100%);
+		}
+
+		&:active {
+			box-shadow: -1px -1px 2px rgba(204, 213, 221, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+				inset 1px 1px 3px rgba(204, 213, 221, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+				inset 1px -1px 2px rgba(204, 213, 221, 0.2), inset -1px 1px 2px rgba(204, 213, 221, 0.2);
+		}
+	}
+
+	.reset-form-btn {
+		padding: 4px 16px;
+	}
+
+	.add-definition-btn {
+		padding: 4px 16px 4px 8px;
+		margin: 0 24px;
+
+		.icon {
+			width: 1.875rem;
+			height: 1.875rem;
+			fill: @text-color-grey;
+		}
+	}
+
+	.star-btn {
+		padding: 4px;
+
+		.icon {
+			width: 2rem;
+			height: 2rem;
+		}
+	}
+
+	.form-actions {
+		flex-grow: 2;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+	}
+
+	.form-actions-btn {
+		width: 46%;
+		font-size: 1.5rem;
+		font-weight: 800;
+		padding: 0.5rem;
+
+		border-radius: 1.875rem;
+	}
+
+	.cancel-btn {
+		color: @text-color-grey;
+
+		box-shadow: 4px 4px 10px rgba(204, 213, 222, 0.9), -4px -4px 8px rgba(250, 255, 255, 0.9),
+			4px -4px 8px rgba(204, 213, 222, 0.2), -4px 4px 8px rgba(204, 213, 222, 0.2),
+			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+		&:hover {
+			background: linear-gradient(167.32deg, #d8e1eb 0%, #eef9ff 100%);
+		}
+
+		&:active {
+			box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+				inset 4px 4px 10px rgba(204, 213, 222, 0.9), inset -4px -4px 8px rgba(250, 255, 255, 0.9),
+				inset 4px -4px 8px rgba(204, 213, 222, 0.2), inset -4px 4px 8px rgba(204, 213, 222, 0.2);
+		}
+	}
+}
+
+@media (max-width: @lg-end) {
+	.manage-item .definition-actions {
+		margin-bottom: 1rem !important;
+	}
+}

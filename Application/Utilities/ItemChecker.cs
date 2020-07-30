@@ -9,11 +9,11 @@ namespace Application.Utilities
             return original.Contains(translation) || translation.Contains(original);
         }
 
-        public static bool DoesDescriptionContainItem(string description, string original,
+        public static bool DoesDefinitionContainItem(string definition, string original,
             string translation)
         {
-            description = description.ToLower();
-            return description.Contains(original) || description.Contains(translation);
+            definition = definition.ToLower();
+            return definition.Contains(original) || definition.Contains(translation);
         }
     }
 }

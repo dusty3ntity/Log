@@ -1,0 +1,33 @@
+@import "./user-form";
+@import "./provider-button";
+@import "./onboarding-form";
+
+.user-form {
+	height: 80%;
+	width: 40%;
+
+	form {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+@media (max-width: @xl-end) {
+	.user-form {
+		height: 90%;
+	}
+}
+
+@media (max-width: @lg-end) {
+	.user-form {
+		width: 60%;
+	}
+}
+
+@media (max-width: @md-end) {
+	.user-form {
+		width: 80%;
+	}
+}

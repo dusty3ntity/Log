@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Errors;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Dictionaries
@@ -14,7 +15,12 @@ namespace Application.Dictionaries
         public class Command : IRequest
         {
             public Guid Id { get; set; }
+
             public int PreferredLearningListSize { get; set; }
+            public int CorrectAnswersToItemCompletion { get; set; }
+
+			public bool IsMain { get; set; }
+            public bool IsHardModeEnabled { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -22,10 +28,13 @@ namespace Application.Dictionaries
             public CommandValidator()
             {
                 RuleFor(d => d.PreferredLearningListSize)
-                    .NotEmpty()
-                    .InclusiveBetween(20, 60)
+                    .InclusiveBetween(50, 100)
                     .WithMessage(
-                        "Preferred learning list size must be from 20 to 60 items inclusively.");
+                        "Preferred learning list size must be from 50 to 100 items inclusively.");
+                RuleFor(d => d.CorrectAnswersToItemCompletion)
+                    .InclusiveBetween(5, 10)
+                    .WithMessage(
+                        "Learning item's correct answers count to completion must be from 5 to 10 inclusively.");
             }
         }
 
@@ -40,22 +49,30 @@ namespace Application.Dictionaries
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                if (request.PreferredLearningListSize == 0 && request.CorrectAnswersToItemCompletion == 0)
+                    throw new RestException(HttpStatusCode.BadRequest, ErrorType.NoPropsForEditProvided);
+
                 var dictionary = await _context.Dictionaries.FindAsync(request.Id);
 
                 if (dictionary == null)
-                    throw new RestException(HttpStatusCode.NotFound,
-                        new {dictionary = "Not found."});
+                    throw new RestException(HttpStatusCode.NotFound, ErrorType.DictionaryNotFound);
 
-                dictionary.PreferredLearningListSize =
-                    request.PreferredLearningListSize != 0
-                        ? request.PreferredLearningListSize
-                        : dictionary.PreferredLearningListSize;
+				if (request.IsMain) {
+					var dictionaries = await _context.Dictionaries.ToListAsync();
+					
+                    foreach (var dict in dictionaries)
+                        dict.IsMain = false;
+				}
+
+                dictionary.PreferredLearningListSize = request.PreferredLearningListSize;
+                dictionary.CorrectAnswersToItemCompletion = request.CorrectAnswersToItemCompletion;
+				dictionary.IsHardModeEnabled = request.IsHardModeEnabled;
 
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
                     return Unit.Value;
-                throw new Exception("Problem saving changes.");
+                throw new RestException(HttpStatusCode.InternalServerError, ErrorType.SavingChangesError);
             }
         }
     }
