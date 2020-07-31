@@ -9,10 +9,13 @@ namespace Domain
         public AppUser()
         {
             Dictionaries = new List<Dictionary>();
+            RegistrationDate = DateTime.Now;
         }
         
         public string DisplayName { get; set; }
         public string Avatar { get; set; }
+
+        public DateTime RegistrationDate { get; set; }
 
         public ICollection<Dictionary> Dictionaries { get; set; }
 
