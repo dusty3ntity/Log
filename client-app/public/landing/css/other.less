@@ -1,0 +1,120 @@
+button {
+	border: none;
+	outline: none;
+}
+
+ul,
+li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.scroll-indicator {
+	display: flex;
+	justify-content: center;
+
+	height: 2.28rem;
+	width: 1.14rem;
+	padding: 4px;
+	border-radius: 1.08rem;
+
+	background: linear-gradient(116.57deg, #d8e1eb 0%, #eef9ff 100%);
+	box-shadow: -5px 5px 10px rgba(204, 213, 221, 0.2), 5px -5px 10px rgba(204, 213, 221, 0.2),
+		-5px -5px 10px rgba(250, 255, 255, 0.9), 5px 5px 13px rgba(204, 213, 221, 0.9),
+		inset 0.5px 0.5px 2px rgba(255, 255, 255, 0.75), inset -0.5px -0.5px 2px rgba(204, 213, 221, 0.75);
+
+	.thumb {
+		height: 0.79rem;
+		width: 0.79rem;
+		border-radius: 50%;
+
+		background: @primary-color;
+
+		animation: scroll 5s ease infinite;
+		animation-delay: 3s;
+		transition: transform 0.5s ease;
+	}
+}
+
+@keyframes scroll {
+	0% {
+		transform: scale(1);
+	}
+
+	15% {
+		transform: translate(0, 150%) scale(0.5);
+		opacity: 0;
+	}
+
+	44% {
+		transform: scale(1);
+		opacity: 0;
+	}
+
+	45% {
+		top: 0;
+	}
+}
+
+.divider {
+	background: @placeholder-color;
+	border-radius: 50%;
+}
+
+.divider.horizontal {
+	height: 2px;
+	width: 100%;
+	margin: 0.5rem 0;
+}
+
+.divider.vertical {
+	height: 100%;
+	width: 2px;
+	margin: 0 0.5rem;
+}
+
+.peppermint-dots {
+	display: flex;
+	justify-content: center;
+
+	li {
+		height: 0.86rem;
+		width: 0.86rem;
+		border-radius: 50%;
+		margin: 0 8px;
+
+		outline: none;
+		cursor: pointer;
+
+		transition: all 0.3s ease;
+
+		background: @body-background-color;
+		box-shadow: -5px 5px 10px rgba(193, 201, 208, 0.2), 5px -5px 10px rgba(193, 201, 208, 0.2),
+			-5px -5px 10px rgba(255, 255, 255, 0.9), 5px 5px 13px rgba(193, 201, 208, 0.9),
+			inset 1px 1px 2px rgba(255, 255, 255, 0.3), inset -1px -1px 2px rgba(193, 201, 208, 0.5);
+	}
+
+	li:not(.peppermint-active-dot) {
+		&:hover {
+			background: linear-gradient(135deg, #d8e1e9 0%, #eef9ff 100%);
+		}
+
+		&:active {
+			background: @primary-color;
+			box-shadow: 0.5px 0.5px 1px #586689, -1px -1px 4px #ffffff, 1px 1px 2px #b1b1b1, inset 1px 1px 2px #93b1ff,
+				inset -1px -1px 2px #3a63cc;
+		}
+	}
+
+	.peppermint-active-dot {
+		width: 1.71rem;
+		border-radius: 1.78rem;
+		margin: 0 12px;
+
+		background: @primary-color;
+		box-shadow: -5px 5px 12px rgba(143, 151, 166, 0.2), 5px -5px 10px rgba(200, 201, 203, 0.2),
+			-6px -6px 4px #f3f9ff, 3px 3px 6px rgba(3, 3, 3, 0.16), inset 1px 1px 2px rgba(214, 224, 238, 0.9),
+			inset -1px -1px 4px #3e59a2;
+	}
+}

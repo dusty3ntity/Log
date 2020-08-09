@@ -86,7 +86,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 				<Divider />
 
 				<div className="filters-category">
-					<h2 className="category-title">Favorites</h2>
+					<h2 className="category-title">Priority</h2>
 					<Checkbox
 						className="filters-item"
 						checked={!!predicate.get("starred")}
