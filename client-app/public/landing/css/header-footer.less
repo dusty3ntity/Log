@@ -20,6 +20,14 @@ header {
 		height: 1.7rem;
 	}
 
+	a {
+		color: @primary-color !important;
+
+		&:hover {
+			color: @light-blue-color !important;
+		}
+	}
+
 	.nav-container {
 		display: flex;
 		align-items: center;
@@ -27,14 +35,6 @@ header {
 		font-size: 0.86rem;
 		font-weight: 800;
 		color: @primary-color;
-
-		a {
-			color: @primary-color;
-
-			&:hover {
-				color: @light-blue-color;
-			}
-		}
 
 		nav a {
 			margin: 0 8px;
@@ -67,5 +67,12 @@ footer {
 	.footer-text {
 		font-size: 0.8rem;
 		font-weight: 800;
+		color: @body-background-color;
+	}
+}
+
+@media (max-width: 500px) {
+	header .logo-container .text {
+		display: none;
 	}
 }
