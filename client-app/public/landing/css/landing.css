@@ -98,27 +98,33 @@ header .logo {
   width: 1.7rem;
   height: 1.7rem;
 }
-header a {
+header a,
+header .language-link {
   color: #4d7eff !important;
 }
-header a:hover {
+header a:hover,
+header .language-link:hover {
   color: #56ccf2 !important;
 }
 header .nav-container {
   display: flex;
   align-items: center;
+}
+header .nav-container a,
+header .nav-container .language-link {
   font-size: 0.86rem;
   font-weight: 800;
-  color: #4d7eff;
-}
-header .nav-container nav a {
-  margin: 0 8px;
+  cursor: pointer;
 }
 header .nav-container #languages-container {
   height: 100%;
   display: flex;
   align-items: center;
   margin-left: 2.3rem;
+}
+header .nav-container #languages-container .language-link {
+  background: none;
+  padding: 0;
 }
 header .nav-container #languages-container .divider {
   margin: 0 8px;
@@ -131,7 +137,6 @@ footer {
 footer .container {
   flex-direction: row;
   justify-content: space-between;
-  flex-wrap: wrap;
 }
 footer .footer-text {
   font-size: 0.8rem;
@@ -337,7 +342,7 @@ body {
 }
 #section-1 .image-container {
   height: 32vh;
-  margin-top: 3em;
+  margin-top: 2.5em;
   position: relative;
   min-height: 200px;
 }

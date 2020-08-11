@@ -1,0 +1,179 @@
+{
+	"en": {
+		"section-1": {
+			"header": {
+				"about": "About"
+			},
+			"title": "Learn what matters",
+			"subtitle": "Any words. Any languages.",
+			"login": "Log in",
+			"register": "Register"
+		},
+		"section-2": {
+			"title": "What is Log?",
+			"paragraph-1": "<i>Log</i> is an application that will help you improve your vocabulary in any language.",
+			"paragraph-2": "All you need to do – add the word to your personal <i>dictionary</i>.",
+			"paragraph-3": "Every day, we will generate a new word <i>training</i> for you. You'll master the entire dictionary with only 20 minutes of training per day."
+		},
+		"section-3": {
+			"title": "How does it work?",
+			"subtitle": "If you're learning a foreign language, you probably read books, watch movies and speak this language, and meet new words by the way. We will help you to keep the log of these words!",
+			"step-1": "Watch<br>Read<br>Speak",
+			"step-2": "Meet<br>a new<br>word",
+			"step-3": "Add it<br>to your<br>dictionary",
+			"step-4": "Complete<br>the<br>trainings",
+			"step-5": "Use the<br>newly-learned<br>word"
+		},
+		"section-4": {
+			"title": "Why us?",
+			"advantage-1": "We've got no predefined and obvious words",
+			"advantage-2": "We support every language",
+			"advantage-3": "Fully customizable application"
+		},
+		"section-5": {
+			"title": "Features",
+			"feature-1": {
+				"title": "Unlimited number of words",
+				"text": "You can add as many words as you need. They'll be available at any moment."
+			},
+			"feature-2": {
+				"title": "Multiple dictionaries",
+				"text": "Learn two languages simultaneously? It has never been easier – create another dictionary and fill it with words."
+			},
+			"feature-3": {
+				"title": "Trainings",
+				"text": "With the help of our trainings generator you'll manage learning any amount of words.<br>The algorithm takes advantage of multiple statistics features of each words, making learning truly effective."
+			},
+			"feature-4": {
+				"title": "Everything is customizable",
+				"text": "Got more time available? Increase the trainings size and learn faster.<br>Dead-set on learning? Enable the hardcore mode and get the challenge you want!"
+			},
+			"feature-5": {
+				"title": "Different priorities",
+				"text": "Want to master some words faster? Mark it as a priority one, and it will appear in every training, until you learn it."
+			},
+			"feature-6": {
+				"title": "And many more features",
+				"text": "We've got tons of ideas! Our goal is to make learning fun and effective. All we need is time and your support."
+			}
+		}
+	},
+	"ru": {
+		"section-1": {
+			"header": {
+				"about": "О нас"
+			},
+			"title": "Учите то, что важно",
+			"subtitle": "Любые слова. Любые языки.",
+			"login": "Вход",
+			"register": "Регистрация"
+		},
+		"section-2": {
+			"title": "Что такое Log?",
+			"paragraph-1": "<i>Log</i> - это приложение, которое поможет вам улучшить словарный запас любого языка.",
+			"paragraph-2": "Всё, что вам нужно делать - добавлять слова в персональный <i>словарь</i>.",
+			"paragraph-3": "Каждый день мы будем генерировать <i>тренировку</i> для вас. Уделяя до 20 минут ежедневно, вы сможете стать мастером тех слов, которые нужны именно вам."
+		},
+		"section-3": {
+			"title": "Как это работает?",
+			"subtitle": "Если вы учите иностранный язык, вы наверняка читаете книги, смотрите фильмы и разговариваете на этом языке. При этом вам встречаются незнакомые слова. Просто дайте эти слова нам - остальное мы сделаем за вас!",
+			"step-1": "Смотрим фильм<br>Читаем книгу<br>Разговариваем",
+			"step-2": "Встречаем<br>незнакомое<br>слово",
+			"step-3": "Добавляем<br>его в<br>словарь",
+			"step-4": "Успешно<br>Выполняем<br>тренировки",
+			"step-5": "Используем<br>выученное<br>слово в речи"
+		},
+		"section-4": {
+			"title": "Почему мы?",
+			"advantage-1": "У нас нет заготовленных и банальных слов",
+			"advantage-2": "Мы поддерживаем все языки",
+			"advantage-3": "Наше приложение полностью настраиваемое"
+		},
+		"section-5": {
+			"title": "Наши возможности",
+			"feature-1": {
+				"title": "Неограниченное количество слов",
+				"text": "Вы можете добавить в словарь столько слов, сколько нужно вам. Эти слова всегда будут с вами."
+			},
+			"feature-2": {
+				"title": "Несколько словарей",
+				"text": "Учите 2 языка одновременно? Не проблема - создайте еще один словарь и добавляйте слова в него."
+			},
+			"feature-3": {
+				"title": "Тренировки",
+				"text": "Благодаря нашему генератору тренировок вы сможете выучить любое количество слов.<br>При генерации учитываются метрики каждого слова, что делает обучение действительно эффективным."
+			},
+			"feature-4": {
+				"title": "Всё полностью настраиваемое",
+				"text": "Можете уделять больше времени тренировкам? Увеличьте их размер и обучайтесь быстрее.<br>Любите хардкор? Включите сложный режим и добавьте челленджа!"
+			},
+			"feature-5": {
+				"title": "Разные приоритеты",
+				"text": "Нужно срочно выучить какое-то слово? Поставьте ему наивысший приоритет - это слово будет в каждой тренировке, пока вы его не выучите."
+			},
+			"feature-6": {
+				"title": "И ещё много чего",
+				"text": "У нас много идей! Мы хотим сделать обучение наиболее приятным и эффективным. Всё, что нам нужно - время и ваша поддержка."
+			}
+		}
+	},
+	"ua": {
+		"section-1": {
+			"header": {
+				"about": "Про нас"
+			},
+			"title": "Вчіть те, що важливо",
+			"subtitle": "Будь-які слова. Будь-які мови.",
+			"login": "Вхід",
+			"register": "Реєстрація"
+		},
+		"section-2": {
+			"title": "Що таке Log?",
+			"paragraph-1": "<i>Log</i> - це додаток, який допоможе вам покращити словниковий запас будь-якої мови.",
+			"paragraph-2": "Все, що вам треба робити - додавати слова в персональний <i>словник</i>.",
+			"paragraph-3": "Кожного дня ми будемо генерувати <i>тренування</i> для вас. Приділяючи до 20 хвилин щоденно, ви зможете стати майстром тих слів, що потрібні саме вам."
+		},
+		"section-3": {
+			"title": "Як це працює?",
+			"subtitle": "Якщо ви вивчаєте іноземну мову, ви напевно читаєте книги, дивитесь фільми і спілкуєтесь цією мовою. При цьому вам трапляються незнайомі слова. Просто дайте ці слова нам - інше ми зробимо за вас!",
+			"step-1": "Дивимось фільм<br>Читаємо книгу<br>Розмовляємо",
+			"step-2": "Зустрічаєм<br>незнайоме<br>слово",
+			"step-3": "Додаємо<br>його в<br>словник",
+			"step-4": "Успішно<br>виконуємо<br>тренування",
+			"step-5": "Використовуємо<br>вивчене<br>слово"
+		},
+		"section-4": {
+			"title": "Чому ми краще?",
+			"advantage-1": "У нас немає заготовлених і банальних слів",
+			"advantage-2": "Ми підтримуємо всі мови.",
+			"advantage-3": "Наш додаток цілком налаштовуваний"
+		},
+		"section-5": {
+			"title": "Наші можливості",
+			"feature-1": {
+				"title": "Необмежена кількість слів",
+				"text": "Ви можете додати в словник стільки слів, скільки потрібно вам. Ці слова завжди будуть з вами."
+			},
+			"feature-2": {
+				"title": "Кілька словників",
+				"text": "Вивчаєте 2 мови одночасно? Не проблема - створіть ще один словник і додавайте слова в нього."
+			},
+			"feature-3": {
+				"title": "Тренування",
+				"text": "Завдяки нашому генератору тренувань ви зможете вивчити будь-яку кількість слів.<br>При генерації враховуються метрики кожного слова, що робить вивчення справді ефективним."
+			},
+			"feature-4": {
+				"title": "Все цілком налаштовуване",
+				"text": "Можете приділяти більше часу тренуванням? Збільште їх розмір і вчіться швидше.<br>Любите хардкор? Увімкніть складний режим і додайте челенджу!"
+			},
+			"feature-5": {
+				"title": "Різні пріоритети",
+				"text": "Терміново потрібно вивчити якесь слово? Дайте йому найвищий пріоритет - це слово буде в кожному тренуванні поки ви його не вивчите."
+			},
+			"feature-6": {
+				"title": "І ще багато чого",
+				"text": "У нас купа ідей! Ми хочемо зробити навчання найбільш приємним і ефективним. Все, що нам треба - час і ваша підтримка."
+			}
+		}
+	}
+}

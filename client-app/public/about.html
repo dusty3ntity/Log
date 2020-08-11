@@ -15,44 +15,38 @@
 	<title>About - Log</title>
 </head>
 
-<body>
+<body style="visibility: hidden;">
 	<section class="section">
 		<div class="container content">
 			<header>
 				<a class="logo-container" href="https://log.ohyr.dev">
 					<img class="logo" src="images/logo-new.svg" alt="logo">
-					<span class="text" href="https://log.ohyr.dev">Log</span>
+					<span class="text">Log</span>
 				</a>
 
 				<div class="nav-container">
 					<nav>
-						<a href="/faq">FAQ</a>
+						<a href="/about" id="nav-about"></a>
 					</nav>
 
 					<div id="languages-container">
-						<a href="/en/" class="language-link">EN</a>
+						<button class="language-link" onclick="localize('en')">EN</button>
 						<div class="divider vertical"></div>
-						<a href="/ua/" class="language-link">UA</a>
+						<button class="language-link" onclick="localize('ru')">RU</button>
+						<div class="divider vertical"></div>
+						<button class="language-link" onclick="localize('ua')">UA</button>
 					</div>
 				</div>
 			</header>
 
 			<div id="about">
-				<h1 class="title">О нас</h1>
+				<h1 class="title" id="title"></h1>
 
-				<p class="text">Мы верим, что язык - это прежде всего слова, а затем грамматика. Если вы сильны в
-					грамматике, но не
-					знаете слов - собеседник просто не поймёт вас.</p>
+				<p class="text" id="paragraph-1"></p>
 
-				<p class="text">В отличие от десятков подобных проектов, мы концентрируемся только на тех словах,
-					которые нужны вам. Именно поэтому мы не предлагаем заготовленных слов, которые зачастую никому не
-					нужны из-за своей банальности.</p>
+				<p class="text" id="paragraph-2"></p>
 
-				<p class="text">Мы продолжаем работать. Отсутствие описанных рамок позволяет нам экспериментировать и
-					реализовывать действительно крутые вещи. А вдохновляемся мы тем, что сами пользуемся Log`ом, и
-					хотим сделать его лучше.</p>
-
-				<h2 class="title team-title">Наша команда</h2>
+				<h2 class="title team-title" id="team-title"></h2>
 
 				<div class="team-container">
 					<div class="team-member" id="hryhorii-pazych">
@@ -61,8 +55,8 @@
 						</div>
 
 						<div class="text-container">
-							<span class="name">Григорий Пазыч</span>
-							<span class="occupation">UI/UX</span>
+							<span class="name" id="hryhorii-pazych-name"></span>
+							<span class="occupation" id="hryhorii-pazych-occupation"></span>
 						</div>
 
 						<div class="links-container">
@@ -84,8 +78,8 @@
 						</div>
 
 						<div class="text-container">
-							<span class="name">Вадим Огир</span>
-							<span class="occupation">Идея, разработка</span>
+							<span class="name" id="vadym-ohyr-name"></span>
+							<span class="occupation" id="vadym-ohyr-occupation"></span>
 						</div>
 
 						<div class="links-container">
@@ -110,8 +104,8 @@
 						</div>
 
 						<div class="text-container">
-							<span class="name">Владислав Божко</span>
-							<span class="occupation">Менеджмент</span>
+							<span class="name" id="vladyslav-bozhko-name"></span>
+							<span class="occupation" id="vladyslav-bozhko-occupation"></span>
 						</div>
 
 						<div class="links-container">
@@ -139,7 +133,7 @@
 		</footer>
 	</section>
 
-	<script src="landing/js/main.js"></script>
+	<script src="landing/js/about.js"></script>
 </body>
 
 </html>

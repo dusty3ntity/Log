@@ -18,36 +18,37 @@
 	<title>Log</title>
 </head>
 
-<body>
+<body style="visibility: hidden;">
 	<section id="section-1" class="section">
 		<div class="container content">
 			<header>
 				<a class="logo-container" href="https://log.ohyr.dev">
 					<img class="logo" src="images/logo-new.svg" alt="logo">
-					<span class="text" href="https://log.ohyr.dev">Log</span>
+					<span class="text">Log</span>
 				</a>
 
 				<div class="nav-container">
 					<nav>
-						<a href="/faq">FAQ</a>
-						<a href="/about">О нас</a>
+						<a href="/about" id="nav-about"></a>
 					</nav>
 
 					<div id="languages-container">
-						<a href="/en/" class="language-link">EN</a>
+						<button class="language-link" onclick="localize('en')">EN</button>
 						<div class="divider vertical"></div>
-						<a href="/ua/" class="language-link">UA</a>
+						<button class="language-link" onclick="localize('ru')">RU</button>
+						<div class="divider vertical"></div>
+						<button class="language-link" onclick="localize('ua')">UA</button>
 					</div>
 				</div>
 			</header>
 
 			<div class="content">
-				<h1 class="title">Учите то, что важно</h1>
-				<h3 class="subtitle">Любые слова. Любые языки.</h3>
+				<h1 class="title" id="section-1-title"></h1>
+				<h3 class="subtitle" id="section-1-subtitle"></h3>
 
 				<div class="btn-container">
-					<a href="/login" id="login-btn" class="btn">Вход</a>
-					<a href="/register" id="register-btn" class="btn">Регистрация</a>
+					<a href="/login" id="login-btn" class="btn"></a>
+					<a href="/register" id="register-btn" class="btn"></a>
 				</div>
 
 				<div class="image-container">
@@ -83,29 +84,25 @@
 			</div>
 
 			<div class="text-container">
-				<h2 class="title">Что такое Log?</h2>
+				<h2 class="title" id="section-2-title"></h2>
 
-				<p class="text"><i>Log</i> - это приложение, которое поможет вам улучшить словарный запас любого
-					языка.</p>
-				<p class="text">Всё, что вам нужно делать - добавлять слова в персональный <i>словарь</i>.</p>
-				<p class="text">Каждый день мы будем генерировать <i>тренировку</i> для вас. Уделяя до 20 минут
-					ежедневно, вы сможете стать мастером тех слов, которые нужны именно вам.</p>
+				<p class="text" id="section-2-paragraph-1"></p>
+				<p class="text" id="section-2-paragraph-2"></p>
+				<p class="text" id="section-2-paragraph-3"></p>
 			</div>
 		</div>
 	</section>
 
 	<section id="section-3" class="section">
 		<div class="container content">
-			<h2 class="title">Как это работает?</h2>
+			<h2 class="title" id="section-3-title"></h2>
 
-			<p class="text">Если вы учите иностранный язык, вы наверняка читаете книги, смотрите фильмы и
-				разговариваете на этом языке. При этом вам встречаются незнакомые слова. Просто дайте эти слова нам -
-				остальное мы сделаем за вас!</p>
+			<p class="text" id="section-3-subtitle"></p>
 
 			<div class="steps-container">
 				<div class="step" id="step-1">
 					<div class="title-container">
-						<h4 class="step-title title">Смотрим фильм<br>Читаем книгу<br>Разговариваем</h4>
+						<h4 class="step-title title" id="section-3-step-1"></h4>
 					</div>
 
 					<div class="image-container">
@@ -125,7 +122,7 @@
 
 				<div class="step" id="step-2">
 					<div class="title-container">
-						<h4 class="step-title title">Встречаем<br>незнакомое<br>слово</h4>
+						<h4 class="step-title title" id="section-3-step-2"></h4>
 					</div>
 
 					<div class="image-container">
@@ -145,7 +142,7 @@
 
 				<div class="step" id="step-3">
 					<div class="title-container">
-						<h4 class="step-title title">Добавляем<br>его в<br>словарь</h4>
+						<h4 class="step-title title" id="section-3-step-3"></h4>
 					</div>
 
 					<div class="image-container">
@@ -165,7 +162,7 @@
 
 				<div class="step" id="step-4">
 					<div class="title-container">
-						<h4 class="step-title title">Успешно<br>выполняем<br>тренировки</h4>
+						<h4 class="step-title title" id="section-3-step-4"></h4>
 					</div>
 
 					<div class="image-container">
@@ -185,7 +182,7 @@
 
 				<div class="step" id="step-5">
 					<div class="title-container">
-						<h4 class="step-title title">Используем<br>выученное<br>слово в речи</h4>
+						<h4 class="step-title title" id="section-3-step-5"></h4>
 					</div>
 
 					<div class="image-container">
@@ -208,7 +205,7 @@
 
 	<section id="section-4" class="section">
 		<div class="container content">
-			<h2 class="title">Почему мы лучше?</h2>
+			<h2 class="title" id="section-4-title"></h2>
 
 			<div class="cards-container">
 				<div class="card">
@@ -226,8 +223,7 @@
 					</div>
 
 					<div class="text-container">
-						<h4 class="card-title title">У нас нет заготовленных и банальных слов
-						</h4>
+						<h4 class="card-title title" id="section-4-advantage-1"></h4>
 					</div>
 				</div>
 
@@ -248,7 +244,7 @@
 					</div>
 
 					<div class="text-container">
-						<h4 class="card-title title">Мы поддерживаем все языки</h4>
+						<h4 class="card-title title" id="section-4-advantage-2"></h4>
 					</div>
 				</div>
 
@@ -269,7 +265,7 @@
 					</div>
 
 					<div class="text-container">
-						<h4 class="card-title title">Наше приложение полностью настраиваемое</h4>
+						<h4 class="card-title title" id="section-4-advantage-3"></h4>
 					</div>
 				</div>
 			</div>
@@ -279,7 +275,7 @@
 	<section id="section-5" class="section">
 		<div class="content">
 			<div class="container">
-				<h2 class="title">Наши возможности</h2>
+				<h2 class="title" id="section-5-title"></h2>
 			</div>
 
 			<div class="full-width-container">
@@ -290,10 +286,9 @@
 							<div class="slide-content-wrapper">
 								<div class="slide-content">
 									<div class="text-container">
-										<h4 class="slide-title">Неограниченное количество слов</h4>
+										<h4 class="slide-title" id="section-5-feature-1-title"></h4>
 
-										<p class="text">Вы можете добавить в словарь столько слов, сколько нужно вам.
-											Эти слова всегда будут с вами.</p>
+										<p class="text" id="section-5-feature-1-text"></p>
 									</div>
 
 									<div class="image-container">
@@ -316,11 +311,9 @@
 							<div class="slide-content-wrapper">
 								<div class="slide-content">
 									<div class="text-container">
-										<h4 class="slide-title">Несколько словарей</h4>
+										<h4 class="slide-title" id="section-5-feature-2-title"></h4>
 
-										<p class="text">Учите 2 языка одновременно? Не проблема - создайте еще один
-											словарь и добавляйте слова в него.
-										</p>
+										<p class="text" id="section-5-feature-2-text"></p>
 									</div>
 
 									<div class="image-container">
@@ -343,12 +336,9 @@
 							<div class="slide-content-wrapper">
 								<div class="slide-content">
 									<div class="text-container">
-										<h4 class="slide-title">Тренировки</h4>
+										<h4 class="slide-title" id="section-5-feature-3-title"></h4>
 
-										<p class="text">Благодаря нашему генератору тренировок вы сможете выучить любое
-											количество слов.<br>При генерации учитываются 5 показателей каждого слова,
-											что делает обучение действительно эффективным.
-										</p>
+										<p class="text" id="section-5-feature-3-text"></p>
 									</div>
 
 									<div class="image-container">
@@ -371,12 +361,9 @@
 							<div class="slide-content-wrapper">
 								<div class="slide-content">
 									<div class="text-container">
-										<h4 class="slide-title">Всё полностью настраиваемое</h4>
+										<h4 class="slide-title" id="section-5-feature-4-title"></h4>
 
-										<p class="text">Можете уделять больше времени на тренировки? Увеличьте их размер
-											и обучайтесь быстрее.<br>Любите хардкор? Включите сложный режим и добавьте
-											челленджа!
-										</p>
+										<p class="text" id="section-5-feature-4-text"></p>
 									</div>
 
 									<div class="image-container">
@@ -399,11 +386,9 @@
 							<div class="slide-content-wrapper">
 								<div class="slide-content">
 									<div class="text-container">
-										<h4 class="slide-title">Разные приоритеты</h4>
+										<h4 class="slide-title" id="section-5-feature-5-title"></h4>
 
-										<p class="text">Нужно срочно выучить какое-то слово? Поставьте ему
-											наивысший приоритет - это слово будет в каждой тренировке, пока вы его не
-											выучите.</p>
+										<p class="text" id="section-5-feature-5-text"></p>
 									</div>
 
 									<div class="image-container">
@@ -426,10 +411,9 @@
 							<div class="slide-content-wrapper">
 								<div class="slide-content no-image">
 									<div class="text-container">
-										<h4 class="slide-title">И ещё много чего</h4>
+										<h4 class="slide-title" id="section-5-feature-6-title"></h4>
 
-										<p class="text">У нас много идей! Мы хотим сделать обучение наиболее приятным и
-											эффективным. Всё, что нам нужно - время и ваша поддержка.</p>
+										<p class="text" id="section-5-feature-6-text"></p>
 									</div>
 								</div>
 							</div>
@@ -452,7 +436,7 @@
 		</footer>
 	</section>
 
-	<script src="landing/js/main.js"></script>
+	<script src="landing/js/landing.js"></script>
 </body>
 
 </html>

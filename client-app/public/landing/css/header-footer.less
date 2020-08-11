@@ -20,7 +20,8 @@ header {
 		height: 1.7rem;
 	}
 
-	a {
+	a,
+	.language-link {
 		color: @primary-color !important;
 
 		&:hover {
@@ -32,12 +33,11 @@ header {
 		display: flex;
 		align-items: center;
 
-		font-size: 0.86rem;
-		font-weight: 800;
-		color: @primary-color;
-
-		nav a {
-			margin: 0 8px;
+		a,
+		.language-link {
+			font-size: 0.86rem;
+			font-weight: 800;
+			cursor: pointer;
 		}
 
 		#languages-container {
@@ -45,6 +45,11 @@ header {
 			display: flex;
 			align-items: center;
 			margin-left: 2.3rem;
+
+			.language-link {
+				background: none;
+				padding: 0;
+			}
 
 			.divider {
 				margin: 0 8px;
