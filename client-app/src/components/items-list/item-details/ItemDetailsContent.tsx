@@ -61,6 +61,38 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 		});
 	};
 
+	const handleStar = () => {
+		if (!item.isLearned) {
+			starItem();
+			fireAnalyticsEvent("Items", "Starred an item");
+			return;
+		}
+
+		Modal.confirm({
+			title: "Confirmation",
+			content: (
+				<Fragment>
+					<span>Are you sure you want to star this item?</span>
+					<span>This item is already learned, therefore its progress will be reset.</span>
+				</Fragment>
+			),
+			width: "35rem",
+			maskClosable: true,
+			centered: true,
+			okText: "Star",
+			okButtonProps: {
+				className: "btn modal-btn confirm-btn",
+			},
+			onOk() {
+				starItem();
+				fireAnalyticsEvent("Items", "Starred an item");
+			},
+			cancelButtonProps: {
+				className: "btn modal-btn cancel-btn",
+			},
+		});
+	};
+
 	return (
 		<div id="details-container">
 			<div className="header-row row">
@@ -158,10 +190,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 										unstarItem();
 										fireAnalyticsEvent("Items", "Unstarred an item");
 								  }
-								: () => {
-										starItem();
-										fireAnalyticsEvent("Items", "Starred an item");
-								  }
+								: handleStar
 						}
 						icon={<StarIcon className={starredClass} />}
 						loading={starring && loadingTarget.includes(item.id)}

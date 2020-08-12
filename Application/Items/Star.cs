@@ -40,8 +40,14 @@ namespace Application.Items
                 if (item.IsStarred)
                     return Unit.Value;
 
+                if (item.IsLearned)
+                {
+                    item.IsLearned = false;
+                    item.CorrectAnswersToCompletionCount = 0;
+                }
+
                 item.IsStarred = true;
-                item.GoesForNextDay = true;
+                dictionary.StarredItemsCount++;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

@@ -25,7 +25,7 @@
 			padding: 2px 8px 1px;
 			color: @body-background;
 			margin-left: 10px;
-			
+
 			.icon {
 				fill: @body-background !important;
 				height: 16px;
@@ -36,6 +36,30 @@
 		.buttons-container {
 			height: 100%;
 			display: flex;
+		}
+
+		.starred-items-overload-warning {
+			height: 100%;
+			display: flex !important;
+			align-items: center;
+			margin-right: 1rem;
+			border-radius: 30px;
+
+			font-size: 18px;
+			font-weight: 700;
+
+			.starred-count {
+				color: @error-color;
+			}
+
+			.slash {
+				margin: 0 4px;
+				color: @text-color-grey;
+			}
+
+			.icon {
+				margin-left: 10px;
+			}
 		}
 
 		.header-btn {

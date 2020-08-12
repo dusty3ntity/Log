@@ -41,6 +41,7 @@ namespace Application.Items
                     return Unit.Value;
 
                 item.IsStarred = false;
+                dictionary.StarredItemsCount--;
 
                 var success = await _context.SaveChangesAsync() > 0;
 

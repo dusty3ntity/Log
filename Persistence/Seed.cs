@@ -41,6 +41,7 @@ namespace Persistence
                     WordsCount = 8,
                     LearnedWordsCount = 3,
                     LearnedPhrasesCount = 1,
+                    StarredItemsCount = 3,
                     PreferredLearningListSize = 50,
                     CorrectAnswersToItemCompletion = 8,
                     IsHardModeEnabled = false,

@@ -22,17 +22,17 @@ namespace Application.Utilities
                     return;
                 }
 
-                if (!item.IsStarred)
-                    item.GoesForNextDay = false;
-
                 if (item.CorrectAnswersToCompletionCount != list.CorrectAnswersToItemCompletion &&
                     list.TimesCompleted != 1)
                     item.CorrectAnswersToCompletionCount++;
 
                 if (item.CorrectAnswersToCompletionCount == list.CorrectAnswersToItemCompletion)
                 {
+                    if (item.IsStarred)
+                        dictionary.StarredItemsCount--;
                     item.IsLearned = true;
                     item.IsStarred = false;
+                    item.GoesForNextDay = false;
 
                     item.LastLearnedRepeatDate = DateTime.Now;
                     item.LearnedRepeatsCount++;

@@ -13,6 +13,8 @@ export interface IDictionary {
 	learnedWordsCount: number;
 	learnedPhrasesCount: number;
 
+	starredItemsCount: number;
+
 	preferredLearningListSize: number;
 	correctAnswersToItemCompletion: number;
 	isHardModeEnabled: boolean;

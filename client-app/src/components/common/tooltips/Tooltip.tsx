@@ -21,11 +21,28 @@ interface IProps {
 	theme?: "dark" | "light";
 	open?: boolean;
 	distance?: number;
+	className?: string;
 }
 
-const Tooltip: React.FC<IProps> = ({ text, content, position, children, interactive, theme, open, distance }) => {
+const Tooltip: React.FC<IProps> = ({
+	text,
+	content,
+	position,
+	children,
+	interactive,
+	theme,
+	open,
+	distance,
+	className,
+}) => {
 	if (text) {
 		content = <div style={{ minWidth: 60, maxWidth: 300, overflowWrap: "break-word" }}>{text}</div>;
+	}
+
+	if (!className) {
+		className = "tooltip-container";
+	} else {
+		className += " tooltip-container";
 	}
 
 	return (
@@ -38,7 +55,7 @@ const Tooltip: React.FC<IProps> = ({ text, content, position, children, interact
 			interactive={interactive}
 			position={position}
 			delay={500}
-			className="tooltip-container"
+			className={className}
 			theme={theme ? theme : "dark"}
 		>
 			{children}

@@ -7,6 +7,8 @@ import FilterIcon from "../../icons/FilterIcon";
 import LoadingIndicator from "../../common/loading/LoadingIndicator";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import Button from "../../common/inputs/Button";
+import StarIcon from "../../icons/StarIcon";
+import Tooltip from "../../common/tooltips/Tooltip";
 
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -19,6 +21,7 @@ const Header = () => {
 		predicate,
 		setPredicate,
 	} = rootStore.itemStore;
+	const { activeDictionary } = rootStore.dictionaryStore;
 
 	const handleSearch = (value: string) => {
 		const prevValue = predicate.get("search");
@@ -54,6 +57,19 @@ const Header = () => {
 			</div>
 
 			<div className="buttons-container">
+				{activeDictionary.starredItemsCount > activeDictionary.preferredLearningListSize && (
+					<Tooltip
+						text="There is no space for all of the starred items to be in a training. Some starred items will not be present in some trainings."
+						position="bottom"
+						className="starred-items-overload-warning"
+					>
+						<span className="starred-count">{activeDictionary.starredItemsCount}</span>
+						<span className="slash">/</span>
+						<span>{activeDictionary.preferredLearningListSize}</span>
+						<StarIcon active />
+					</Tooltip>
+				)}
+
 				<Button
 					className="header-btn filters-btn xl-hidden"
 					onClick={showFiltersDrawer}
