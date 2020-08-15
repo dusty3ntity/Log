@@ -9,6 +9,11 @@ export interface IUser {
 
 	token: string;
 	refreshToken: string;
+
+	tourCompleted: boolean;
+	itemsTourCompleted: boolean;
+	newItemTourCompleted: boolean;
+	learningTourCompleted: boolean;
 }
 
 export interface IRegisterUser {

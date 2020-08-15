@@ -23,6 +23,8 @@ interface IProps {
 const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { deleteItem, starItem, unstarItem, starring, deleting, loadingTarget } = rootStore.itemStore;
+	const { goToNextStep } = rootStore.tourStore;
+	const { user } = rootStore.userStore;
 
 	const statusClass = item.isLearned ? "success" : item.correctAnswersToCompletionCount > 0 ? "warning" : "default";
 	const type = item.type === ItemType.Word ? "Word" : "Phrase";
@@ -53,7 +55,42 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			},
 			onOk() {
 				deleteItem();
+				if (!user!.tourCompleted && !user!.itemsTourCompleted) {
+					goToNextStep();
+				}
 				fireAnalyticsEvent("Items", "Deleted an item");
+			},
+			cancelButtonProps: {
+				className: "btn modal-btn cancel-btn",
+			},
+		});
+	};
+
+	const handleStar = () => {
+		if (!item.isLearned) {
+			starItem();
+			fireAnalyticsEvent("Items", "Starred an item");
+			return;
+		}
+
+		Modal.confirm({
+			title: "Confirmation",
+			content: (
+				<Fragment>
+					<span>Are you sure you want to star this item?</span>
+					<span>This item is already learned, therefore its progress will be reset.</span>
+				</Fragment>
+			),
+			width: "35rem",
+			maskClosable: true,
+			centered: true,
+			okText: "Star",
+			okButtonProps: {
+				className: "btn modal-btn confirm-btn",
+			},
+			onOk() {
+				starItem();
+				fireAnalyticsEvent("Items", "Starred an item");
 			},
 			cancelButtonProps: {
 				className: "btn modal-btn cancel-btn",
@@ -73,10 +110,10 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 						/>
 					}
 					interactive
-					position="bottom-start"
+					position="top-start"
 					theme="light"
 				>
-					<Badge status={statusClass} className="status-badge" />
+					<Badge status={statusClass} className="status-badge" tour-step="1-3" />
 				</Tooltip>
 
 				<span className="type">{type}</span>
@@ -89,12 +126,12 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					}
 					position="top-end"
 				>
-					<StarIcon className={starredClass} />
+					<StarIcon className={starredClass} tourStep="1-4" />
 				</Tooltip>
 			</div>
 
 			<div className="item-row row">
-				<div className="original-row text-row">
+				<div className="original-row text-row" tour-step="1-5">
 					<Tooltip text={item.original} position="top">
 						<TextEllipsis lines={2} tag="h2" tagClass={"original"}>
 							{item.original}
@@ -104,7 +141,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 
 				<Divider />
 
-				<div className="translation-row text-row">
+				<div className="translation-row text-row" tour-step="1-6">
 					<Tooltip text={item.translation} position="bottom">
 						<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>
 							{item.translation}
@@ -113,7 +150,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 				</div>
 			</div>
 
-			<div className="definition-row row">
+			<div className="definition-row row" tour-step="1-7">
 				<TextEllipsis lines={3} tag="p" tagClass={"definition"}>
 					{item.definition}
 				</TextEllipsis>
@@ -158,10 +195,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 										unstarItem();
 										fireAnalyticsEvent("Items", "Unstarred an item");
 								  }
-								: () => {
-										starItem();
-										fireAnalyticsEvent("Items", "Starred an item");
-								  }
+								: handleStar
 						}
 						icon={<StarIcon className={starredClass} />}
 						loading={starring && loadingTarget.includes(item.id)}

@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
-import { Checkbox } from "antd";
+import { Checkbox, Modal } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -18,6 +18,8 @@ interface IProps {
 const ListItem: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { selectItem, starItemById, unstarItemById, activeItem, starring, loadingTarget } = rootStore.itemStore;
+	const { goToNextStep } = rootStore.tourStore;
+	const { user } = rootStore.userStore;
 
 	const progressClass = item.isLearned
 		? "learned"
@@ -25,6 +27,38 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 		? "in-progress"
 		: "untouched";
 	const starredClass = item.isStarred ? " active" : "";
+
+	const handleStar = () => {
+		if (!item.isLearned) {
+			starItemById(item.id);
+			fireAnalyticsEvent("Items", "Starred an item");
+			return;
+		}
+
+		Modal.confirm({
+			title: "Confirmation",
+			content: (
+				<Fragment>
+					<span>Are you sure you want to star this item?</span>
+					<span>This item is already learned, therefore its progress will be reset.</span>
+				</Fragment>
+			),
+			width: "35rem",
+			maskClosable: true,
+			centered: true,
+			okText: "Star",
+			okButtonProps: {
+				className: "btn modal-btn confirm-btn",
+			},
+			onOk() {
+				starItemById(item.id);
+				fireAnalyticsEvent("Items", "Starred an item");
+			},
+			cancelButtonProps: {
+				className: "btn modal-btn cancel-btn",
+			},
+		});
+	};
 
 	return (
 		<div className={`list-item + ${item.id === activeItem?.id ? "active" : ""}`}>
@@ -49,19 +83,30 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 			<button
 				className="text-container btn"
 				onClick={() => {
+					if (!user!.tourCompleted && !user!.itemsTourCompleted) {
+						goToNextStep();
+					}
 					fireAnalyticsEvent("Items", "Selected an item");
 					selectItem(item.id);
 				}}
 			>
-				<Tooltip text={item.original} position="top">
-					<div className="text original">{item.original}</div>
-				</Tooltip>
+				<div className="text-content">
+					<Tooltip text={item.original} position="top">
+						<span className="fake-text">{item.original}</span>
+					</Tooltip>
+
+					<span className="text original">{item.original}</span>
+				</div>
 
 				<Divider vertical />
 
-				<Tooltip text={item.translation} position="top">
-					<div className="text translation">{item.translation}</div>
-				</Tooltip>
+				<div className="text-content">
+					<Tooltip text={item.translation} position="top">
+						<span className="fake-text">{item.translation}</span>
+					</Tooltip>
+
+					<span className="text translation">{item.translation}</span>
+				</div>
 			</button>
 
 			<div className="actions-col col">
@@ -82,10 +127,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 										unstarItemById(item.id);
 										fireAnalyticsEvent("Items", "Unstarred an item");
 								  }
-								: () => {
-										starItemById(item.id);
-										fireAnalyticsEvent("Items", "Starred an item");
-								  }
+								: handleStar
 						}
 						loading={starring && loadingTarget.includes(item.id)}
 					/>

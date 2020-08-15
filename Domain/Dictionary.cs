@@ -23,6 +23,8 @@ namespace Domain
         public int LearnedWordsCount { get; set; }
         public int LearnedPhrasesCount { get; set; }
 
+        public int StarredItemsCount { get; set; }
+
         public int PreferredLearningListSize { get; set; }
         public int CorrectAnswersToItemCompletion { get; set; }
         public bool IsHardModeEnabled { get; set; }

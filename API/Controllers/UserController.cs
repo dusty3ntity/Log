@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Users;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -85,6 +86,12 @@ namespace API.Controllers
         public async Task<ActionResult<User>> GoogleLogin(GoogleLogin.Query query)
         {
             return await Mediator.Send(query);
+        }
+
+        [HttpPost("tour")]
+        public async Task<Unit> CompleteTour(CompleteTour.Command command)
+        {
+            return await Mediator.Send(command);
         }
     }
 }

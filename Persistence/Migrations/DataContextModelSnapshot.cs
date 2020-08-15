@@ -44,11 +44,20 @@ namespace Persistence.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("ItemsTourCompleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LearningTourCompleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("NewItemTourCompleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("character varying(256)")
@@ -78,6 +87,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
+
+                    b.Property<bool>("TourCompleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
@@ -132,6 +144,9 @@ namespace Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("PreferredLearningListSize")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StarredItemsCount")
                         .HasColumnType("integer");
 
                     b.Property<string>("UserId")
@@ -447,7 +462,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.AppUser", "User")
                         .WithMany("Dictionaries")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.Item", b =>

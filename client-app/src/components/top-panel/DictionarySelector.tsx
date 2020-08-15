@@ -73,7 +73,7 @@ const DictionarySelector = () => {
 			placement="bottomCenter"
 			overlayClassName="dictionary-selector-dropdown"
 		>
-			<div className="btn dictionary-selector">
+			<div className="btn dictionary-selector" tour-step='1-9'>
 				<Tooltip text="Language you know." position="bottom">
 					<img
 						className="flag lang-from"

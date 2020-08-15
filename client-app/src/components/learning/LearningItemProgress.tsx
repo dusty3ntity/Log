@@ -17,7 +17,7 @@ const LearningItemProgress: React.FC<IProps> = ({ total, checked, secondTraining
 		dots.push(<span className={`progress-dot ${secondTraining ? "second-training" : ""}`} key={i + checked} />);
 	}
 
-	return <div className="learning-item-progress">{dots}</div>;
+	return <div className="learning-item-progress" tour-step="3-2">{dots}</div>;
 };
 
 export default LearningItemProgress;

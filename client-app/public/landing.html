@@ -1,133 +1,442 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
 	<meta charset="utf-8" />
 	<link rel="icon" href="images/favicon.ico" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,600;0,700;0,800;0,900;1,700&display=swap"
 		rel="stylesheet">
+
+	<script src="landing/js/peppermint.js"></script>
+	<link rel="stylesheet" href="landing/css/peppermint.required.css">
+
+	<link rel="stylesheet" href="landing/css/landing.css">
+
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<title>Log</title>
-
-	<style>
-		@media (max-width: 1099px) {
-			html {
-				font-size: 48px;
-			}
-		}
-
-		@media (min-width: 1100px) {
-			html {
-				font-size: 72px;
-			}
-		}
-
-		html {
-			height: 100vh;
-		}
-
-		body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background: #e3edf7;
-			height: 100%;
-			overflow: hidden;
-		}
-
-		div {
-			overflow: hidden;
-			position: relative;
-			float: right;
-			height: 98px;
-			padding-top: 10px;
-			margin-top: -10px;
-
-		}
-
-		li {
-			font-size: 1rem;
-			color: #4d7eff;
-			font-weight: 800;
-			font-family: "Nunito", sans-serif;
-			text-align: center;
-			padding: 0 10px;
-			height: 98px;
-			margin-bottom: 98px;
-			display: block;
-		}
-
-		ul {
-			padding: 0;
-			animation: flip 10s cubic-bezier(0.23, 1, 0.32, 1.2) infinite;
-		}
-
-		@keyframes flip {
-			0% {
-				margin-top: -980px;
-			}
-
-			5% {
-				margin-top: -784px;
-			}
-
-			20% {
-				margin-top: -784px;
-			}
-
-			25% {
-				margin-top: -588px;
-			}
-
-			40% {
-				margin-top: -588px;
-			}
-
-			45% {
-				margin-top: -392px;
-			}
-
-			60% {
-				margin-top: -392px;
-			}
-
-			65% {
-				margin-top: -196px;
-			}
-
-			80% {
-				margin-top: -196px;
-			}
-
-			85% {
-				margin-top: 0px;
-			}
-
-			99.99% {
-				margin-top: 0px;
-			}
-
-			100% {
-				margin-top: -784px;
-			}
-		}
-	</style>
 </head>
 
-<body>
-	<h1>
-		<div>
-			<ul>
-				<li>Bientôt...</li>
-				<li>Незабаром...</li>
-				<li>Bald...</li>
-				<li>Скоро...</li>
-				<li>Soon...</li>
-			</ul>
+<body style="visibility: hidden;">
+	<section id="section-1" class="section">
+		<div class="container content">
+			<header>
+				<a class="logo-container" href="https://log.ohyr.dev">
+					<img class="logo" src="images/logo.svg" alt="logo">
+					<span class="text">Log</span>
+				</a>
+
+				<div class="nav-container">
+					<nav>
+						<a href="/about" id="nav-about"></a>
+					</nav>
+
+					<div id="languages-container">
+						<button class="language-link" onclick="localize('en')">EN</button>
+						<div class="divider vertical"></div>
+						<button class="language-link" onclick="localize('ru')">RU</button>
+						<div class="divider vertical"></div>
+						<button class="language-link" onclick="localize('ua')">UA</button>
+					</div>
+				</div>
+			</header>
+
+			<div class="content">
+				<h1 class="title" id="section-1-title"></h1>
+				<h3 class="subtitle" id="section-1-subtitle"></h3>
+
+				<div class="btn-container">
+					<a href="/login" id="login-btn" class="btn"></a>
+					<a href="/register" id="register-btn" class="btn"></a>
+				</div>
+
+				<div class="image-container">
+					<picture>
+						<source srcset="images/landing/section-1/conveyor.webp 2x" type="image/webp">
+						<source srcset="images/landing/section-1/conveyor.png 1x" type="image/png">
+						<img class="image" src="images/landing/section-1/conveyor.png" alt="Landing image">
+					</picture>
+				</div>
+			</div>
+
+			<div id="scroll-indicator-container">
+				<div class="scroll-indicator">
+					<div class="thumb"></div>
+				</div>
+			</div>
 		</div>
-	</h1>
+	</section>
+
+	<section id="section-2" class="section">
+		<div class="container content">
+			<div class="image-container">
+				<picture>
+					<source srcset="images/landing/section-2/gui@2x.webp 2x images/landing/section-2/gui@1x.webp 1x"
+						media="(min-width: 768px)" type="image/webp">
+					<source srcset="images/landing/section-2/gui@2x.png 2x images/landing/section-2/gui@1x.png 1x"
+						media="(min-width: 768px)" type="image/png">
+					<source
+						srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+						media="(max-width: 767px)">
+					<img class="gui-image" src="images/landing/section-2/gui@1x.png" alt="User interface">
+				</picture>
+			</div>
+
+			<div class="text-container">
+				<h2 class="title" id="section-2-title"></h2>
+
+				<p class="text" id="section-2-paragraph-1"></p>
+				<p class="text" id="section-2-paragraph-2"></p>
+				<p class="text" id="section-2-paragraph-3"></p>
+			</div>
+		</div>
+	</section>
+
+	<section id="section-3" class="section">
+		<div class="container content">
+			<h2 class="title" id="section-3-title"></h2>
+
+			<p class="text" id="section-3-subtitle"></p>
+
+			<div class="steps-container">
+				<div class="step" id="step-1">
+					<div class="title-container">
+						<h4 class="step-title title" id="section-3-step-1"></h4>
+					</div>
+
+					<div class="image-container">
+						<div class="image-wrapper">
+							<picture>
+								<source srcset="images/landing/section-3/step-1@2x.webp 2x" media="(min-width: 600px)"
+									type="image/webp">
+								<source srcset="images/landing/section-3/step-1@2x.png 2x" media="(min-width: 600px)"
+									type="image/png">
+								<source srcset="images/landing/section-3/step-1@1x.webp 1x" type="image/webp">
+								<source srcset="images/landing/section-3/step-1@1x.png 1x" type="image/png">
+								<img class="step-image" src="images/landing/section-3/step-1@1x.png" alt="First step">
+							</picture>
+						</div>
+					</div>
+				</div>
+
+				<div class="step" id="step-2">
+					<div class="title-container">
+						<h4 class="step-title title" id="section-3-step-2"></h4>
+					</div>
+
+					<div class="image-container">
+						<div class="image-wrapper">
+							<picture>
+								<source srcset="images/landing/section-3/step-2@2x.webp 2x" media="(min-width: 600px)"
+									type="image/webp">
+								<source srcset="images/landing/section-3/step-2@2x.png 2x" media="(min-width: 600px)"
+									type="image/png">
+								<source srcset="images/landing/section-3/step-2@1x.webp 1x" type="image/webp">
+								<source srcset="images/landing/section-3/step-2@1x.png 1x" type="image/png">
+								<img class="step-image" src="images/landing/section-3/step-2@1x.png" alt="Second step">
+							</picture>
+						</div>
+					</div>
+				</div>
+
+				<div class="step" id="step-3">
+					<div class="title-container">
+						<h4 class="step-title title" id="section-3-step-3"></h4>
+					</div>
+
+					<div class="image-container">
+						<div class="image-wrapper">
+							<picture>
+								<source srcset="images/landing/section-3/step-3@2x.webp 2x" media="(min-width: 600px)"
+									type="image/webp">
+								<source srcset="images/landing/section-3/step-3@2x.png 2x" media="(min-width: 600px)"
+									type="image/png">
+								<source srcset="images/landing/section-3/step-3@1x.webp 1x" type="image/webp">
+								<source srcset="images/landing/section-3/step-3@1x.png 1x" type="image/png">
+								<img class="step-image" src="images/landing/section-3/step-3@1x.png" alt="Third step">
+							</picture>
+						</div>
+					</div>
+				</div>
+
+				<div class="step" id="step-4">
+					<div class="title-container">
+						<h4 class="step-title title" id="section-3-step-4"></h4>
+					</div>
+
+					<div class="image-container">
+						<div class="image-wrapper">
+							<picture>
+								<source srcset="images/landing/section-3/step-4@2x.webp 2x" media="(min-width: 600px)"
+									type="image/webp">
+								<source srcset="images/landing/section-3/step-4@2x.png 2x" media="(min-width: 600px)"
+									type="image/png">
+								<source srcset="images/landing/section-3/step-4@1x.webp 1x" type="image/webp">
+								<source srcset="images/landing/section-3/step-4@1x.png 1x" type="image/png">
+								<img class="step-image" src="images/landing/section-3/step-4@1x.png" alt="Fourth step">
+							</picture>
+						</div>
+					</div>
+				</div>
+
+				<div class="step" id="step-5">
+					<div class="title-container">
+						<h4 class="step-title title" id="section-3-step-5"></h4>
+					</div>
+
+					<div class="image-container">
+						<div class="image-wrapper">
+							<picture>
+								<source srcset="images/landing/section-3/step-5@2x.webp 2x" media="(min-width: 600px)"
+									type="image/webp">
+								<source srcset="images/landing/section-3/step-5@2x.png 2x" media="(min-width: 600px)"
+									type="image/png">
+								<source srcset="images/landing/section-3/step-5@1x.webp 1x" type="image/webp">
+								<source srcset="images/landing/section-3/step-5@1x.png 1x" type="image/png">
+								<img class="step-image" src="images/landing/section-3/step-5@1x.png" alt="Fifth step">
+							</picture>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="section-4" class="section">
+		<div class="container content">
+			<h2 class="title" id="section-4-title"></h2>
+
+			<div class="cards-container">
+				<div class="card">
+					<div class="image-container">
+						<picture>
+							<source srcset="images/landing/section-4/advantage-1@2x.webp 2x" media="(min-width: 600px)"
+								type="image/webp">
+							<source srcset="images/landing/section-4/advantage-1@2x.png 2x" media="(min-width: 600px)"
+								type="image/png">
+							<source srcset="images/landing/section-4/advantage-1@1x.webp 1x" type="image/webp">
+							<source srcset="images/landing/section-4/advantage-1@1x.png 1x" type="image/png">
+							<img class="advantage-image" src="images/landing/section-4/advantage-1@1x.png"
+								alt="First advantage">
+						</picture>
+					</div>
+
+					<div class="text-container">
+						<h4 class="card-title title" id="section-4-advantage-1"></h4>
+					</div>
+				</div>
+
+				<div class="divider"></div>
+
+				<div class="card">
+					<div class="image-container">
+						<picture>
+							<source srcset="images/landing/section-4/advantage-2@2x.webp 2x" media="(min-width: 600px)"
+								type="image/webp">
+							<source srcset="images/landing/section-4/advantage-2@2x.png 2x" media="(min-width: 600px)"
+								type="image/png">
+							<source srcset="images/landing/section-4/advantage-2@1x.webp 1x" type="image/webp">
+							<source srcset="images/landing/section-4/advantage-2@1x.png 1x" type="image/png">
+							<img class="advantage-image" src="images/landing/section-4/advantage-2@1x.png"
+								alt="Second advantage">
+						</picture>
+					</div>
+
+					<div class="text-container">
+						<h4 class="card-title title" id="section-4-advantage-2"></h4>
+					</div>
+				</div>
+
+				<div class="divider vertical"></div>
+
+				<div class="card">
+					<div class="image-container">
+						<picture>
+							<source srcset="images/landing/section-4/advantage-3@2x.webp 2x" media="(min-width: 600px)"
+								type="image/webp">
+							<source srcset="images/landing/section-4/advantage-3@2x.png 2x" media="(min-width: 600px)"
+								type="image/png">
+							<source srcset="images/landing/section-4/advantage-3@1x.webp 1x" type="image/webp">
+							<source srcset="images/landing/section-4/advantage-3@1x.png 1x" type="image/png">
+							<img class="advantage-image" src="images/landing/section-4/advantage-3@1x.png"
+								alt="Third advantage">
+						</picture>
+					</div>
+
+					<div class="text-container">
+						<h4 class="card-title title" id="section-4-advantage-3"></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="section-5" class="section">
+		<div class="content">
+			<div class="container">
+				<h2 class="title" id="section-5-title"></h2>
+			</div>
+
+			<div class="full-width-container">
+
+				<div id="carousel" class="peppermint slider-content">
+					<div class="slide">
+						<div class="container">
+							<div class="slide-content-wrapper">
+								<div class="slide-content">
+									<div class="text-container">
+										<h4 class="slide-title" id="section-5-feature-1-title"></h4>
+
+										<p class="text" id="section-5-feature-1-text"></p>
+									</div>
+
+									<div class="image-container">
+										<picture>
+											<source srcset="images/landing/section-5/feature-1@1x.webp 1x"
+												type="image/webp">
+											<source srcset="images/landing/section-5/feature-1@1x.png 1x"
+												type="image/png">
+											<img class="feature-image" src="images/landing/section-5/feature-1@1x.png"
+												alt="First feature">
+										</picture>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="slide">
+						<div class="container">
+							<div class="slide-content-wrapper">
+								<div class="slide-content">
+									<div class="text-container">
+										<h4 class="slide-title" id="section-5-feature-2-title"></h4>
+
+										<p class="text" id="section-5-feature-2-text"></p>
+									</div>
+
+									<div class="image-container">
+										<picture>
+											<source srcset="images/landing/section-5/feature-2@1x.webp 1x"
+												type="image/webp">
+											<source srcset="images/landing/section-5/feature-2@1x.png 1x"
+												type="image/png">
+											<img class="feature-image" src="images/landing/section-5/feature-2@1x.png"
+												alt="Second feature">
+										</picture>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="slide">
+						<div class="container">
+							<div class="slide-content-wrapper">
+								<div class="slide-content">
+									<div class="text-container">
+										<h4 class="slide-title" id="section-5-feature-3-title"></h4>
+
+										<p class="text" id="section-5-feature-3-text"></p>
+									</div>
+
+									<div class="image-container">
+										<picture>
+											<source srcset="images/landing/section-5/feature-3@1x.webp 1x"
+												type="image/webp">
+											<source srcset="images/landing/section-5/feature-3@1x.png 1x"
+												type="image/png">
+											<img class="feature-image" src="images/landing/section-5/feature-3@1x.png"
+												alt="Third feature">
+										</picture>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="slide">
+						<div class="container">
+							<div class="slide-content-wrapper">
+								<div class="slide-content">
+									<div class="text-container">
+										<h4 class="slide-title" id="section-5-feature-4-title"></h4>
+
+										<p class="text" id="section-5-feature-4-text"></p>
+									</div>
+
+									<div class="image-container">
+										<picture>
+											<source srcset="images/landing/section-5/feature-4@1x.webp 1x"
+												type="image/webp">
+											<source srcset="images/landing/section-5/feature-4@1x.png 1x"
+												type="image/png">
+											<img class="feature-image" src="images/landing/section-5/feature-4@1x.png"
+												alt="Fourth feature">
+										</picture>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="slide">
+						<div class="container">
+							<div class="slide-content-wrapper">
+								<div class="slide-content">
+									<div class="text-container">
+										<h4 class="slide-title" id="section-5-feature-5-title"></h4>
+
+										<p class="text" id="section-5-feature-5-text"></p>
+									</div>
+
+									<div class="image-container">
+										<picture>
+											<source srcset="images/landing/section-5/feature-5@1x.webp 1x"
+												type="image/webp">
+											<source srcset="images/landing/section-5/feature-5@1x.png 1x"
+												type="image/png">
+											<img class="feature-image" src="images/landing/section-5/feature-5@1x.png"
+												alt="Fifth feature">
+										</picture>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="slide">
+						<div class="container">
+							<div class="slide-content-wrapper">
+								<div class="slide-content no-image">
+									<div class="text-container">
+										<h4 class="slide-title" id="section-5-feature-6-title"></h4>
+
+										<p class="text" id="section-5-feature-6-text"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div id="carousel-dots"></div>
+			</div>
+		</div>
+
+
+		<footer>
+			<div class="container content">
+				<span class="footer-text text copyright">Log © 2020</span>
+				<a class="footer-text text contact"
+					href="mailto:dusty3ntity@gmail.com?subject=Log">dusty3ntity@gmail.com</a>
+			</div>
+		</footer>
+	</section>
+
+	<script src="landing/js/landing.js"></script>
 </body>
 
 </html>
