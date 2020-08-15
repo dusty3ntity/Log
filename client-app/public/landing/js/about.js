@@ -17,6 +17,9 @@ let assets;
 const initLocalization = (data, lang) => {
 	assets = data;
 	localize(lang);
+	document.getElementById("lang-en").addEventListener("click", () => localize("en"));
+	document.getElementById("lang-ru").addEventListener("click", () => localize("ru"));
+	document.getElementById("lang-ua").addEventListener("click", () => localize("ua"));
 	document.querySelector("body").style.visibility = "visible";
 };
 

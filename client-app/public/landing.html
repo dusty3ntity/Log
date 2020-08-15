@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
 <head>
 	<meta charset="utf-8" />
@@ -33,11 +33,11 @@
 					</nav>
 
 					<div id="languages-container">
-						<button class="language-link" onclick="localize('en')">EN</button>
+						<button class="language-link" id="lang-en">EN</button>
 						<div class="divider vertical"></div>
-						<button class="language-link" onclick="localize('ru')">RU</button>
+						<button class="language-link" id="lang-ru">RU</button>
 						<div class="divider vertical"></div>
-						<button class="language-link" onclick="localize('ua')">UA</button>
+						<button class="language-link" id="lang-ua">UA</button>
 					</div>
 				</div>
 			</header>
@@ -72,9 +72,9 @@
 		<div class="container content">
 			<div class="image-container">
 				<picture>
-					<source srcset="images/landing/section-2/gui@2x.webp 2x images/landing/section-2/gui@1x.webp 1x"
+					<source srcset="images/landing/section-2/gui@2x.webp 2x, images/landing/section-2/gui@1x.webp 1x"
 						media="(min-width: 768px)" type="image/webp">
-					<source srcset="images/landing/section-2/gui@2x.png 2x images/landing/section-2/gui@1x.png 1x"
+					<source srcset="images/landing/section-2/gui@2x.png 2x, images/landing/section-2/gui@1x.png 1x"
 						media="(min-width: 768px)" type="image/png">
 					<source
 						srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
