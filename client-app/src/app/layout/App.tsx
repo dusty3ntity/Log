@@ -23,10 +23,12 @@ import Soon from "./Soon";
 import { setAnalyticsPageView } from "../common/analytics/analytics";
 import OnboardingPage from "../../components/users/OnboardingPage";
 import AnonymousRedirectPage from "./AnonymousRedirectPage";
+import OnboardingTour from "../../components/common/other/OnboardingTour";
 
 function App() {
 	const rootStore = useContext(RootStoreContext);
 	const { setAppLoaded, token, appLoaded, onInitialLoad } = rootStore.commonStore;
+	const { user } = rootStore.userStore;
 
 	useEffect(() => {
 		if (token) {
@@ -44,6 +46,8 @@ function App() {
 
 	return (
 		<Fragment>
+			{user && !user.tourCompleted && <OnboardingTour />}
+
 			<ToastContainer
 				position="bottom-right"
 				limit={3}

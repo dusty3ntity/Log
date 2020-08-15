@@ -6,6 +6,7 @@ import LearningStore from "./learningStore";
 import DictionaryStore from "./dictionaryStore";
 import UserStore from "./userStore";
 import CommonStore from "./commonStore";
+import TourStore from "./tourStore";
 
 configure({ enforceActions: "always" });
 
@@ -15,6 +16,7 @@ export class RootStore {
 	dictionaryStore: DictionaryStore;
 	userStore: UserStore;
 	commonStore: CommonStore;
+	tourStore: TourStore;
 
 	constructor() {
 		this.itemStore = new ItemStore(this);
@@ -22,6 +24,7 @@ export class RootStore {
 		this.dictionaryStore = new DictionaryStore(this);
 		this.userStore = new UserStore(this);
 		this.commonStore = new CommonStore(this);
+		this.tourStore = new TourStore(this);
 	}
 }
 

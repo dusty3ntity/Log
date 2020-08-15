@@ -8,14 +8,15 @@ import Empty from "../../common/other/Empty";
 
 interface IProps {
 	classNames: string;
+	tourStep: string;
 }
 
-const ItemDetails: React.FC<IProps> = ({ classNames }) => {
+const ItemDetails: React.FC<IProps> = ({ classNames, tourStep }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { activeItem, loadingItem } = rootStore.itemStore;
 
 	return (
-		<div id="item-details" className={classNames}>
+		<div id="item-details" className={classNames} tour-step={tourStep}>
 			{!activeItem && !loadingItem && <Empty text="Select an item" size={9} />}
 			{loadingItem && <LoadingScreen size={2} />}
 			{activeItem && !loadingItem && <ItemDetailsContent item={activeItem} />}

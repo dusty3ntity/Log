@@ -13,6 +13,8 @@ import { LearningStatus } from "../../app/models/learning";
 
 const Learning = () => {
 	const rootStore = useContext(RootStoreContext);
+	const { user } = rootStore.userStore;
+	const { goToNextStep } = rootStore.tourStore;
 	const {
 		status,
 		flipCounter,
@@ -23,6 +25,7 @@ const Learning = () => {
 		isLearningOutdatedFlipped,
 
 		loading,
+		animationTimeout,
 
 		onInitialLoad,
 		onStart,
@@ -49,6 +52,7 @@ const Learning = () => {
 					id="learning-content"
 					style={{ transform: `rotateY(${flipCounter}turn)` }}
 					className={status !== LearningStatus.Initial ? "animated" : ""}
+					tour-step="3-1"
 				>
 					{status === LearningStatus.Initial && <LoadingScreen size={2} />}
 
@@ -92,7 +96,13 @@ const Learning = () => {
 									: undefined
 							}
 							buttonType={learningList!.completedItemsCount === 0 ? "start" : "continue"}
-							onClick={onStart}
+							onClick={() => {
+								onStart().finally(() => {
+									if (!user!.tourCompleted && !user!.learningTourCompleted) {
+										setTimeout(goToNextStep, animationTimeout + 100);
+									}
+								});
+							}}
 							isFlipped={isLearningStartFlipped}
 							loading={loading}
 						/>
@@ -142,7 +152,7 @@ const Learning = () => {
 								<Fragment>
 									<WarningIcon />
 									<div className="message">
-										Minimum 10 items are required for generating a training.
+										You need to have at least 10 items to generate a training.
 									</div>
 								</Fragment>
 							}

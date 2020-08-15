@@ -63,8 +63,14 @@ namespace Application.Users
                         Username = user.UserName,
                         Email = user.Email,
                         DisplayName = user.DisplayName,
+                        
                         Token = _jwtGenerator.CreateToken(user),
-                        RefreshToken = user.RefreshToken
+                        RefreshToken = user.RefreshToken,
+                        
+                        TourCompleted = user.TourCompleted,
+                        ItemsTourCompleted = user.ItemsTourCompleted,
+                        NewItemTourCompleted = user.NewItemTourCompleted,
+                        LearningTourCompleted = user.LearningTourCompleted
                     };
                 }
 

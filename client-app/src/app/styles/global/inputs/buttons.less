@@ -12,7 +12,8 @@ button {
 	border: none;
 	cursor: pointer;
 
-	.icon + span, span + .icon {
+	.icon + span,
+	span + .icon {
 		margin-left: 8px;
 	}
 
@@ -50,8 +51,8 @@ button {
 
 .btn.primary {
 	background: @primary-color;
-	box-shadow: -3px -3px 8px #ffffff, 3px 3px 8px #4a63a3, inset 1px 1px 4px rgba(255, 255, 255, 0.5),
-		inset -1px -1px 4px #416bd4;
+	box-shadow: -5px 5px 12px rgba(143, 151, 166, 0.2), 5px -5px 10px rgba(200, 201, 203, 0.2), -6px -6px 4px #f3f9ff,
+		3px 3px 6px rgba(3, 3, 3, 0.16), inset 1px 1px 2px rgba(214, 224, 238, 0.9), inset -1px -1px 4px #3e59a2;
 
 	color: @body-background;
 
@@ -60,15 +61,15 @@ button {
 	}
 
 	&:hover {
-		background: linear-gradient(120.8deg, #3e66cb -11.91%, #6292ff 113.56%);
-		box-shadow: -3px -3px 8px #ffffff, 3px 3px 8px #4a63a3, inset 1px 1px 4px rgba(255, 255, 255, 0.5),
-			inset -1px -1px 4px #416bd4;
+		background: linear-gradient(135deg, #4060b6 0%, #769cff 100%);
 	}
 
 	&:active,
 	&.active {
-		background: #406de0;
-		box-shadow: inset -2px -2px 6px #ffffff, inset 2px 2px 6px #4a63a3;
+		background: #6a94ff;
+		box-shadow: -1px -1px 2px #3e59a1, inset -5px 5px 20px rgba(33, 50, 82, 0.28),
+			inset 5px -5px 8px rgba(77, 101, 151, 0.24), inset -6px -6px 20px rgba(207, 231, 254, 0.85),
+			inset 4px 4px 10px rgba(43, 46, 60, 0.44);
 	}
 
 	.loading-indicator-small {
@@ -77,8 +78,8 @@ button {
 
 	&:not(.no-disabled-styles):disabled {
 		background: #bfd1f0 !important;
-		box-shadow: -3px -3px 8px rgba(255, 255, 255, 0.5), 3px 3px 8px rgba(126, 138, 158, 0.75),
-			inset 1px 1px 4px rgba(255, 255, 255, 0.5), inset -1px -1px 4px rgba(126, 138, 158, 0.75);
+		box-shadow: -5px 5px 12px rgba(143, 151, 166, 0.2), 5px -5px 10px rgba(200, 201, 203, 0.2), -6px -6px 4px #f3f9ff,
+		3px 3px 6px rgba(3, 3, 3, 0.16), inset 1px 1px 2px rgba(214, 224, 238, 0.9), inset -1px -1px 4px #3e59a2;
 
 		cursor: not-allowed;
 		color: rgba(93, 115, 136, 0.5);

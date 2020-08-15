@@ -121,7 +121,7 @@ const NewItemForm: React.FC<IProps> = ({
 
 	return (
 		<form id={id} className="item-form" onSubmit={handleSubmit(submit)}>
-			<div className="original-input form-item">
+			<div className="original-input form-item" tour-step="2-2">
 				<label htmlFor="original">
 					<span className="label-text">Original</span>
 					<span className="language-badge">{languageToLearnCode}</span>
@@ -209,7 +209,7 @@ const NewItemForm: React.FC<IProps> = ({
 					Reset
 				</button>
 
-				<div className="right-container">
+				<div className="right-container" tour-step="2-3">
 					<Tooltip text={definitionActivated ? "Remove definition." : "Add definition."} position="bottom">
 						<button
 							className="btn definition-actions-btn add-definition-btn"

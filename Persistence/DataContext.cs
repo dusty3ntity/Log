@@ -53,6 +53,10 @@ namespace Persistence
                 .HasOne(d => d.LanguageToLearn)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Dictionary>()
+                .HasOne(d => d.User)
+                .WithMany(u => u.Dictionaries)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private static void SetupItems(ModelBuilder builder)

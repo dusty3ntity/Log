@@ -7,6 +7,7 @@ import { RootStore } from "./rootStore";
 import agent from "../api/agent";
 import { ErrorType, NotificationType } from "../models/error";
 import { createNotification } from "./../common/util/notifications";
+import { learningTourSteps } from "../models/tour";
 
 export default class LearningStore {
 	rootStore: RootStore;
@@ -52,6 +53,15 @@ export default class LearningStore {
 			runInAction("onInitialLoad", () => {
 				if (!this.learningList!.isCompleted) {
 					this.status = LearningStatus.LearningStart;
+					if (
+						!this.rootStore.userStore.user!.tourCompleted &&
+						!this.rootStore.userStore.user!.learningTourCompleted
+					) {
+						this.rootStore.tourStore.startTour(
+							learningTourSteps,
+							this.rootStore.tourStore.finishLearningTourPart
+						);
+					}
 				} else if (this.learningList!.timesCompleted === 1) {
 					this.status = LearningStatus.LearningStartOver;
 				} else if (this.learningList!.timesCompleted === 2) {

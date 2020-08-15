@@ -92,28 +92,43 @@
 		}
 
 		.text-container {
+			height: 100%;
 			flex-grow: 2;
 			padding: 8px 0;
 			overflow: hidden;
 			background: none;
-
-			.tooltip-container {
-				display: block;
-				height: 100%;
-				width: 50%;
-
-				overflow: hidden;
-			}
 		}
 
-		.text {
+		.text-content {
+			width: 50%;
 			font-size: 20px;
 			font-weight: 600;
 
 			overflow: hidden;
-			white-space: nowrap;
 			text-align: center;
 			text-overflow: ellipsis;
+			position: relative;
+
+			.tooltip-container {
+				display: block !important;
+			}
+		}
+
+		.text {
+			white-space: nowrap;
+		}
+
+		.translation {
+			color: @text-color-grey;
+		}
+
+		.fake-text {
+			position: absolute;
+			text-indent: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			left: 50%;
+			transform: translate(-50%, 0);
 		}
 
 		.actions-col {
@@ -152,10 +167,6 @@
 				height: 32px;
 				width: 32px;
 			}
-		}
-
-		.translation {
-			color: @text-color-grey;
 		}
 
 		.actions-btn {

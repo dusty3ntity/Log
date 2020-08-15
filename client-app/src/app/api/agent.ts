@@ -165,9 +165,7 @@ const responseBody = (response: AxiosResponse) => response.data;
 
 const sleep = () => (response: AxiosResponse) => {
 	return new Promise<AxiosResponse>((resolve) => {
-		process.env.REACT_APP_ENV === "DEVELOPMENT"
-			? setTimeout(() => resolve(response), 1000)
-			: resolve(response);
+		process.env.REACT_APP_ENV === "DEVELOPMENT" ? setTimeout(() => resolve(response), 1000) : resolve(response);
 	});
 };
 
@@ -221,6 +219,12 @@ const Users = {
 	register: (user: ILoginUser): Promise<IUser> => requests.post("/user/register", user),
 	facebookLogin: (accessToken: string) => requests.post(`/user/facebook`, { accessToken }),
 	googleLogin: (accessCode: string) => requests.post(`/user/google`, { accessCode }),
+	completeTour: (data: {
+		tourCompleted?: boolean;
+		itemsTourCompleted?: boolean;
+		newItemTourCompleted?: boolean;
+		learningTourCompleted?: boolean;
+	}) => requests.post("/user/tour", data),
 };
 
 export default {

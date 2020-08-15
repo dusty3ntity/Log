@@ -347,7 +347,14 @@ export default class ItemStore {
 		try {
 			await agent.Items.star(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("starring item", () => {
-				this.itemRegistry.get(id)!.isStarred = true;
+				const item = this.itemRegistry.get(id)!;
+				item.isStarred = true;
+				this.rootStore.dictionaryStore.activeDictionary.starredItemsCount++;
+
+				if (item.isLearned) {
+					item.isLearned = false;
+					item.correctAnswersToCompletionCount = 0;
+				}
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -377,6 +384,7 @@ export default class ItemStore {
 			await agent.Items.unstar(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("unstarring item", () => {
 				this.itemRegistry.get(id)!.isStarred = false;
+				this.rootStore.dictionaryStore.activeDictionary.starredItemsCount--;
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {

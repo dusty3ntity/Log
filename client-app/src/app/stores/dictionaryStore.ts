@@ -156,6 +156,8 @@ export default class DictionaryStore {
 					phrasesCount: 1,
 					learnedWordsCount: 0,
 					learnedPhrasesCount: 0,
+					
+					starredItemsCount: 0,
 
 					preferredLearningListSize: dictionary.preferredLearningListSize,
 					correctAnswersToItemCompletion: dictionary.correctAnswersToItemCompletion,

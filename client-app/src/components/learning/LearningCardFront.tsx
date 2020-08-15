@@ -70,7 +70,7 @@ const LearningCardFront: React.FC<IProps> = ({
 				</Tooltip>
 			</div>
 
-			<div className="item-row row">
+			<div className="item-row row" tour-step="3-4">
 				<div className="task-row">
 					<h1 className={`task text ${textSizeClass}`}>{item.item}</h1>
 				</div>

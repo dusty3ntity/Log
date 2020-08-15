@@ -21,5 +21,10 @@ namespace Domain
 
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiry { get; set; }
+
+        public bool TourCompleted { get; set; }
+        public bool ItemsTourCompleted { get; set; }
+        public bool NewItemTourCompleted { get; set; }
+        public bool LearningTourCompleted { get; set; }
     }
 }

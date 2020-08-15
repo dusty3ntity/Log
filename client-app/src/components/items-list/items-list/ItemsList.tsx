@@ -30,7 +30,7 @@ const ItemsList = () => {
 			<div id="content-container">
 				<ItemFilters classNames="xl-visible" />
 
-				<div id="list-container">
+				<div id="list-container" tour-step="1-1">
 					<ItemFiltersDrawer />
 					{loadingInitial && <LoadingScreen size={2} />}
 
