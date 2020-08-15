@@ -42,12 +42,5 @@ namespace API.Controllers
             return await Mediator.Send(new StartOver.Command
                 {DictionaryId = dictionaryId, LearningListId = learningListId});
         }
-
-        // For testing purposes, should be deleted soon
-        [HttpDelete]
-        public async Task<ActionResult<Unit>> Delete(Guid dictionaryId)
-        {
-            return await Mediator.Send(new Delete.Command {DictionaryId = dictionaryId});
-        }
     }
 }
