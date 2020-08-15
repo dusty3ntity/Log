@@ -78,7 +78,7 @@ export default class ItemStore {
 		if (this.rootStore.commonStore.newUser) {
 			return;
 		}
-		
+
 		if (this.page === 0) {
 			this.loadingInitial = true;
 		} else {
@@ -347,14 +347,24 @@ export default class ItemStore {
 		try {
 			await agent.Items.star(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("starring item", () => {
-				const item = this.itemRegistry.get(id)!;
-				item.isStarred = true;
-				this.rootStore.dictionaryStore.activeDictionary.starredItemsCount++;
+				if (this.itemRegistry.get(id)) {
+					this.itemRegistry.get(id)!.isStarred = true;
 
-				if (item.isLearned) {
-					item.isLearned = false;
-					item.correctAnswersToCompletionCount = 0;
+					if (this.itemRegistry.get(id)!.isLearned) {
+						this.itemRegistry.get(id)!.isLearned = false;
+						this.itemRegistry.get(id)!.correctAnswersToCompletionCount = 0;
+					}
 				}
+				if (this.activeItem) {
+					this.activeItem.isStarred = true;
+
+					if (this.activeItem!.isLearned) {
+						this.activeItem!.isLearned = false;
+						this.activeItem!.correctAnswersToCompletionCount = 0;
+					}
+				}
+
+				this.rootStore.dictionaryStore.activeDictionary.starredItemsCount++;
 			});
 		} catch (err) {
 			if (err.code < ErrorType.DefaultErrorsBlockEnd) {
@@ -383,7 +393,12 @@ export default class ItemStore {
 		try {
 			await agent.Items.unstar(this.rootStore.dictionaryStore.activeDictionaryId!, id);
 			runInAction("unstarring item", () => {
-				this.itemRegistry.get(id)!.isStarred = false;
+				if (this.itemRegistry.get(id)) {
+					this.itemRegistry.get(id)!.isStarred = false;
+				}
+				if (this.activeItem) {
+					this.activeItem.isStarred = false;
+				}
 				this.rootStore.dictionaryStore.activeDictionary.starredItemsCount--;
 			});
 		} catch (err) {
