@@ -21,7 +21,7 @@ const ItemDetailsDrawer = () => {
 			getContainer={false}
 			style={{ position: "absolute" }}
 		>
-			<ItemDetails classNames="drawer-content" />
+			<ItemDetails classNames="drawer-content" tourStep="1-2-1" />
 		</Drawer>
 	);
 };

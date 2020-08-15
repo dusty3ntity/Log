@@ -39,7 +39,7 @@ const NavBar = () => {
 				<Divider className="nav-divider" invisible /> */}
 
 				<NavItem link="/settings" name="Settings" icon={<SettingsIcon classNames="nav-icon" />} />
-				<NavItem button onClick={logout} name="Logout" icon={<LogoutIcon classNames="nav-icon" />} />
+				<NavItem button onClick={logout} name="Log out" icon={<LogoutIcon classNames="nav-icon" />} />
 			</div>
 
 			<div className="nav-user-area">

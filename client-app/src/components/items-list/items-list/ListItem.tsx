@@ -18,6 +18,8 @@ interface IProps {
 const ListItem: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { selectItem, starItemById, unstarItemById, activeItem, starring, loadingTarget } = rootStore.itemStore;
+	const { goToNextStep } = rootStore.tourStore;
+	const { user } = rootStore.userStore;
 
 	const progressClass = item.isLearned
 		? "learned"
@@ -81,6 +83,9 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 			<button
 				className="text-container btn"
 				onClick={() => {
+					if (!user!.tourCompleted && !user!.itemsTourCompleted) {
+						goToNextStep();
+					}
 					fireAnalyticsEvent("Items", "Selected an item");
 					selectItem(item.id);
 				}}

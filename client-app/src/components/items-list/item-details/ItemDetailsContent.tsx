@@ -23,6 +23,8 @@ interface IProps {
 const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { deleteItem, starItem, unstarItem, starring, deleting, loadingTarget } = rootStore.itemStore;
+	const { goToNextStep } = rootStore.tourStore;
+	const { user } = rootStore.userStore;
 
 	const statusClass = item.isLearned ? "success" : item.correctAnswersToCompletionCount > 0 ? "warning" : "default";
 	const type = item.type === ItemType.Word ? "Word" : "Phrase";
@@ -53,6 +55,9 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			},
 			onOk() {
 				deleteItem();
+				if (!user!.tourCompleted && !user!.itemsTourCompleted) {
+					goToNextStep();
+				}
 				fireAnalyticsEvent("Items", "Deleted an item");
 			},
 			cancelButtonProps: {
@@ -105,10 +110,10 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 						/>
 					}
 					interactive
-					position="bottom-start"
+					position="top-start"
 					theme="light"
 				>
-					<Badge status={statusClass} className="status-badge" />
+					<Badge status={statusClass} className="status-badge" tour-step="1-3" />
 				</Tooltip>
 
 				<span className="type">{type}</span>
@@ -121,12 +126,12 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					}
 					position="top-end"
 				>
-					<StarIcon className={starredClass} />
+					<StarIcon className={starredClass} tourStep="1-4" />
 				</Tooltip>
 			</div>
 
 			<div className="item-row row">
-				<div className="original-row text-row">
+				<div className="original-row text-row" tour-step="1-5">
 					<Tooltip text={item.original} position="top">
 						<TextEllipsis lines={2} tag="h2" tagClass={"original"}>
 							{item.original}
@@ -136,7 +141,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 
 				<Divider />
 
-				<div className="translation-row text-row">
+				<div className="translation-row text-row" tour-step="1-6">
 					<Tooltip text={item.translation} position="bottom">
 						<TextEllipsis lines={2} tag="h3" tagClass={"translation"}>
 							{item.translation}
@@ -145,7 +150,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 				</div>
 			</div>
 
-			<div className="definition-row row">
+			<div className="definition-row row" tour-step="1-7">
 				<TextEllipsis lines={3} tag="p" tagClass={"definition"}>
 					{item.definition}
 				</TextEllipsis>

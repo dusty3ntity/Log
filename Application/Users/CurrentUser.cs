@@ -39,7 +39,12 @@ namespace Application.Users
                     Avatar = user.Avatar,
 
                     Token = _jwtGenerator.CreateToken(user),
-                    RefreshToken = user.RefreshToken
+                    RefreshToken = user.RefreshToken,
+
+                    TourCompleted = user.TourCompleted,
+                    ItemsTourCompleted = user.ItemsTourCompleted,
+                    NewItemTourCompleted = user.NewItemTourCompleted,
+                    LearningTourCompleted = user.LearningTourCompleted
                 };
             }
         }
