@@ -134,6 +134,7 @@ const NewItemForm: React.FC<IProps> = ({
 					className="text-input original"
 					type="text"
 					autoFocus
+					autoComplete="off"
 					ref={register({
 						required: "Original is required.",
 						validate: {
@@ -168,6 +169,7 @@ const NewItemForm: React.FC<IProps> = ({
 					name="translation"
 					type="text"
 					className="text-input translation"
+					autoComplete="off"
 					ref={register({
 						required: "Translation is required.",
 						validate: {
