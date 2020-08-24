@@ -20,10 +20,10 @@ const NavBar = () => {
 	return (
 		<div id="nav">
 			<div className="nav-header">
-				<Link to="/">
+				<a href="/">
 					<img className="logo" src="/images/logo.svg" alt="Logo" />
 					<span className="title">Log.</span>
-				</Link>
+				</a>
 			</div>
 
 			<div className="nav-items">
