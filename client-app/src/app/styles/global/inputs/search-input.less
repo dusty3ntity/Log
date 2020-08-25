@@ -1,49 +1,41 @@
-.ant-input-affix-wrapper {
-	max-height: unset;
-}
-
-.ant-input-search {
-	height: 100%;
-	width: 100%;
+.search-input {
 	display: flex;
+	padding: 6px 16px;
 	border-radius: 20px;
 	border: 1px solid @body-background;
 	border-top-color: #dcdadab0;
 	border-left-color: #e4d8d84f;
-	
-	padding: 4px 16px !important;
+	transition: all 0.3s;
+
 	box-shadow: -1px -1px 2px #ccd5dc80, 1px 1px 2px rgba(250, 255, 255, 0.3),
 		inset 3px 3px 8px rgba(204, 213, 220, 0.9), inset -3px -3px 6px rgba(250, 255, 255, 0.9),
 		inset 3px -3px 6px rgba(204, 213, 220, 0.2), inset -3px 3px 6px rgba(204, 213, 220, 0.2);
 
-	&:focus-within {
+	&:focus-within,
+	&:hover {
 		border: 1px solid @primary-color;
 		border-style: solid;
 	}
 
-	.anticon-search {
-		color: @primary-color;
-		font-size: 16px;
-	}
-
-	.ant-input {
+	input {
 		flex-grow: 2;
+		border: none;
+		outline: none;
+		padding: 2px 0;
 		font-size: 20px;
-		background: none;
+		text-overflow: ellipsis;
+
+		background: transparent;
 
 		&::placeholder {
 			color: #909aa4cc;
 		}
 	}
 
-	.ant-input-suffix {
+	.search-btn {
+		padding: 4px;
 		margin-left: 16px;
-	}
 
-	.ant-input-search-icon {
-		margin: 0;
-		padding: 6px;
-		border-radius: 50%;
 		background: @body-background;
 		box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 			1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),
@@ -58,10 +50,10 @@
 				inset 1px 1px 3px rgba(204, 213, 220, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
 				inset 1px -1px 2px rgba(204, 213, 220, 0.2), inset -1px 1px 2px rgba(204, 213, 220, 0.2);
 		}
-	}
 
-	.ant-input-search-icon::before,
-	.ant-input-search-icon::after {
-		display: none;
+		.icon {
+			height: 18px;
+			width: 18px;
+		}
 	}
 }
