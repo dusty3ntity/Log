@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
-import Search from "antd/lib/input/Search";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import FilterIcon from "../../icons/FilterIcon";
@@ -9,6 +8,7 @@ import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import Button from "../../common/inputs/Button";
 import StarIcon from "../../icons/StarIcon";
 import Tooltip from "../../common/tooltips/Tooltip";
+import SearchInput from "../../common/inputs/SearchInput";
 
 const Header = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -81,13 +81,12 @@ const Header = () => {
 					analyticsAction="Opened the item filters drawer"
 				/>
 
-				<Search
+				<SearchInput
 					key={rootStore.dictionaryStore.activeDictionaryId}
-					id="item-search"
-					placeholder="item..."
-					loading={loadingInitial || loadingNext}
-					defaultValue={predicate.get("search") ?? ""}
 					onSearch={handleSearch}
+					loading={loadingInitial || loadingNext}
+					defaultValue={predicate.get("search")}
+					placeholder="item..."
 				/>
 			</div>
 		</div>
