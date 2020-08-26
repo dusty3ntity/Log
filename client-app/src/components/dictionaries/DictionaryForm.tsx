@@ -1,6 +1,6 @@
 import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Slider, Switch, Modal } from "antd";
+import { Slider, Modal } from "antd";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
@@ -9,6 +9,7 @@ import { ILanguage } from "../../app/models/languages";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
+import Switch from "../common/inputs/Switch";
 
 interface IProps {
 	id: string;
@@ -258,28 +259,16 @@ const DictionaryForm: React.FC<IProps> = ({
 						<label>Is hardmode enabled:</label>
 					</Tooltip>
 
-					<Switch
-						className="toggle"
-						checked={isHardModeEnabled}
-						onChange={(value) => {
-							setDirty(
-								value !== dictionary?.isHardModeEnabled
-									? true
-									: preferredLearningListSize !== dictionary?.preferredLearningListSize ||
-											requiredCorrectAnswersNumber !== dictionary.correctAnswersToItemCompletion
-							);
-							setHardModeEnabled(value);
-						}}
-					/>
+					<Switch name="isHardmodeEnabled" />
 				</div>
 
-				{!dictionary && !rootStore.commonStore.newUser && (
+				{!dictionary && (
 					<div className="is-main toggle-item form-item">
 						<Tooltip text="Main dictionary loads initially on each application start." position="top-start">
 							<label>Is this my main dictionary:</label>
 						</Tooltip>
 
-						<Switch className="toggle" onChange={setMain} />
+						<Switch name="isMain" />
 					</div>
 				)}
 			</div>
