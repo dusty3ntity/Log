@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { Checkbox, Badge } from "antd";
+import { Checkbox } from "antd";
 import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import Divider from "../../common/other/Divider";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import StarIcon from "../../icons/StarIcon";
+import ItemProgressBadge from "../../common/other/ItemProgressBadge";
 
 interface IProps {
 	classNames: string;
@@ -59,7 +60,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 						onClick={() => handleCheckboxClick("learned")}
 					>
 						<span className="item-name">Learned</span>
-						<Badge className="label-icon" status="success" />
+						<ItemProgressBadge status="learned" />
 					</Checkbox>
 
 					<Checkbox
@@ -69,7 +70,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 						onClick={() => handleCheckboxClick("inProgress")}
 					>
 						<span className="item-name">In progress</span>
-						<Badge className="label-icon" status="warning" />
+						<ItemProgressBadge status="in-progress" />
 					</Checkbox>
 
 					<Checkbox
@@ -79,7 +80,7 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 						onClick={() => handleCheckboxClick("noProgress")}
 					>
 						<span className="item-name">No progress</span>
-						<Badge className="label-icon" status="default" />
+						<ItemProgressBadge status="no-progress" />
 					</Checkbox>
 				</div>
 

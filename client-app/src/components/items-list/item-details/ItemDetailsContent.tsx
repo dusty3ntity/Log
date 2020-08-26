@@ -2,7 +2,7 @@ import React, { useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import TextEllipsis from "react-text-ellipsis";
 import format from "date-fns/format";
-import { Badge, Modal } from "antd";
+import { Modal } from "antd";
 import { Link } from "react-router-dom";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -15,6 +15,7 @@ import Tooltip from "../../common/tooltips/Tooltip";
 import LearningItemProgress from "../../learning/LearningItemProgress";
 import Divider from "../../common/other/Divider";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
+import ItemProgressBadge from "../../common/other/ItemProgressBadge";
 
 interface IProps {
 	item: IItem;
@@ -26,7 +27,6 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	const { goToNextStep } = rootStore.tourStore;
 	const { user } = rootStore.userStore;
 
-	const statusClass = item.isLearned ? "success" : item.correctAnswersToCompletionCount > 0 ? "warning" : "default";
 	const type = item.type === ItemType.Word ? "Word" : "Phrase";
 	const starredClass = item.isStarred ? " active" : "";
 
@@ -113,7 +113,16 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					position="top-start"
 					theme="light"
 				>
-					<Badge status={statusClass} className="status-badge" tour-step="1-3" />
+					<ItemProgressBadge
+						status={
+							item.isLearned
+								? "learned"
+								: item.correctAnswersToCompletionCount > 0
+								? "in-progress"
+								: "no-progress"
+						}
+						tour-step="1-3"
+					/>
 				</Tooltip>
 
 				<span className="type">{type}</span>

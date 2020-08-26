@@ -1,0 +1,26 @@
+.item-progress-badge {
+	height: 1.8rem;
+	width: 1.8rem;
+	border-radius: 50%;
+
+	box-shadow: inset 4px 4px 4px rgba(29, 38, 25, 0.25);
+
+	&.rectangular {
+		display: inline-block;
+		width: 12px;
+		height: 100%;
+		border-radius: 30px 10px 10px 30px;
+	}
+
+	&.learned {
+		background: @success-color;
+	}
+
+	&.in-progress {
+		background: @warning-color;
+	}
+
+	&.no-progress {
+		background: @normal-color;
+	}
+}
