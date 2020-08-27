@@ -1,6 +1,6 @@
 import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Slider, Modal } from "antd";
+import { Modal } from "antd";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
@@ -10,6 +10,7 @@ import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import Switch from "../common/inputs/Switch";
+import Slider from "../common/inputs/Slider";
 
 interface IProps {
 	id: string;
@@ -205,7 +206,7 @@ const DictionaryForm: React.FC<IProps> = ({
 						<span className="slider-value">{preferredLearningListSize} items</span>
 					</label>
 
-					<Slider
+					{/* <Slider
 						className="slider"
 						min={50}
 						max={100}
@@ -221,7 +222,9 @@ const DictionaryForm: React.FC<IProps> = ({
 							);
 							setPreferredLearningListSize(value);
 						}}
-					/>
+					/> */}
+
+					<Slider name="preferred-training-size" min={50} max={100} step={10} />
 				</div>
 
 				<div className="required-correct-answers form-item">
@@ -236,7 +239,7 @@ const DictionaryForm: React.FC<IProps> = ({
 						<span className="slider-value">{requiredCorrectAnswersNumber} answers</span>
 					</label>
 
-					<Slider
+					{/* <Slider
 						className="slider"
 						min={5}
 						max={10}
@@ -251,7 +254,9 @@ const DictionaryForm: React.FC<IProps> = ({
 							);
 							setRequiredCorrectAnswersNumber(value);
 						}}
-					/>
+					/> */}
+
+					<Slider name="required-correct-answers" min={5} max={10} />
 				</div>
 
 				<div className="is-hardmode-enabled toggle-item form-item">
