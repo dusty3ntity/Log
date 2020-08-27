@@ -207,7 +207,6 @@ const DictionaryForm: React.FC<IProps> = ({
 					</label>
 
 					<Slider
-						name="preferred-training-size"
 						min={50}
 						max={100}
 						step={10}
@@ -237,7 +236,6 @@ const DictionaryForm: React.FC<IProps> = ({
 					</label>
 
 					<Slider
-						name="required-correct-answers"
 						min={5}
 						max={10}
 						value={requiredCorrectAnswersNumber}
@@ -259,7 +257,6 @@ const DictionaryForm: React.FC<IProps> = ({
 					</Tooltip>
 
 					<Switch
-						name="isHardmodeEnabled"
 						checked={isHardModeEnabled}
 						onChange={(value: boolean) => {
 							setDirty(
@@ -279,7 +276,7 @@ const DictionaryForm: React.FC<IProps> = ({
 							<label>Is this my main dictionary:</label>
 						</Tooltip>
 
-						<Switch name="isMain" checked={isMain} onChange={setMain} />
+						<Switch checked={isMain} onChange={setMain} />
 					</div>
 				)}
 			</div>

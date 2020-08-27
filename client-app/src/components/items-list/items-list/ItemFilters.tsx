@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Checkbox } from "antd";
 import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
@@ -7,6 +6,7 @@ import Divider from "../../common/other/Divider";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import StarIcon from "../../icons/StarIcon";
 import ItemProgressBadge from "../../common/other/ItemProgressBadge";
+import Checkbox from "../../common/inputs/Checkbox";
 
 interface IProps {
 	classNames: string;
@@ -31,19 +31,21 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 			<div className="filters-container">
 				<div className="filters-category">
 					<h2 className="category-title">Type</h2>
+
 					<Checkbox
-						className="filters-item"
+						classNames={["filters-item"]}
 						checked={!!predicate.get("words")}
 						disabled={loadingInitial}
-						onClick={() => handleCheckboxClick("words")}
+						onChange={() => handleCheckboxClick("words")}
 					>
 						<span className="item-name">Words</span>
 					</Checkbox>
+
 					<Checkbox
-						className="filters-item"
+						classNames={["filters-item"]}
 						checked={!!predicate.get("phrases")}
 						disabled={loadingInitial}
-						onClick={() => handleCheckboxClick("phrases")}
+						onChange={() => handleCheckboxClick("phrases")}
 					>
 						<span className="item-name">Phrases</span>
 					</Checkbox>
@@ -53,31 +55,32 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 
 				<div className="filters-category">
 					<h2 className="category-title">Progress</h2>
+
 					<Checkbox
-						className="filters-item"
+						classNames={["filters-item"]}
 						checked={!!predicate.get("learned")}
 						disabled={loadingInitial}
-						onClick={() => handleCheckboxClick("learned")}
+						onChange={() => handleCheckboxClick("learned")}
 					>
 						<span className="item-name">Learned</span>
 						<ItemProgressBadge status="learned" />
 					</Checkbox>
 
 					<Checkbox
-						className="filters-item"
+						classNames={["filters-item"]}
 						checked={!!predicate.get("inProgress")}
 						disabled={loadingInitial}
-						onClick={() => handleCheckboxClick("inProgress")}
+						onChange={() => handleCheckboxClick("inProgress")}
 					>
 						<span className="item-name">In progress</span>
 						<ItemProgressBadge status="in-progress" />
 					</Checkbox>
 
 					<Checkbox
-						className="filters-item"
+						classNames={["filters-item"]}
 						checked={!!predicate.get("noProgress")}
 						disabled={loadingInitial}
-						onClick={() => handleCheckboxClick("noProgress")}
+						onChange={() => handleCheckboxClick("noProgress")}
 					>
 						<span className="item-name">No progress</span>
 						<ItemProgressBadge status="no-progress" />
@@ -88,20 +91,22 @@ const ItemFilters: React.FC<IProps> = ({ classNames }) => {
 
 				<div className="filters-category">
 					<h2 className="category-title">Priority</h2>
+
 					<Checkbox
-						className="filters-item"
+						classNames={["filters-item"]}
 						checked={!!predicate.get("starred")}
 						disabled={loadingInitial}
-						onClick={() => handleCheckboxClick("starred")}
+						onChange={() => handleCheckboxClick("starred")}
 					>
 						<span className="item-name">Starred</span>
 						<StarIcon className="label-icon" active />
 					</Checkbox>
+
 					<Checkbox
-						className="filters-item"
+						classNames={["filters-item"]}
 						checked={!!predicate.get("unstarred")}
 						disabled={loadingInitial}
-						onClick={() => handleCheckboxClick("unstarred")}
+						onChange={() => handleCheckboxClick("unstarred")}
 					>
 						<span className="item-name">Unstarred</span>
 						<StarIcon className="label-icon" />

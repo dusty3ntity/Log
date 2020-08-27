@@ -1,6 +1,6 @@
 import React, { useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
-import { Checkbox, Modal } from "antd";
+import { Modal } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -11,6 +11,7 @@ import LearningItemProgress from "../../learning/LearningItemProgress";
 import Divider from "../../common/other/Divider";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import ItemProgressBadge from "../../common/other/ItemProgressBadge";
+import Checkbox from "../../common/inputs/Checkbox";
 
 interface IProps {
 	item: IItem;
@@ -82,7 +83,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 						rectangular
 					/>
 				</Tooltip>
-				<Checkbox className="selector" />
+				<Checkbox classNames={["selector"]} />
 			</div>
 
 			<button
