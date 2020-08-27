@@ -21,13 +21,11 @@
 				1px -1px 2px rgba(204, 213, 222, 0.05), -1px 1px 2px rgba(204, 213, 222, 0.05),
 				inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 
-			.selector {
-				.ant-checkbox-inner {
-					background: #d8e2ec;
-					box-shadow: -1px -1px 2px rgba(192, 203, 212, 0.5), 1px 1px 2px rgba(234, 248, 255, 0.3),
-						inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
-						inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
-				}
+			.selector .checkbox {
+				background: #d8e2ec;
+				box-shadow: -1px -1px 2px rgba(192, 203, 212, 0.5), 1px 1px 2px rgba(234, 248, 255, 0.3),
+					inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
+					inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
 			}
 
 			.divider {
@@ -61,13 +59,11 @@
 				inset 1px 1px 3px rgba(204, 213, 221, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
 				inset 1px -1px 2px rgba(204, 213, 221, 0.2), inset -1px 1px 2px rgba(204, 213, 221, 0.2);
 
-			.selector {
-				.ant-checkbox-inner {
-					background: @body-background-darker;
-					box-shadow: -1px -1px 2px rgba(192, 203, 212, 0.5), 1px 1px 2px rgba(234, 248, 255, 0.3),
-						inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
-						inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
-				}
+			.selector .checkbox {
+				background: @body-background-darker;
+				box-shadow: -1px -1px 2px rgba(192, 203, 212, 0.5), 1px 1px 2px rgba(234, 248, 255, 0.3),
+					inset 1px 1px 3px rgba(192, 203, 212, 0.9), inset -1px -1px 2px rgba(234, 248, 255, 0.9),
+					inset 1px -1px 2px rgba(192, 203, 212, 0.2), inset -1px 1px 2px rgba(192, 203, 212, 0.2);
 			}
 
 			.divider {
@@ -138,12 +134,11 @@
 		}
 
 		.selector {
-			visibility: hidden;
-			display: inline;
+			// visibility: hidden;
 			margin: 0;
 			margin-left: 12px;
 
-			.ant-checkbox {
+			.checkbox {
 				height: 32px;
 				width: 32px;
 			}

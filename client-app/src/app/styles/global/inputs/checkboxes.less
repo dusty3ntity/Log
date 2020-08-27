@@ -2,75 +2,72 @@
 @checkbox-size: 24px;
 
 /*---------------------  Custom  ---------------------*/
-.ant-checkbox-wrapper {
-	display: block;
+.checkbox-wrapper {
+	display: flex;
+	align-items: center;
 	margin: 4px 0;
+	cursor: pointer;
 
-	&:hover {
-		.ant-checkbox {
-			border-color: @primary-color;
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+
+		&:checked + .checkbox {
+			border-color: @body-background;
+			background: linear-gradient(309.38deg, #1b86f0 6.86%, #4a9cef 94.61%) !important;
+			box-shadow: inset 1px 1px 2px rgba(7, 17, 31, 0.25), inset -1px -1px 3px rgba(255, 255, 255, 0.25) !important;
+
+			.check {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
+
+		&:disabled ~ span {
+			cursor: not-allowed;
 		}
 	}
+
+	&:hover .checkbox {
+		border-color: @primary-color !important;
+	}
 }
 
-.ant-checkbox {
-	height: @checkbox-size;
-	width: @checkbox-size;
-	top: unset;
+.checkbox {
+	height: 24px;
+	width: 24px;
+	padding: 3px;
+	border-radius: 40%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	border: 1px solid @body-background;
-	border-radius: 40%;
+	border-top-color: rgba(204, 213, 222, 0.5);
+	border-left-color: rgba(204, 213, 222, 0.5);
+	transition: all 0.3s;
 
-	&:hover {
-		border-color: @primary-color;
-	}
-
-	&:after {
-		border: none;
-	}
-}
-
-.ant-checkbox-inner {
-	height: 100%;
-	width: 100%;
 	background: @body-background;
-	border: none;
-	border-radius: 40%;
-
 	box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
 		inset 1px 1px 3px rgba(204, 213, 222, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
 		inset 1px -1px 2px rgba(204, 213, 222, 0.2), inset -1px 1px 2px rgba(204, 213, 222, 0.2);
 
-	&:after {
-		width: 28%;
-		height: 54%;
-		top: 47%;
-		left: 28%;
+	.check {
+		height: 100%;
+		width: 100%;
+		fill: @body-background;
+		transition: all 0.4s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+		transform: scale(0);
+		opacity: 0;
 	}
 }
 
-.ant-checkbox-checked {
-	background: linear-gradient(309.38deg, #1b86f0 6.86%, #4a9cef 94.61%);
-	box-shadow: inset 1px 1px 2px rgba(7, 17, 31, 0.25), inset -1px -1px 3px rgba(255, 255, 255, 0.25);
-
-	.ant-checkbox-inner {
-		background: unset !important;
-		box-shadow: none !important;
-	}
-}
-
-.ant-checkbox-disabled {
-	.ant-checkbox-inner {
-		background: unset;
-		border-color: unset;
-
-		&::after {
-			border-color: #fff !important;
-		}
-	}
-
-	& + span {
-		color: unset;
-	}
+.checkbox-content {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	margin-left: 8px;
 }
 
 .switch {
@@ -83,24 +80,24 @@
 		width: 0;
 		height: 0;
 
-		&:checked {
-			& + .toggle {
-				background: @primary-color;
-				box-shadow: -1px -1px 2px rgba(65, 107, 212, 0.5), 1px 1px 2px rgba(89, 145, 255, 0.3),
-					inset 1px 1px 3px rgba(65, 107, 212, 0.9), inset -1px -1px 2px rgba(89, 145, 255, 0.9),
-					inset 1px -1px 2px rgba(65, 107, 212, 0.2), inset -1px 1px 2px rgba(65, 107, 212, 0.2);
-			}
+		&:checked + .track {
+			background: @primary-color;
+			box-shadow: -1px -1px 2px rgba(65, 107, 212, 0.5), 1px 1px 2px rgba(89, 145, 255, 0.3),
+				inset 1px 1px 3px rgba(65, 107, 212, 0.9), inset -1px -1px 2px rgba(89, 145, 255, 0.9),
+				inset 1px -1px 2px rgba(65, 107, 212, 0.2), inset -1px 1px 2px rgba(65, 107, 212, 0.2);
 
-			& + .toggle::before {
-				transform: translateX(22px) translateY(-50%);
+			.thumb {
+				margin-left: calc(100% - 16px);
 			}
 		}
 	}
 
-	.toggle {
+	.track {
 		position: absolute;
+		display: flex;
 		height: 100%;
 		width: 100%;
+		padding: 4px 6px;
 		border-radius: 40px;
 		cursor: pointer;
 		transition: all 0.5s ease;
@@ -111,15 +108,10 @@
 			inset 1px -1px 2px rgba(181, 191, 201, 0.2), inset -1px 1px 2px rgba(181, 191, 201, 0.2);
 	}
 
-	.toggle::before {
-		position: absolute;
-		content: "";
-		height: 12px;
+	.thumb {
+		height: 100%;
 		width: 16px;
 		border-radius: 40px;
-		top: 50%;
-		left: 6px;
-		transform: translateY(-50%);
 		transition: all 0.3s ease;
 
 		background: @body-background;
