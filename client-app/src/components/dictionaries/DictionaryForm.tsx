@@ -1,6 +1,6 @@
 import React, { useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Slider, Switch, Modal } from "antd";
+import { Modal } from "antd";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
@@ -9,6 +9,8 @@ import { ILanguage } from "../../app/models/languages";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
+import Switch from "../common/inputs/Switch";
+import Slider from "../common/inputs/Slider";
 
 interface IProps {
 	id: string;
@@ -205,12 +207,11 @@ const DictionaryForm: React.FC<IProps> = ({
 					</label>
 
 					<Slider
-						className="slider"
+						name="preferred-training-size"
 						min={50}
 						max={100}
 						step={10}
 						value={preferredLearningListSize}
-						tooltipVisible={false}
 						onChange={(value: any) => {
 							setDirty(
 								value !== dictionary?.preferredLearningListSize
@@ -236,11 +237,10 @@ const DictionaryForm: React.FC<IProps> = ({
 					</label>
 
 					<Slider
-						className="slider"
+						name="required-correct-answers"
 						min={5}
 						max={10}
 						value={requiredCorrectAnswersNumber}
-						tooltipVisible={false}
 						onChange={(value: any) => {
 							setDirty(
 								value !== dictionary?.correctAnswersToItemCompletion
@@ -259,9 +259,9 @@ const DictionaryForm: React.FC<IProps> = ({
 					</Tooltip>
 
 					<Switch
-						className="toggle"
+						name="isHardmodeEnabled"
 						checked={isHardModeEnabled}
-						onChange={(value) => {
+						onChange={(value: boolean) => {
 							setDirty(
 								value !== dictionary?.isHardModeEnabled
 									? true
@@ -273,13 +273,13 @@ const DictionaryForm: React.FC<IProps> = ({
 					/>
 				</div>
 
-				{!dictionary && !rootStore.commonStore.newUser && (
+				{!dictionary && (
 					<div className="is-main toggle-item form-item">
 						<Tooltip text="Main dictionary loads initially on each application start." position="top-start">
 							<label>Is this my main dictionary:</label>
 						</Tooltip>
 
-						<Switch className="toggle" onChange={setMain} />
+						<Switch name="isMain" checked={isMain} onChange={setMain} />
 					</div>
 				)}
 			</div>

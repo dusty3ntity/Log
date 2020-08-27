@@ -72,3 +72,59 @@
 		color: unset;
 	}
 }
+
+.switch {
+	position: relative;
+	height: 20px;
+	width: 50px;
+
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+
+		&:checked {
+			& + .toggle {
+				background: @primary-color;
+				box-shadow: -1px -1px 2px rgba(65, 107, 212, 0.5), 1px 1px 2px rgba(89, 145, 255, 0.3),
+					inset 1px 1px 3px rgba(65, 107, 212, 0.9), inset -1px -1px 2px rgba(89, 145, 255, 0.9),
+					inset 1px -1px 2px rgba(65, 107, 212, 0.2), inset -1px 1px 2px rgba(65, 107, 212, 0.2);
+			}
+
+			& + .toggle::before {
+				transform: translateX(22px) translateY(-50%);
+			}
+		}
+	}
+
+	.toggle {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		border-radius: 40px;
+		cursor: pointer;
+		transition: all 0.5s ease;
+
+		background: @body-background-darker;
+		box-shadow: -1px -1px 2px rgba(181, 191, 201, 0.5), 1px 1px 2px rgba(245, 255, 255, 0.3),
+			inset 1px 1px 3px rgba(181, 191, 201, 0.9), inset -1px -1px 2px rgba(245, 255, 255, 0.9),
+			inset 1px -1px 2px rgba(181, 191, 201, 0.2), inset -1px 1px 2px rgba(181, 191, 201, 0.2);
+	}
+
+	.toggle::before {
+		position: absolute;
+		content: "";
+		height: 12px;
+		width: 16px;
+		border-radius: 40px;
+		top: 50%;
+		left: 6px;
+		transform: translateY(-50%);
+		transition: all 0.3s ease;
+
+		background: @body-background;
+		box-shadow: 1px 1px 3px rgba(201, 205, 208, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9),
+			1px -1px 2px rgba(201, 205, 208, 0.2), -1px 1px 2px rgba(201, 205, 208, 0.2),
+			inset -1px -1px 2px rgba(201, 205, 208, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+	}
+}
