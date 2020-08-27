@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { default as Kek } from "react-rangeslider";
-
-import "react-rangeslider/lib/index.css";
+import React from "react";
+import { default as RangeSlider } from "react-rangeslider";
 
 interface IProps {
 	name: string;
@@ -10,27 +8,26 @@ interface IProps {
 	step?: number;
 	min?: number;
 	max?: number;
+	value: number;
+	onChange: (value: number) => void;
 }
 
-const Slider: React.FC<IProps> = ({ name, classNames = [], id, min = 1, max = 100, step = 1, ...props }) => {
+const Slider: React.FC<IProps> = ({
+	name,
+	classNames = [],
+	id,
+	min = 1,
+	max = 100,
+	step = 1,
+	value,
+	onChange,
+	...props
+}) => {
 	classNames.unshift("slider");
 
-	const [value, setValue] = useState(min);
-
 	return (
-		// <input
-		// 	type="range"
-		// 	id={id}
-		// 	className={classNames.join(" ")}
-		// 	name={name}
-		// 	min={min}
-		// 	max={max}
-		// 	step={step}
-		// 	{...props}
-		// />
-
-		<div className={classNames.join(" ")}>
-			<Kek min={min} max={max} step={step} value={value}  tooltip={false} onChange={setValue} />
+		<div className={classNames.join(" ")} {...props}>
+			<RangeSlider min={min} max={max} step={step} value={value} tooltip={false} onChange={onChange} />
 		</div>
 	);
 };

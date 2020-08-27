@@ -206,13 +206,12 @@ const DictionaryForm: React.FC<IProps> = ({
 						<span className="slider-value">{preferredLearningListSize} items</span>
 					</label>
 
-					{/* <Slider
-						className="slider"
+					<Slider
+						name="preferred-training-size"
 						min={50}
 						max={100}
 						step={10}
 						value={preferredLearningListSize}
-						tooltipVisible={false}
 						onChange={(value: any) => {
 							setDirty(
 								value !== dictionary?.preferredLearningListSize
@@ -222,9 +221,7 @@ const DictionaryForm: React.FC<IProps> = ({
 							);
 							setPreferredLearningListSize(value);
 						}}
-					/> */}
-
-					<Slider name="preferred-training-size" min={50} max={100} step={10} />
+					/>
 				</div>
 
 				<div className="required-correct-answers form-item">
@@ -239,12 +236,11 @@ const DictionaryForm: React.FC<IProps> = ({
 						<span className="slider-value">{requiredCorrectAnswersNumber} answers</span>
 					</label>
 
-					{/* <Slider
-						className="slider"
+					<Slider
+						name="required-correct-answers"
 						min={5}
 						max={10}
 						value={requiredCorrectAnswersNumber}
-						tooltipVisible={false}
 						onChange={(value: any) => {
 							setDirty(
 								value !== dictionary?.correctAnswersToItemCompletion
@@ -254,9 +250,7 @@ const DictionaryForm: React.FC<IProps> = ({
 							);
 							setRequiredCorrectAnswersNumber(value);
 						}}
-					/> */}
-
-					<Slider name="required-correct-answers" min={5} max={10} />
+					/>
 				</div>
 
 				<div className="is-hardmode-enabled toggle-item form-item">
@@ -264,7 +258,19 @@ const DictionaryForm: React.FC<IProps> = ({
 						<label>Is hardmode enabled:</label>
 					</Tooltip>
 
-					<Switch name="isHardmodeEnabled" />
+					<Switch
+						name="isHardmodeEnabled"
+						checked={isHardModeEnabled}
+						onChange={(value: boolean) => {
+							setDirty(
+								value !== dictionary?.isHardModeEnabled
+									? true
+									: preferredLearningListSize !== dictionary?.preferredLearningListSize ||
+											requiredCorrectAnswersNumber !== dictionary.correctAnswersToItemCompletion
+							);
+							setHardModeEnabled(value);
+						}}
+					/>
 				</div>
 
 				{!dictionary && (
@@ -273,7 +279,7 @@ const DictionaryForm: React.FC<IProps> = ({
 							<label>Is this my main dictionary:</label>
 						</Tooltip>
 
-						<Switch name="isMain" />
+						<Switch name="isMain" checked={isMain} onChange={setMain} />
 					</div>
 				)}
 			</div>
