@@ -1,101 +1,144 @@
-import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { Dropdown, Menu } from "antd";
-import { observer } from "mobx-react-lite";
-
-import { RootStoreContext } from "../../app/stores/rootStore";
+import React, { useContext, useState } from "react";
 import ArrowForwardIcon from "../icons/ArrowForwardIcon";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import Tooltip from "../common/tooltips/Tooltip";
 import DropdownIcon from "../icons/DropdownIcon";
+import Divider from "../common/other/Divider";
+import { NavLink } from "react-router-dom";
 import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
-import Tooltip from "../common/tooltips/Tooltip";
-import Divider from "../common/other/Divider";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
+import { observer } from "mobx-react-lite";
 
-const DictionarySelector = () => {
-	const rootStore = useContext(RootStoreContext);
-	const { activeDictionary, selectDictionary, dictionariesRegistry } = rootStore.dictionaryStore;
+interface IProps {
+    id?: string;
+    classNames?: string[];
+}
 
-	const menu = (
-		<Menu className="menu">
-			{Array.from(dictionariesRegistry.values()).map((dictionary) => (
-				<Menu.Item
-					key={dictionary.id}
-					className={`menu-item ${activeDictionary.id === dictionary.id ? "active" : ""}`}
-					disabled={activeDictionary.id === dictionary.id}
-					onClick={() => {
-						selectDictionary(dictionary.id);
-						fireAnalyticsEvent("Dictionaries", "Switched a dictionary");
-					}}
-				>
-					<Tooltip text="Language you know." position="top">
-						<img
-							className="flag lang-from"
-							src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
-							alt={dictionary.knownLanguage.isoCode}
-						/>
-					</Tooltip>
+const DictionarySelector: React.FC<IProps> = ({
+    id,
+    classNames = [],
+    ...props
+}) => {
+    const [isExpanded, setExpanded] = useState(false);
+    const rootStore = useContext(RootStoreContext);
+    const {
+        activeDictionary,
+        selectDictionary,
+        dictionariesRegistry,
+    } = rootStore.dictionaryStore;
+    const handleDropdownIsExpanded = () => setExpanded(!isExpanded);
 
-					<ArrowForwardIcon />
+    const menu = isExpanded && (
+        <ul
+            className="dropdown-menu"
+            tabIndex={0}
+            onBlur={handleDropdownIsExpanded}
+        >
+            {Array.from(dictionariesRegistry.values()).map((dictionary) => (
+                <li
+                    className={`menu-item ${
+                        activeDictionary.id === dictionary.id
+                            ? "active dropdown-menu-item-disabled"
+                            : ""
+                    }`}
+                    key={dictionary.id}
+                    onClick={() => {
+                        selectDictionary(dictionary.id);
+                        fireAnalyticsEvent(
+                            "Dictionaries",
+                            "Switched a dictionary"
+                        );
+                        handleDropdownIsExpanded();
+                    }}
+                >
+                    <Tooltip text="Language you know." position="top">
+                        <img
+                            className="flag lang-from"
+                            src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
+                            alt={dictionary.knownLanguage.isoCode}
+                        />
+                    </Tooltip>
 
-					<Tooltip text="Language you learn." position="top">
-						<img
-							className="flag lang-to"
-							src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
-							alt={dictionary.languageToLearn.isoCode}
-						/>
-					</Tooltip>
+                    <ArrowForwardIcon />
 
-					<Divider className="menu-divider" vertical />
+                    <Tooltip text="Language you learn." position="top">
+                        <img
+                            className="flag lang-to"
+                            src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
+                            alt={dictionary.languageToLearn.isoCode}
+                        />
+                    </Tooltip>
 
-					<Tooltip text="Total items in dictionary." position="top-end">
-						<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
-					</Tooltip>
-				</Menu.Item>
-			))}
+                    <Divider className="menu-divider" vertical />
 
-			<div id="menu-actions">
-				<NavLink exact to="/new-dictionary" className="btn actions-btn new-btn primary">
-					<PlusIcon />
-				</NavLink>
+                    <Tooltip
+                        text="Total items in dictionary."
+                        position="top-end"
+                    >
+                        <span className="items-counter">
+                            {dictionary.wordsCount + dictionary.phrasesCount}
+                        </span>
+                    </Tooltip>
+                </li>
+            ))}
+            <div id="menu-actions">
+                <NavLink
+                    exact
+                    to="/new-dictionary"
+                    className="btn actions-btn new-btn primary"
+                >
+                    <PlusIcon />
+                </NavLink>
 
-				<NavLink exact to="/dictionaries" className="btn actions-btn settings-btn">
-					<SettingsIcon />
-				</NavLink>
-			</div>
-		</Menu>
-	);
+                <NavLink
+                    exact
+                    to="/dictionaries"
+                    className="btn actions-btn settings-btn"
+                >
+                    <SettingsIcon />
+                </NavLink>
+            </div>
+        </ul>
+    );
 
-	return (
-		<Dropdown
-			overlay={menu}
-			trigger={["click"]}
-			placement="bottomCenter"
-			overlayClassName="dictionary-selector-dropdown"
-		>
-			<div className="btn dictionary-selector" tour-step='1-9'>
-				<Tooltip text="Language you know." position="bottom">
-					<img
-						className="flag lang-from"
-						src={`/images/flags/${activeDictionary!.knownLanguage.isoCode}.png`}
-						alt={activeDictionary!.knownLanguage.isoCode}
-					/>
-				</Tooltip>
+    return (
+        <div
+            id={id}
+            className={
+                "btn dictionary-selector dropdown-trigger " +
+                (isExpanded ? "dropdown-open " : "") +
+                classNames.join(" ")
+            }
+            onClick={handleDropdownIsExpanded}
+            tour-step="1-9"
+            {...props}
+        >
+            <Tooltip text="Language you know." position="bottom">
+                <img
+                    className="flag lang-from"
+                    src={`/images/flags/${
+                        activeDictionary!.knownLanguage.isoCode
+                    }.png`}
+                    alt={activeDictionary!.knownLanguage.isoCode}
+                />
+            </Tooltip>
+            <ArrowForwardIcon />
 
-				<ArrowForwardIcon />
+            <Tooltip text="Language you learn." position="bottom">
+                <img
+                    className="flag lang-to"
+                    src={`/images/flags/${
+                        activeDictionary!.languageToLearn.isoCode
+                    }.png`}
+                    alt={activeDictionary!.languageToLearn.isoCode}
+                />
+            </Tooltip>
 
-				<Tooltip text="Language you learn." position="bottom">
-					<img
-						className="flag lang-to"
-						src={`/images/flags/${activeDictionary!.languageToLearn.isoCode}.png`}
-						alt={activeDictionary!.languageToLearn.isoCode}
-					/>
-				</Tooltip>
-
-				<DropdownIcon />
-			</div>
-		</Dropdown>
-	);
+            <DropdownIcon />
+            {menu}
+        </div>
+    );
 };
 
 export default observer(DictionarySelector);
