@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
 
 import LanguagesList from "./LanguagesList";
-import LanguagesListDrawer from "./drawers/LanguagesListDrawer";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import DictionaryForm from "./DictionaryForm";
 import { IDictionary } from "../../app/models/dictionary";
 import { ILanguage } from "../../app/models/languages";
 import { languagesList } from "../../app/models/languages";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
+import Drawer from "../common/other/Drawer";
 
 const NewDictionary = () => {
 	const rootStore = useContext(RootStoreContext);
@@ -82,19 +82,6 @@ const NewDictionary = () => {
 
 	return (
 		<div id="new-dictionary-container" className="manage-dictionary-container">
-			<LanguagesListDrawer
-				listId="language-list-from"
-				listTitle="I know:"
-				selectedItem={selectedKnownLanguage}
-				disabledItems={disabledKnownLanguagesList}
-				className="lang-from"
-				position="left"
-				isVisible={isLeftDrawerVisible}
-				onClose={() => setLeftDrawerVisible(false)}
-				onItemSelect={handleKnownLanguageSelection}
-				reset={resetKnownLanguage}
-			/>
-
 			<LanguagesList
 				id="language-list-from"
 				title="I know:"
@@ -105,6 +92,22 @@ const NewDictionary = () => {
 			/>
 
 			<div id="new-dictionary">
+				<Drawer
+					classNames={["languages-list-drawer"]}
+					placement="left"
+					visible={isLeftDrawerVisible}
+					onClose={() => setLeftDrawerVisible(false)}
+				>
+					<LanguagesList
+						className="in-drawer"
+						title="I know:"
+						disabledItems={disabledKnownLanguagesList}
+						selectedItem={selectedKnownLanguage}
+						onItemSelect={handleKnownLanguageSelection}
+						reset={resetKnownLanguage}
+					/>
+				</Drawer>
+
 				<DictionaryForm
 					id="new-dictionary-form"
 					knownLanguage={selectedKnownLanguage}
@@ -113,6 +116,21 @@ const NewDictionary = () => {
 					onLanguageToLearnButtonClick={onRightDrawerClick}
 					onSubmit={createDictionary}
 				/>
+
+				<Drawer
+					classNames={["languages-list-drawer"]}
+					visible={isRightDrawerVisible}
+					onClose={() => setRightDrawerVisible(false)}
+				>
+					<LanguagesList
+						className="in-drawer"
+						title="I learn:"
+						disabledItems={disabledLanguagesToLearnList}
+						selectedItem={selectedLanguageToLearn}
+						onItemSelect={handleLanguageToLearnSelection}
+						reset={resetLanguageToLearn}
+					/>
+				</Drawer>
 			</div>
 
 			<LanguagesList
@@ -120,19 +138,6 @@ const NewDictionary = () => {
 				title="I learn:"
 				disabledItems={disabledLanguagesToLearnList}
 				selectedItem={selectedLanguageToLearn}
-				onItemSelect={handleLanguageToLearnSelection}
-				reset={resetLanguageToLearn}
-			/>
-
-			<LanguagesListDrawer
-				listId="language-list-to"
-				listTitle="I learn:"
-				disabledItems={disabledLanguagesToLearnList}
-				selectedItem={selectedLanguageToLearn}
-				className="lang-to"
-				position="right"
-				isVisible={isRightDrawerVisible}
-				onClose={() => setRightDrawerVisible(false)}
 				onItemSelect={handleLanguageToLearnSelection}
 				reset={resetLanguageToLearn}
 			/>
