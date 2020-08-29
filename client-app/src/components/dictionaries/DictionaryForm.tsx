@@ -13,7 +13,7 @@ import Switch from "../common/inputs/Switch";
 import Slider from "../common/inputs/Slider";
 
 interface IProps {
-	id: string;
+	id?: string;
 	className?: string;
 
 	dictionary?: IDictionary;

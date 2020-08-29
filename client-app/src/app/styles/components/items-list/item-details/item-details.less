@@ -178,3 +178,38 @@
 		}
 	}
 }
+
+#item-details-drawer {
+	.drawer-content {
+		width: 50%;
+	}
+
+	#item-details {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		box-shadow: none;
+
+		.definition {
+			font-size: 1.1rem !important;
+		}
+	}
+}
+
+@media (min-width: 1100px) {
+	#item-details-drawer .drawer-content {
+		width: 35%;
+	}
+}
+
+@media (min-width: @xl-start) {
+	#item-details-drawer {
+		display: none;
+	}
+}
+
+@media (max-width: @mlg-end) {
+	#item-details:not(.in-drawer) {
+		display: none !important;
+	}
+}

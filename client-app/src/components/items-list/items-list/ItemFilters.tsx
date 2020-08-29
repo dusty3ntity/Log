@@ -9,7 +9,7 @@ import ItemProgressBadge from "../../common/other/ItemProgressBadge";
 import Checkbox from "../../common/inputs/Checkbox";
 
 interface IProps {
-	classNames: string;
+	classNames?: string;
 }
 
 const ItemFilters: React.FC<IProps> = ({ classNames }) => {

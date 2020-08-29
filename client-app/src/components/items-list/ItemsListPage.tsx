@@ -21,7 +21,7 @@ const ItemsListPage = () => {
 	return (
 		<div id="items-list-page">
 			<ItemsList />
-			<ItemDetails classNames="xl-visible" tourStep="1-2" />
+			<ItemDetails classNames="xl-visible" tour-step="1-2" />
 		</div>
 	);
 };
