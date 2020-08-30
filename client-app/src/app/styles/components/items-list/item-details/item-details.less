@@ -27,12 +27,6 @@
 			align-items: center;
 			margin-bottom: 1.6rem;
 
-			.status-badge .ant-badge-status-dot {
-				height: 1.8rem;
-				width: 1.8rem;
-				box-shadow: inset 6px 6px 6px rgba(29, 38, 25, 0.25);
-			}
-
 			.type {
 				flex-grow: 2;
 				margin: 0 7px 0 12px;
@@ -182,5 +176,40 @@
 		.star-btn {
 			margin: 0 1.5rem;
 		}
+	}
+}
+
+#item-details-drawer {
+	.drawer-content {
+		width: 50%;
+	}
+
+	#item-details {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		box-shadow: none;
+
+		.definition {
+			font-size: 1.1rem !important;
+		}
+	}
+}
+
+@media (min-width: 1100px) {
+	#item-details-drawer .drawer-content {
+		width: 35%;
+	}
+}
+
+@media (min-width: @xl-start) {
+	#item-details-drawer {
+		display: none;
+	}
+}
+
+@media (max-width: @mlg-end) {
+	#item-details:not(.in-drawer) {
+		display: none !important;
 	}
 }

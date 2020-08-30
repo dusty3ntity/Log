@@ -7,7 +7,7 @@ import ResetIcon from "../icons/ResetIcon";
 import Tooltip from "../common/tooltips/Tooltip";
 
 interface IProps {
-	id: string;
+	id?: string;
 	title: string;
 	className?: string;
 	disabledItems: ILanguage[];

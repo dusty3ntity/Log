@@ -157,6 +157,7 @@ const NewItemForm: React.FC<IProps> = ({
 					})}
 				/>
 			</div>
+
 			<div className="translation-input form-item">
 				<label htmlFor="translation">
 					<span className="label-text">Translation</span>
@@ -192,6 +193,7 @@ const NewItemForm: React.FC<IProps> = ({
 					})}
 				/>
 			</div>
+			
 			<div className="definition-actions">
 				<button
 					className="btn definition-actions-btn reset-form-btn"

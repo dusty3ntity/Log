@@ -125,6 +125,21 @@
 	}
 }
 
+.languages-list.in-drawer {
+	width: 100%;
+	box-shadow: none;
+}
+
+.languages-list-drawer .drawer-content {
+	width: 35%;
+}
+
+@media (min-width: 1100px) {
+	.languages-list-drawer {
+		display: none;
+	}
+}
+
 @media (max-width: @xl-end) {
 	#new-dictionary-container .languages-list {
 		padding: 0;
@@ -132,7 +147,7 @@
 }
 
 @media (max-width: 1099px) {
-	#new-dictionary-container .languages-list:not(.drawer-content) {
+	#new-dictionary-container .languages-list:not(.in-drawer) {
 		display: none;
 	}
 }

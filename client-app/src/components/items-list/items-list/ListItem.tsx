@@ -1,6 +1,6 @@
 import React, { useContext, Fragment } from "react";
 import { observer } from "mobx-react-lite";
-import { Checkbox, Modal } from "antd";
+import { Modal } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -10,6 +10,8 @@ import Tooltip from "../../common/tooltips/Tooltip";
 import LearningItemProgress from "../../learning/LearningItemProgress";
 import Divider from "../../common/other/Divider";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
+import ItemProgressBadge from "../../common/other/ItemProgressBadge";
+import Checkbox from "../../common/inputs/Checkbox";
 
 interface IProps {
 	item: IItem;
@@ -21,11 +23,6 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 	const { goToNextStep } = rootStore.tourStore;
 	const { user } = rootStore.userStore;
 
-	const progressClass = item.isLearned
-		? "learned"
-		: item.correctAnswersToCompletionCount > 0
-		? "in-progress"
-		: "untouched";
 	const starredClass = item.isStarred ? " active" : "";
 
 	const handleStar = () => {
@@ -75,9 +72,18 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 					position="top-start"
 					theme="light"
 				>
-					<div className={"progress-bar " + progressClass} />
+					<ItemProgressBadge
+						status={
+							item.isLearned
+								? "learned"
+								: item.correctAnswersToCompletionCount > 0
+								? "in-progress"
+								: "no-progress"
+						}
+						rectangular
+					/>
 				</Tooltip>
-				<Checkbox className="selector" />
+				<Checkbox classNames={["selector"]} />
 			</div>
 
 			<button
