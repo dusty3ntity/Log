@@ -44,7 +44,7 @@ const TopPanel: React.FC<IProps> = ({ title }) => {
 			</div>
 
 			<div id="dictionary-selector-col">
-				<DictionarySelector id="dictionary-selector" tour-step="1-9" />
+				<DictionarySelector tour-step="1-9" />
 			</div>
 		</div>
 	);
