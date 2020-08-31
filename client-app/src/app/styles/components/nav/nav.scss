@@ -1,0 +1,171 @@
+@import "nav-item";
+
+#nav {
+	width: 12.5vw;
+	height: 100%;
+	margin-right: 3rem;
+	display: flex;
+	flex-direction: column;
+	border-radius: 1.875rem;
+	padding: 1rem;
+
+	transition: width 0.25s ease;
+
+	background: linear-gradient(326.47deg, rgba(255, 255, 255, 0.1) -0.87%, rgba(255, 255, 255, 0) 27.17%),
+		linear-gradient(154.84deg, #5685ff -1.71%, #3c6eef 98.35%);
+	box-shadow: -5px 5px 12px rgba(143, 151, 166, 0.2), 5px -5px 10px rgba(200, 201, 203, 0.2), -6px -6px 4px #f3f9ff,
+		3px 3px 6px rgba(3, 3, 3, 0.16), inset 1px 1px 2px rgba(214, 224, 238, 0.9), inset -1px -1px 4px #3e59a2;
+
+	.nav-header {
+		text-align: center;
+		height: 4rem;
+		margin-bottom: 1.4rem;
+
+		.logo {
+			display: none;
+			width: 3.8rem;
+			height: 3.8rem;
+			border: 2px solid $body-background-darker;
+			border-radius: 10px;
+			background: $body-background-darker;
+		}
+
+		.title {
+			font-size: 3rem;
+			font-weight: 400;
+			color: $body-background;
+			font-family: $font-family-logo;
+			margin-left: 0.6rem;
+			line-height: 60px;
+		}
+	}
+
+	.nav-items {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.divider {
+			margin: 0.5rem 0;
+		}
+	}
+
+	.nav-user-area {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-end;
+		flex-grow: 2;
+		text-align: center;
+		font-weight: 800;
+
+		.avatar {
+			width: 6rem;
+			height: 6rem;
+			border: 3px solid $body-background;
+			border-radius: 50%;
+			background: $body-background;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.25), inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+
+			.avatar-text {
+				font-size: 2rem;
+			}
+
+			img {
+				width: 100%;
+				height: 100%;
+				border-radius: 50%;
+			}
+		}
+
+		.username {
+			color: $body-background;
+			margin: 0.5rem 0;
+			font-size: 1.3rem;
+		}
+
+		.upgrade-btn {
+			color: $error-color;
+			border-radius: 1.08rem;
+			padding: 12px 14px;
+			border-radius: 1.4rem;
+			font-size: 1.3rem;
+
+			background: linear-gradient(153.51deg, #eef9ff 0%, #d8e1e8 100%);
+			box-shadow: 1px 1px 3px rgba(91, 95, 98, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9),
+				1px -1px 2px rgba(91, 95, 98, 0.2), -1px 1px 2px rgba(91, 95, 98, 0.2),
+				inset -1px -1px 2px rgba(91, 95, 98, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+
+			&:hover {
+				background: linear-gradient(153.51deg, #d8e1e8 0%, #eef9ff 100%);
+			}
+
+			&:active {
+				box-shadow: -1px -1px 2px rgba(91, 95, 98, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3),
+					inset 1px 1px 3px rgba(91, 95, 98, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.9),
+					inset 1px -1px 2px rgba(91, 95, 98, 0.2), inset -1px 1px 2px rgba(91, 95, 98, 0.2);
+			}
+		}
+	}
+}
+
+/*---------------------  Breakpoints  ---------------------*/
+
+@media (max-width: $xl-end) {
+	#nav {
+		width: 80px;
+		// width: 170px;
+		z-index: 100;
+
+		&:hover {
+			padding-top: 0;
+			padding-bottom: 0;
+			width: 170px;
+
+			.nav-header {
+				margin-bottom: 2.4rem;
+			}
+		}
+
+		.nav-user-area .username {
+			font-size: 18px;
+		}
+	}
+
+	#nav:not(:hover) {
+		.nav-header {
+			.logo {
+				display: inherit;
+			}
+
+			.title {
+				display: none;
+			}
+		}
+
+		.nav-user-area .username {
+			display: none;
+		}
+
+		.nav-item .item-name {
+			display: none;
+		}
+
+		.nav-user-area {
+			.avatar {
+				width: 100% !important;
+				height: 100% !important;
+			}
+
+			.profile-link {
+				width: 4rem;
+				height: 4rem;
+			}
+		}
+	}
+}

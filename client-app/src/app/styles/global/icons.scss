@@ -1,0 +1,54 @@
+.icon {
+	fill: $primary-color;
+	height: 32px;
+	width: 32px;
+}
+
+.logout-icon,
+.delete-icon {
+	fill: $error-color !important;
+}
+
+.learning-icon {
+	transform: rotate(180deg);
+}
+
+.star-icon {
+	fill: #bfc8d1;
+
+	&.active {
+		fill: $warning-color;
+	}
+}
+
+.happy-smile-icon {
+	fill: $success-color;
+}
+
+.neutral-smile-icon {
+	fill: $warning-color;
+}
+
+.unhappy-smile-icon {
+	fill: $error-color;
+}
+
+.success-icon {
+	fill: $success-color;
+}
+
+.error-icon {
+	fill: $error-color;
+}
+
+.warning-icon {
+	fill: $warning-color;
+}
+
+.reset-icon {
+	fill: #bfc8d1;
+}
+
+.swap-icon {
+	fill: #bfc8d1;
+}

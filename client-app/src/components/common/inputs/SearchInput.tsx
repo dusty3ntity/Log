@@ -6,12 +6,12 @@ import SearchIcon from "../../icons/SearchIcon";
 interface IProps {
 	onSearch: (value: string) => void;
 	loading?: boolean;
-	defaultValue: string;
+	defaultValue?: string;
 	placeholder?: string;
 }
 
 const SearchInput: React.FC<IProps> = ({ onSearch, loading, defaultValue, placeholder }) => {
-	const [searchValue, setSearchValue] = useState(defaultValue);
+	const [searchValue, setSearchValue] = useState(defaultValue || "");
 
 	const handleSearch = () => {
 		onSearch(searchValue);

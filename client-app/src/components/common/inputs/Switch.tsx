@@ -18,7 +18,7 @@ const Switch: React.FC<IProps> = ({ classNames = [], id, checked, onChange, ...p
 
 	return (
 		<label id={id} className={classNames.join(" ")} {...props}>
-			<input type="checkbox" checked={checked} onChange={handleChange} />
+			<input type="checkbox" className="visually-hidden" checked={checked} onChange={handleChange} />
 			<span className="track">
 				<span className="thumb" />
 			</span>

@@ -21,7 +21,13 @@ const Checkbox: React.FC<IProps> = ({ classNames = [], id, checked, onChange, di
 
 	return (
 		<label id={id} className={classNames.join(" ")} {...props}>
-			<input type="checkbox" checked={checked} disabled={disabled} onChange={handleChange} />
+			<input
+				type="checkbox"
+				className="visually-hidden"
+				checked={checked}
+				disabled={disabled}
+				onChange={handleChange}
+			/>
 			<span className="checkbox">
 				<CheckIcon className="check" />
 			</span>

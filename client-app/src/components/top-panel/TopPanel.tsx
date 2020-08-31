@@ -26,7 +26,7 @@ const TopPanel: React.FC<IProps> = ({ title }) => {
 				<div className="btn-space">
 					<NavLink to="/learning" tour-step="1-10" className="btn continue-learning top-panel-btn">
 						<LearningIcon classNames="btn-icon" />
-						<span className="mlg-visible">Continue learning</span>
+						<span>Continue learning</span>
 					</NavLink>
 
 					<NavLink
@@ -38,7 +38,7 @@ const TopPanel: React.FC<IProps> = ({ title }) => {
 						className="btn new-item top-panel-btn"
 					>
 						<PlusIcon classNames="btn-icon" />
-						<span className="mlg-visible">New item</span>
+						<span>New item</span>
 					</NavLink>
 				</div>
 			</div>

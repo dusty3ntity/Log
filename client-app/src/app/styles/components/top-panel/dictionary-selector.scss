@@ -1,0 +1,102 @@
+#dictionary-selector {
+	height: 100%;
+	float: right;
+
+	.flags-wrapper {
+		height: 100%;
+		width: 65%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.tooltip-container {
+			width: 2rem;
+			height: 1.56rem;
+		}
+	}
+
+	.flag {
+		height: 100%;
+		width: 100%;
+		border-radius: 0.625rem;
+
+		box-shadow: 1px 1px 3px rgba(146, 146, 146, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9),
+			1px -1px 2px rgba(146, 146, 146, 0.2), -1px 1px 2px rgba(146, 146, 146, 0.2),
+			inset -1px -1px 2px rgba(146, 146, 146, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+	}
+
+	.arrow-forward-icon {
+		height: 26px;
+		width: 26px;
+		margin: 0 8px;
+		fill: $body-background-darker;
+	}
+
+	.divider {
+		height: 1.25rem;
+		margin: 0 0.375rem 0 0.625rem;
+
+		& + .tooltip-container {
+			flex-grow: 2;
+			text-align: center;
+		}
+	}
+
+	.items-counter {
+		font-size: 0.875rem;
+		font-weight: 700;
+		flex-grow: 2;
+		text-align: center;
+	}
+
+	.menu-item:hover .arrow-forward-icon {
+		fill: $primary-color;
+	}
+
+	.menu-item.active {
+		.arrow-forward-icon {
+			fill: $body-background;
+		}
+
+		.divider {
+			background: $body-background;
+		}
+	}
+
+	.new-btn {
+		width: 65%;
+
+		.icon {
+			fill: $body-background;
+			height: 1.5rem;
+			width: 1.5rem;
+		}
+	}
+
+	.settings-btn {
+		width: 25%;
+
+		box-shadow: 1px 1px 3px rgba(193, 201, 208, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9),
+			1px -1px 2px rgba(193, 201, 208, 0.2), -1px 1px 2px rgba(193, 201, 208, 0.2),
+			inset -1px -1px 2px rgba(193, 201, 208, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+
+		.icon {
+			width: 1.25rem;
+			height: 1.25rem;
+		}
+
+		&:hover {
+			background: linear-gradient(155.43deg, #d8e1e9 0%, #eef9ff 100%);
+			box-shadow: 1px 1px 3px rgba(193, 201, 207, 0.9), -1px -1px 2px rgba(255, 255, 255, 0.9),
+				1px -1px 2px rgba(193, 201, 207, 0.2), -1px 1px 2px rgba(193, 201, 207, 0.2),
+				inset -1px -1px 2px rgba(193, 201, 207, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+		}
+
+		&:active,
+		&.active {
+			box-shadow: -1px -1px 2px rgba(193, 201, 207, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3),
+				inset 1px 1px 3px rgba(193, 201, 207, 0.9), inset -1px -1px 2px rgba(255, 255, 255, 0.9),
+				inset 1px -1px 2px rgba(193, 201, 207, 0.2), inset -1px 1px 2px rgba(193, 201, 207, 0.2);
+		}
+	}
+}
