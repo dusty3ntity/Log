@@ -1,6 +1,5 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Modal } from "antd";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
@@ -11,6 +10,7 @@ import Tooltip from "../common/tooltips/Tooltip";
 import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import Switch from "../common/inputs/Switch";
 import Slider from "../common/inputs/Slider";
+import { createConfirmationModal } from "../../app/common/components/modals";
 
 interface IProps {
 	id?: string;
@@ -103,29 +103,19 @@ const DictionaryForm: React.FC<IProps> = ({
 	};
 
 	const handleConfirm = () => {
-		Modal.confirm({
-			title: "Confirmation",
-			content: (
-				<Fragment>
-					<span>Are you sure you want to delete this dictionary?</span>
-					<span>This can't be undone.</span>
-				</Fragment>
-			),
-			width: "35rem",
-			maskClosable: true,
-			centered: true,
-			okText: "Delete",
-			okButtonProps: {
-				className: "btn modal-btn confirm-btn delete-btn",
-			},
-			onOk() {
-				onDelete!();
-				fireAnalyticsEvent("Dictionaries", "Deleted a dictionary");
-			},
-			cancelButtonProps: {
-				className: "btn modal-btn cancel-btn",
-			},
-		});
+		const modalContent = (
+			<>
+				<span>Are you sure you want to delete this dictionary?</span>
+				<span>This can't be undone.</span>
+			</>
+		);
+
+		const onOk = () => {
+			onDelete!();
+			fireAnalyticsEvent("Dictionaries", "Deleted a dictionary");
+		};
+
+		createConfirmationModal(modalContent, "Delete", onOk);
 	};
 
 	return (
