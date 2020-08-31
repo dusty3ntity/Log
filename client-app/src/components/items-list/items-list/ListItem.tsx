@@ -1,6 +1,5 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
-import { Modal } from "antd";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
@@ -12,6 +11,7 @@ import Divider from "../../common/other/Divider";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import ItemProgressBadge from "../../common/other/ItemProgressBadge";
 import Checkbox from "../../common/inputs/Checkbox";
+import { createConfirmationModal } from "../../../app/common/components/modals";
 
 interface IProps {
 	item: IItem;
@@ -32,29 +32,19 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 			return;
 		}
 
-		Modal.confirm({
-			title: "Confirmation",
-			content: (
-				<Fragment>
-					<span>Are you sure you want to star this item?</span>
-					<span>This item is already learned, therefore its progress will be reset.</span>
-				</Fragment>
-			),
-			width: "35rem",
-			maskClosable: true,
-			centered: true,
-			okText: "Star",
-			okButtonProps: {
-				className: "btn modal-btn confirm-btn",
-			},
-			onOk() {
-				starItemById(item.id);
-				fireAnalyticsEvent("Items", "Starred an item");
-			},
-			cancelButtonProps: {
-				className: "btn modal-btn cancel-btn",
-			},
-		});
+		const onOk = () => {
+			starItemById(item.id);
+			fireAnalyticsEvent("Items", "Starred an item");
+		};
+
+		const modalContent = (
+			<>
+				<span>Are you sure you want to star this item?</span>
+				<span>This item is already learned, therefore its progress will be reset.</span>
+			</>
+		);
+
+		createConfirmationModal(modalContent, "Star", onOk);
 	};
 
 	return (

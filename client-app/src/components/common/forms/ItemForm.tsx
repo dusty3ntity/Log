@@ -1,8 +1,7 @@
-import React, { useState, Fragment, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { Modal } from "antd";
 
 import { IItem, INewItem, ItemType } from "../../../app/models/item";
 import { fullTrim, minLength, maxLength, includes } from "../../../app/common/forms/formValidators";
@@ -14,6 +13,7 @@ import Button from "../inputs/Button";
 import Tooltip from "../tooltips/Tooltip";
 import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import { createConfirmationModal } from "../../../app/common/components/modals";
 
 interface IProps {
 	type: ItemType;
@@ -69,29 +69,19 @@ const NewItemForm: React.FC<IProps> = ({
 	let confirmation = false;
 
 	const handleConfirmation = () => {
-		Modal.confirm({
-			title: "Confirmation",
-			content: (
-				<Fragment>
-					<span>Are you sure you want to update this item?</span>
-					<span>Its progress will be lost.</span>
-				</Fragment>
-			),
-			width: "35rem",
-			maskClosable: true,
-			centered: true,
-			okText: "Update",
-			okButtonProps: {
-				className: "btn modal-btn confirm-btn",
-			},
-			onOk() {
-				confirmation = true;
-				submit(formData!);
-			},
-			cancelButtonProps: {
-				className: "btn modal-btn cancel-btn",
-			},
-		});
+		const modalContent = (
+			<>
+				<span>Are you sure you want to update this item?</span>
+				<span>Its progress will be lost.</span>
+			</>
+		);
+
+		const onOk = () => {
+			confirmation = true;
+			submit(formData!);
+		};
+
+		createConfirmationModal(modalContent, "Update", onOk);
 	};
 
 	const submit = (data: FormData) => {
@@ -193,7 +183,7 @@ const NewItemForm: React.FC<IProps> = ({
 					})}
 				/>
 			</div>
-			
+
 			<div className="definition-actions">
 				<button
 					className="btn definition-actions-btn reset-form-btn"
