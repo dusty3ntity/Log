@@ -7,7 +7,6 @@ import DictionaryForm from "./DictionaryForm";
 import DictionariesListItem from "./DictionariesListItem";
 import { IDictionary } from "../../app/models/dictionary";
 import Empty from "../common/other/Empty";
-import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import Drawer from "../common/other/Drawer";
 
 const DictionariesSettings = () => {
@@ -49,7 +48,6 @@ const DictionariesSettings = () => {
 									onClick={(dictionary: IDictionary) => {
 										selectDictionary(dictionary);
 										setDrawerVisible(true);
-										fireAnalyticsEvent("Dictionaries", "Selected a dictionary");
 									}}
 									onSetMain={(dictionary: IDictionary) => setMainDictionary(dictionary.id)}
 									settingMain={settingMain && dictionary.id === loadingTarget}

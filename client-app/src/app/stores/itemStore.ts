@@ -217,21 +217,18 @@ export default class ItemStore {
 			if (err.code === ErrorType.ItemsLimitReached) {
 				createNotification(NotificationType.Error, {
 					message: "Items limit has been reached! Maximum items number is 8000.",
-					analyticsErrorDescription: "Items limit reached",
 				});
 			} else if (err.code === ErrorType.ItemOriginalOrTranslationContainEachOther) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
 					error: err.body,
-					analyticsErrorDescription: "Item's original or translation contain each other",
 				});
 			} else if (err.code === ErrorType.ItemDefinitionContainsOriginalOrTranslation) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's definition contains either original or translation. Contact the administrator if I'm wrong.",
 					error: err.body,
-					analyticsErrorDescription: "Item's definition contains either original or translation",
 				});
 			} else {
 				createNotification(NotificationType.UnknownError, {
@@ -287,14 +284,12 @@ export default class ItemStore {
 					message:
 						"Item's original or translation contain each other. Contact the administrator if I'm wrong.",
 					error: err.body,
-					analyticsErrorDescription: "Item's original or translation contain each other",
 				});
 			} else if (err.code === ErrorType.ItemDefinitionContainsOriginalOrTranslation) {
 				createNotification(NotificationType.Error, {
 					message:
 						"Item's definition contains either original or translation. Contact the administrator if I'm wrong.",
 					error: err.body,
-					analyticsErrorDescription: "Item's definition contains either original or translation",
 				});
 			} else {
 				createNotification(NotificationType.UnknownError, {

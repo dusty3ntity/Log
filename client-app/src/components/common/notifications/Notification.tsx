@@ -9,7 +9,6 @@ import ErrorIcon from "../../icons/ErrorIcon";
 import { NotificationType } from "../../../app/models/error";
 import { createCustomError } from "../../../app/common/util/errors";
 import Button from "../inputs/Button";
-import { fireAnalyticsException } from "../../../app/common/analytics/analytics";
 
 interface IProps {
 	className?: string;
@@ -18,22 +17,9 @@ interface IProps {
 	message?: string;
 	error?: any;
 	errorOrigin?: string;
-
-	analyticsErrorDescription?: string;
-	fatalError?: boolean;
 }
 
-const Notification: React.FC<IProps> = ({
-	className,
-	type,
-	title,
-	message,
-	error,
-	errorOrigin,
-
-	analyticsErrorDescription,
-	fatalError,
-}) => {
+const Notification: React.FC<IProps> = ({ className, type, title, message, error, errorOrigin }) => {
 	if (!title) {
 		switch (type) {
 			case NotificationType.Info:
@@ -70,20 +56,6 @@ const Notification: React.FC<IProps> = ({
 		error = errorOrigin;
 	}
 
-	if (type === NotificationType.Error || type === NotificationType.UnknownError) {
-		let errorDescription = analyticsErrorDescription;
-
-		if (!errorDescription) {
-			errorDescription = "Unknown error";
-
-			if (errorOrigin) {
-				errorDescription += `, origin: ${errorOrigin}`;
-			}
-		}
-
-		fireAnalyticsException(errorDescription, fatalError ?? type === NotificationType.UnknownError);
-	}
-
 	return (
 		<div className={`notification ${className ? className : ""}`}>
 			<div className="icon-container">
@@ -101,9 +73,6 @@ const Notification: React.FC<IProps> = ({
 							className="copy-err-btn"
 							onClick={() => copy(JSON.stringify(error, null, "\t"))}
 							icon={<CopyIcon />}
-							analyticsEnabled
-							analyticsCategory="Errors"
-							analyticsAction="Copied error body to clipboard"
 						/>
 					)}
 				</div>

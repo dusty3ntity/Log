@@ -11,7 +11,6 @@ import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
-import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 
 interface IProps {
 	correctAnswersToItemCompletion: number;
@@ -135,7 +134,6 @@ const LearningCardBack: React.FC<IProps> = ({
 					rightIcon={<ArrowForwardSmallIcon />}
 					onClick={() => {
 						onNextItem();
-						fireAnalyticsEvent("Learning", "Requested next item");
 					}}
 					disabled={status > 9}
 					loading={loading}

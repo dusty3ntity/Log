@@ -11,15 +11,8 @@ import "react-tippy/dist/tippy.css";
 import "./app/styles/style.scss";
 
 import App from "./app/layout/App";
-import { initializeAnalytics, setAnalyticsPage } from "./app/common/analytics/analytics";
 
 export const history = createBrowserHistory();
-
-initializeAnalytics();
-
-history.listen((location) => {
-	setAnalyticsPage(location.pathname);
-});
 
 ReactDOM.render(
 	<React.StrictMode>

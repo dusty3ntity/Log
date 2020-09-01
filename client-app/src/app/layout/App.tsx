@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useContext } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
-import { history } from "../..";
 import "mobx-react-lite/batchingForReactDom";
 
 import LoginPage from "../../components/users/LoginPage";
@@ -20,7 +19,6 @@ import { RootStoreContext } from "../stores/rootStore";
 import PrivateRoute from "./PrivateRoute";
 import LoadingScreen from "../../components/common/loading/LoadingScreen";
 import Soon from "./Soon";
-import { setAnalyticsPageView } from "../common/analytics/analytics";
 import OnboardingPage from "../../components/users/OnboardingPage";
 import AnonymousRedirectPage from "./AnonymousRedirectPage";
 import OnboardingTour from "../../components/common/other/OnboardingTour";
@@ -36,7 +34,6 @@ function App() {
 		} else {
 			setAppLoaded();
 		}
-		setAnalyticsPageView(history.location.pathname);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [onInitialLoad, setAppLoaded]); // I don't need the "token" dependency!
 

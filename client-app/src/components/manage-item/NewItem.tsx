@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ItemType, INewItem } from "../../app/models/item";
 import ItemForm from "../common/forms/ItemForm";
-import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import { newItemTourSteps } from "../../app/models/tour";
 import { Tabs, Tab } from "../common/other/Tabs";
 
@@ -20,7 +19,6 @@ const NewItem = () => {
 
 		if (success) {
 			resetForm();
-			fireAnalyticsEvent("Items", "Created an item");
 		}
 	};
 

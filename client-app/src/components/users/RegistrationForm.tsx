@@ -167,9 +167,6 @@ const RegistrationForm: React.FC<IProps> = ({
 								submitting || !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
 							}
 							loading={submitting && loadingTarget === "register"}
-							analyticsEnabled
-							analyticsCategory="Users"
-							analyticsAction="Registered a user"
 						/>
 					</div>
 				</div>

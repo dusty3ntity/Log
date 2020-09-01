@@ -156,7 +156,7 @@ export default class DictionaryStore {
 					phrasesCount: 1,
 					learnedWordsCount: 0,
 					learnedPhrasesCount: 0,
-					
+
 					starredItemsCount: 0,
 
 					preferredLearningListSize: dictionary.preferredLearningListSize,
@@ -189,14 +189,12 @@ export default class DictionaryStore {
 			if (err.code === ErrorType.DictionariesLimitReached) {
 				createNotification(NotificationType.Error, {
 					message: "Dictionaries limit has been reached! Maximum dictionaries number is 4.",
-					analyticsErrorDescription: "Dictionaries limit reached",
 				});
 			} else if (err.code === ErrorType.DuplicateDictionaryFound) {
 				createNotification(NotificationType.Error, {
 					title: "Validation error!",
 					message: "Duplicate dictionary found! Please, refresh the page or contact the administrator.",
 					error: err.body,
-					analyticsErrorDescription: "Dictionary not found",
 				});
 			} else {
 				createNotification(NotificationType.UnknownError, {

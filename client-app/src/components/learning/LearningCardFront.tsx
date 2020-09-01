@@ -9,7 +9,6 @@ import StarIcon from "../icons/StarIcon";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
-import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import { fullTrim } from "../../app/common/forms/formValidators";
 // import HintIcon from "../icons/HintIcon";
 
@@ -127,11 +126,6 @@ const LearningCardFront: React.FC<IProps> = ({
 					onClick={() => {
 						const trimAnswer = fullTrim(answer);
 						onItemSubmit(trimAnswer);
-						fireAnalyticsEvent(
-							"Learning",
-							"Submitted an item",
-							trimAnswer.length === 0 ? "Empty" : undefined
-						);
 					}}
 					disabled={status > 9}
 					loading={loading}

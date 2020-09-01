@@ -6,7 +6,6 @@ import DictionaryForm from "./DictionaryForm";
 import { IDictionary } from "../../app/models/dictionary";
 import { ILanguage } from "../../app/models/languages";
 import { languagesList } from "../../app/models/languages";
-import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import Drawer from "../common/other/Drawer";
 
 const NewDictionary = () => {
@@ -71,13 +70,11 @@ const NewDictionary = () => {
 	const resetKnownLanguage = () => {
 		setDisabledLanguagesToLearnList([]);
 		selectKnownLanguage(undefined);
-		fireAnalyticsEvent("Dictionary creation", "Reset the known language");
 	};
 
 	const resetLanguageToLearn = () => {
 		setDisabledKnownLanguagesList([]);
 		selectLanguageToLearn(undefined);
-		fireAnalyticsEvent("Dictionary creation", "Reset the language to learn");
 	};
 
 	return (

@@ -40,9 +40,6 @@ const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) 
 					disabled={disabled}
 					icon={<FacebookIcon />}
 					onClick={renderProps.onClick}
-					analyticsEnabled
-					analyticsCategory="Users"
-					analyticsAction="Signed a user with Facebook"
 				/>
 			)}
 		/>

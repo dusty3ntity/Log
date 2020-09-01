@@ -37,9 +37,6 @@ const GoogleButton: React.FC<IProps> = ({ text, loading, handler, disabled }) =>
 					loading={loading}
 					disabled={disabled}
 					onClick={renderProps.onClick}
-					analyticsEnabled
-					analyticsCategory="Users"
-					analyticsAction="Signed a user with Google"
 				/>
 			)}
 		/>

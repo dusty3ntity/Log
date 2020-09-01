@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import FilterIcon from "../../icons/FilterIcon";
 import LoadingIndicator from "../../common/loading/LoadingIndicator";
-import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import Button from "../../common/inputs/Button";
 import StarIcon from "../../icons/StarIcon";
 import Tooltip from "../../common/tooltips/Tooltip";
@@ -32,16 +31,13 @@ const Header = () => {
 
 		if (!prevValue) {
 			setPredicate("search", value);
-			fireAnalyticsEvent("Items", "Used the item search");
 		} else {
 			if (value.length === 0) {
 				setPredicate("search", undefined);
-				fireAnalyticsEvent("Items", "Reset the item search");
 			}
 
 			if (prevValue !== value) {
 				setPredicate("search", value);
-				fireAnalyticsEvent("Items", "Used the item search");
 			}
 		}
 	};
@@ -76,9 +72,6 @@ const Header = () => {
 					disabled={filtersDrawerVisible}
 					icon={<FilterIcon />}
 					text="Filters"
-					analyticsEnabled
-					analyticsCategory="Items"
-					analyticsAction="Opened the item filters drawer"
 				/>
 
 				<SearchInput

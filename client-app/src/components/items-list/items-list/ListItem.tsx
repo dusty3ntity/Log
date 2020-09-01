@@ -8,7 +8,6 @@ import Button from "../../common/inputs/Button";
 import Tooltip from "../../common/tooltips/Tooltip";
 import LearningItemProgress from "../../learning/LearningItemProgress";
 import Divider from "../../common/other/Divider";
-import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import ItemProgressBadge from "../../common/other/ItemProgressBadge";
 import Checkbox from "../../common/inputs/Checkbox";
 import { createConfirmationModal } from "../../../app/common/components/modals";
@@ -28,13 +27,11 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 	const handleStar = () => {
 		if (!item.isLearned) {
 			starItemById(item.id);
-			fireAnalyticsEvent("Items", "Starred an item");
 			return;
 		}
 
 		const onOk = () => {
 			starItemById(item.id);
-			fireAnalyticsEvent("Items", "Starred an item");
 		};
 
 		const modalContent = (
@@ -82,7 +79,6 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 					if (!user!.tourCompleted && !user!.itemsTourCompleted) {
 						goToNextStep();
 					}
-					fireAnalyticsEvent("Items", "Selected an item");
 					selectItem(item.id);
 				}}
 			>
@@ -117,14 +113,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 					<Button
 						className="star-btn actions-btn"
 						icon={<StarIcon className={starredClass} />}
-						onClick={
-							item.isStarred
-								? () => {
-										unstarItemById(item.id);
-										fireAnalyticsEvent("Items", "Unstarred an item");
-								  }
-								: handleStar
-						}
+						onClick={item.isStarred ? () => unstarItemById(item.id) : handleStar}
 						loading={starring && loadingTarget.includes(item.id)}
 					/>
 				</Tooltip>

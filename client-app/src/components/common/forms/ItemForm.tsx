@@ -11,7 +11,6 @@ import StarIcon from "../../icons/StarIcon";
 import MinusIcon from "../../icons/MinusIcon";
 import Button from "../inputs/Button";
 import Tooltip from "../tooltips/Tooltip";
-import { fireAnalyticsEvent } from "../../../app/common/analytics/analytics";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { createConfirmationModal } from "../../../app/common/components/modals";
 
@@ -57,11 +56,6 @@ const NewItemForm: React.FC<IProps> = ({
 
 	const handleDefinitionButton = () => {
 		setValue("definition", null);
-		fireAnalyticsEvent(
-			"Item form",
-			definitionActivated ? "Deactivated the definition input" : "Activated the definition input",
-			item ? "Update item" : "Create item"
-		);
 		setDefinitionActivated(!definitionActivated);
 	};
 
@@ -196,7 +190,6 @@ const NewItemForm: React.FC<IProps> = ({
 							setDefinitionActivated(item.definition ? true : false);
 							reset(item);
 						}
-						fireAnalyticsEvent("Item form", "Reset the form");
 					}}
 					disabled={!formState.dirty}
 				>
@@ -227,13 +220,7 @@ const NewItemForm: React.FC<IProps> = ({
 							<button
 								className="btn definition-actions-btn star-btn round"
 								type="button"
-								onClick={() => {
-									fireAnalyticsEvent(
-										"Item Form",
-										isStarred ? "Unstarred an item" : "Starred an item"
-									);
-									setStarred(!isStarred);
-								}}
+								onClick={() => setStarred(!isStarred)}
 							>
 								<StarIcon active={isStarred} />
 							</button>

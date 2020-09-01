@@ -8,7 +8,6 @@ import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
 import PlusIcon from "../icons/PlusIcon";
 import SettingsIcon from "../icons/SettingsIcon";
-import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import { combineClassNames } from "../../app/common/util/classNames";
 import Dropdown from "../common/other/Dropdown";
 
@@ -56,7 +55,6 @@ const DictionarySelector = ({ ...props }) => {
 					onClick={() => {
 						selectDictionary(dictionary.id);
 						handleExpanded();
-						fireAnalyticsEvent("Dictionaries", "Switched a dictionary");
 					}}
 				>
 					<div className="flags-wrapper">
