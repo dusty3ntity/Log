@@ -17,7 +17,7 @@ const Switch: React.FC<ISwitchProps> = ({ id, className, checked, onChange, ...p
 
 	return (
 		<label id={id} className={combineClassNames("switch", className)} {...props}>
-			<input type="checkbox" className="visually-hidden" checked={checked} onChange={handleChange} />
+			<input type="checkbox" checked={checked} onChange={handleChange} />
 			<span className="track">
 				<span className="thumb" />
 			</span>

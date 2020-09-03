@@ -6,7 +6,7 @@
 	top: 0;
 	left: 0;
 
-	z-index: 10;
+	z-index: 100000;
 
 	&.hidden {
 		visibility: hidden;
@@ -29,7 +29,7 @@
 		flex-grow: 2;
 		cursor: pointer;
 
-		transition: all 0.2s ease;
+		transition: all 0.2s;
 
 		background: rgba(0, 0, 0, 0.08);
 	}
@@ -40,7 +40,7 @@
 		position: absolute;
 		padding: 16px;
 
-		transition: all 0.4s ease;
+		transition: all 0.4s;
 
 		background: $body-background;
 

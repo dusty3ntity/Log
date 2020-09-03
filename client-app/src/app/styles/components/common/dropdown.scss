@@ -31,7 +31,7 @@
 		height: 2rem;
 		margin-left: 1.3rem;
 
-		transition: all 0.4s ease;
+		transition: all 0.4s;
 	}
 
 	.dropdown-menu {
@@ -42,7 +42,7 @@
 		padding: 1rem 0.75rem;
 		border-radius: 1.25rem;
 
-		z-index: 999;
+		z-index: 1000;
 
 		transition: opacity 0.4s;
 

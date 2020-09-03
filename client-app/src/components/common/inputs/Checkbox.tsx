@@ -19,13 +19,7 @@ const Checkbox: React.FC<ICheckboxProps> = ({ id, className, checked, onChange, 
 
 	return (
 		<label id={id} className={combineClassNames("checkbox-wrapper", className)} {...props}>
-			<input
-				type="checkbox"
-				className="visually-hidden"
-				checked={checked}
-				disabled={disabled}
-				onChange={handleChange}
-			/>
+			<input type="checkbox" checked={checked} disabled={disabled} onChange={handleChange} />
 			<span className="checkbox">
 				<CheckIcon className="check" />
 			</span>

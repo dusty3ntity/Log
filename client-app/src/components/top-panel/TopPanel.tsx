@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import DictionarySelector from "./DictionarySelector";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import LearningIcon from "../common/icons/HintIcon";
+import LearningIcon from "../common/icons/LearningIcon";
 import PlusIcon from "../common/icons/PlusIcon";
 
 export interface ITopPanelProps {

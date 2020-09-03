@@ -5,6 +5,8 @@
 body {
 	margin: 0;
 	background: $body-background;
+
+	user-select: text;
 }
 
 #root {

@@ -121,7 +121,6 @@
 		.fake-text {
 			position: absolute;
 			opacity: 0;
-			text-indent: 100%;
 			white-space: nowrap;
 			overflow: hidden;
 			left: 50%;
@@ -148,6 +147,8 @@
 		.actions-btn {
 			height: 100%;
 			padding: 3px;
+
+			transition: none;
 
 			box-shadow: 1px 1px 3px rgba(204, 213, 221, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 				1px -1px 2px rgba(204, 213, 221, 0.2), -1px 1px 2px rgba(204, 213, 221, 0.2),

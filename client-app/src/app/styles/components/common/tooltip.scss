@@ -4,6 +4,7 @@
 	padding: 1px;
 	border-radius: 15px;
 	color: $body-background;
+	z-index: 10000;
 
 	&.dark-theme {
 		background: $primary-color !important;

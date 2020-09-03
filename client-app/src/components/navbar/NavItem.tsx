@@ -16,7 +16,7 @@ export interface INavItemProps extends IComponentProps {
 const NavItem: React.FC<INavItemProps> = ({ id, className, type, link, onClick, title, icon, ...props }) => {
 	if (type === "link" && link) {
 		return (
-			<NavLink to={link} exact id={id} className={combineClassNames("nav-item", className)} {...props}>
+			<NavLink to={link} exact id={id} className={combineClassNames("nav-item btn", className)} {...props}>
 				{icon}
 				<span className="item-name">{title}</span>
 			</NavLink>
@@ -26,7 +26,7 @@ const NavItem: React.FC<INavItemProps> = ({ id, className, type, link, onClick, 
 	return (
 		<Button
 			id={id}
-			className={combineClassNames("nav-item", "nav-item-btn", className)}
+			className={combineClassNames("nav-item", className)}
 			onClick={onClick}
 			icon={icon}
 			text={title}

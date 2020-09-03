@@ -9,7 +9,7 @@
 	border-radius: 1.875rem;
 	padding: 1rem;
 
-	transition: width 0.25s ease;
+	transition: width 0.25s;
 
 	background: linear-gradient(326.47deg, rgba(255, 255, 255, 0.1) -0.87%, rgba(255, 255, 255, 0) 27.17%),
 		linear-gradient(154.84deg, #5685ff -1.71%, #3c6eef 98.35%);
@@ -119,8 +119,6 @@
 @media (max-width: $xl-end) {
 	#nav {
 		width: 80px;
-		// width: 170px;
-		z-index: 100;
 
 		&:hover {
 			padding-top: 0;

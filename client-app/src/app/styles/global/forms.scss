@@ -24,19 +24,19 @@ form {
 
 .validation-error {
 	position: absolute;
+	top: 0;
 	right: 0;
-	top: 3px;
 	padding: 2px 16px;
 	border-radius: 20px;
-	z-index: 20;
+	z-index: 100;
 
 	background: #eb5757;
 	box-shadow: 2px 2px 8px rgba(122, 45, 45, 0.5), -1px -1px 6px rgba(228, 232, 244, 0.9),
 		1px -1px 6px rgba(217, 223, 242, 0.2), 1px 1px 3px rgba(1, 0, 0, 0.2),
 		inset -1px -1px 2px rgba(214, 93, 93, 0.5), inset 1px 1px 2px rgba(255, 162, 162, 0.3);
 
-	& + input,
-	& + textarea {
+	& + .text-input,
+	& + .text-area {
 		border: 1px solid #eb5757 !important;
 	}
 

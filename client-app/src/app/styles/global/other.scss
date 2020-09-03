@@ -1,3 +1,8 @@
+img {
+	pointer-events: none;
+	user-select: none;
+}
+
 div[data-simplebar="init"] {
 	margin-right: 1rem;
 }
@@ -53,7 +58,7 @@ div[data-simplebar="init"] {
 	width: auto !important;
 }
 
-.visually-hidden {
+@mixin visually-hidden {
 	position: absolute;
 	height: 1px;
 	width: 1px;

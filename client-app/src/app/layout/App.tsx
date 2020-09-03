@@ -7,7 +7,7 @@ import "mobx-react-lite/batchingForReactDom";
 import { RootStoreContext } from "../stores/rootStore";
 import LoginPage from "../../components/users/LoginPage";
 import RegistrationPage from "../../components/users/RegistrationPage";
-import HomePage from "../../components/home/HomePage";
+import HomePage from "./HomePage";
 import ItemsListPage from "../../components/items-list/ItemsListPage";
 import NewItemPage from "../../components/manage-item/NewItemPage";
 import EditItemPage from "../../components/manage-item/EditItemPage";

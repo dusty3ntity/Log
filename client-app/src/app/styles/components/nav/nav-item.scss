@@ -7,8 +7,6 @@
 }
 
 .nav-item-btn {
-	background: none;
-	justify-content: flex-start;
 }
 
 .nav-item {
@@ -20,6 +18,9 @@
 	font-weight: 800;
 	padding: 0.5rem;
 	margin: 0.24rem 0;
+
+	background: none;
+	justify-content: flex-start;
 
 	&:hover {
 		.nav-icon {
