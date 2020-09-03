@@ -1,14 +1,23 @@
 import React from "react";
 
 import { getExtendedLearningProductivity } from "../../app/common/util/learning";
+import { IComponentProps } from "../../app/models/components";
+import { combineClassNames } from "../../app/common/util/classNames";
 
-interface IProps {
+export interface ILearningStatsBriefProps extends IComponentProps {
 	itemsCount: number;
 	completedItemsCount: number;
 	correctAnswersCount: number;
 }
 
-const LearningStatsBrief: React.FC<IProps> = ({ itemsCount, completedItemsCount, correctAnswersCount }) => {
+const LearningStatsBrief: React.FC<ILearningStatsBriefProps> = ({
+	id,
+	className,
+	itemsCount,
+	completedItemsCount,
+	correctAnswersCount,
+	...props
+}) => {
 	let productivity = getExtendedLearningProductivity(correctAnswersCount, completedItemsCount);
 
 	const productivityColorClass =
@@ -17,7 +26,7 @@ const LearningStatsBrief: React.FC<IProps> = ({ itemsCount, completedItemsCount,
 	productivity = Math.floor(productivity);
 
 	return (
-		<div className="learning-stats-brief">
+		<div id={id} className={combineClassNames("learning-stats-brief", className)} {...props}>
 			<div className="items-col col">
 				<div className="items-for-today cell">
 					<h2>Items for today</h2>

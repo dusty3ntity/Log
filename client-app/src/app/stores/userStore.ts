@@ -6,7 +6,7 @@ import { history } from "../..";
 import { RootStore } from "./rootStore";
 import { ILoginUser, IUser, IRegisterUser, IOnboardingFormData } from "./../models/user";
 import agent from "../api/agent";
-import { createNotification } from "./../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { ErrorType, NotificationType } from "./../models/error";
 
 export default class UserStore {

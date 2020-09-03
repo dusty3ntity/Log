@@ -1,17 +1,15 @@
 import React from "react";
 
-interface IProps {
-	className: string;
-}
+import { IComponentProps } from "../../app/models/components";
+import { combineClassNames } from "../../app/common/util/classNames";
 
-const LearningBackground: React.FC<IProps> = ({ className }) => {
+const LearningBackground: React.FC<IComponentProps> = ({ id, className, ...props }) => {
 	const skeleton = [];
 
-	for (let i = 0; i < 11; i++) 
-		skeleton.push(<li key={i} />);
+	for (let i = 0; i < 11; i++) skeleton.push(<li key={i} />);
 
 	return (
-		<div className={`learning-background ${className}`}>
+		<div className={combineClassNames("learning-background", className)} {...props}>
 			<div className="bg-big background">
 				<div className="skeleton">{skeleton}</div>
 			</div>

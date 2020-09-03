@@ -1,31 +1,34 @@
 import React from "react";
 
+import { IComponentProps } from "../../../app/models/components";
 import { combineClassNames } from "../../../app/common/util/classNames";
 
-interface IProps {
-	id?: string;
-	classNames?: string[];
+export interface IDrawerProps extends IComponentProps {
 	onClose: () => void;
 	visible: boolean;
 	placement?: "left" | "right";
 }
 
-const Drawer: React.FC<IProps> = ({
+const Drawer: React.FC<IDrawerProps> = ({
 	id,
-	classNames = [],
+	className,
 	onClose,
 	visible,
 	placement = "right",
 	children,
 	...props
 }) => {
-	classNames.unshift("drawer");
-	const placementClass = placement === "right" ? "placement-right" : "placement-left";
-
 	return (
-		<div id={id} className={combineClassNames(classNames, { hidden: !visible })} {...props}>
+		<div id={id} className={combineClassNames("drawer", className, { hidden: !visible })} {...props}>
 			<div className="drawer-mask" onClick={onClose} />
-			<div className={combineClassNames("drawer-content", placementClass)}>{children}</div>
+			<div
+				className={combineClassNames("drawer-content", {
+					"placement-right": placement === "right",
+					"placement-left": placement === "left",
+				})}
+			>
+				{children}
+			</div>
 		</div>
 	);
 };

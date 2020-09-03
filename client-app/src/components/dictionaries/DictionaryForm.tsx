@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
+import { IComponentProps } from "../../app/models/components";
 import { INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
 import { ILanguage } from "../../app/models/languages";
 import Button from "../common/inputs/Button";
@@ -10,11 +11,9 @@ import Tooltip from "../common/tooltips/Tooltip";
 import Switch from "../common/inputs/Switch";
 import Slider from "../common/inputs/Slider";
 import { createConfirmationModal } from "../../app/common/components/modals";
+import { combineClassNames } from "../../app/common/util/classNames";
 
-interface IProps {
-	id?: string;
-	className?: string;
-
+export interface IDictionaryFormProps extends IComponentProps {
 	dictionary?: IDictionary;
 
 	knownLanguage?: ILanguage | undefined;
@@ -27,7 +26,7 @@ interface IProps {
 	onDelete?: () => void;
 }
 
-const DictionaryForm: React.FC<IProps> = ({
+const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 	id,
 	className,
 	dictionary,
@@ -37,6 +36,7 @@ const DictionaryForm: React.FC<IProps> = ({
 	onLanguageToLearnButtonClick,
 	onSubmit,
 	onDelete,
+	...props
 }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { submitting, deleting } = rootStore.dictionaryStore;
@@ -95,7 +95,7 @@ const DictionaryForm: React.FC<IProps> = ({
 	};
 
 	return (
-		<div className={`dictionary-form ${className ? className : ""}`} id={id}>
+		<div id={id} className={combineClassNames("dictionary-form", className)} {...props}>
 			<div className="flags-row">
 				<div className="lang-container known-lang-container">
 					<span className="title">I know</span>

@@ -1,40 +1,40 @@
 import React from "react";
 import SimpleBar from "simplebar-react";
 
+import { IComponentProps } from "../../app/models/components";
 import { ILanguage } from "../../app/models/languages";
 import { languagesList } from "../../app/models/languages";
-import ResetIcon from "../icons/ResetIcon";
 import Tooltip from "../common/tooltips/Tooltip";
+import Button from "../common/inputs/Button";
+import { combineClassNames } from "../../app/common/util/classNames";
+import ResetIcon from "../common/icons/ResetIcon";
 
-interface IProps {
-	id?: string;
+export interface ILanguagesListProps extends IComponentProps {
 	title: string;
-	className?: string;
 	disabledItems: ILanguage[];
 	selectedItem: ILanguage | undefined;
-	reset?: () => void;
+	onReset?: () => void;
 	onItemSelect: (item: ILanguage) => void;
 }
 
-const LanguagesList: React.FC<IProps> = ({
+const LanguagesList: React.FC<ILanguagesListProps> = ({
 	id,
-	title,
 	className,
+	title,
 	disabledItems,
 	selectedItem,
 	onItemSelect,
-	reset,
+	onReset,
+	...props
 }) => {
 	return (
-		<div id={id} className={`languages-list ${className ? className : ""}`}>
+		<div id={id} className={combineClassNames("languages-list", className)} {...props}>
 			<div className="title-container">
 				<span className="title">{title}</span>
 
-				{reset && (
+				{onReset && (
 					<Tooltip text="Reset selected language." position="top">
-						<button className="btn reset-btn round" onClick={reset}>
-							<ResetIcon />
-						</button>
+						<Button className="reset-btn" onClick={onReset} icon={<ResetIcon />} />
 					</Tooltip>
 				)}
 			</div>

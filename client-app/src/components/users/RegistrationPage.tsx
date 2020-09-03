@@ -5,7 +5,7 @@ import { history } from "../..";
 import RegistrationForm from "./RegistrationForm";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
-const RegistrationPage = () => {
+const RegistrationPage: React.FC = ({ ...props }) => {
 	document.title = "Register - Log";
 
 	const rootStore = useContext(RootStoreContext);
@@ -20,7 +20,7 @@ const RegistrationPage = () => {
 	useEffect(pushOut, []);
 
 	return (
-		<div id="registration-page" className="sign-page">
+		<div id="registration-page" className="sign-page" {...props}>
 			<RegistrationForm
 				onSubmit={register}
 				submitting={submitting}

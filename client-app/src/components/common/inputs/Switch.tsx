@@ -1,23 +1,22 @@
 import React from "react";
 
-interface IProps {
-	id?: string;
-	classNames?: string[];
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
+
+export interface ISwitchProps extends IComponentProps {
 	checked?: boolean;
 	onChange?: (value: boolean) => void;
 }
 
-const Switch: React.FC<IProps> = ({ classNames = [], id, checked, onChange, ...props }) => {
-	classNames.unshift("switch");
-
-	const handleChange = (e: any) => {
+const Switch: React.FC<ISwitchProps> = ({ id, className, checked, onChange, ...props }) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (onChange) {
 			onChange(e.target.checked);
 		}
 	};
 
 	return (
-		<label id={id} className={classNames.join(" ")} {...props}>
+		<label id={id} className={combineClassNames("switch", className)} {...props}>
 			<input type="checkbox" className="visually-hidden" checked={checked} onChange={handleChange} />
 			<span className="track">
 				<span className="thumb" />

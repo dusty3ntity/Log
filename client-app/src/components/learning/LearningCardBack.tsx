@@ -1,18 +1,20 @@
 import React, { useContext } from "react";
 import TextEllipsis from "react-text-ellipsis";
 
+import { IComponentProps } from "../../app/models/components";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILearningItemResult } from "../../app/models/learning";
-import LearningItemProgressAnimated from "./LearningItemProgressAnimated";
-import SuccessIcon from "../icons/SuccessIcon";
-import ErrorIcon from "../icons/ErrorIcon";
-import StarIcon from "../icons/StarIcon";
-import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
+import ItemProgressDotsAnimated from "./ItemProgressDotsAnimated";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
+import { combineClassNames } from "../../app/common/util/classNames";
+import SuccessIcon from "../common/icons/SuccessIcon";
+import ErrorIcon from "../common/icons/ErrorIcon";
+import StarIcon from "../common/icons/StarIcon";
+import ArrowForwardSmallIcon from "../common/icons/ArrowForwardSmallIcon";
 
-interface IProps {
+export interface ILearningCardBackProps extends IComponentProps {
 	correctAnswersToItemCompletion: number;
 	prevCorrectAnswersToCompletionCount: number;
 	learningItemResult: ILearningItemResult;
@@ -22,7 +24,9 @@ interface IProps {
 	loading: boolean;
 }
 
-const LearningCardBack: React.FC<IProps> = ({
+const LearningCardBack: React.FC<ILearningCardBackProps> = ({
+	id,
+	className,
 	correctAnswersToItemCompletion,
 	prevCorrectAnswersToCompletionCount,
 	learningItemResult,
@@ -30,13 +34,12 @@ const LearningCardBack: React.FC<IProps> = ({
 	progressAnimated,
 	secondTraining,
 	loading,
+	...props
 }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { status, isItemResultFlipped, onNextItem } = rootStore.learningStore;
 
 	const item = learningItemResult.item;
-
-	const starredClass = item.isStarred ? " active" : "";
 
 	const itemSizeClass = item.item.length > 20 ? "long" : item.item.length > 10 ? "medium" : "short";
 	const answerSizeClass = item.answer.length > 20 ? "long" : item.answer.length > 10 ? "medium" : "short";
@@ -48,7 +51,13 @@ const LearningCardBack: React.FC<IProps> = ({
 			: "short";
 
 	return (
-		<div className={`learning-card learning-card-back ${isItemResultFlipped ? "flipped" : ""}`}>
+		<div
+			id={id}
+			className={combineClassNames("learning-card learning-card-back", className, {
+				flipped: isItemResultFlipped,
+			})}
+			{...props}
+		>
 			<div className="header-row row">
 				<Tooltip
 					text={learningItemResult.isAnswerCorrect ? "Your answer is correct!" : "Your answer is wrong."}
@@ -65,7 +74,7 @@ const LearningCardBack: React.FC<IProps> = ({
 					text={`Number of correct answers for item to be considered mastered. You have ${item.correctAnswersToCompletionCount} out of ${correctAnswersToItemCompletion} needed.`}
 					position="top"
 				>
-					<LearningItemProgressAnimated
+					<ItemProgressDotsAnimated
 						total={correctAnswersToItemCompletion}
 						checked={prevCorrectAnswersToCompletionCount}
 						isHardModeEnabled={isHardModeEnabled}
@@ -83,7 +92,7 @@ const LearningCardBack: React.FC<IProps> = ({
 					}
 					position="top-end"
 				>
-					<StarIcon className={starredClass} />
+					<StarIcon active={item.isStarred} />
 				</Tooltip>
 			</div>
 

@@ -6,7 +6,7 @@ import LoginForm from "./LoginForm";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILoginUser } from "../../app/models/user";
 
-const LoginPage = () => {
+const LoginPage: React.FC = ({ ...props }) => {
 	document.title = "Log in - Log";
 
 	const rootStore = useContext(RootStoreContext);
@@ -25,7 +25,7 @@ const LoginPage = () => {
 	};
 
 	return (
-		<div id="login-page" className="sign-page">
+		<div id="login-page" className="sign-page" {...props}>
 			<LoginForm
 				onSubmit={onSubmit}
 				submitting={submitting}

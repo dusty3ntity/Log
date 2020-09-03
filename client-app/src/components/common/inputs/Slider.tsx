@@ -1,9 +1,10 @@
 import React from "react";
 import { default as RangeSlider } from "react-rangeslider";
 
-interface IProps {
-	id?: string;
-	classNames?: string[];
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
+
+export interface ISliderProps extends IComponentProps {
 	step?: number;
 	min?: number;
 	max?: number;
@@ -11,12 +12,17 @@ interface IProps {
 	onChange?: (value: number) => void;
 }
 
-const Slider: React.FC<IProps> = ({ classNames = [], id, min = 1, max = 100, step = 1, value, onChange, ...props }) => {
-	classNames.unshift("slider");
-
+const Slider: React.FC<ISliderProps> = ({ id, className, min, max, step, value, onChange, ...props }) => {
 	return (
-		<div className={classNames.join(" ")} {...props}>
-			<RangeSlider min={min} max={max} step={step} value={value} tooltip={false} onChange={onChange} />
+		<div id={id} className={combineClassNames("slider", className)} {...props}>
+			<RangeSlider
+				min={min || 1}
+				max={max || 100}
+				step={step || 1}
+				value={value}
+				tooltip={false}
+				onChange={onChange}
+			/>
 		</div>
 	);
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
+import { ISignFormProps } from "../../app/models/components";
 import ValidationMessage from "../common/forms/ValidationMessage";
 import { IRegisterUser } from "../../app/models/user";
 import {
@@ -16,20 +17,17 @@ import Divider from "../common/other/Divider";
 // import FacebookButton from "./FacebookButton";
 // import GoogleButton from "./GoogleButton";
 
-interface IProps {
+export interface IRegistrationFormProps extends ISignFormProps {
 	onSubmit: (user: IRegisterUser) => void;
-	facebookHandler: (response: any) => void;
-	googleHandler: (response: any) => void;
-	submitting: boolean;
-	loadingTarget: string | undefined;
 }
 
-const RegistrationForm: React.FC<IProps> = ({
+const RegistrationForm: React.FC<IRegistrationFormProps> = ({
 	onSubmit,
 	submitting,
 	facebookHandler,
 	googleHandler,
 	loadingTarget,
+	...props
 }) => {
 	const { register, handleSubmit, errors, formState } = useForm<IRegisterUser>();
 
@@ -39,7 +37,7 @@ const RegistrationForm: React.FC<IProps> = ({
 	};
 
 	return (
-		<div id="registration-form" className="user-form">
+		<div id="registration-form" className="user-form" {...props}>
 			<form onSubmit={handleSubmit(submit)}>
 				<div className="title row">Register</div>
 
@@ -49,7 +47,7 @@ const RegistrationForm: React.FC<IProps> = ({
 					<div className="form-item">
 						<label htmlFor="email">Email</label>
 
-						<ValidationMessage name="email" errors={errors} />
+						<ValidationMessage inputName="email" errors={errors} />
 
 						<input
 							type="text"
@@ -70,7 +68,7 @@ const RegistrationForm: React.FC<IProps> = ({
 					<div className="form-item">
 						<label htmlFor="username">Username</label>
 
-						<ValidationMessage name="username" errors={errors} />
+						<ValidationMessage inputName="username" errors={errors} />
 
 						<input
 							type="text"
@@ -100,7 +98,7 @@ const RegistrationForm: React.FC<IProps> = ({
 					<div className="form-item">
 						<label htmlFor="password">Password</label>
 
-						<ValidationMessage name="password" errors={errors} />
+						<ValidationMessage inputName="password" errors={errors} />
 
 						<input
 							type="password"

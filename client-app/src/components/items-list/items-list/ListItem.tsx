@@ -1,28 +1,28 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 
+import { IComponentProps } from "../../../app/models/components";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem } from "../../../app/models/item";
-import StarIcon from "../../icons/StarIcon";
 import Button from "../../common/inputs/Button";
 import Tooltip from "../../common/tooltips/Tooltip";
-import LearningItemProgress from "../../learning/LearningItemProgress";
+import ItemProgressDots from "../../learning/ItemProgressDots";
 import Divider from "../../common/other/Divider";
 import ItemProgressBadge from "../../common/other/ItemProgressBadge";
 import Checkbox from "../../common/inputs/Checkbox";
 import { createConfirmationModal } from "../../../app/common/components/modals";
+import { combineClassNames } from "../../../app/common/util/classNames";
+import StarIcon from "../../common/icons/StarIcon";
 
-interface IProps {
+export interface IItemsListItemProps extends IComponentProps {
 	item: IItem;
 }
 
-const ListItem: React.FC<IProps> = ({ item }) => {
+const ListItem: React.FC<IItemsListItemProps> = ({ id, className, item, ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { selectItem, starItemById, unstarItemById, activeItem, starring, loadingTarget } = rootStore.itemStore;
 	const { goToNextStep } = rootStore.tourStore;
 	const { user } = rootStore.userStore;
-
-	const starredClass = item.isStarred ? " active" : "";
 
 	const handleStar = () => {
 		if (!item.isLearned) {
@@ -45,11 +45,15 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 	};
 
 	return (
-		<div className={`list-item + ${item.id === activeItem?.id ? "active" : ""}`}>
+		<div
+			id={id}
+			className={combineClassNames("list-item", className, { active: item.id === activeItem?.id })}
+			{...props}
+		>
 			<div className="selector-col col">
 				<Tooltip
 					content={
-						<LearningItemProgress
+						<ItemProgressDots
 							total={rootStore.dictionaryStore.activeDictionary.correctAnswersToItemCompletion}
 							checked={item.correctAnswersToCompletionCount}
 							secondTraining={false}
@@ -70,7 +74,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 						rectangular
 					/>
 				</Tooltip>
-				<Checkbox classNames={["selector"]} />
+				<Checkbox className="selector" />
 			</div>
 
 			<button
@@ -112,7 +116,7 @@ const ListItem: React.FC<IProps> = ({ item }) => {
 				>
 					<Button
 						className="star-btn actions-btn"
-						icon={<StarIcon className={starredClass} />}
+						icon={<StarIcon active={item.isStarred} />}
 						onClick={item.isStarred ? () => unstarItemById(item.id) : handleStar}
 						loading={starring && loadingTarget.includes(item.id)}
 					/>

@@ -4,7 +4,7 @@ import { history } from "../..";
 import { IItem, IEditItem, INewItem } from "../models/item";
 import { ILearningList, ILearningItem, ILearningItemAnswer, ILearningItemResult } from "./../models/learning";
 import { CustomError, ErrorType } from "./../models/error";
-import { createNotification } from "../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { NotificationType } from "./../models/error";
 import { IUser, ILoginUser } from "./../models/user";
 import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";

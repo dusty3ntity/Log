@@ -5,7 +5,7 @@ import { RootStore } from "./rootStore";
 import { IDictionary, INewDictionary, IEditDictionary, IExtendedDictionary } from "./../models/dictionary";
 import agent from "../api/agent";
 import { ErrorType, NotificationType } from "../models/error";
-import { createNotification } from "../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { getLanguageByISOCode } from "./../models/languages";
 
 export default class DictionaryStore {

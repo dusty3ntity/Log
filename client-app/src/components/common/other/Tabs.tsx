@@ -1,22 +1,20 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, CSSProperties } from "react";
 
 import { combineClassNames } from "../../../app/common/util/classNames";
+import { IComponentProps } from "../../../app/models/components";
 
-interface ITabsProps {
-	id?: string;
-	classNames?: string[];
+export interface ITabsProps extends IComponentProps {
 	children: ReactElement<ITabProps>[];
 	defaultActiveKey: string;
 }
 
-const Tabs: React.FC<ITabsProps> = ({ classNames = [], id, children, defaultActiveKey, ...props }) => {
-	classNames.unshift("tabs");
+const Tabs: React.FC<ITabsProps> = ({ id, className, children, defaultActiveKey, ...props }) => {
 	const tabWidth = 100 / children.length + "%";
 
 	const [activeTabKey, setActiveTabKey] = useState(defaultActiveKey);
 
 	return (
-		<div id={id} className={classNames.join(" ")} {...props}>
+		<div id={id} className={combineClassNames("tabs", className)} {...props}>
 			<div className="tabs-bar">
 				{children.map((tab: ReactElement<ITabProps>) => (
 					<div
@@ -25,7 +23,7 @@ const Tabs: React.FC<ITabsProps> = ({ classNames = [], id, children, defaultActi
 						style={{ width: tabWidth }}
 						onClick={() => setActiveTabKey(tab.props.tabKey)}
 					>
-						{tab.props.name}
+						{tab.props.tabName}
 					</div>
 				))}
 
@@ -41,11 +39,9 @@ const Tabs: React.FC<ITabsProps> = ({ classNames = [], id, children, defaultActi
 			<div className="tabs-content">
 				{children.map((tab: ReactElement<ITabProps>) => {
 					if (tab.props.tabKey === activeTabKey) {
-						const classNames = tab.props.classNames || [];
-						classNames.push("active");
 						return React.cloneElement(tab, {
 							key: tab.props.tabKey,
-							classNames: classNames,
+							className: combineClassNames(tab.props.className, "active"),
 						});
 					} else if (tab.props.tabKey > activeTabKey) {
 						return React.cloneElement(tab, {
@@ -64,19 +60,15 @@ const Tabs: React.FC<ITabsProps> = ({ classNames = [], id, children, defaultActi
 	);
 };
 
-interface ITabProps {
-	id?: string;
-	classNames?: string[];
-	name: string;
+export interface ITabProps extends IComponentProps {
+	tabName: string;
 	tabKey: string;
-	style?: {};
+	style?: CSSProperties;
 }
 
-const Tab: React.FC<ITabProps> = ({ id, classNames = [], style, children }) => {
-	classNames.unshift("tab");
-
+const Tab: React.FC<ITabProps> = ({ id, className, tabName, tabKey, style, children, ...props }) => {
 	return (
-		<div id={id} className={classNames.join(" ")} style={style}>
+		<div id={id} className={combineClassNames("tab", className)} style={style} {...props}>
 			{children}
 		</div>
 	);

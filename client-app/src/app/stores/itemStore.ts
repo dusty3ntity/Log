@@ -4,7 +4,7 @@ import { history } from "../..";
 import { RootStore } from "./rootStore";
 import { IItem, IEditItem, INewItem, ItemType, IItemsEnvelope } from "./../models/item";
 import agent from "../api/agent";
-import { createNotification } from "../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { NotificationType, ErrorType } from "./../models/error";
 import { matchesFilters } from "./../common/util/filters";
 

@@ -1,65 +1,61 @@
 import React, { ReactNode } from "react";
 
 import LoadingIndicator from "../loading/LoadingIndicator";
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
 
-interface IProps {
+export interface IButtonProps extends IComponentProps {
 	type?: "button" | "submit" | "reset";
-	className?: string;
 	primary?: boolean;
 	icon?: ReactNode;
 	text?: string;
+	textClassName?: string;
+
 	active?: boolean;
-	onClick?: () => any;
-	disabled?: boolean;
-	noDisabledStyles?: boolean;
 	loading?: boolean;
+	disabled?: boolean;
+	onClick?: () => any;
+
+	noDisabledStyles?: boolean;
 	rightIcon?: ReactNode;
 }
 
-const Button: React.FC<IProps> = ({
-	type,
+const Button: React.FC<IButtonProps> = ({
+	id,
 	className,
+
+	type = "button",
 	primary,
 	icon,
 	text,
+	textClassName,
+
 	active,
-	disabled,
-	noDisabledStyles,
-	onClick,
 	loading,
+	disabled,
+	onClick,
+
+	noDisabledStyles,
 	rightIcon,
+
+	...props
 }) => {
-	const classNames = ["btn"];
-
-	if (primary) {
-		classNames.push("primary");
-	}
-
-	if (icon && !text) {
-		classNames.push("round");
-	}
-
-	if (className) {
-		classNames.push(className);
-	}
-
-	if (active) {
-		classNames.push("active");
-	}
-
-	if (noDisabledStyles) {
-		classNames.push("no-disabled-styles");
-	}
-
 	return (
 		<button
-			className={classNames.join(" ")}
-			type={type ? type : "button"}
+			id={id}
+			className={combineClassNames("btn", className, {
+				primary: primary,
+				round: icon && !text,
+				active: active,
+				"no-disabled-styles": noDisabledStyles,
+			})}
+			type={type}
 			disabled={disabled || loading}
 			onClick={onClick}
+			{...props}
 		>
 			{!loading ? icon : <LoadingIndicator type="small" />}
-			{text && <span>{text}</span>}
+			{text && <span className={combineClassNames(textClassName)}>{text}</span>}
 			{rightIcon}
 		</button>
 	);

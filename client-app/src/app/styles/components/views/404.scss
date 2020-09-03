@@ -1,4 +1,4 @@
-.not-found {
+#not-found-page {
 	height: 100%;
 	width: 100%;
 	display: flex;
@@ -27,6 +27,7 @@
 			font-size: 2rem;
 			font-weight: 800;
 			margin-top: 5rem;
+			padding: 0.5rem 0;
 
 			background: $body-background;
 			box-shadow: 3px 3px 8px rgba(204, 213, 221, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),

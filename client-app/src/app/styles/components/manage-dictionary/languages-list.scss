@@ -125,7 +125,7 @@
 	}
 }
 
-.languages-list.in-drawer {
+.languages-list[in-drawer="true"] {
 	width: 100%;
 	box-shadow: none;
 }
@@ -147,7 +147,7 @@
 }
 
 @media (max-width: 1099px) {
-	#new-dictionary-container .languages-list:not(.in-drawer) {
+	#new-dictionary-page .languages-list:not([in-drawer="true"]) {
 		display: none;
 	}
 }

@@ -1,40 +1,31 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import TextEllipsis from "react-text-ellipsis";
-import format from "date-fns/format";
 import { Link } from "react-router-dom";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { IItem, ItemType } from "../../../app/models/item";
-import StarIcon from "../../icons/StarIcon";
-import EditIcon from "../../icons/EditIcon";
-import DeleteIcon from "../../icons/DeleteIcon";
 import Button from "../../common/inputs/Button";
 import Tooltip from "../../common/tooltips/Tooltip";
-import LearningItemProgress from "../../learning/LearningItemProgress";
+import ItemProgressDots from "../../learning/ItemProgressDots";
 import Divider from "../../common/other/Divider";
 import ItemProgressBadge from "../../common/other/ItemProgressBadge";
 import { createConfirmationModal } from "../../../app/common/components/modals";
+import { getItemCreationDate } from "../../../app/common/util/dates";
+import { shortenNumber } from "../../../app/common/util/numbers";
+import StarIcon from "../../common/icons/StarIcon";
+import EditIcon from "../../common/icons/EditIcon";
+import DeleteIcon from "../../common/icons/DeleteIcon";
 
-interface IProps {
+export interface IItemDetailsContentProps {
 	item: IItem;
 }
 
-const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
+const ItemDetailsContent: React.FC<IItemDetailsContentProps> = ({ item, ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { deleteItem, starItem, unstarItem, starring, deleting, loadingTarget } = rootStore.itemStore;
 	const { goToNextStep } = rootStore.tourStore;
 	const { user } = rootStore.userStore;
-
-	const type = item.type === ItemType.Word ? "Word" : "Phrase";
-	const starredClass = item.isStarred ? " active" : "";
-
-	const totalRepeatsCount =
-		item.totalRepeatsCount > 999 ? Math.floor(item.totalRepeatsCount / 1000) + "k" : item.totalRepeatsCount;
-	const correctAnswersCount =
-		item.correctAnswersCount > 999 ? Math.floor(item.correctAnswersCount / 1000) + "k" : item.correctAnswersCount;
-
-	const date = format(item.creationDate, "MM.dd.yyyy");
 
 	const handleDelete = () => {
 		const onOk = () => {
@@ -71,11 +62,11 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 	};
 
 	return (
-		<div id="details-container">
+		<div id="details-container" {...props}>
 			<div className="header-row row">
 				<Tooltip
 					content={
-						<LearningItemProgress
+						<ItemProgressDots
 							total={rootStore.dictionaryStore.activeDictionary.correctAnswersToItemCompletion}
 							checked={item.correctAnswersToCompletionCount}
 							secondTraining={false}
@@ -97,7 +88,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					/>
 				</Tooltip>
 
-				<span className="type">{type}</span>
+				<span className="type">{item.type === ItemType.Word ? "Word" : "Phrase"}</span>
 
 				<Tooltip
 					text={
@@ -107,7 +98,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					}
 					position="top-end"
 				>
-					<StarIcon className={starredClass} tourStep="1-4" />
+					<StarIcon active={item.isStarred} tour-step="1-4" />
 				</Tooltip>
 			</div>
 
@@ -142,17 +133,17 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 			<div className="stats-row row">
 				<div className="statistic">
 					<div className="title">Total repeats</div>
-					<div className="counter">{totalRepeatsCount}</div>
+					<div className="counter">{shortenNumber(item.totalRepeatsCount, 1000)}</div>
 				</div>
 
 				<div className="statistic">
 					<div className="title">Correct answers</div>
-					<div className="counter">{correctAnswersCount}</div>
+					<div className="counter">{shortenNumber(item.correctAnswersCount, 1000)}</div>
 				</div>
 			</div>
 
 			<div className="date-row row">
-				<span className="date">Added on {date}</span>
+				<span className="date">Added on {getItemCreationDate(item.creationDate)}</span>
 			</div>
 
 			<div className="actions-row row">
@@ -171,7 +162,7 @@ const ItemDetailsContent: React.FC<IProps> = ({ item }) => {
 					<Button
 						className="star-btn actions-btn"
 						onClick={item.isStarred ? unstarItem : handleStar}
-						icon={<StarIcon className={starredClass} />}
+						icon={<StarIcon active={item.isStarred} />}
 						loading={starring && loadingTarget.includes(item.id)}
 					/>
 				</Tooltip>

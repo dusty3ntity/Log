@@ -1,12 +1,10 @@
 import React, { useRef, useEffect, ReactNode } from "react";
 
 import { combineClassNames } from "../../../app/common/util/classNames";
-import DropdownIcon from "../../icons/DropdownIcon";
+import { IComponentProps } from "../../../app/models/components";
+import DropdownIcon from "../icons/DropdownIcon";
 
-interface IProps {
-	id?: string;
-	classNames?: string[];
-
+export interface IDropdownProps extends IComponentProps {
 	expanded: boolean;
 	onClick: (value?: boolean) => void;
 
@@ -14,13 +12,15 @@ interface IProps {
 	menuContent: ReactNode;
 }
 
-const Dropdown: React.FC<IProps> = ({
+const Dropdown: React.FC<IDropdownProps> = ({
 	id,
-	classNames = [],
+	className,
+
 	expanded,
+	onClick,
+
 	buttonContent,
 	menuContent,
-	onClick,
 	...props
 }) => {
 	const buttonRef = useRef<HTMLDivElement>(null);
@@ -48,7 +48,7 @@ const Dropdown: React.FC<IProps> = ({
 	return (
 		<div
 			id={id}
-			className={combineClassNames("dropdown", classNames, {
+			className={combineClassNames("dropdown", className, {
 				"dropdown-open": expanded,
 				"dropdown-closed": !expanded,
 			})}

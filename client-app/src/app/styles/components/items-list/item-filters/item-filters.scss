@@ -90,7 +90,7 @@
 }
 
 @media (max-width: $mlg-end) {
-	#item-filters:not(.in-drawer) {
+	#item-filters:not([in-drawer="true"]) {
 		display: none !important;
 	}
 }

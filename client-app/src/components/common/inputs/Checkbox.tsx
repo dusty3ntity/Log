@@ -1,26 +1,24 @@
 import React from "react";
 
-import CheckIcon from "../../icons/CheckIcon";
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
+import CheckIcon from "../icons/CheckIcon";
 
-interface IProps {
-	id?: string;
-	classNames?: string[];
+export interface ICheckboxProps extends IComponentProps {
 	checked?: boolean;
 	onChange?: (value: boolean) => void;
 	disabled?: boolean;
 }
 
-const Checkbox: React.FC<IProps> = ({ classNames = [], id, checked, onChange, disabled, children, ...props }) => {
-	classNames.unshift("checkbox-wrapper");
-
-	const handleChange = (e: any) => {
+const Checkbox: React.FC<ICheckboxProps> = ({ id, className, checked, onChange, disabled, children, ...props }) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (onChange) {
 			onChange(e.target.checked);
 		}
 	};
 
 	return (
-		<label id={id} className={classNames.join(" ")} {...props}>
+		<label id={id} className={combineClassNames("checkbox-wrapper", className)} {...props}>
 			<input
 				type="checkbox"
 				className="visually-hidden"

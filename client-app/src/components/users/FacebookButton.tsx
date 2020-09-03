@@ -1,20 +1,14 @@
 import React from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
+import { IProviderButtonProps } from "../../app/models/components";
 import Button from "../common/inputs/Button";
-import FacebookIcon from "../icons/FacebookIcon";
-import { createNotification } from "../../app/common/util/notifications";
+import { createNotification } from "../../app/common/components/notifications";
 import { NotificationType } from "../../app/models/error";
+import FacebookIcon from "../common/icons/FacebookIcon";
 
-interface IProps {
-	text: string;
-	loading?: boolean;
-	handler: (response: any) => void;
-	disabled?: boolean;
-}
-
-const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) => {
-	const onClick = (response: any) => {
+const FacebookButton: React.FC<IProviderButtonProps> = ({ text, loading, onClick, disabled, ...props }) => {
+	const handleClick = (response: any) => {
 		if (response.status === "unknown") {
 			createNotification(NotificationType.Error, {
 				title: "Authorization error!",
@@ -24,13 +18,13 @@ const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) 
 			return;
 		}
 
-		handler(response);
+		onClick(response);
 	};
 
 	return (
 		<FacebookLogin
 			appId="588857195154246"
-			callback={onClick}
+			callback={handleClick}
 			fields="name,email,picture"
 			render={(renderProps: any) => (
 				<Button
@@ -40,6 +34,7 @@ const FacebookButton: React.FC<IProps> = ({ text, loading, handler, disabled }) 
 					disabled={disabled}
 					icon={<FacebookIcon />}
 					onClick={renderProps.onClick}
+					{...props}
 				/>
 			)}
 		/>

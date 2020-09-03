@@ -3,15 +3,16 @@ import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 
 import { RootStoreContext } from "../../app/stores/rootStore";
-import ArrowForwardIcon from "../icons/ArrowForwardIcon";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
-import PlusIcon from "../icons/PlusIcon";
-import SettingsIcon from "../icons/SettingsIcon";
 import { combineClassNames } from "../../app/common/util/classNames";
 import Dropdown from "../common/other/Dropdown";
+import { shortenNumber } from "../../app/common/util/numbers";
+import ArrowForwardIcon from "../common/icons/ArrowForwardIcon";
+import PlusIcon from "../common/icons/PlusIcon";
+import SettingsIcon from "../common/icons/SettingsIcon";
 
-const DictionarySelector = ({ ...props }) => {
+const DictionarySelector: React.FC = ({ ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { activeDictionary, selectDictionary, dictionariesRegistry } = rootStore.dictionaryStore;
 
@@ -80,7 +81,9 @@ const DictionarySelector = ({ ...props }) => {
 					<Divider vertical />
 
 					<Tooltip text="Total items in dictionary." position="top-end">
-						<span className="items-counter">{dictionary.wordsCount + dictionary.phrasesCount}</span>
+						<span className="items-counter">
+							{shortenNumber(dictionary.wordsCount + dictionary.phrasesCount, 10000)}
+						</span>
 					</Tooltip>
 				</div>
 			))}

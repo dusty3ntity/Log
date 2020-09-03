@@ -1,29 +1,27 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { ToastContainer } from "react-toastify";
 import "mobx-react-lite/batchingForReactDom";
 
+import { RootStoreContext } from "../stores/rootStore";
 import LoginPage from "../../components/users/LoginPage";
 import RegistrationPage from "../../components/users/RegistrationPage";
 import HomePage from "../../components/home/HomePage";
-import Page from "./Page";
 import ItemsListPage from "../../components/items-list/ItemsListPage";
-import NewItem from "../../components/manage-item/NewItem";
-import EditItem from "../../components/manage-item/EditItem";
-import Learning from "../../components/learning/Learning";
-import NewDictionary from "../../components/dictionaries/NewDictionary";
-import DictionariesSettings from "../../components/dictionaries/DictionariesSettings";
-import NotFound from "./NotFound";
-import { RootStoreContext } from "../stores/rootStore";
+import NewItemPage from "../../components/manage-item/NewItemPage";
+import EditItemPage from "../../components/manage-item/EditItemPage";
+import LearningPage from "../../components/learning/LearningPage";
+import NewDictionaryPage from "../../components/dictionaries/NewDictionaryPage";
+import DictionariesSettingsPage from "../../components/dictionaries/DictionariesSettingsPage";
+import NotFoundPage from "./NotFoundPage";
 import PrivateRoute from "./PrivateRoute";
 import LoadingScreen from "../../components/common/loading/LoadingScreen";
-import Soon from "./Soon";
+import SoonPage from "./SoonPage";
 import OnboardingPage from "../../components/users/OnboardingPage";
-import AnonymousRedirectPage from "./AnonymousRedirectPage";
-import OnboardingTour from "../../components/common/other/OnboardingTour";
+import OnboardingTour from "../../components/users/OnboardingTour";
 
-function App() {
+const App: React.FC = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { setAppLoaded, token, appLoaded, onInitialLoad } = rootStore.commonStore;
 	const { user } = rootStore.userStore;
@@ -35,14 +33,14 @@ function App() {
 			setAppLoaded();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [onInitialLoad, setAppLoaded]); // I don't need the "token" dependency!
+	}, [onInitialLoad, setAppLoaded]);
 
 	if (!appLoaded) {
 		return <LoadingScreen size={3} />;
 	}
 
 	return (
-		<Fragment>
+		<>
 			{user && !user.tourCompleted && <OnboardingTour />}
 
 			<ToastContainer
@@ -54,54 +52,65 @@ function App() {
 				autoClose={5000}
 			/>
 
-			<Route exact path="/" component={HomePage} />
+			<Route exact path="/">
+				<HomePage />
+			</Route>
 
 			<Route
 				path={"/(.+)"}
 				render={() => (
 					<Switch>
-						<Route exact path="/login" component={LoginPage} />
-						<Route exact path="/register" component={RegistrationPage} />
+						<Route exact path="/login">
+							<LoginPage />
+						</Route>
+
+						<Route exact path="/register">
+							<RegistrationPage />
+						</Route>
 
 						<PrivateRoute exact path="/before-we-begin">
-							<AnonymousRedirectPage>
-								<OnboardingPage />
-							</AnonymousRedirectPage>
+							<OnboardingPage />
 						</PrivateRoute>
 
 						<PrivateRoute exact path="/items-list">
-							<Page title="Items list" pageTitle="Items list" component={<ItemsListPage />} />
+							<ItemsListPage />
 						</PrivateRoute>
 
 						<PrivateRoute exact path="/new-dictionary">
-							<Page title="New dictionary" pageTitle="New dictionary" component={<NewDictionary />} />
+							<NewDictionaryPage />
 						</PrivateRoute>
 
 						<PrivateRoute exact path="/dictionaries/">
-							<Page title="Dictionaries" pageTitle="Dictionaries" component={<DictionariesSettings />} />
+							<DictionariesSettingsPage />
 						</PrivateRoute>
 
 						<PrivateRoute exact path="/new-item">
-							<Page title="New item" pageTitle="New item" component={<NewItem />} />
+							<NewItemPage />
 						</PrivateRoute>
 
 						<PrivateRoute exact path="/edit-item">
-							<Page title="Edit item" pageTitle="Edit item" component={<EditItem />} />
+							<EditItemPage />
 						</PrivateRoute>
 
 						<PrivateRoute exact path="/learning">
-							<Page title="Learning" pageTitle="Learning" component={<Learning />} />
+							<LearningPage />
 						</PrivateRoute>
 
-						<PrivateRoute exact path="/learning">
-							<Page title="Learning" pageTitle="Learning" component={<Learning />} />
+						<PrivateRoute exact path="/statistics">
+							<SoonPage />
 						</PrivateRoute>
 
-						<PrivateRoute exact path="/statistics" component={Soon} />
-						<PrivateRoute exact path="/settings" component={Soon} />
-						<PrivateRoute exact path="/profile" component={Soon} />
+						<PrivateRoute exact path="/settings">
+							<SoonPage />
+						</PrivateRoute>
 
-						<Route exact path="/404" component={NotFound} />
+						<PrivateRoute exact path="/profile">
+							<SoonPage />
+						</PrivateRoute>
+
+						<Route exact path="/404">
+							<NotFoundPage />
+						</Route>
 
 						<Route>
 							<Redirect to="/404" />
@@ -109,8 +118,8 @@ function App() {
 					</Switch>
 				)}
 			/>
-		</Fragment>
+		</>
 	);
-}
+};
 
 export default withRouter(observer(App));

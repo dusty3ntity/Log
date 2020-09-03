@@ -1,7 +1,10 @@
 import React, { ReactElement } from "react";
 import { Tooltip as Tippy } from "react-tippy";
 
-interface IProps {
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
+
+export interface ITooltipProps extends IComponentProps {
 	text?: string;
 	content?: ReactElement;
 	position:
@@ -21,28 +24,23 @@ interface IProps {
 	theme?: "dark" | "light";
 	open?: boolean;
 	distance?: number;
-	className?: string;
 }
 
-const Tooltip: React.FC<IProps> = ({
+const Tooltip: React.FC<ITooltipProps> = ({
+	id,
+	className,
 	text,
 	content,
 	position,
 	children,
 	interactive,
-	theme,
+	theme = "dark",
 	open,
-	distance,
-	className,
+	distance = 11,
+	...props
 }) => {
 	if (text) {
 		content = <div style={{ minWidth: 60, maxWidth: 300, overflowWrap: "break-word" }}>{text}</div>;
-	}
-
-	if (!className) {
-		className = "tooltip-container";
-	} else {
-		className += " tooltip-container";
 	}
 
 	return (
@@ -51,12 +49,13 @@ const Tooltip: React.FC<IProps> = ({
 			animation="fade"
 			open={open}
 			arrow
-			distance={distance ? distance : 11}
+			distance={distance}
 			interactive={interactive}
 			position={position}
 			delay={500}
-			className={className}
-			theme={theme ? theme : "dark"}
+			className={combineClassNames("tooltip-container", className)}
+			theme={theme}
+			{...props}
 		>
 			{children}
 		</Tippy>

@@ -6,17 +6,17 @@ import LanguagesList from "../dictionaries/LanguagesList";
 import Divider from "../common/other/Divider";
 import Button from "../common/inputs/Button";
 
-interface IProps {
+export interface IOnboardingFormProps {
 	onSubmit: (formData: IOnboardingFormData) => void;
 	submitting: boolean;
 }
 
-const OnboardingForm: React.FC<IProps> = ({ onSubmit, submitting }) => {
+const OnboardingForm: React.FC<IOnboardingFormProps> = ({ onSubmit, submitting, ...props }) => {
 	const [selectedNativeLanguage, selectNativeLanguage] = useState<ILanguage | undefined>(undefined);
 	const [selectedForeignLanguage, selectForeignLanguage] = useState<ILanguage | undefined>(undefined);
 
 	return (
-		<div id="onboarding-form" className="user-form">
+		<div id="onboarding-form" className="user-form" {...props}>
 			<div className="title row">Before we begin</div>
 
 			<Divider />

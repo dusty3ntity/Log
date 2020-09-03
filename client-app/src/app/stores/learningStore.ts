@@ -4,7 +4,7 @@ import { ILearningList, ILearningItem, ILearningItemResult, LearningStatus } fro
 import { RootStore } from "./rootStore";
 import agent from "../api/agent";
 import { ErrorType, NotificationType } from "../models/error";
-import { createNotification } from "./../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { learningTourSteps } from "../models/tour";
 
 export default class LearningStore {

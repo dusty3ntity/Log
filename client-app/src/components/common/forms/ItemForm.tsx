@@ -3,18 +3,20 @@ import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
+import { IComponentProps } from "../../../app/models/components";
 import { IItem, INewItem, ItemType } from "../../../app/models/item";
 import { fullTrim, minLength, maxLength, includes } from "../../../app/common/forms/formValidators";
 import ValidationMessage from "./ValidationMessage";
-import PlusIcon from "../../icons/PlusIcon";
-import StarIcon from "../../icons/StarIcon";
-import MinusIcon from "../../icons/MinusIcon";
 import Button from "../inputs/Button";
 import Tooltip from "../tooltips/Tooltip";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { createConfirmationModal } from "../../../app/common/components/modals";
+import { combineClassNames } from "../../../app/common/util/classNames";
+import MinusIcon from "../icons/MinusIcon";
+import PlusIcon from "../icons/PlusIcon";
+import StarIcon from "../icons/StarIcon";
 
-interface IProps {
+export interface IItemFormProps extends IComponentProps {
 	type: ItemType;
 	id: string;
 	item?: IItem;
@@ -24,21 +26,23 @@ interface IProps {
 	languageToLearnCode: string;
 }
 
-interface FormData {
+export interface FormData {
 	original: string;
 	translation: string;
 	definition?: string | null;
 	definitionOrigin?: string | null;
 }
 
-const NewItemForm: React.FC<IProps> = ({
-	type,
+const NewItemForm: React.FC<IItemFormProps> = ({
 	id,
+	className,
+	type,
 	item,
 	onSubmit,
 	submitting,
 	knownLanguageCode,
 	languageToLearnCode,
+	...props
 }) => {
 	const [definitionActivated, setDefinitionActivated] = useState(!!item?.definition);
 	const [isStarred, setStarred] = useState(item?.isStarred ? true : false);
@@ -104,14 +108,14 @@ const NewItemForm: React.FC<IProps> = ({
 	};
 
 	return (
-		<form id={id} className="item-form" onSubmit={handleSubmit(submit)}>
+		<form id={id} className={combineClassNames("item-form", className)} onSubmit={handleSubmit(submit)} {...props}>
 			<div className="original-input form-item" tour-step="2-2">
 				<label htmlFor="original">
 					<span className="label-text">Original</span>
 					<span className="language-badge">{languageToLearnCode}</span>
 				</label>
 
-				<ValidationMessage name="original" errors={errors} />
+				<ValidationMessage inputName="original" errors={errors} />
 
 				<input
 					name="original"
@@ -148,7 +152,7 @@ const NewItemForm: React.FC<IProps> = ({
 					<span className="language-badge">{knownLanguageCode}</span>
 				</label>
 
-				<ValidationMessage name="translation" errors={errors} />
+				<ValidationMessage inputName="translation" errors={errors} />
 
 				<input
 					name="translation"
@@ -232,7 +236,7 @@ const NewItemForm: React.FC<IProps> = ({
 			<div className={`definition form-item ${!definitionActivated ? "disabled" : ""}`}>
 				<label htmlFor="definition">Definition</label>
 
-				<ValidationMessage name="definition" errors={errors} />
+				<ValidationMessage inputName="definition" errors={errors} />
 
 				<textarea
 					name="definition"

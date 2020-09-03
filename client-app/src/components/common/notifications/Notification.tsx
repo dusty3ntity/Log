@@ -1,17 +1,18 @@
 import React from "react";
 import copy from "copy-to-clipboard";
 
-import InfoIcon from "../../icons/InfoIcon";
-import SuccessIcon from "../../icons/SuccessIcon";
-import WarningOutlinedIcon from "../../icons/WarningOutlinedIcon";
-import CopyIcon from "../../icons/CopyIcon";
-import ErrorIcon from "../../icons/ErrorIcon";
 import { NotificationType } from "../../../app/models/error";
 import { createCustomError } from "../../../app/common/util/errors";
 import Button from "../inputs/Button";
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
+import InfoIcon from "../icons/InfoIcon";
+import SuccessIcon from "../icons/SuccessIcon";
+import WarningOutlinedIcon from "../icons/WarningOutlinedIcon";
+import ErrorIcon from "../icons/ErrorIcon";
+import CopyIcon from "../icons/CopyIcon";
 
-interface IProps {
-	className?: string;
+export interface INotificationProps extends IComponentProps {
 	type: NotificationType;
 	title?: string;
 	message?: string;
@@ -19,7 +20,7 @@ interface IProps {
 	errorOrigin?: string;
 }
 
-const Notification: React.FC<IProps> = ({ className, type, title, message, error, errorOrigin }) => {
+const Notification: React.FC<INotificationProps> = ({ id, className, type, title, message, error, errorOrigin }) => {
 	if (!title) {
 		switch (type) {
 			case NotificationType.Info:
@@ -57,7 +58,7 @@ const Notification: React.FC<IProps> = ({ className, type, title, message, error
 	}
 
 	return (
-		<div className={`notification ${className ? className : ""}`}>
+		<div id={id} className={combineClassNames("notification", className)}>
 			<div className="icon-container">
 				{type === NotificationType.Info && <InfoIcon />}
 				{type === NotificationType.Success && <SuccessIcon />}

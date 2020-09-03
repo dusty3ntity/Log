@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 
 import Button from "./Button";
-import SearchIcon from "../../icons/SearchIcon";
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
+import SearchIcon from "../icons/SearchIcon";
 
-interface IProps {
+export interface ISearchInputProps extends IComponentProps {
 	onSearch: (value: string) => void;
 	loading?: boolean;
 	defaultValue?: string;
 	placeholder?: string;
 }
 
-const SearchInput: React.FC<IProps> = ({ onSearch, loading, defaultValue, placeholder }) => {
+const SearchInput: React.FC<ISearchInputProps> = ({
+	id,
+	className,
+	onSearch,
+	loading,
+	defaultValue,
+	placeholder,
+	...props
+}) => {
 	const [searchValue, setSearchValue] = useState(defaultValue || "");
 
 	const handleSearch = () => {
@@ -18,7 +28,7 @@ const SearchInput: React.FC<IProps> = ({ onSearch, loading, defaultValue, placeh
 	};
 
 	return (
-		<div className="search-input">
+		<div id={id} className={combineClassNames("search-input", className)} {...props}>
 			<input
 				type="text"
 				autoComplete="off"

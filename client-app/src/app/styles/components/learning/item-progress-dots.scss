@@ -1,0 +1,48 @@
+.item-progress-dots {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 2;
+
+	.progress-dot {
+		height: 1rem;
+		width: 1rem;
+		margin: 0 4px;
+		border-radius: 50%;
+		transition: all 1s ease;
+
+		background: #d3dfea;
+		box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+			inset 1px 1px 3px rgba(204, 213, 222, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+			inset 1px -1px 2px rgba(204, 213, 222, 0.2), inset -1px 1px 2px rgba(204, 213, 222, 0.2);
+
+		&.active,
+		&.fadein {
+			background: $processing-color;
+			box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(95, 224, 255, 0.3),
+				inset 1px 1px 3px rgba(78, 186, 220, 0.9), inset -1px -1px 2px rgba(153, 235, 255, 0.9),
+				inset 1px -1px 2px rgba(77, 184, 218, 0.2), inset -1px 1px 2px rgba(77, 184, 218, 0.2);
+		}
+
+		&.fadeout {
+			background: #d3dfea !important;
+			box-shadow: -1px -1px 2px rgba(204, 213, 222, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+				inset 1px 1px 3px rgba(204, 213, 222, 0.9), inset -1px -1px 2px rgba(250, 255, 255, 0.9),
+				inset 1px -1px 2px rgba(204, 213, 222, 0.2), inset -1px 1px 2px rgba(204, 213, 222, 0.2) !important;
+		}
+	}
+
+	&.second-training {
+		.progress-dot.active,
+		.progress-dot.fadeing {
+			background: $warning-color;
+			box-shadow: -1px -1px 2px rgba(218, 181, 68, 0.5), 1px 1px 2px rgba(255, 221, 84, 0.3),
+				inset 1px 1px 3px rgba(218, 181, 68, 0.9), inset -1px -1px 2px rgba(255, 221, 84, 0.9),
+				inset 1px -1px 2px rgba(218, 181, 68, 0.2), inset -1px 1px 2px rgba(218, 181, 68, 0.2);
+		}
+
+		.progress-dot.active:not(.fadeout) + .progress-dot:not(.active) {
+			margin-left: 14px;
+		}
+	}
+}

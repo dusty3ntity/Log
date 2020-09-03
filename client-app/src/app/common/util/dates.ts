@@ -21,3 +21,7 @@ export const getRelativeDate = (date: any) => {
 export const getErrorDateTime = () => {
 	return format(new Date(), "EEEE, do MMMM, ppp");
 };
+
+export const getItemCreationDate = (date: Date) => {
+	return format(date, "MM.dd.yyyy");
+};

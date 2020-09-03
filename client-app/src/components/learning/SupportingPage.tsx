@@ -1,19 +1,19 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
+import { IComponentProps } from "../../app/models/components";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import LearningStatsBrief from "./LearningStatsBrief";
-import WarningIcon from "../icons/WarningIcon";
-import InfoIcon from "../icons/InfoIcon";
-import ArrowForwardSmallIcon from "../icons/ArrowForwardSmallIcon";
-import RefreshIcon from "../icons/RefreshIcon";
 import Button from "../common/inputs/Button";
 import Divider from "../common/other/Divider";
+import { combineClassNames } from "../../app/common/util/classNames";
+import InfoIcon from "../common/icons/InfoIcon";
+import WarningIcon from "../common/icons/WarningIcon";
+import ArrowForwardSmallIcon from "../common/icons/ArrowForwardSmallIcon";
+import RefreshIcon from "../common/icons/RefreshIcon";
 
-interface IProps {
-	className: string;
-
+export interface ISupportingPageProps extends IComponentProps {
 	content?: JSX.Element;
 
 	message?: string;
@@ -21,19 +21,21 @@ interface IProps {
 
 	buttonType: "start" | "start-over" | "continue" | "items-list";
 	onClick?: () => void;
-	isFlipped?: boolean;
+	flipped?: boolean;
 	loading?: boolean;
 }
 
-const SupportingPage: React.FC<IProps> = ({
+const SupportingPage: React.FC<ISupportingPageProps> = ({
+	id,
 	className,
 	content,
 	message,
 	messageType,
 	buttonType,
 	onClick,
-	isFlipped,
+	flipped,
 	loading,
+	...props
 }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { status, learningList } = rootStore.learningStore;
@@ -50,7 +52,11 @@ const SupportingPage: React.FC<IProps> = ({
 		);
 
 	return (
-		<div className={`learning-supporting-card ${className} ${isFlipped ? "flipped" : ""}`}>
+		<div
+			id={id}
+			className={combineClassNames("learning-supporting-card", className, { flipped: flipped })}
+			{...props}
+		>
 			<div className="date-row row">
 				<span className="date">{date.getDate()}</span>
 				<span className="month">{format(date, "MMMM")}</span>
@@ -70,7 +76,7 @@ const SupportingPage: React.FC<IProps> = ({
 				<div className="actions-row row">
 					{buttonType === "start" && (
 						<Button
-							className="actions-btn, start-btn"
+							className="actions-btn start-btn"
 							primary
 							noDisabledStyles
 							text="Start"
@@ -83,7 +89,7 @@ const SupportingPage: React.FC<IProps> = ({
 
 					{buttonType === "continue" && (
 						<Button
-							className="actions-btn, start-btn"
+							className="actions-btn start-btn"
 							primary
 							noDisabledStyles
 							text="Continue"
@@ -95,9 +101,9 @@ const SupportingPage: React.FC<IProps> = ({
 					)}
 
 					{buttonType === "start-over" && (
-						<Fragment>
+						<>
 							<Button
-								className="actions-btn, start-btn"
+								className="actions-btn start-btn"
 								primary
 								noDisabledStyles
 								text="Start over"
@@ -110,7 +116,7 @@ const SupportingPage: React.FC<IProps> = ({
 							<Link className="btn actions-btn return-btn" to="/items-list">
 								Go to items list
 							</Link>
-						</Fragment>
+						</>
 					)}
 
 					{buttonType === "items-list" && (

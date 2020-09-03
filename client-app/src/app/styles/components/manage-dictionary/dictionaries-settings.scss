@@ -1,4 +1,4 @@
-#dictionaries-settings-container {
+#dictionaries-settings-page .page-content {
 	#dictionaries-list {
 		height: 100%;
 		padding: 1rem;
@@ -73,7 +73,7 @@
 		margin: 0 !important;
 	}
 
-	#edit-dictionary:not(.drawer-content) {
+	#edit-dictionary:not([in-drawer="true"]) {
 		display: none;
 	}
 }

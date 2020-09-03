@@ -4,9 +4,9 @@ import SimpleBar from "simplebar-react";
 import InfiniteScroll from "react-infinite-scroller";
 
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import ItemFilters from "./ItemFilters";
+import ItemFilters from "../item-filters/ItemFilters";
 import ListItem from "./ListItem";
-import Header from "./Header";
+import TopPanel from "./TopPanel";
 import LoadingScreen from "../../common/loading/LoadingScreen";
 import Empty from "../../common/other/Empty";
 import { getRelativeDate } from "../../../app/common/util/dates";
@@ -14,7 +14,7 @@ import LoadingIndicator from "../../common/loading/LoadingIndicator";
 import Drawer from "../../common/other/Drawer";
 import ItemDetails from "../item-details/ItemDetails";
 
-const ItemsList = () => {
+const ItemsList: React.FC = ({ ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const {
 		loadItems,
@@ -26,8 +26,8 @@ const ItemsList = () => {
 		loadingNext,
 		filtersDrawerVisible,
 		hideFiltersDrawer,
-		hideDetailsDrawer, 
-		detailsDrawerVisible
+		hideDetailsDrawer,
+		detailsDrawerVisible,
 	} = rootStore.itemStore;
 
 	const handleGetNext = () => {
@@ -36,11 +36,11 @@ const ItemsList = () => {
 	};
 
 	return (
-		<div id="items-list">
-			<Header />
+		<div id="items-list" {...props}>
+			<TopPanel />
 
 			<div id="content-container">
-				<ItemFilters/>
+				<ItemFilters />
 
 				<div id="list-container" tour-step="1-1">
 					<Drawer
@@ -49,7 +49,7 @@ const ItemsList = () => {
 						onClose={hideFiltersDrawer}
 						visible={filtersDrawerVisible}
 					>
-						<ItemFilters classNames="in-drawer" />
+						<ItemFilters in-drawer="true" />
 					</Drawer>
 
 					{loadingInitial && <LoadingScreen size={2} />}
@@ -93,7 +93,7 @@ const ItemsList = () => {
 					{!loadingInitial && itemsByDate.length === 0 && <Empty text="No items found" size={10} />}
 
 					<Drawer id="item-details-drawer" onClose={hideDetailsDrawer} visible={detailsDrawerVisible}>
-						<ItemDetails classNames="in-drawer" tour-step="1-2-1" />
+						<ItemDetails in-drawer="true" tour-step="1-2-1" />
 					</Drawer>
 				</div>
 			</div>

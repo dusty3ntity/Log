@@ -1,16 +1,16 @@
 import React from "react";
 import { ErrorMessage } from "react-hook-form";
 
-interface IProps {
-	name: string;
+export interface IValidationMessageProps {
+	inputName: string;
 	errors: any;
 }
 
-const ValidationMessage: React.FC<IProps> = ({ errors, name }) => {
+const ValidationMessage: React.FC<IValidationMessageProps> = ({ errors, inputName, ...props }) => {
 	return (
-		<ErrorMessage errors={errors} name={name}>
+		<ErrorMessage errors={errors} name={inputName}>
 			{({ message }) => (
-				<div className="validation-error">
+				<div className="validation-error" {...props}>
 					<p className="error-message">{message}</p>
 				</div>
 			)}

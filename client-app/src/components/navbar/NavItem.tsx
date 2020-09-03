@@ -1,30 +1,38 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 
-interface IProps {
+import { IComponentProps } from "../../app/models/components";
+import { combineClassNames } from "../../app/common/util/classNames";
+import Button from "../common/inputs/Button";
+
+export interface INavItemProps extends IComponentProps {
+	type: "link" | "button";
 	link?: string;
-	button?: boolean;
 	onClick?: () => void;
-	name: string;
+	title: string;
 	icon: JSX.Element;
 }
 
-const NavItem: React.FC<IProps> = ({ name, button, onClick, icon, link }) => {
+const NavItem: React.FC<INavItemProps> = ({ id, className, type, link, onClick, title, icon, ...props }) => {
+	if (type === "link" && link) {
+		return (
+			<NavLink to={link} exact id={id} className={combineClassNames("nav-item", className)} {...props}>
+				{icon}
+				<span className="item-name">{title}</span>
+			</NavLink>
+		);
+	}
+
 	return (
-		<Fragment>
-			{link && (
-				<NavLink to={link} exact className="nav-item">
-					{icon}
-					<span className="item-name">{name}</span>
-				</NavLink>
-			)}
-			{button && (
-				<button className="nav-item nav-item-btn" onClick={onClick}>
-					{icon}
-					<span className="item-name">{name}</span>
-				</button>
-			)}
-		</Fragment>
+		<Button
+			id={id}
+			className={combineClassNames("nav-item", "nav-item-btn", className)}
+			onClick={onClick}
+			icon={icon}
+			text={title}
+			textClassName="item-name"
+			{...props}
+		/>
 	);
 };
 

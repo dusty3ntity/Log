@@ -2,27 +2,24 @@ import React, { ReactElement, useEffect, useState } from "react";
 
 import Button from "../inputs/Button";
 import { combineClassNames } from "../../../app/common/util/classNames";
+import { IComponentProps } from "../../../app/models/components";
 
-interface IProps {
-	id?: string;
-	classNames?: string[];
+export interface IConfirmationModalProps extends IComponentProps {
 	onConfirm: () => void;
 	onCancel: () => void;
 	content: ReactElement;
 	confirmText: string;
 }
 
-const ConfirmationModal: React.FC<IProps> = ({
+const ConfirmationModal: React.FC<IConfirmationModalProps> = ({
 	id,
-	classNames = [],
+	className,
 	onConfirm,
 	onCancel,
 	content,
 	confirmText,
 	...props
 }) => {
-	classNames.unshift("modal confirmation-modal");
-
 	const [animating, setAnimating] = useState(false);
 
 	useEffect(() => {
@@ -37,7 +34,11 @@ const ConfirmationModal: React.FC<IProps> = ({
 	};
 
 	return (
-		<div id={id} className={combineClassNames(classNames, { initial: !animating })} {...props}>
+		<div
+			id={id}
+			className={combineClassNames("modal", "confirmation-modal", className, { initial: !animating })}
+			{...props}
+		>
 			<div className="modal-mask" onClick={() => handleClick(onCancel)} />
 			<div className="modal-content">
 				<div className="modal-title">Confirmation</div>
