@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { ISignFormProps } from "../../app/models/components";
-import ValidationMessage from "../common/forms/ValidationMessage";
+import ValidationMessage from "../common/other/ValidationMessage";
 import { ILoginUser } from "../../app/models/user";
 import { minLength, maxLength, isValidEmail } from "../../app/common/forms/formValidators";
 import Button from "../common/inputs/Button";

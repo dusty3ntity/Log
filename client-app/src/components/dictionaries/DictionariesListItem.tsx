@@ -125,7 +125,7 @@ const DictionariesListItem: React.FC<IDictionariesListItemProps> = ({
 					>
 						<span className="title">Hard mode</span>
 
-						<span className={`value ${dictionary.isHardModeEnabled ? "enabled" : ""}`}>
+						<span className={combineClassNames("value", { enabled: dictionary.isHardModeEnabled })}>
 							{dictionary.isHardModeEnabled ? "enabled" : "disabled"}
 						</span>
 					</Tooltip>

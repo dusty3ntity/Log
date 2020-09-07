@@ -3,18 +3,18 @@ import { useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
-import { IComponentProps } from "../../../app/models/components";
-import { IItem, INewItem, ItemType } from "../../../app/models/item";
-import { fullTrim, minLength, maxLength, includes } from "../../../app/common/forms/formValidators";
-import ValidationMessage from "./ValidationMessage";
-import Button from "../inputs/Button";
-import Tooltip from "../tooltips/Tooltip";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { createConfirmationModal } from "../../../app/common/components/modals";
-import { combineClassNames } from "../../../app/common/util/classNames";
-import MinusIcon from "../icons/MinusIcon";
-import PlusIcon from "../icons/PlusIcon";
-import StarIcon from "../icons/StarIcon";
+import { IComponentProps } from "../../app/models/components";
+import { IItem, INewItem, ItemType } from "../../app/models/item";
+import { fullTrim, minLength, maxLength, includes } from "../../app/common/forms/formValidators";
+import ValidationMessage from "../common/other/ValidationMessage";
+import Button from "../common/inputs/Button";
+import Tooltip from "../common/tooltips/Tooltip";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import { createConfirmationModal } from "../../app/common/components/modals";
+import { combineClassNames } from "../../app/common/util/classNames";
+import MinusIcon from "../common/icons/MinusIcon";
+import PlusIcon from "../common/icons/PlusIcon";
+import StarIcon from "../common/icons/StarIcon";
 
 export interface IItemFormProps extends IComponentProps {
 	type: ItemType;
@@ -26,7 +26,7 @@ export interface IItemFormProps extends IComponentProps {
 	languageToLearnCode: string;
 }
 
-export interface FormData {
+interface FormData {
 	original: string;
 	translation: string;
 	definition?: string | null;
@@ -45,10 +45,10 @@ const NewItemForm: React.FC<IItemFormProps> = ({
 	...props
 }) => {
 	const [definitionActivated, setDefinitionActivated] = useState(!!item?.definition);
-	const [isStarred, setStarred] = useState(item?.isStarred ? true : false);
+	const [isStarred, setStarred] = useState(!!item?.isStarred);
 
-	const { register, handleSubmit, errors, getValues, formState, reset, setValue } = useForm<FormData>({
-		defaultValues: item,
+	const { register, handleSubmit, errors, getValues, formState, reset } = useForm<FormData>({
+		defaultValues: { ...item, definition: "" },
 	});
 
 	const rootStore = useContext(RootStoreContext);
@@ -59,7 +59,6 @@ const NewItemForm: React.FC<IItemFormProps> = ({
 	}, [activeDictionary, reset]);
 
 	const handleDefinitionButton = () => {
-		setValue("definition", null);
 		setDefinitionActivated(!definitionActivated);
 	};
 
@@ -233,7 +232,7 @@ const NewItemForm: React.FC<IItemFormProps> = ({
 				</div>
 			</div>
 
-			<div className={`definition form-item ${!definitionActivated ? "disabled" : ""}`}>
+			<div className={combineClassNames("definition form-item", { disabled: !definitionActivated })}>
 				<label htmlFor="definition">Definition</label>
 
 				<ValidationMessage inputName="definition" errors={errors} />

@@ -1,6 +1,7 @@
 .Toastify {
 	.Toastify__toast-container {
 		width: 360px;
+		z-index: 9999999;
 	}
 
 	.Toastify__toast {

@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { useForm, Controller } from "react-hook-form";
 
+import { RootStoreContext } from "../../app/stores/rootStore";
 import { IComponentProps } from "../../app/models/components";
 import { INewDictionary, IDictionary, IEditDictionary } from "../../app/models/dictionary";
 import { ILanguage } from "../../app/models/languages";
@@ -16,14 +17,21 @@ import { combineClassNames } from "../../app/common/util/classNames";
 export interface IDictionaryFormProps extends IComponentProps {
 	dictionary?: IDictionary;
 
-	knownLanguage?: ILanguage | undefined;
-	languageToLearn?: ILanguage | undefined;
+	knownLanguage?: ILanguage;
+	languageToLearn?: ILanguage;
 
 	onKnownLanguageButtonClick?: () => void;
 	onLanguageToLearnButtonClick?: () => void;
 
 	onSubmit: any;
 	onDelete?: () => void;
+}
+
+interface FormData {
+	preferredLearningListSize: number;
+	correctAnswersToItemCompletion: number;
+	isHardModeEnabled: boolean;
+	isMain: boolean;
 }
 
 const DictionaryForm: React.FC<IDictionaryFormProps> = ({
@@ -41,45 +49,42 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 	const rootStore = useContext(RootStoreContext);
 	const { submitting, deleting } = rootStore.dictionaryStore;
 
-	const [preferredLearningListSize, setPreferredLearningListSize] = useState(
-		dictionary ? dictionary.preferredLearningListSize : 50
-	);
-	const [requiredCorrectAnswersNumber, setRequiredCorrectAnswersNumber] = useState(
-		dictionary ? dictionary.correctAnswersToItemCompletion : 5
-	);
-	const [isHardModeEnabled, setHardModeEnabled] = useState(dictionary ? dictionary.isHardModeEnabled : false);
-	const [isMain, setMain] = useState(false);
+	const { register, watch, formState, control, handleSubmit, reset } = useForm<FormData>({
+		defaultValues: dictionary || {
+			preferredLearningListSize: 50,
+			correctAnswersToItemCompletion: 5,
+			isHardModeEnabled: false,
+			isMain: false,
+		},
+	});
 
-	const [isDirty, setDirty] = useState(false);
-
-	const onFormSubmit = async () => {
+	const submit = async (data: FormData) => {
 		if (!dictionary) {
 			const newDictionary: INewDictionary = {
 				knownLanguageCode: knownLanguage!.isoCode,
 				languageToLearnCode: languageToLearn!.isoCode,
-				preferredLearningListSize: preferredLearningListSize,
-				correctAnswersToItemCompletion: requiredCorrectAnswersNumber,
-				isMain: rootStore.commonStore.newUser ? true : isMain,
-				isHardModeEnabled: isHardModeEnabled,
+				preferredLearningListSize: data.preferredLearningListSize,
+				correctAnswersToItemCompletion: data.correctAnswersToItemCompletion,
+				isMain: data.isMain,
+				isHardModeEnabled: data.isHardModeEnabled,
 			};
 
-			await onSubmit(newDictionary);
+			onSubmit(newDictionary);
 		} else {
 			const editDictionary: IEditDictionary = {
-				preferredLearningListSize: preferredLearningListSize,
-				correctAnswersToItemCompletion: requiredCorrectAnswersNumber,
-				isHardModeEnabled: isHardModeEnabled,
+				preferredLearningListSize: data.preferredLearningListSize,
+				correctAnswersToItemCompletion: data.correctAnswersToItemCompletion,
+				isHardModeEnabled: data.isHardModeEnabled,
 			};
 
-			const success = await onSubmit(dictionary.id, editDictionary);
-
-			if (success) {
-				setDirty(false);
+			const result = await onSubmit(dictionary.id, editDictionary);
+			if (result) {
+				reset(editDictionary);
 			}
 		}
 	};
 
-	const handleConfirm = () => {
+	const handleDelete = () => {
 		const modalContent = (
 			<>
 				<span>Are you sure you want to delete this dictionary?</span>
@@ -95,7 +100,12 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 	};
 
 	return (
-		<div id={id} className={combineClassNames("dictionary-form", className)} {...props}>
+		<form
+			id={id}
+			className={combineClassNames("dictionary-form", className)}
+			{...props}
+			onSubmit={handleSubmit(submit)}
+		>
 			<div className="flags-row">
 				<div className="lang-container known-lang-container">
 					<span className="title">I know</span>
@@ -104,7 +114,10 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 
 					{!dictionary && (
 						<button
-							className={`btn ${knownLanguage ? "flag-btn" : "flag-placeholder-btn"} known-lang-btn`}
+							className={combineClassNames(
+								"btn known-lang-btn",
+								knownLanguage ? "flag-btn" : "flag-placeholder-btn"
+							)}
 							onClick={onKnownLanguageButtonClick}
 						>
 							{knownLanguage && (
@@ -133,7 +146,10 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 
 					{!dictionary && (
 						<button
-							className={`btn ${languageToLearn ? "flag-btn" : "flag-placeholder-btn"} lang-to-learn-btn`}
+							className={combineClassNames(
+								"btn lang-to-learn-btn",
+								knownLanguage ? "flag-btn" : "flag-placeholder-btn"
+							)}
 							onClick={onLanguageToLearnButtonClick}
 						>
 							{languageToLearn && (
@@ -169,23 +185,16 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 							<span className="title">Preferred training size:</span>
 						</Tooltip>
 
-						<span className="slider-value">{preferredLearningListSize} items</span>
+						<span className="slider-value">{watch("preferredLearningListSize")} items</span>
 					</label>
 
-					<Slider
+					<Controller
+						as={Slider}
 						min={50}
 						max={100}
 						step={10}
-						value={preferredLearningListSize}
-						onChange={(value: any) => {
-							setDirty(
-								value !== dictionary?.preferredLearningListSize
-									? true
-									: requiredCorrectAnswersNumber !== dictionary?.correctAnswersToItemCompletion ||
-											isHardModeEnabled !== dictionary?.isHardModeEnabled
-							);
-							setPreferredLearningListSize(value);
-						}}
+						name="preferredLearningListSize"
+						control={control}
 					/>
 				</div>
 
@@ -198,23 +207,10 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 							<span className="title">Required correct answers:</span>
 						</Tooltip>
 
-						<span className="slider-value">{requiredCorrectAnswersNumber} answers</span>
+						<span className="slider-value">{watch("correctAnswersToItemCompletion")} answers</span>
 					</label>
 
-					<Slider
-						min={5}
-						max={10}
-						value={requiredCorrectAnswersNumber}
-						onChange={(value: any) => {
-							setDirty(
-								value !== dictionary?.correctAnswersToItemCompletion
-									? true
-									: preferredLearningListSize !== dictionary?.preferredLearningListSize ||
-											isHardModeEnabled !== dictionary?.isHardModeEnabled
-							);
-							setRequiredCorrectAnswersNumber(value);
-						}}
-					/>
+					<Controller as={Slider} min={5} max={10} name="correctAnswersToItemCompletion" control={control} />
 				</div>
 
 				<div className="is-hardmode-enabled toggle-item form-item">
@@ -222,18 +218,7 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 						<label>Is hardmode enabled:</label>
 					</Tooltip>
 
-					<Switch
-						checked={isHardModeEnabled}
-						onChange={(value: boolean) => {
-							setDirty(
-								value !== dictionary?.isHardModeEnabled
-									? true
-									: preferredLearningListSize !== dictionary?.preferredLearningListSize ||
-											requiredCorrectAnswersNumber !== dictionary.correctAnswersToItemCompletion
-							);
-							setHardModeEnabled(value);
-						}}
-					/>
+					<Switch name="isHardModeEnabled" ref={register} />
 				</div>
 
 				{!dictionary && (
@@ -242,7 +227,7 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 							<label>Is this my main dictionary:</label>
 						</Tooltip>
 
-						<Switch checked={isMain} onChange={setMain} />
+						<Switch name="isMain" ref={register} />
 					</div>
 				)}
 			</div>
@@ -251,9 +236,9 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 				<Button
 					className="actions-btn add-btn"
 					primary
-					onClick={onFormSubmit}
+					type="submit"
 					text={!dictionary ? "Create" : "Update"}
-					disabled={!dictionary ? !knownLanguage || !languageToLearn : !isDirty}
+					disabled={!dictionary ? !knownLanguage || !languageToLearn : !formState.dirty}
 					loading={submitting}
 				/>
 
@@ -266,14 +251,14 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 				{dictionary && (
 					<Button
 						className="actions-btn delete-btn"
-						onClick={handleConfirm}
+						onClick={handleDelete}
 						text="Delete"
 						disabled={dictionary.isMain}
 						loading={deleting}
 					/>
 				)}
 			</div>
-		</div>
+		</form>
 	);
 };
 

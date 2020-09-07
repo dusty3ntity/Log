@@ -42,12 +42,14 @@ const LearningStatsBrief: React.FC<ILearningStatsBriefProps> = ({
 			<div className="answers-col col">
 				<div className="correct-answers cell">
 					<h2>Correct answers</h2>
-					<span className={`value ${correctAnswersCount === 0 ? "zero" : ""}`}>{correctAnswersCount}</span>
+					<span className={combineClassNames("value", { zero: correctAnswersCount === 0 })}>
+						{correctAnswersCount}
+					</span>
 				</div>
 
 				<div className="productivity cell">
 					<h2>Productivity</h2>
-					<span className={`value ${productivityColorClass}`}>{productivity}</span>
+					<span className={combineClassNames("value", productivityColorClass)}>{productivity}</span>
 				</div>
 			</div>
 		</div>

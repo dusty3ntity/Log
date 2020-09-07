@@ -54,9 +54,9 @@ const LanguagesList: React.FC<ILanguagesListProps> = ({
 							})
 							.map((item) => (
 								<button
-									className={`btn list-item ${
-										selectedItem?.isoCode === item.isoCode ? "active" : ""
-									}`}
+									className={combineClassNames("btn list-item", {
+										active: selectedItem?.isoCode === item.isoCode,
+									})}
 									key={`${item.id}-${title}`}
 									type="button"
 									onClick={() => onItemSelect(item)}

@@ -98,22 +98,26 @@ const LearningCardBack: React.FC<ILearningCardBackProps> = ({
 
 			<div className="item-row row">
 				<div className="task-row">
-					<h1 className={`task text ${itemSizeClass}`}>{item.item}</h1>
+					<h1 className={combineClassNames("task text", itemSizeClass)}>{item.item}</h1>
 				</div>
 
 				<Divider invisible />
 
 				<div className="answer-row">
 					<h2
-						className={`answer text user-answer ${
+						className={combineClassNames(
+							"answer text user-answer",
+							userAnswerSizeClass,
 							learningItemResult.isAnswerCorrect ? "correct" : "wrong"
-						} ${userAnswerSizeClass}`}
+						)}
 					>
 						{learningItemResult.userAnswer}
 					</h2>
 					<Divider invisible />
 					{!learningItemResult.isAnswerCorrect && (
-						<h3 className={`answer text correct-answer ${answerSizeClass}`}>{item.answer}</h3>
+						<h3 className={combineClassNames("answer text correct-answer", answerSizeClass)}>
+							{item.answer}
+						</h3>
 					)}
 				</div>
 			</div>

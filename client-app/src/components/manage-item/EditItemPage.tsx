@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import Page from "../../app/layout/Page";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { INewItem, IEditItem } from "../../app/models/item";
-import ItemForm from "../common/forms/ItemForm";
+import ItemForm from "./ItemForm";
 
 const EditItemPage: React.FC = ({ ...props }) => {
 	const rootStore = useContext(RootStoreContext);

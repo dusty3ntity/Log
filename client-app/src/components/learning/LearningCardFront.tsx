@@ -42,6 +42,11 @@ const LearningCardFront: React.FC<ILearningCardFrontProps> = ({
 		setAnswer(event.target.value);
 	};
 
+	const submit = () => {
+		const trimAnswer = fullTrim(answer);
+		onItemSubmit(trimAnswer);
+	};
+
 	return (
 		<div
 			id={id}
@@ -81,7 +86,7 @@ const LearningCardFront: React.FC<ILearningCardFrontProps> = ({
 
 			<div className="item-row row" tour-step="3-4">
 				<div className="task-row">
-					<h1 className={`task text ${textSizeClass}`}>{item.item}</h1>
+					<h1 className={combineClassNames("task text", textSizeClass)}>{item.item}</h1>
 				</div>
 
 				<Divider invisible />
@@ -104,6 +109,12 @@ const LearningCardFront: React.FC<ILearningCardFrontProps> = ({
 						autoFocus
 						value={answer}
 						onChange={handleInputChange}
+						onKeyPress={(e) => {
+							if (e.key === "Enter") {
+								e.preventDefault();
+								submit();
+							}
+						}}
 					/>
 				</div>
 			</div>
@@ -128,10 +139,7 @@ const LearningCardFront: React.FC<ILearningCardFrontProps> = ({
 					primary
 					noDisabledStyles
 					text="Submit"
-					onClick={() => {
-						const trimAnswer = fullTrim(answer);
-						onItemSubmit(trimAnswer);
-					}}
+					onClick={submit}
 					disabled={status > 9}
 					loading={loading}
 				/>

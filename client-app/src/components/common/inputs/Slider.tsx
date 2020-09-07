@@ -5,6 +5,7 @@ import { IComponentProps } from "../../../app/models/components";
 import { combineClassNames } from "../../../app/common/util/classNames";
 
 export interface ISliderProps extends IComponentProps {
+	name?: string;
 	step?: number;
 	min?: number;
 	max?: number;
@@ -12,10 +13,11 @@ export interface ISliderProps extends IComponentProps {
 	onChange?: (value: number) => void;
 }
 
-const Slider: React.FC<ISliderProps> = ({ id, className, min, max, step, value, onChange, ...props }) => {
+const Slider: React.FC<ISliderProps> = ({ id, className, name, min, max, step, value, onChange, ...props }) => {
 	return (
 		<div id={id} className={combineClassNames("slider", className)} {...props}>
 			<RangeSlider
+				name={name}
 				min={min || 1}
 				max={max || 100}
 				step={step || 1}

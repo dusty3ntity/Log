@@ -36,8 +36,6 @@ const DictionariesSettings: React.FC = ({ ...props }) => {
 	return (
 		<Page pageTitle="Dictionaries" id="dictionaries-settings-page" className="manage-dictionary-page" {...props}>
 			<div id="dictionaries-list">
-				<div className="list-title">Dictionaries</div>
-
 				<div className="list-container">
 					<SimpleBar style={{ height: "100%" }} autoHide={false} forceVisible="y" scrollbarMinSize={36}>
 						<div className="list">
