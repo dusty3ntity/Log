@@ -4,7 +4,7 @@ import { history } from "../..";
 import { IItem, IEditItem, INewItem } from "../models/item";
 import { ILearningList, ILearningItem, ILearningItemAnswer, ILearningItemResult } from "./../models/learning";
 import { CustomError, ErrorType } from "./../models/error";
-import { createNotification } from "../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { NotificationType } from "./../models/error";
 import { IUser, ILoginUser } from "./../models/user";
 import { IDictionary, INewDictionary, IEditDictionary } from "./../models/dictionary";
@@ -43,8 +43,6 @@ axios.interceptors.response.use(
 			createNotification(NotificationType.Error, {
 				title: "Network error!",
 				message: "The server isn't responding... Check your internet connection or contact the administrator.",
-				analyticsErrorDescription: "Server isn't responding",
-				fatalError: true,
 			});
 			throw new CustomError(error.response, ErrorType.ConnectionRefused);
 		} else if (
@@ -92,8 +90,6 @@ axios.interceptors.response.use(
 			createNotification(NotificationType.Error, {
 				title: "Authorization error!",
 				message: "An authorization error occurred. Please, refresh the page or contact the administrator.",
-				analyticsErrorDescription: "Authorization error",
-				fatalError: true,
 			});
 		} else if (error.response.status === 400 && !error.response.data.errors.code) {
 			if (isBadId(error.response)) {
@@ -109,8 +105,6 @@ axios.interceptors.response.use(
 				createNotification(NotificationType.UnknownError, {
 					title: "Validation error!",
 					error: error.response,
-					analyticsErrorDescription: "Validation error (unknown)",
-					fatalError: true,
 				});
 			}
 			throw new CustomError(error.response, error.response.data.errors.code);
@@ -138,8 +132,6 @@ axios.interceptors.response.use(
 				createNotification(NotificationType.UnknownError, {
 					title: "Not found!",
 					error: error.response,
-					analyticsErrorDescription: "Not found (unknown)",
-					fatalError: true,
 				});
 			}
 			history.push("/404");
@@ -151,8 +143,6 @@ axios.interceptors.response.use(
 			createNotification(NotificationType.Error, {
 				title: "Server error!",
 				message: "A server error occurred. Please, refresh the page or contact the administrator!",
-				analyticsErrorDescription: "Server error",
-				fatalError: true,
 			});
 			throw new CustomError(error.response, error.response.data.errors.code);
 		}

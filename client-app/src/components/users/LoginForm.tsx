@@ -2,27 +2,31 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import ValidationMessage from "../common/forms/ValidationMessage";
+import { ISignFormProps } from "../../app/models/components";
+import ValidationMessage from "../common/other/ValidationMessage";
 import { ILoginUser } from "../../app/models/user";
 import { minLength, maxLength, isValidEmail } from "../../app/common/forms/formValidators";
 import Button from "../common/inputs/Button";
+import Divider from "../common/other/Divider";
 // import FacebookButton from "./FacebookButton";
 // import GoogleButton from "./GoogleButton";
-import Divider from "../common/other/Divider";
 
-interface IProps {
+export interface ILoginFormProps extends ISignFormProps {
 	onSubmit: (user: ILoginUser) => void;
-	facebookHandler: (response: any) => void;
-	googleHandler: (response: any) => void;
-	submitting: boolean;
-	loadingTarget: string | undefined;
 }
 
-const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, googleHandler, loadingTarget }) => {
+const LoginForm: React.FC<ILoginFormProps> = ({
+	onSubmit,
+	submitting,
+	facebookHandler,
+	googleHandler,
+	loadingTarget,
+	...props
+}) => {
 	const { register, handleSubmit, errors, formState } = useForm<ILoginUser>();
 
 	return (
-		<div id="login-form" className="user-form">
+		<div id="login-form" className="user-form" {...props}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="title row">Log in</div>
 
@@ -32,7 +36,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 					<div className="form-item">
 						<label htmlFor="email">Email</label>
 
-						<ValidationMessage name="email" errors={errors} />
+						<ValidationMessage inputName="email" errors={errors} />
 
 						<input
 							type="text"
@@ -54,7 +58,7 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 					<div className="form-item">
 						<label htmlFor="password">Password</label>
 
-						<ValidationMessage name="password" errors={errors} />
+						<ValidationMessage inputName="password" errors={errors} />
 
 						<input
 							type="password"
@@ -118,9 +122,6 @@ const LoginForm: React.FC<IProps> = ({ onSubmit, submitting, facebookHandler, go
 								submitting || !formState.dirty || (formState.submitCount > 0 && !formState.isValid)
 							}
 							loading={submitting && loadingTarget === "login"}
-							analyticsEnabled
-							analyticsCategory="Users"
-							analyticsAction="Logged a user in"
 						/>
 					</div>
 				</div>

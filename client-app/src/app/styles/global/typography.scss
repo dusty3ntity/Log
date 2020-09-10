@@ -1,0 +1,80 @@
+$font-family: "Nunito", sans-serif;
+$font-family-logo: "Vibur", cursive;
+
+body {
+	font-family: $font-family;
+	color: $primary-color;
+}
+
+html {
+	font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	font-family: $font-family;
+	color: $primary-color;
+	margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.28571429em;
+}
+
+p {
+	line-height: 1.4285em;
+}
+
+button {
+	font-family: $font-family;
+	color: $primary-color;
+}
+
+input,
+textarea {
+	font-family: $font-family;
+	color: $primary-color;
+}
+
+a {
+	color: $primary-color;
+	text-decoration: none;
+}
+
+
+
+
+/*---------------------  Breakpoints  ---------------------*/
+@media (max-width: 1749px) {
+	html {
+		font-size: 15px;
+	}
+}
+
+@media (max-width: 1599px) {
+	html {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 1399px) {
+	html {
+		font-size: 13px;
+	}
+}
+
+@media (max-width: 1099px) {
+	html {
+		font-size: 12px;
+	}
+}

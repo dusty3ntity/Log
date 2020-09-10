@@ -6,7 +6,7 @@ import { history } from "../..";
 import { RootStore } from "./rootStore";
 import { ILoginUser, IUser, IRegisterUser, IOnboardingFormData } from "./../models/user";
 import agent from "../api/agent";
-import { createNotification } from "./../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { ErrorType, NotificationType } from "./../models/error";
 
 export default class UserStore {
@@ -135,14 +135,12 @@ export default class UserStore {
 			if (err.code === ErrorType.DictionariesLimitReached) {
 				createNotification(NotificationType.Error, {
 					message: "Dictionaries limit has been reached! Maximum dictionaries number is 4.",
-					analyticsErrorDescription: "Dictionaries limit reached",
 				});
 			} else if (err.code === ErrorType.DuplicateDictionaryFound) {
 				createNotification(NotificationType.Error, {
 					title: "Validation error!",
 					message: "Duplicate dictionary found! Please, refresh the page or contact the administrator.",
 					error: err.body,
-					analyticsErrorDescription: "Dictionary not found",
 				});
 			} else {
 				createNotification(NotificationType.UnknownError, {

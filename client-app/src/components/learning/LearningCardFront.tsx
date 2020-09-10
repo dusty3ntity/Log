@@ -1,30 +1,33 @@
 import React, { useState, useContext } from "react";
 import TextEllipsis from "react-text-ellipsis";
 
+import { IComponentProps } from "../../app/models/components";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILearningItem, LearningMode } from "../../app/models/learning";
 import ComplexityIndicator from "./ComplexityIndicator";
-import LearningItemProgress from "./LearningItemProgress";
-import StarIcon from "../icons/StarIcon";
+import ItemProgressDots from "./ItemProgressDots";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
-import { fireAnalyticsEvent } from "../../app/common/analytics/analytics";
 import { fullTrim } from "../../app/common/forms/formValidators";
-// import HintIcon from "../icons/HintIcon";
+import { combineClassNames } from "../../app/common/util/classNames";
+import StarIcon from "../common/icons/StarIcon";
 
-interface IProps {
+export interface ILearningCardFrontProps extends IComponentProps {
 	correctAnswersToItemCompletion: number;
 	learningItem: ILearningItem;
 	secondTraining: boolean;
 	loading: boolean;
 }
 
-const LearningCardFront: React.FC<IProps> = ({
+const LearningCardFront: React.FC<ILearningCardFrontProps> = ({
+	id,
+	className,
 	correctAnswersToItemCompletion,
 	learningItem,
 	secondTraining,
 	loading,
+	...props
 }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { status, isItemInputFlipped, onItemSubmit } = rootStore.learningStore;
@@ -32,7 +35,6 @@ const LearningCardFront: React.FC<IProps> = ({
 
 	const item = learningItem.item;
 
-	const starredClass = item.isStarred ? " active" : "";
 	const textSizeClass = item.item.length > 20 ? "long" : item.item.length > 10 ? "medium" : "short";
 
 	const [answer, setAnswer] = useState("");
@@ -40,21 +42,33 @@ const LearningCardFront: React.FC<IProps> = ({
 		setAnswer(event.target.value);
 	};
 
+	const submit = () => {
+		const trimAnswer = fullTrim(answer);
+		onItemSubmit(trimAnswer);
+	};
+
 	return (
-		<div className={`learning-card learning-card-front ${isItemInputFlipped ? "flipped" : ""}`}>
+		<div
+			id={id}
+			className={combineClassNames("learning-card learning-card-front", className, {
+				flipped: isItemInputFlipped,
+			})}
+			{...props}
+		>
 			<div className="header-row row">
 				<Tooltip text="Item complexity value based on your answers." position="top-start">
-					<ComplexityIndicator complexity={item.complexity} />
+					<ComplexityIndicator complexity={item.complexity} tour-step="3-3" />
 				</Tooltip>
 
 				<Tooltip
 					text={`Number of correct answers for item to be considered mastered. You have ${item.correctAnswersToCompletionCount} out of ${correctAnswersToItemCompletion} needed.`}
 					position="top"
 				>
-					<LearningItemProgress
+					<ItemProgressDots
 						total={correctAnswersToItemCompletion}
 						checked={item.correctAnswersToCompletionCount}
 						secondTraining={secondTraining}
+						tour-step="3-2"
 					/>
 				</Tooltip>
 
@@ -66,13 +80,13 @@ const LearningCardFront: React.FC<IProps> = ({
 					}
 					position="top-end"
 				>
-					<StarIcon className={starredClass} />
+					<StarIcon active={item.isStarred} />
 				</Tooltip>
 			</div>
 
 			<div className="item-row row" tour-step="3-4">
 				<div className="task-row">
-					<h1 className={`task text ${textSizeClass}`}>{item.item}</h1>
+					<h1 className={combineClassNames("task text", textSizeClass)}>{item.item}</h1>
 				</div>
 
 				<Divider invisible />
@@ -95,6 +109,12 @@ const LearningCardFront: React.FC<IProps> = ({
 						autoFocus
 						value={answer}
 						onChange={handleInputChange}
+						onKeyPress={(e) => {
+							if (e.key === "Enter") {
+								e.preventDefault();
+								submit();
+							}
+						}}
 					/>
 				</div>
 			</div>
@@ -114,25 +134,12 @@ const LearningCardFront: React.FC<IProps> = ({
 			)}
 
 			<div className="actions-row row">
-				{/* <button className="btn actions-btn hint-btn">
-					<HintIcon />
-					<span>Hint</span>
-				</button> */}
-
 				<Button
 					className="actions-btn submit-btn"
 					primary
 					noDisabledStyles
 					text="Submit"
-					onClick={() => {
-						const trimAnswer = fullTrim(answer);
-						onItemSubmit(trimAnswer);
-						fireAnalyticsEvent(
-							"Learning",
-							"Submitted an item",
-							trimAnswer.length === 0 ? "Empty" : undefined
-						);
-					}}
+					onClick={submit}
 					disabled={status > 9}
 					loading={loading}
 				/>

@@ -3,30 +3,30 @@ import { NavLink } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 import DictionarySelector from "./DictionarySelector";
-import LearningIcon from "../icons/LearningIcon";
-import PlusIcon from "../icons/PlusIcon";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import LearningIcon from "../common/icons/LearningIcon";
+import PlusIcon from "../common/icons/PlusIcon";
 
-interface IProps {
-	title: string;
+export interface ITopPanelProps {
+	pageTitle: string;
 }
 
-const TopPanel: React.FC<IProps> = ({ title }) => {
+const TopPanel: React.FC<ITopPanelProps> = ({ pageTitle, ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { finishItemsTourPart } = rootStore.tourStore;
 	const { user } = rootStore.userStore;
 
 	return (
-		<div id="top-panel">
+		<div id="top-panel" {...props}>
 			<div id="title-col">
-				<h1 className="page-title">{title}</h1>
+				<h1 className="page-title">{pageTitle}</h1>
 			</div>
 
 			<div id="buttons-col">
 				<div className="btn-space">
 					<NavLink to="/learning" tour-step="1-10" className="btn continue-learning top-panel-btn">
-						<LearningIcon classNames="btn-icon" />
-						<span className="mlg-visible">Continue learning</span>
+						<LearningIcon className="btn-icon" />
+						<span>Continue learning</span>
 					</NavLink>
 
 					<NavLink
@@ -37,14 +37,14 @@ const TopPanel: React.FC<IProps> = ({ title }) => {
 						}}
 						className="btn new-item top-panel-btn"
 					>
-						<PlusIcon classNames="btn-icon" />
-						<span className="mlg-visible">New item</span>
+						<PlusIcon className="btn-icon" />
+						<span>New item</span>
 					</NavLink>
 				</div>
 			</div>
 
 			<div id="dictionary-selector-col">
-				<DictionarySelector />
+				<DictionarySelector tour-step="1-9" />
 			</div>
 		</div>
 	);

@@ -1,31 +1,36 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 
+import { IComponentProps } from "../../app/models/components";
 import { IDictionary } from "../../app/models/dictionary";
-import SuccessIcon from "../icons/SuccessIcon";
 import Button from "../common/inputs/Button";
 import Tooltip from "../common/tooltips/Tooltip";
 import Divider from "../common/other/Divider";
+import { combineClassNames } from "../../app/common/util/classNames";
+import SuccessIcon from "../common/icons/SuccessIcon";
 
-interface IProps {
+export interface IDictionariesListItemProps extends IComponentProps {
 	dictionary: IDictionary;
-	isActive: boolean;
+	active: boolean;
 	onClick: (dictionary: IDictionary) => void;
 	onSetMain: (dictionary: IDictionary) => void;
-	settingMain: boolean;
+	submitting: boolean;
 	setMainDisabled: boolean;
 }
 
-const DictionariesListItem: React.FC<IProps> = ({
+const DictionariesListItem: React.FC<IDictionariesListItemProps> = ({
+	id,
+	className,
 	dictionary,
-	isActive,
+	active,
 	onClick,
 	onSetMain,
-	settingMain,
+	submitting,
 	setMainDisabled,
+	...props
 }) => {
 	return (
-		<div className={`list-item ${isActive ? "active" : ""}`}>
+		<div id={id} className={combineClassNames("list-item", className, { active: active })} {...props}>
 			<button className="btn item-btn" onClick={() => onClick(dictionary)}>
 				<div className="flags-col">
 					<div className="lang-container known-lang-container">
@@ -120,7 +125,7 @@ const DictionariesListItem: React.FC<IProps> = ({
 					>
 						<span className="title">Hard mode</span>
 
-						<span className={`value ${dictionary.isHardModeEnabled ? "enabled" : ""}`}>
+						<span className={combineClassNames("value", { enabled: dictionary.isHardModeEnabled })}>
 							{dictionary.isHardModeEnabled ? "enabled" : "disabled"}
 						</span>
 					</Tooltip>
@@ -146,12 +151,8 @@ const DictionariesListItem: React.FC<IProps> = ({
 								className="set-main-btn"
 								text="Set main"
 								onClick={() => onSetMain(dictionary)}
-								loading={settingMain}
+								loading={submitting}
 								disabled={setMainDisabled}
-
-								analyticsEnabled
-								analyticsCategory="Dictionaries"
-								analyticsAction="Set a dictionary as main"
 							/>
 						</Tooltip>
 					)}

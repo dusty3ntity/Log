@@ -1,0 +1,120 @@
+.Toastify {
+	.Toastify__toast-container {
+		width: 360px;
+		z-index: 9999999;
+	}
+
+	.Toastify__toast {
+		padding: 1rem 1.3rem 1rem 1rem;
+
+		background: $body-background;
+		box-shadow: 5px 5px 13px rgba(204, 213, 222, 0.9), -5px -5px 10px rgba(250, 255, 255, 0.9),
+			5px -5px 10px rgba(204, 213, 222, 0.2), -5px 5px 10px rgba(204, 213, 222, 0.2),
+			inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+		border-radius: 1.875rem;
+	}
+
+	.Toastify__toast-body {
+		margin: 0;
+	}
+
+	.Toastify__close-button {
+		position: absolute;
+		right: 1.3rem;
+		top: 1.5rem;
+		opacity: 1;
+
+		svg {
+			fill: $primary-color;
+		}
+	}
+}
+
+.notification {
+	height: 100%;
+	width: 100%;
+	display: flex;
+
+	font-family: $font-family;
+
+	&.info .title {
+		color: $primary-color;
+	}
+
+	&.success .title {
+		color: $success-color;
+	}
+
+	&.warning .title {
+		color: $warning-color;
+	}
+
+	&.error .title {
+		color: $error-color;
+	}
+
+	.icon-container {
+		width: 20%;
+		display: flex;
+		align-items: center;
+
+		.icon {
+			height: 48px;
+			width: 48px;
+		}
+	}
+
+	.content-container {
+		width: 80%;
+
+		.title {
+			font-size: 1.25rem;
+			font-weight: 700;
+		}
+
+		.message {
+			font-size: 14px;
+			font-weight: 700;
+			color: $text-color-grey;
+			text-align: justify;
+		}
+	}
+
+	.title-container {
+		display: flex;
+		align-items: center;
+		margin-bottom: 4px;
+	}
+
+	.copy-err-btn {
+		padding: 0;
+		height: 1.5rem;
+		width: 1.5rem;
+		border-radius: 8px;
+		margin-left: 0.5rem;
+
+		.icon {
+			height: 1rem;
+			width: 1rem;
+			fill: #88878b;
+		}
+
+		&:hover {
+			background: #dce7f1;
+			box-shadow: -1px -1px 2px rgba(198, 208, 217, 0.5), 1px 1px 2px rgba(242, 254, 255, 0.3),
+				inset 1px 1px 3px rgba(198, 208, 217, 0.9), inset -1px -1px 2px rgba(242, 254, 255, 0.9),
+				inset 1px -1px 2px rgba(198, 208, 217, 0.2), inset -1px 1px 2px rgba(198, 208, 217, 0.2);
+		}
+
+		&:active {
+			background: #d3dfea;
+			box-shadow: -1px -1px 2px rgba(169, 178, 187, 0.5), 1px 1px 2px rgba(253, 255, 255, 0.3),
+				inset 1px 1px 3px rgba(169, 178, 187, 0.9), inset -1px -1px 2px rgba(253, 255, 255, 0.9),
+				inset 1px -1px 2px rgba(169, 178, 187, 0.2), inset -1px 1px 2px rgba(169, 178, 187, 0.2);
+
+			.icon {
+				fill: #857a8b;
+			}
+		}
+	}
+}
