@@ -6,18 +6,17 @@ import RegistrationForm from "./RegistrationForm";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const RegistrationPage: React.FC = ({ ...props }) => {
-	document.title = "Register - Log";
-
 	const rootStore = useContext(RootStoreContext);
 	const { register, submitting, facebookLogin, googleLogin, loadingTarget, user } = rootStore.userStore;
 
-	const pushOut = () => {
-		if (user) {
-			history.push("/items-list");
-		}
-	};
+	useEffect(() => {
+		document.title = "Register - Log";
+	}, []);
 
-	useEffect(pushOut, []);
+	if (user) {
+		history.push("/items-list");
+		return null;
+	}
 
 	return (
 		<div id="registration-page" className="sign-page" {...props}>

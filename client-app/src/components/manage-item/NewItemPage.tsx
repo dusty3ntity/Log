@@ -27,8 +27,7 @@ const NewItemPage: React.FC = ({ ...props }) => {
 		if (!user!.tourCompleted && !user!.newItemTourCompleted) {
 			startTour(newItemTourSteps, finishNewItemTourPart);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [user, startTour, finishNewItemTourPart]);
 
 	return (
 		<Page pageTitle="New item" id="new-item-page" className="manage-item-page" {...props}>

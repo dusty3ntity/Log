@@ -16,8 +16,7 @@ const ItemsListPage: React.FC = ({ ...props }) => {
 		if (!user!.tourCompleted && !user!.itemsTourCompleted) {
 			startTour(itemsTourSteps, finishItemsTourPart);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [user, startTour, finishItemsTourPart]);
 
 	return (
 		<Page pageTitle="Items list" id="items-list-page" {...props}>

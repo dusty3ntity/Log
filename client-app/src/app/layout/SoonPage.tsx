@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const SoonPage: React.FC = ({ ...props }) => {
-	document.title = "Soon - Log";
+	useEffect(() => {
+		document.title = "Soon - Log";
+	}, []);
 
 	return (
 		<div id="soon-page" {...props}>

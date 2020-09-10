@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { history } from "../..";
 
 import NavBar from "../../components/navbar/NavBar";
@@ -15,12 +15,14 @@ export interface IPageProps extends IComponentProps {
 const Page: React.FC<IPageProps> = ({ id, className, pageTitle, tabTitle, children, ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 
+	useEffect(() => {
+		document.title = `${tabTitle || pageTitle} - Log`;
+	}, [tabTitle, pageTitle]);
+
 	if (rootStore.commonStore.newUser) {
 		history.push("/before-we-begin");
-		return <div />;
+		return null;
 	}
-
-	document.title = `${tabTitle || pageTitle} - Log`;
 
 	return (
 		<div id="main">

@@ -42,8 +42,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [onClick]);
 
 	return (
 		<div
