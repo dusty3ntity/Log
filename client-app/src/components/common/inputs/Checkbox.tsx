@@ -18,7 +18,12 @@ const Checkbox: React.FC<ICheckboxProps> = ({ id, className, checked, onChange, 
 	};
 
 	return (
-		<label id={id} className={combineClassNames("checkbox-wrapper", className)} {...props}>
+		<label
+			id={id}
+			className={combineClassNames("checkbox-wrapper", className)}
+			{...props}
+			onClick={(e) => e.stopPropagation()}
+		>
 			<input type="checkbox" checked={checked} disabled={disabled} onChange={handleChange} />
 			<span className="checkbox">
 				<CheckIcon className="check" />

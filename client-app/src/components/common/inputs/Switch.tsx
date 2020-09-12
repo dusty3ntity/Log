@@ -18,7 +18,12 @@ const Switch = React.forwardRef<HTMLInputElement, ISwitchProps>(
 		};
 
 		return (
-			<label id={id} className={combineClassNames("switch", className)} {...props}>
+			<label
+				id={id}
+				className={combineClassNames("switch", className)}
+				{...props}
+				onClick={(e) => e.stopPropagation()}
+			>
 				<input type="checkbox" name={name} ref={ref} checked={checked} onChange={handleChange} />
 				<span className="track">
 					<span className="thumb" />
