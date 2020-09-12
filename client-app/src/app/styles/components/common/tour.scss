@@ -8,7 +8,6 @@
 		inset -1px -1px 2px rgba(93, 130, 214, 0.5), inset 1px 1px 2px rgba(162, 195, 255, 0.3) !important;
 
 	& > div > div {
-		padding: 15px 10px 0 !important;
 		font-size: 16px;
 		font-weight: 600;
 	}
@@ -17,6 +16,7 @@
 		margin: 0 8px !important;
 		border-radius: 10px !important;
 		font-weight: 700 !important;
+		padding: 8px 16px !important;
 	}
 
 	button[data-action="close"] {

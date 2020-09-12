@@ -158,19 +158,19 @@ export const newItemTourSteps = [
 		placement: "left",
 	},
 	{
-		target: "[tour-step='2-1']",
+		target: "[tour-step='2-2']",
 		content: "First of all, you need to choose the item's type.",
 		disableBeacon: true,
-		placement: "left-start",
+		placement: "bottom",
 	},
 	{
-		target: "[tour-step='2-2']",
+		target: "[tour-step='2-3']",
 		content: "Then you enter the item's original and translation.",
 		disableBeacon: true,
 		placement: "top",
 	},
 	{
-		target: "[tour-step='2-3']",
+		target: "[tour-step='2-4']",
 		content: "You can also add a definition and make the item starred.",
 		disableBeacon: true,
 		placement: "bottom",

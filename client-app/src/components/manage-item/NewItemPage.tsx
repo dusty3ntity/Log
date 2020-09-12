@@ -32,7 +32,7 @@ const NewItemPage: React.FC = ({ ...props }) => {
 	return (
 		<Page pageTitle="New item" id="new-item-page" className="manage-item-page" {...props}>
 			<div id="new-item" tour-step="2-1" className="manage-item">
-				<Tabs defaultActiveKey={ItemType.Word + ""}>
+				<Tabs defaultActiveKey={ItemType.Word + ""} tour-step="2-2">
 					<Tab tabName="Word" tabKey={ItemType.Word + ""}>
 						<ItemForm
 							id="new-word-form"
