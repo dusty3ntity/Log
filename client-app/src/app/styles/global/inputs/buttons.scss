@@ -1,0 +1,108 @@
+button {
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: $body-background;
+	border: none;
+	cursor: pointer;
+
+	transition: all 0.3s;
+
+	.icon + span,
+	span + .icon {
+		margin-left: 8px;
+	}
+
+	&:hover {
+		background: linear-gradient(135deg, #d8e1e9 0%, #eef9ff 100%);
+	}
+
+	&:active,
+	&.active {
+		background: $body-background;
+	}
+
+	.loading-indicator-small {
+		fill: $primary-color !important;
+	}
+
+	&:not(.no-disabled-styles):disabled {
+		background: #d8e4ee !important;
+		box-shadow: 1px 1px 3px rgba(190, 201, 211, 0.9), -1px -1px 2px rgba(232, 245, 255, 0.6),
+			1px -1px 2px rgba(190, 201, 211, 0.2), -1px 1px 2px rgba(190, 201, 211, 0.2),
+			inset -1px -1px 2px rgba(190, 201, 211, 0.5), inset 1px 1px 2px rgba(232, 245, 255, 0.3) !important;
+
+		cursor: not-allowed;
+		color: #c1c7cd;
+
+		.icon {
+			fill: #c1c7cd;
+		}
+	}
+}
+
+.btn.round {
+	border-radius: 50%;
+}
+
+.btn.primary {
+	transition: none;
+
+	background: $primary-color;
+	box-shadow: -5px 5px 12px rgba(143, 151, 166, 0.2), 5px -5px 10px rgba(200, 201, 203, 0.2), -6px -6px 4px #f3f9ff,
+		3px 3px 6px rgba(3, 3, 3, 0.16), inset 1px 1px 2px rgba(214, 224, 238, 0.9), inset -1px -1px 4px #3e59a2;
+
+	color: $body-background;
+
+	.icon {
+		fill: $body-background;
+	}
+
+	&:hover {
+		background: linear-gradient(135deg, #4060b6 0%, #769cff 100%);
+	}
+
+	&:active,
+	&.active {
+		background: #6a94ff;
+		box-shadow: -1px -1px 2px #3e59a1, inset -5px 5px 20px rgba(33, 50, 82, 0.28),
+			inset 5px -5px 8px rgba(77, 101, 151, 0.24), inset -6px -6px 20px rgba(207, 231, 254, 0.85),
+			inset 4px 4px 10px rgba(43, 46, 60, 0.44);
+	}
+
+	.loading-indicator-small {
+		fill: $body-background !important;
+	}
+
+	&:not(.no-disabled-styles):disabled {
+		background: #bfd1f0 !important;
+		box-shadow: -5px 5px 12px rgba(143, 151, 166, 0.2), 5px -5px 10px rgba(200, 201, 203, 0.2), -6px -6px 4px #f3f9ff,
+		3px 3px 6px rgba(3, 3, 3, 0.16), inset 1px 1px 2px rgba(214, 224, 238, 0.9), inset -1px -1px 4px #3e59a2;
+
+		cursor: not-allowed;
+		color: rgba(93, 115, 136, 0.5);
+
+		.icon {
+			fill: rgba(93, 115, 136, 0.5);
+		}
+	}
+}
+
+.btn.no-disabled-styles:disabled {
+	cursor: not-allowed !important;
+}
+
+a {
+	transition: none;
+	background: none;
+
+	&:hover {
+		color: unset;
+	}
+}

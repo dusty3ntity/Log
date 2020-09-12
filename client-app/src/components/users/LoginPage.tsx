@@ -6,9 +6,7 @@ import LoginForm from "./LoginForm";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILoginUser } from "../../app/models/user";
 
-const LoginPage = () => {
-	document.title = "Log in - Log";
-
+const LoginPage: React.FC = ({ ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { login, submitting, facebookLogin, googleLogin, loadingTarget, user } = rootStore.userStore;
 
@@ -20,12 +18,16 @@ const LoginPage = () => {
 
 	useEffect(pushOut, []);
 
+	useEffect(() => {
+		document.title = "Log in - Log";
+	}, []);
+
 	const onSubmit = (user: ILoginUser) => {
 		login(user);
 	};
 
 	return (
-		<div id="login-page" className="sign-page">
+		<div id="login-page" className="sign-page" {...props}>
 			<LoginForm
 				onSubmit={onSubmit}
 				submitting={submitting}

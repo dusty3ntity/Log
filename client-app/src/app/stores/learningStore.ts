@@ -1,12 +1,10 @@
-import { getExtendedLearningProductivity } from "./../common/util/learning";
-import { fireAnalyticsNonInteractionEvent } from "./../common/analytics/analytics";
 import { observable, action, runInAction } from "mobx";
 
 import { ILearningList, ILearningItem, ILearningItemResult, LearningStatus } from "../models/learning";
 import { RootStore } from "./rootStore";
 import agent from "../api/agent";
 import { ErrorType, NotificationType } from "../models/error";
-import { createNotification } from "./../common/util/notifications";
+import { createNotification } from "../common/components/notifications";
 import { learningTourSteps } from "../models/tour";
 
 export default class LearningStore {
@@ -186,28 +184,10 @@ export default class LearningStore {
 					this.isLearningStartOverFlipped = !this.isItemResultFlipped;
 					this.status = LearningStatus.ItemResultLearningStartOver;
 					nextStatus = LearningStatus.LearningStartOver;
-					fireAnalyticsNonInteractionEvent(
-						"Learning",
-						"Completed the training",
-						undefined,
-						getExtendedLearningProductivity(
-							this.learningList!.correctAnswersCount,
-							this.learningList!.totalCompletedItemsCount
-						)
-					);
 				} else if (this.learningList!.timesCompleted === 2) {
 					this.isLearningEndFlipped = !this.isItemResultFlipped;
 					this.status = LearningStatus.ItemResultLearningEnd;
 					nextStatus = LearningStatus.LearningEnd;
-					fireAnalyticsNonInteractionEvent(
-						"Learning",
-						"Completed the training 2 times",
-						undefined,
-						getExtendedLearningProductivity(
-							this.learningList!.correctAnswersCount,
-							this.learningList!.totalCompletedItemsCount
-						)
-					);
 				}
 			});
 		} catch (err) {

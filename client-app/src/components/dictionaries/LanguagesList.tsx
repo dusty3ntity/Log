@@ -1,46 +1,46 @@
 import React from "react";
-import SimpleBar from "simplebar-react";
 
+import { IComponentProps } from "../../app/models/components";
 import { ILanguage } from "../../app/models/languages";
 import { languagesList } from "../../app/models/languages";
-import ResetIcon from "../icons/ResetIcon";
 import Tooltip from "../common/tooltips/Tooltip";
+import Button from "../common/inputs/Button";
+import { combineClassNames } from "../../app/common/util/classNames";
+import ResetIcon from "../common/icons/ResetIcon";
+import ScrollableList from "../common/other/ScrollableList";
 
-interface IProps {
-	id: string;
+export interface ILanguagesListProps extends IComponentProps {
 	title: string;
-	className?: string;
 	disabledItems: ILanguage[];
 	selectedItem: ILanguage | undefined;
-	reset?: () => void;
+	onReset?: () => void;
 	onItemSelect: (item: ILanguage) => void;
 }
 
-const LanguagesList: React.FC<IProps> = ({
+const LanguagesList: React.FC<ILanguagesListProps> = ({
 	id,
-	title,
 	className,
+	title,
 	disabledItems,
 	selectedItem,
 	onItemSelect,
-	reset,
+	onReset,
+	...props
 }) => {
 	return (
-		<div id={id} className={`languages-list ${className ? className : ""}`}>
+		<div id={id} className={combineClassNames("languages-list", className)} {...props}>
 			<div className="title-container">
 				<span className="title">{title}</span>
 
-				{reset && (
+				{onReset && (
 					<Tooltip text="Reset selected language." position="top">
-						<button className="btn reset-btn round" onClick={reset}>
-							<ResetIcon />
-						</button>
+						<Button className="reset-btn" onClick={onReset} icon={<ResetIcon />} />
 					</Tooltip>
 				)}
 			</div>
 
 			<div className="list-container">
-				<SimpleBar style={{ height: "100%" }} autoHide={false} forceVisible="y" scrollbarMinSize={36}>
+				<ScrollableList>
 					<div className="list">
 						{languagesList
 							.sort((a, b) => {
@@ -53,22 +53,21 @@ const LanguagesList: React.FC<IProps> = ({
 								return 0;
 							})
 							.map((item) => (
-								<button
-									className={`btn list-item ${
-										selectedItem?.isoCode === item.isoCode ? "active" : ""
-									}`}
+								<Button
+									className={combineClassNames("list-item", {
+										active: selectedItem?.isoCode === item.isoCode,
+									})}
 									key={`${item.id}-${title}`}
-									type="button"
 									onClick={() => onItemSelect(item)}
 									disabled={disabledItems.includes(item)}
 								>
 									<img src={`/images/flags/${item.isoCode}.png`} alt={item.isoCode} />
 
 									<span>{item.name}</span>
-								</button>
+								</Button>
 							))}
 					</div>
-				</SimpleBar>
+				</ScrollableList>
 			</div>
 		</div>
 	);

@@ -1,14 +1,23 @@
 import React from "react";
 
 import { getExtendedLearningProductivity } from "../../app/common/util/learning";
+import { IComponentProps } from "../../app/models/components";
+import { combineClassNames } from "../../app/common/util/classNames";
 
-interface IProps {
+export interface ILearningStatsBriefProps extends IComponentProps {
 	itemsCount: number;
 	completedItemsCount: number;
 	correctAnswersCount: number;
 }
 
-const LearningStatsBrief: React.FC<IProps> = ({ itemsCount, completedItemsCount, correctAnswersCount }) => {
+const LearningStatsBrief: React.FC<ILearningStatsBriefProps> = ({
+	id,
+	className,
+	itemsCount,
+	completedItemsCount,
+	correctAnswersCount,
+	...props
+}) => {
 	let productivity = getExtendedLearningProductivity(correctAnswersCount, completedItemsCount);
 
 	const productivityColorClass =
@@ -17,7 +26,7 @@ const LearningStatsBrief: React.FC<IProps> = ({ itemsCount, completedItemsCount,
 	productivity = Math.floor(productivity);
 
 	return (
-		<div className="learning-stats-brief">
+		<div id={id} className={combineClassNames("learning-stats-brief", className)} {...props}>
 			<div className="items-col col">
 				<div className="items-for-today cell">
 					<h2>Items for today</h2>
@@ -33,12 +42,14 @@ const LearningStatsBrief: React.FC<IProps> = ({ itemsCount, completedItemsCount,
 			<div className="answers-col col">
 				<div className="correct-answers cell">
 					<h2>Correct answers</h2>
-					<span className={`value ${correctAnswersCount === 0 ? "zero" : ""}`}>{correctAnswersCount}</span>
+					<span className={combineClassNames("value", { zero: correctAnswersCount === 0 })}>
+						{correctAnswersCount}
+					</span>
 				</div>
 
 				<div className="productivity cell">
 					<h2>Productivity</h2>
-					<span className={`value ${productivityColorClass}`}>{productivity}</span>
+					<span className={combineClassNames("value", productivityColorClass)}>{productivity}</span>
 				</div>
 			</div>
 		</div>

@@ -1,42 +1,36 @@
 import React from "react";
 
-interface IProps {
-	vertical?: boolean;
+import { IComponentProps } from "../../../app/models/components";
+import { combineClassNames } from "../../../app/common/util/classNames";
+
+export interface IDividerProps extends IComponentProps {
 	text?: string;
+	vertical?: boolean;
 	invisible?: boolean;
-	className?: string;
 }
 
-const Divider: React.FC<IProps> = ({ vertical, text, invisible, className }) => {
+const Divider: React.FC<IDividerProps> = ({ id, className, vertical, text, invisible, ...props }) => {
 	if (text) {
 		return (
-			<div className="text-divider">
-				<hr className="divider divider-left" />
+			<div id={id} className={combineClassNames("text-divider", className)} {...props}>
+				<hr className={combineClassNames("divider", "divider-left")} />
 				<div className="divider-text">{text}</div>
-				<hr className="divider divider-right" />
+				<hr className={combineClassNames("divider", "divider-right")} />
 			</div>
 		);
 	}
 
-	const classNames: string[] = ["divider"];
-
-	if (className) {
-		classNames.push(className);
-	}
-
 	if (vertical) {
-		classNames.push("vertical");
+		return (
+			<div
+				id={id}
+				className={combineClassNames("divider", "vertical", className, { invisible: invisible })}
+				{...props}
+			/>
+		);
 	}
 
-	if (invisible) {
-		classNames.push("invisible");
-	}
-
-	if (vertical) {
-		return <div className={classNames.join(" ")} />;
-	}
-
-	return <hr className={classNames.join(" ")} />;
+	return <hr id={id} className={combineClassNames("divider", className, { invisible: invisible })} {...props} />;
 };
 
 export default Divider;

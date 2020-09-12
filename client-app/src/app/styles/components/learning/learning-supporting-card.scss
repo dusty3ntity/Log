@@ -1,0 +1,112 @@
+.learning-supporting-card {
+	.date-row {
+		span {
+			margin: 0 6px;
+		}
+
+		.date {
+			font-size: 2.25rem;
+			font-weight: 800;
+			color: $success-color;
+		}
+
+		.month {
+			font-size: 2.25rem;
+			font-weight: 600;
+		}
+
+		.year {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: $text-color-grey;
+		}
+	}
+
+	.divider {
+		margin: 1rem 0 3rem;
+	}
+
+	.content-row {
+		height: 40%;
+	}
+
+	.bottom-row {
+		flex-grow: 2;
+		flex-direction: column;
+		justify-content: flex-end !important;
+	}
+
+	.message-row {
+		align-items: center;
+		margin-bottom: 1.5rem;
+
+		.icon {
+			height: 4rem;
+			width: 4rem;
+		}
+
+		span {
+			margin-left: 1rem;
+			font-size: 1.25rem;
+			font-weight: 600;
+			color: $text-color-grey;
+			text-align: justify;
+		}
+	}
+
+	.actions-row {
+		justify-content: space-between !important;
+	}
+
+	.actions-row .btn {
+		width: 100%;
+		font-size: 1.5rem;
+		font-weight: 800;
+		padding: 0.5rem;
+		border-radius: 1.875rem;
+
+		span {
+			margin-right: 4px;
+		}
+
+		&.return-btn {
+			box-shadow: 3px 3px 8px rgba(204, 213, 220, 0.9), -3px -3px 6px rgba(250, 255, 255, 0.9),
+				3px -3px 6px rgba(204, 213, 220, 0.2), -3px 3px 6px rgba(204, 213, 220, 0.2),
+				inset -1px -1px 2px rgba(204, 213, 220, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
+
+			&:hover {
+				background: linear-gradient(175.4deg, #d8e1eb 0%, #eef9ff 100%);
+			}
+
+			&:active {
+				box-shadow: -1px -1px 2px rgba(204, 213, 221, 0.5), 1px 1px 2px rgba(250, 255, 255, 0.3),
+					inset 3px 3px 8px rgba(204, 213, 221, 0.9), inset -3px -3px 6px rgba(250, 255, 255, 0.9),
+					inset 3px -3px 6px rgba(204, 213, 221, 0.2), inset -3px 3px 6px rgba(204, 213, 221, 0.2);
+			}
+		}
+	}
+
+	&.not-enough-items {
+		.content-row {
+			flex-direction: column;
+			align-items: center;
+			height: 50%;
+
+			.icon {
+				height: 120px;
+				width: 120px;
+			}
+
+			.message {
+				font-size: 2rem;
+				font-weight: 700;
+				color: $text-color-grey;
+				margin-top: 1rem;
+			}
+		}
+	}
+
+	&.learning-end .actions-row .btn {
+		width: 46% !important;
+	}
+}

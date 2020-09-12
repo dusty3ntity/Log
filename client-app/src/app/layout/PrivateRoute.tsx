@@ -4,11 +4,11 @@ import { observer } from "mobx-react-lite";
 
 import { RootStoreContext } from "../stores/rootStore";
 
-const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
+const PrivateRoute: React.FC<RouteProps> = ({ children, ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { isLoggedIn } = rootStore.userStore;
 
-	return <Route {...rest} render={() => (isLoggedIn ? children : <Redirect to={"/login"} />)} />;
+	return <Route {...props} render={() => (isLoggedIn ? children : <Redirect to={"/login"} />)} />;
 };
 
 export default observer(PrivateRoute);

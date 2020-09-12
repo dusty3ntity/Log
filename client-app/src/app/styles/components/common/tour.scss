@@ -1,0 +1,97 @@
+.react-joyride__tooltip {
+	background: $tooltip-color !important;
+	color: $body-background !important;
+	border-radius: 15px !important;
+
+	box-shadow: 2px 2px 8px rgba(25, 25, 12, 0.5), -1px -1px 6px rgba(228, 232, 244, 0.9),
+		1px -1px 6px rgba(217, 223, 242, 0.2), 1px 1px 3px rgba(1, 0, 0, 0.2),
+		inset -1px -1px 2px rgba(93, 130, 214, 0.5), inset 1px 1px 2px rgba(162, 195, 255, 0.3) !important;
+
+	& > div > div {
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	button {
+		margin: 0 8px !important;
+		border-radius: 10px !important;
+		font-weight: 700 !important;
+		padding: 8px 16px !important;
+	}
+
+	button[data-action="close"] {
+		display: none;
+	}
+
+	button[data-action="skip"] {
+		color: #7985ff !important;
+	}
+
+	button[data-action="primary"],
+	button[data-action="back"] {
+		color: $body-background !important;
+	}
+
+	button[data-action="primary"] {
+		background: #7985ff !important;
+	}
+
+	button[data-action="back"] {
+		background: none !important;
+		border: 1px solid #7985ff !important;
+	}
+}
+
+.__floater__arrow span {
+	background-image: url(/images/triangle-tour.svg);
+	width: 40px;
+	height: 20px;
+
+	svg {
+		display: none;
+	}
+}
+
+.__floater[x-placement="bottom"],
+.__floater[x-placement="bottom-start"],
+.__floater[x-placement="bottom-end"] {
+	.__floater__arrow span {
+		transform: rotate(180deg);
+		bottom: -7px;
+	}
+}
+
+.__floater[x-placement="top"],
+.__floater[x-placement="top-start"],
+.__floater[x-placement="top-end"] {
+	.__floater__arrow span {
+		top: -7px;
+	}
+}
+
+.__floater[x-placement="left"],
+.__floater[x-placement="left-start"],
+.__floater[x-placement="left-end"] {
+	.__floater__arrow span {
+		transform: rotate(-90deg);
+		right: -7px !important;
+	}
+}
+
+.__floater[x-placement="left-start"] .__floater__arrow span {
+	top: 8px !important;
+}
+
+.__floater[x-placement="left-end"] .__floater__arrow span {
+	bottom: 8px !important;
+	top: unset !important;
+}
+
+.__floater[x-placement="right"] .__floater__arrow span {
+	transform: rotate(90deg);
+	left: -7px;
+}
+
+.__floater {
+	z-index: 500000 !important;
+}
