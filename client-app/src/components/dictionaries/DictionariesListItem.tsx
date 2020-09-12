@@ -30,88 +30,90 @@ const DictionariesListItem: React.FC<IDictionariesListItemProps> = ({
 	...props
 }) => {
 	return (
-		<div id={id} className={combineClassNames("list-item", className, { active: active })} {...props}>
-			<button className="btn item-btn" onClick={() => onClick(dictionary)}>
-				<div className="flags-col">
-					<div className="lang-container known-lang-container">
-						<span className="title">I know</span>
+		<div
+			id={id}
+			className={combineClassNames("list-item", className, {
+				active: active,
+			})}
+			onClick={() => onClick(dictionary)}
+			{...props}
+		>
+			<div className="flags-col">
+				<div className="lang-container known-lang-container">
+					<span className="title">I know</span>
 
-						<img
-							src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
-							alt={dictionary.knownLanguage.isoCode}
-						/>
+					<img
+						src={`/images/flags/${dictionary.knownLanguage.isoCode}.png`}
+						alt={dictionary.knownLanguage.isoCode}
+					/>
 
-						<span className="value">{dictionary.knownLanguage.isoCode.toLocaleUpperCase()}</span>
+					<span className="value">{dictionary.knownLanguage.isoCode.toLocaleUpperCase()}</span>
+				</div>
+
+				<div className="lang-container lang-to-learn-container">
+					<span className="title">I learn</span>
+
+					<img
+						src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
+						alt={dictionary.languageToLearn.isoCode}
+					/>
+
+					<span className="value">{dictionary.languageToLearn.isoCode.toLocaleUpperCase()}</span>
+				</div>
+			</div>
+
+			<Divider vertical />
+
+			<div className="stats-col">
+				<div className="row items-row">
+					<div className="col words-container">
+						<span className="title">Words</span>
+
+						<span className="value">{dictionary.wordsCount}</span>
+
+						<span className="value-learned">
+							<Tooltip text="Learned words count." position="top">
+								( <span className="value">{dictionary.learnedWordsCount}</span> )
+							</Tooltip>
+						</span>
 					</div>
 
-					<div className="lang-container lang-to-learn-container">
-						<span className="title">I learn</span>
+					<div className="col phrases-container">
+						<span className="title">Phrases</span>
 
-						<img
-							src={`/images/flags/${dictionary.languageToLearn.isoCode}.png`}
-							alt={dictionary.languageToLearn.isoCode}
-						/>
+						<span className="value">{dictionary.phrasesCount}</span>
 
-						<span className="value">{dictionary.languageToLearn.isoCode.toLocaleUpperCase()}</span>
+						<span className="value-learned">
+							<Tooltip text="Learned phrases count." position="top">
+								( <span className="value">{dictionary.learnedPhrasesCount}</span> )
+							</Tooltip>
+						</span>
 					</div>
 				</div>
 
-				<Divider vertical />
+				<div className="row params-row">
+					<Tooltip
+						text="We’ll try to adjust the items count of each training to this value."
+						position="bottom"
+					>
+						<div className="col learning-list-size-container">
+							<span className="title">In training</span>
 
-				<div className="stats-col">
-					<div className="row items-row">
-						<div className="col words-container">
-							<span className="title">Words</span>
-
-							<span className="value">{dictionary.wordsCount}</span>
-
-							<span className="value-learned">
-								<Tooltip text="Learned words count." position="top">
-									( <span className="value">{dictionary.learnedWordsCount}</span> )
-								</Tooltip>
-							</span>
+							<span className="value">{dictionary.preferredLearningListSize}</span>
 						</div>
+					</Tooltip>
 
-						<div className="col phrases-container">
-							<span className="title">Phrases</span>
+					<Tooltip text="Number of correct answers for item to be considered as mastered." position="bottom">
+						<div className="col repeats-to-learn-container">
+							<span className="title">Repeats to learn</span>
 
-							<span className="value">{dictionary.phrasesCount}</span>
-
-							<span className="value-learned">
-								<Tooltip text="Learned phrases count." position="top">
-									( <span className="value">{dictionary.learnedPhrasesCount}</span> )
-								</Tooltip>
-							</span>
+							<span className="value">{dictionary.correctAnswersToItemCompletion}</span>
 						</div>
-					</div>
-
-					<div className="row params-row">
-						<Tooltip
-							text="We’ll try to adjust the items count of each training to this value."
-							position="bottom"
-						>
-							<div className="col learning-list-size-container">
-								<span className="title">In training</span>
-
-								<span className="value">{dictionary.preferredLearningListSize}</span>
-							</div>
-						</Tooltip>
-
-						<Tooltip
-							text="Number of correct answers for item to be considered as mastered."
-							position="bottom"
-						>
-							<div className="col repeats-to-learn-container">
-								<span className="title">Repeats to learn</span>
-
-								<span className="value">{dictionary.correctAnswersToItemCompletion}</span>
-							</div>
-						</Tooltip>
-					</div>
+					</Tooltip>
 				</div>
+			</div>
 
-				<Divider vertical />
-			</button>
+			<Divider vertical />
 
 			<div className="actions-col">
 				<div className="row hardmode-container">
@@ -125,7 +127,11 @@ const DictionariesListItem: React.FC<IDictionariesListItemProps> = ({
 					>
 						<span className="title">Hard mode</span>
 
-						<span className={combineClassNames("value", { enabled: dictionary.isHardModeEnabled })}>
+						<span
+							className={combineClassNames("value", {
+								enabled: dictionary.isHardModeEnabled,
+							})}
+						>
 							{dictionary.isHardModeEnabled ? "enabled" : "disabled"}
 						</span>
 					</Tooltip>
@@ -150,7 +156,9 @@ const DictionariesListItem: React.FC<IDictionariesListItemProps> = ({
 							<Button
 								className="set-main-btn"
 								text="Set main"
-								onClick={() => onSetMain(dictionary)}
+								onClick={() => {
+									onSetMain(dictionary);
+								}}
 								loading={submitting}
 								disabled={setMainDisabled}
 							/>

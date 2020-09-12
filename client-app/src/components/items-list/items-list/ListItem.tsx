@@ -47,7 +47,15 @@ const ListItem: React.FC<IItemsListItemProps> = ({ id, className, item, ...props
 	return (
 		<div
 			id={id}
-			className={combineClassNames("list-item", className, { active: item.id === activeItem?.id })}
+			className={combineClassNames("list-item", className, {
+				active: item.id === activeItem?.id,
+			})}
+			onClick={() => {
+				if (!user!.tourCompleted && !user!.itemsTourCompleted) {
+					goToNextStep();
+				}
+				selectItem(item.id);
+			}}
 			{...props}
 		>
 			<div className="selector-col col">
@@ -77,15 +85,7 @@ const ListItem: React.FC<IItemsListItemProps> = ({ id, className, item, ...props
 				<Checkbox className="selector" />
 			</div>
 
-			<button
-				className="text-container btn"
-				onClick={() => {
-					if (!user!.tourCompleted && !user!.itemsTourCompleted) {
-						goToNextStep();
-					}
-					selectItem(item.id);
-				}}
-			>
+			<div className="text-container">
 				<div className="text-content">
 					<Tooltip text={item.original} position="top">
 						<span className="fake-text">{item.original}</span>
@@ -103,7 +103,7 @@ const ListItem: React.FC<IItemsListItemProps> = ({ id, className, item, ...props
 
 					<span className="text translation">{item.translation}</span>
 				</div>
-			</button>
+			</div>
 
 			<div className="actions-col col">
 				<Tooltip
@@ -117,7 +117,10 @@ const ListItem: React.FC<IItemsListItemProps> = ({ id, className, item, ...props
 					<Button
 						className="star-btn actions-btn"
 						icon={<StarIcon active={item.isStarred} />}
-						onClick={item.isStarred ? () => unstarItemById(item.id) : handleStar}
+						onClick={() => {
+							if (item.isStarred) unstarItemById(item.id);
+							else handleStar();
+						}}
 						loading={starring && loadingTarget.includes(item.id)}
 					/>
 				</Tooltip>

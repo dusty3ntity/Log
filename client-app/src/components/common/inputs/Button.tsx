@@ -14,7 +14,7 @@ export interface IButtonProps extends IComponentProps {
 	active?: boolean;
 	loading?: boolean;
 	disabled?: boolean;
-	onClick?: () => any;
+	onClick?: () => void;
 
 	noDisabledStyles?: boolean;
 	rightIcon?: ReactNode;
@@ -38,8 +38,18 @@ const Button: React.FC<IButtonProps> = ({
 	noDisabledStyles,
 	rightIcon,
 
+	children,
 	...props
 }) => {
+	function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+		if (!onClick) {
+			return undefined;
+		}
+
+		e.stopPropagation();
+		onClick();
+	}
+
 	return (
 		<button
 			id={id}
@@ -51,11 +61,12 @@ const Button: React.FC<IButtonProps> = ({
 			})}
 			type={type}
 			disabled={disabled || loading}
-			onClick={onClick}
+			onClick={handleClick}
 			{...props}
 		>
 			{!loading ? icon : <LoadingIndicator type="small" />}
 			{text && <span className={combineClassNames(textClassName)}>{text}</span>}
+			{children}
 			{rightIcon}
 		</button>
 	);

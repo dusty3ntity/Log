@@ -113,9 +113,9 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 					{!knownLanguage && !dictionary && <div className="flag-placeholder" />}
 
 					{!dictionary && (
-						<button
+						<Button
 							className={combineClassNames(
-								"btn known-lang-btn",
+								"known-lang-btn",
 								knownLanguage ? "flag-btn" : "flag-placeholder-btn"
 							)}
 							onClick={onKnownLanguageButtonClick}
@@ -123,7 +123,7 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 							{knownLanguage && (
 								<img src={`/images/flags/${knownLanguage.isoCode}.png`} alt={knownLanguage.isoCode} />
 							)}
-						</button>
+						</Button>
 					)}
 
 					{(knownLanguage || dictionary) && (
@@ -145,9 +145,9 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 					{!languageToLearn && !dictionary && <div className="flag-placeholder" />}
 
 					{!dictionary && (
-						<button
+						<Button
 							className={combineClassNames(
-								"btn lang-to-learn-btn",
+								"lang-to-learn-btn",
 								knownLanguage ? "flag-btn" : "flag-placeholder-btn"
 							)}
 							onClick={onLanguageToLearnButtonClick}
@@ -158,7 +158,7 @@ const DictionaryForm: React.FC<IDictionaryFormProps> = ({
 									alt={languageToLearn.isoCode}
 								/>
 							)}
-						</button>
+						</Button>
 					)}
 
 					{(languageToLearn || dictionary) && (

@@ -34,7 +34,7 @@ axios.interceptors.response.use(
 	},
 	(error) => {
 		if (process.env.REACT_APP_ENV === "DEVELOPMENT") {
-			console.log(error.response);
+			console.error("REST error:", error.response);
 		}
 
 		const originalRequest = error.config;
