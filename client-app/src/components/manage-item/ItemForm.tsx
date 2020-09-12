@@ -182,9 +182,8 @@ const NewItemForm: React.FC<IItemFormProps> = ({
 			</div>
 
 			<div className="definition-actions">
-				<button
-					className="btn definition-actions-btn reset-form-btn"
-					type="button"
+				<Button
+					className="definition-actions-btn reset-form-btn"
 					onClick={() => {
 						if (!item) {
 							setStarred(false);
@@ -197,18 +196,14 @@ const NewItemForm: React.FC<IItemFormProps> = ({
 					disabled={!formState.dirty}
 				>
 					Reset
-				</button>
+				</Button>
 
 				<div className="right-container" tour-step="2-3">
 					<Tooltip text={definitionActivated ? "Remove definition." : "Add definition."} position="bottom">
-						<button
-							className="btn definition-actions-btn add-definition-btn"
-							type="button"
-							onClick={handleDefinitionButton}
-						>
+						<Button className="definition-actions-btn add-definition-btn" onClick={handleDefinitionButton}>
 							{definitionActivated ? <MinusIcon /> : <PlusIcon />}
 							<span>Definition</span>
-						</button>
+						</Button>
 					</Tooltip>
 
 					{!item && (
@@ -220,13 +215,13 @@ const NewItemForm: React.FC<IItemFormProps> = ({
 							}
 							position="bottom-end"
 						>
-							<button
+							<Button
 								className="btn definition-actions-btn star-btn round"
 								type="button"
 								onClick={() => setStarred(!isStarred)}
 							>
 								<StarIcon active={isStarred} />
-							</button>
+							</Button>
 						</Tooltip>
 					)}
 				</div>

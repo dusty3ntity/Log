@@ -8,29 +8,26 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	padding: 1rem;
 	margin-bottom: 1rem;
 	border-radius: 1.875rem;
+
+	cursor: pointer;
 
 	background: $body-background;
 	box-shadow: 1px 1px 3px rgba(204, 213, 222, 0.9), -1px -1px 2px rgba(250, 255, 255, 0.9),
 		1px -1px 2px rgba(204, 213, 222, 0.2), -1px 1px 2px rgba(204, 213, 222, 0.2),
 		inset -1px -1px 2px rgba(204, 213, 222, 0.5), inset 1px 1px 2px rgba(250, 255, 255, 0.3);
 
-	.item-btn {
+	.flags-col,
+	.stats-col,
+	.actions-col {
 		height: 100%;
-		width: 80%;
-		padding: 1rem 0 1rem 1rem;
-		background: none;
 		display: flex;
-		justify-content: space-between;
-		box-shadow: none !important;
-		border-top-left-radius: 1.875rem;
-		border-bottom-left-radius: 1.875rem;
 	}
 
 	.flags-col {
-		width: 35%;
-		display: flex;
+		width: 27%;
 		justify-content: space-between;
 
 		.lang-container {
@@ -66,9 +63,7 @@
 
 	.stats-col {
 		flex-grow: 2;
-		display: flex;
 		flex-direction: column;
-		height: 100%;
 
 		.row {
 			height: 50%;
@@ -127,9 +122,8 @@
 	}
 
 	.actions-col {
-		height: 100%;
 		width: 20%;
-		padding: 1rem 1rem 1rem 0;
+		flex-direction: column;
 
 		.row {
 			height: 50%;
