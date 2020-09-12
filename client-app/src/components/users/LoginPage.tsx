@@ -10,14 +10,17 @@ const LoginPage: React.FC = ({ ...props }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { login, submitting, facebookLogin, googleLogin, loadingTarget, user } = rootStore.userStore;
 
+	const pushOut = () => {
+		if (user) {
+			history.push("/items-list");
+		}
+	};
+
+	useEffect(pushOut, []);
+
 	useEffect(() => {
 		document.title = "Log in - Log";
 	}, []);
-
-	if (user) {
-		history.push("/items-list");
-		return null;
-	}
 
 	const onSubmit = (user: ILoginUser) => {
 		login(user);

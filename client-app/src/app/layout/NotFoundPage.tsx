@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const NotFoundPage: React.FC = ({ ...props }) => {
 	useEffect(() => {
 		document.title = "Not found - Log";
-	});
+	}, []);
 
 	return (
 		<div id="not-found-page" {...props}>
