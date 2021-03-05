@@ -38,7 +38,7 @@ Learning is powered by a flexible, smart, and fully customizable training genera
 - Authentication powered by JWT + Refresh tokens
 - CORS policy + CSP applied
 - Docker-ready
-- Automated CD using Github Actions
+- Automated deploy using GitHub Actions
 
 <br/>
 

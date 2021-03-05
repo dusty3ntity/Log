@@ -1,21 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { history } from "../..";
 
 import RegistrationForm from "./RegistrationForm";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 const RegistrationPage: React.FC = ({ ...props }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { register, submitting, facebookLogin, googleLogin, loadingTarget, user } = rootStore.userStore;
-
-	const pushOut = () => {
-		if (user) {
-			history.push("/items-list");
-		}
-	};
-
-	useEffect(pushOut, []);
+	const { register, submitting, facebookLogin, googleLogin, loadingTarget } = rootStore.userStore;
 
 	useEffect(() => {
 		document.title = "Register - Log";
